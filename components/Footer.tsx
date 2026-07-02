@@ -1,0 +1,90 @@
+import Link from "next/link";
+import Image from "next/image";
+import { Phone, Mail, MapPin } from "lucide-react";
+import { brands, contact, offices } from "@/lib/data";
+
+export default function Footer() {
+  return (
+    <footer className="bg-navy text-white">
+      <div className="max-w-6xl mx-auto px-6 pt-16 pb-8">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="sm:col-span-2 lg:col-span-1">
+            <div className="bg-white rounded-lg p-2.5 inline-block">
+              <Image
+                src="/logo-transparent.png"
+                alt="ACTS"
+                width={110}
+                height={36}
+                className="h-8 w-auto"
+              />
+            </div>
+            <p className="text-sm text-white/60 mt-4 max-w-xs leading-relaxed">
+              Advanced Company for Trading Services — exclusive Egyptian agent
+              for Curtiss-Wright valve brands since 2002.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-sm font-bold uppercase tracking-wider text-white/40 mb-4">
+              Company
+            </div>
+            <Link href="/about" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
+              About us
+            </Link>
+            <Link href="/products" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
+              Products
+            </Link>
+            <Link href="/contact" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
+              Contact
+            </Link>
+          </div>
+
+          <div>
+            <div className="text-sm font-bold uppercase tracking-wider text-white/40 mb-4">
+              Our brands
+            </div>
+            {brands.map((b) => (
+              <Link
+                key={b.slug}
+                href={`/products/${b.slug}`}
+                className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors"
+              >
+                {b.name}
+              </Link>
+            ))}
+          </div>
+
+          <div>
+            <div className="text-sm font-bold uppercase tracking-wider text-white/40 mb-4">
+              Get in touch
+            </div>
+            <a
+              href={`tel:${contact.phone.replace(/\s/g, "")}`}
+              className="flex items-center gap-2.5 text-[15px] text-white/75 py-1.5 hover:text-white transition-colors"
+            >
+              <Phone size={15} className="text-amber shrink-0" /> {contact.phone}
+            </a>
+            <a
+              href={`mailto:${contact.salesEmail}`}
+              className="flex items-center gap-2.5 text-[15px] text-white/75 py-1.5 hover:text-white transition-colors"
+            >
+              <Mail size={15} className="text-amber shrink-0" /> {contact.salesEmail}
+            </a>
+            <div className="flex items-start gap-2.5 text-[15px] text-white/75 py-1.5">
+              <MapPin size={15} className="text-amber shrink-0 mt-1" />
+              <span>{offices[0].address}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-3 text-sm text-white/40">
+          <div>
+            © {new Date().getFullYear()} Advanced Company for Trading Services.
+            All rights reserved.
+          </div>
+          <div className="tracking-wider">GIZA · CAIRO · EGYPT</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
