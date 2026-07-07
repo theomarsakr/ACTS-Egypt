@@ -19,8 +19,9 @@ export default function Footer() {
               />
             </div>
             <p className="text-sm text-white/60 mt-4 max-w-xs leading-relaxed">
-              Advanced Company for Trading Services — exclusive Egyptian agent
-              for Curtiss-Wright valve brands since 2002.
+              Advanced Company for Trading Services — Egypt&apos;s sole agent
+              for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright)
+              since 2006.
             </p>
           </div>
 
@@ -28,14 +29,26 @@ export default function Footer() {
             <div className="text-sm font-bold uppercase tracking-wider text-white/40 mb-4">
               Company
             </div>
+            <Link href="/" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
+              Home
+            </Link>
             <Link href="/about" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
               About us
             </Link>
+            <Link href="/industries" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
+              Industries
+            </Link>
             <Link href="/products" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              Products
+              Products & Services
+            </Link>
+            <Link href="/projects" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
+              Projects & Clients
             </Link>
             <Link href="/contact" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
               Contact
+            </Link>
+            <Link href="/quote" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
+              Request a quote
             </Link>
           </div>
 
@@ -46,7 +59,7 @@ export default function Footer() {
             {brands.map((b) => (
               <Link
                 key={b.slug}
-                href={`/products/${b.slug}`}
+                href={`/brands/${b.slug}`}
                 className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors"
               >
                 {b.name}
@@ -82,7 +95,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Advanced Company for Trading Services.
             All rights reserved.
           </div>
-          <div className="tracking-wider">GIZA · CAIRO · EGYPT</div>
+          <div className="tracking-wider">SHEIKH ZAYED CITY · GIZA · EGYPT</div>
         </div>
       </div>
     </footer>

@@ -29,171 +29,155 @@ export const brands: Brand[] = [
     slug: "farris-engineering",
     no: "BRAND 01",
     name: "Farris Engineering",
-    origin: "USA / Canada · Safety relief valves",
+    origin: "USA · Safety relief valves · Sole agent in Egypt",
     category: "Safety Relief Valves",
     summary:
-      "Direct-spring and pilot-operated safety relief valves protecting pressure systems across the full process envelope.",
+      "Direct-spring and pilot-operated safety relief valves protecting pressure systems for over 70 years, across oil & gas, refining, petrochemical and power generation.",
     description:
-      "Direct-spring and pilot-operated safety relief valves protecting pressure systems across oil & gas production, natural gas transfer, refining, petrochemicals and power plants.",
+      "Farris Engineering, a Curtiss-Wright company, has been designing and manufacturing spring-loaded and pilot-operated pressure relief valves for over 70 years, protecting vessels, piping and equipment against overpressure across oil & gas, refining, petrochemical and power generation facilities.",
     sectors: [
-      "Oil & Gas Production",
-      "Natural Gas Transfer",
+      "Oil & Gas",
       "Refining",
-      "Petrochemicals",
-      "Power Plants",
+      "Petrochemical",
+      "Power Generation",
+      "Fertilizers",
     ],
     productLines: [
       {
-        tag: "2600 / 2700 SERIES",
-        name: "Process pressure relief valves",
+        tag: "SERIES 1890",
+        name: "Direct spring-operated, threaded",
         description:
-          "Direct-spring SRVs for standard process pressure-relief duties.",
+          "ASME Section VIII, rated to 800 psig — air, steam & liquid service.",
       },
       {
-        tag: "3800 SERIES",
-        name: "Direct spring SRV",
-        description:
-          "Compact direct-spring relief for a broad range of set pressures.",
+        tag: "SERIES 2600 / 2700",
+        name: "Direct spring-operated, flanged/threaded",
+        description: "ASME/NB-certified — air, steam, water.",
       },
       {
-        tag: "1800 – 2900 SERIES",
-        name: "Process relief range",
-        description:
-          "Extended family covering the core process pressure-relief envelope.",
+        tag: "SERIES 2850",
+        name: "Threaded, spring-loaded",
+        description: "Air, steam, vapor & liquid.",
       },
       {
-        tag: "4200 SERIES",
-        name: "Pilot-operated SRV",
+        tag: "SERIES 3800",
+        name: "Pilot-operated",
         description:
-          "Pilot relief for high-pressure, tight-tolerance applications.",
+          "Snap-acting or modulating control, semi/full-port nozzle.",
       },
       {
-        tag: "6400 – 6600 SERIES",
-        name: "Pilot SRV range",
-        description:
-          "Full-lift pilot valves for demanding gas and liquid service.",
+        tag: "SERIES 6400 / 6600",
+        name: "Flanged steam safety valves",
+        description: "Boiler safety service.",
       },
       {
-        tag: "SMARTPRV",
-        name: "Monitored relief valve",
+        tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
+        name: "Sizing, monitoring & aftermarket support",
         description:
-          "Instrumented SRV feeding a complete relief-system management program.",
+          "Sizing software, real-time relief-valve monitoring, and factory-backed repair/recertification network.",
       },
     ],
-    externalUrl: "https://www.cw-valvegroup.com/Products/Brands/Farris",
+    externalUrl: "https://valves.curtisswright.com/en-us/Farris",
     gridCols: 3,
-    image: "/images/refinery-blue.jpg",
-    imageAlt: "Oil refinery at blue hour",
+    image: "/images/farris-relief-valves.jpg",
+    imageAlt: "Close-up of an industrial safety relief valve",
   },
   {
-    slug: "solent-pratt",
+    slug: "dyna-flo",
     no: "BRAND 02",
-    name: "Solent & Pratt",
-    origin: "United Kingdom · High-performance butterfly valves · ~50 years",
-    category: "High-Performance Butterfly Valves",
+    name: "Dyna-Flo Control Valve Services",
+    origin: "Edmonton, Canada · Control valves · Sole agent in Egypt",
+    category: "Control Valves, Actuators & Instrumentation",
     summary:
-      "Severe-service butterfly valves engineered for offshore and demanding process applications.",
+      "Linear and rotary control valves, actuators and instrumentation for stable, accurate process control under high pressure drop.",
     description:
-      "Severe-service butterfly valves engineered for offshore oil-rig and demanding process applications, backed by roughly half a century of British valve manufacturing.",
-    sectors: [
-      "Severe Service",
-      "Offshore Oil Rigs",
-      "Process Isolation",
-      "Flow Control",
-    ],
-    productLines: [
-      {
-        tag: "TYPE A",
-        name: "Concentric",
-        description:
-          "Rubber-lined resilient-seated butterfly valve for general service.",
-      },
-      {
-        tag: "TYPE B",
-        name: "Single Offset",
-        description:
-          "Single-eccentric disc for reduced seat wear and longer life.",
-      },
-      {
-        tag: "TYPE C",
-        name: "Double Offset",
-        description:
-          "High-performance double-eccentric design for higher pressures.",
-      },
-      {
-        tag: "TYPE D",
-        name: "Triple Offset",
-        description:
-          "Metal-seated triple-eccentric for tight shut-off in severe service.",
-      },
-    ],
-    externalUrl: "https://www.cw-valvegroup.com/Products/Brands/Solent-Pratt",
-    gridCols: 4,
-    image: "/images/offshore-rig.jpg",
-    imageAlt: "Offshore jack-up drilling rig with gas flare",
-  },
-  {
-    slug: "cwt-valve",
-    no: "BRAND 03",
-    name: "CWT Valve",
-    origin: "Canada · Valves & strainers",
-    category: "Industrial Valves & Strainers",
-    summary:
-      "A broad range of industrial valves and strainers for oil & gas, petrochemical, power, mining and marine.",
-    description:
-      "A broad range of industrial valves and strainers serving oil & gas, petrochemical, power generation, mining and marine operations.",
+      "Dyna-Flo, a Curtiss-Wright company headquartered in Edmonton, Canada, has designed and manufactured process control equipment for nearly 30 years, serving the chemical, petrochemical, power, and oil & gas markets.",
     sectors: [
       "Oil & Gas",
       "Petrochemical",
       "Power Generation",
-      "Mining",
-      "Marine",
+      "Water Treatment",
+      "Fertilizers",
     ],
     productLines: [
       {
-        name: "Plug Valve",
+        tag: "360 / 390 / 350 / 370 / 380 / DF2000",
+        name: "Linear sliding-stem valves",
+        description: "1\"–16\", pressure classes 150–2500.",
+      },
+      {
+        tag: "SERIES 570 / 590",
+        name: "Rotary valves (segmented & full ball)",
+        description: "High-flow, throttling or on/off service.",
+      },
+      {
+        tag: "DF100 / DF234 / DF270",
+        name: "Integral actuator valves",
+        description: "Compact dump-valve applications.",
+      },
+      {
+        tag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+        name: "Pneumatic actuators",
+        description: "Linear & rotary, spring-return or double-acting.",
+      },
+      {
+        tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        name: "Instrumentation",
         description:
-          "Quarter-turn plug valves for reliable isolation and diverting.",
-      },
-      {
-        name: "Globe Valve",
-        description: "Precise throttling and regulation of flow.",
-      },
-      {
-        name: "Gate Valve",
-        description: "Full-bore on/off isolation for pipelines.",
-      },
-      {
-        name: "Floating Ball Valve",
-        description: "Bubble-tight shut-off with low operating torque.",
-      },
-      {
-        name: "Pneumatic Actuator",
-        description: "Automated actuation for remote and control valves.",
-      },
-      {
-        name: "Strainer",
-        description:
-          "Y-type and basket strainers protecting downstream equipment.",
-      },
-      {
-        name: "Check Valve",
-        description: "Non-return valves preventing reverse flow.",
-      },
-      {
-        name: "Butterfly Valve",
-        description: "Compact quarter-turn isolation and control.",
-      },
-      {
-        name: "Custom",
-        description:
-          "Engineered-to-order valves for special service conditions.",
+          "Pressure/level control, I/P transducers, positioners.",
       },
     ],
-    externalUrl: "https://www.cw-valvegroup.com/Products/Brands/CWT",
+    externalUrl: "https://www.dynaflo.com/",
     gridCols: 3,
-    image: "/images/gas-plant.jpg",
-    imageAlt: "Natural gas wellhead with valve handwheels",
+    image: "/images/dynaflo-control-valve.jpg",
+    imageAlt: "Close-up of an industrial control valve with actuator",
+  },
+  {
+    slug: "est",
+    no: "BRAND 03",
+    name: "EST",
+    origin: "Hatfield, Pennsylvania, USA · Heat exchanger services · Sole agent in Egypt",
+    category: "Heat Exchanger Repair & Pressure Testing",
+    summary:
+      "Tube plugging, hydrostatic test & isolation equipment, and field services restoring thermal efficiency across refining, petrochemical and power plants.",
+    description:
+      "EST Group, a Curtiss-Wright company based in Hatfield, Pennsylvania (with offices in the Netherlands and Singapore), has specialized since 1968 in engineered products and field services for shell-and-tube heat exchangers, condensers, coolers and pressure vessels.",
+    sectors: [
+      "Oil & Gas",
+      "Petrochemical",
+      "Power Generation",
+      "Water Treatment",
+      "Fertilizers",
+    ],
+    productLines: [
+      {
+        tag: "POP-A-PLUG®",
+        name: "Mechanical tube plugging",
+        description:
+          "Weld-free sealing of leaking heat exchanger, condenser & boiler tubes, rated to 7,000 psi.",
+      },
+      {
+        tag: "GRIPTIGHT®",
+        name: "Hydrostatic test & isolation plugs",
+        description:
+          "Pipe, pipeline and pressure vessel testing, rated up to 15,000 psig.",
+      },
+      {
+        tag: "G-SERIES",
+        name: "Tube testing tools",
+        description: "Testing guns for locating and identifying leaking tubes.",
+      },
+      {
+        tag: "HYDRA-LOC®",
+        name: "Tube stabilizers & sleeving",
+        description:
+          "Repair for fractured, severed, or damaged tube sections.",
+      },
+    ],
+    externalUrl: "https://www.cw-estgroup.com/",
+    gridCols: 4,
+    image: "/images/est-field-service.jpg",
+    imageAlt: "Field service technician welding industrial pipework",
   },
 ];
 
@@ -201,57 +185,64 @@ export function getBrand(slug: string): Brand | undefined {
   return brands.find((b) => b.slug === slug);
 }
 
-export const suppliers = [
-  { name: "AVK Group", sub: "Valves & hydrants" },
-  { name: "Cameron", sub: "Schlumberger" },
-  { name: "Bürkert", sub: "Fluid control systems" },
+export const pastManufacturers = [
+  { name: "Solent & Pratt", sub: "High-performance butterfly valves" },
+  { name: "ALCO Valves Group", sub: "Industrial valves" },
+  { name: "Control Seal", sub: "Severe-service valves" },
   { name: "Flowserve", sub: "Flow control" },
-  { name: "Orion Valves", sub: "Industrial valves" },
+  { name: "AVK Group", sub: "Valves & hydrants" },
+  { name: "Bürkert", sub: "Fluid control systems" },
   { name: "IMI Orton", sub: "Process automation" },
 ];
 
 export const clients = [
-  "Eni",
-  "Shell",
-  "Schlumberger",
-  "bp",
-  "TAQA",
   "ENPPI",
-  "Total",
-  "PICO",
-  "EGPC",
+  "Petrojet",
+  "Khalda Petroleum Company",
+  "Gasco",
+  "Damietta LNG (DLNG)",
+  "Birla Carbon",
+  "Cairo Oil Refining Company (CORC)",
+  "Belayim Petroleum Company (PETROBEL)",
+  "Suez Oil Processing Company (SOPC)",
+  "Arab Petroleum Pipelines Company (SUMED)",
 ];
-
-export const stats = [
-  { value: "2002", label: "Founded · Giza", color: "off" },
-  { value: "$4M", label: "Revenue by 2014", color: "brass" },
-  { value: "3", label: "Global valve brands", color: "off" },
-  { value: "1", label: "Exclusive CW agent", color: "red" },
-] as const;
 
 export const timeline = [
   {
-    year: "2002",
-    unit: "Giza",
-    body: "ACTS is founded as an industrial trading company, importing and distributing equipment to Egyptian industry.",
-    now: false,
-  },
-  {
     year: "2006",
-    unit: "Cairo",
-    body: "Operations expand to Cairo with a second branch in Nasr City, broadening national reach and technical support.",
+    unit: "Giza",
+    body: "ACTS is founded in Sixth of October City, Giza, under Commercial Registration No. 58261.",
     now: false,
   },
   {
-    year: "2014",
+    year: "—",
+    unit: "Nasr City",
+    body: "Operations expand with a new branch in Nasr City, Cairo, broadening national reach and technical support.",
+    now: false,
+  },
+  {
+    year: "2010",
+    unit: "Consultancy",
+    body: "Consultancy services launch — feasibility studies, technical training, and business advisory.",
+    now: false,
+  },
+  {
+    year: "2016",
     unit: "$4M / year",
-    body: "Portfolio diversifies around specialist valve brands; annual revenue reaches USD 4 million.",
+    body: "ACTS reincorporates as a Limited Liability Company (Reg. No. 94859); annual sales reach USD 4 million.",
     now: false,
   },
   {
-    year: "Now",
-    unit: "$3.5–7M target",
-    body: "Operating as exclusive Egyptian agent for Curtiss-Wright's valve brands, targeting sustained growth across the energy sector.",
+    year: "2019",
+    unit: "Transformation",
+    body: "A company-wide transformation modernizes operations and strengthens service delivery.",
+    now: false,
+  },
+  {
+    year: "2025",
+    unit: "Arkan Plaza",
+    body: "Headquarters relocate to Arkan Plaza, Sheikh Zayed City, Giza.",
     now: true,
   },
 ];
@@ -259,60 +250,430 @@ export const timeline = [
 export const mission = [
   {
     num: "01",
-    title: "Increase market share",
-    description:
-      "Grow ACTS' position across Egypt's Oil & Gas and power sectors.",
+    title: "Customer satisfaction",
+    description: "Set the industry benchmark for customer satisfaction.",
   },
   {
     num: "02",
-    title: "Improve performance",
+    title: "Competitive position",
     description:
-      "Raise overall operational and service performance across the business.",
+      "Secure a strong, competitive position across the markets we serve.",
   },
   {
     num: "03",
-    title: "Open new markets",
+    title: "Partner value",
     description:
-      "Reach new industrial segments and geographies within the region.",
+      "Partner with our principals to deliver optimal value-for-cost solutions.",
   },
   {
     num: "04",
-    title: "Meet requirements",
-    description:
-      "Match each customer's exact technical and commercial requirements.",
+    title: "Sustainable practices",
+    description: "Champion responsible, sustainable business practices.",
   },
   {
     num: "05",
-    title: "Product diversification",
+    title: "Build trust",
     description:
-      "Broaden the portfolio of brands and product families we represent.",
+      "Build trust within the communities and industries we serve.",
+  },
+];
+
+export const values = [
+  {
+    name: "Trust",
+    description:
+      "Transparent pricing, honest lead times, and clear communication with every customer.",
+  },
+  {
+    name: "Excellence",
+    description:
+      "Technical review of every order before it's quoted, not just processed.",
+  },
+  {
+    name: "Empowerment",
+    description:
+      "Advising customers toward the right solution, even when it's a smaller sale.",
+  },
+  {
+    name: "Innovation",
+    description:
+      "Staying current on modern control, monitoring, and diagnostic technologies.",
+  },
+  {
+    name: "Efficiency",
+    description:
+      "Streamlined quotation-to-delivery workflow, minimizing delays on critical parts.",
   },
 ];
 
 export const offices = [
   {
-    tag: "Main Office · Giza",
-    name: "El Nakhil Center 2-11",
-    address: "6th of October City, Giza, Egypt",
-  },
-  {
-    tag: "Branch Office · Cairo",
-    name: "4 El Tawfikia Buildings",
-    address: "El Waha Area, 10th District, Nasr City, Cairo, Egypt",
+    tag: "Headquarters",
+    name: "Arkan Plaza, Building 4, 4th Floor, Office #409",
+    address: "Sheikh Zayed City, Giza, Egypt — 12451",
   },
 ];
 
 export const contact = {
-  phone: "+2 03 8508135",
+  phone: "+202 3850 8135",
   salesEmail: "sales@actsegypt.com",
   infoEmail: "info@actsegypt.com",
 };
 
-export const sectors = [
-  "Oil & Gas Production",
-  "Natural Gas Transfer",
-  "Refining",
-  "Petrochemicals",
-  "Power Generation",
+export const team = [{ role: "General Manager", name: "Ayman El-Mohamady" }];
+
+export const departments = [
+  {
+    name: "Quotes & Sales",
+    phone: "+202 3850 8135",
+    mobile: "+20 122 323 5399",
+    fax: "+202 3850 8135",
+    emails: ["aelmohamady@actsegypt.org", "sales@actsegypt.com"],
+  },
+  {
+    name: "General Inquiries",
+    phone: "+202 3850 8135",
+    mobile: "+20 122 730 0010",
+    fax: "+202 3850 8135",
+    emails: ["aelmohamady@actsegypt.org", "info@actsegypt.com"],
+  },
+  {
+    name: "Marketing",
+    phone: "+202 3850 8135",
+    mobile: "+20 122 730 0010",
+    fax: "+202 3850 8135",
+    emails: ["marketing@actsegypt.org"],
+  },
+];
+
+export const officeHours = [
+  { day: "Sunday – Thursday", hours: "9:00 AM – 5:00 PM (Cairo Time)" },
+  { day: "Friday – Saturday", hours: "Closed" },
+];
+
+export type Industry = {
+  slug: string;
+  name: string;
+  tagline: string;
+  intro: string;
+  applications: string[];
+  howWeSupport: string[];
+  productLines: string;
+  image: string;
+  imageAlt: string;
+};
+
+export const industries: Industry[] = [
+  {
+    slug: "oil-gas",
+    name: "Oil & Gas",
+    tagline: "Upstream • Midstream • Refining • Petrochemicals",
+    intro:
+      "The Oil & Gas sector demands absolute reliability, safety, and compliance. From wellhead to refinery, we provide critical equipment that protects personnel, assets, and the environment.",
+    applications: [
+      "Upstream — wellhead flow control, separation vessels, gas compression, and pipeline protection",
+      "Midstream — pipeline regulation, pump station control, and storage terminal overpressure protection",
+      "Refining — process unit isolation, fractionation column control, fired heater protection, and catalyst handling",
+      "Petrochemical — reactor feed control, steam cracking, polymerization, and specialty chemical production",
+    ],
+    howWeSupport: [
+      "Safety relief valves for overpressure protection (Farris Engineering) — sized for two-phase flow, thermal expansion, and fire-case scenarios",
+      "Precision control valves for severe-service applications (Dyna-Flo) — including high-pressure drop, erosive media, and high-temperature conditions",
+      "Heat exchanger maintenance and retubing (EST) — restoring thermal efficiency and extending asset life during turnarounds",
+      "Pressure testing and pipeline isolation (EST GripTight®) — for commissioning, maintenance, and integrity verification",
+      "API 526/527 compliance verification and re-certification support",
+    ],
+    productLines:
+      "Farris Series 1890, 2600, 3800 • Dyna-Flo Series 360, 390, DF2000, Series 570 • EST Pop-A-Plug®, GripTight®",
+    image: "/images/offshore-rig.jpg",
+    imageAlt: "Offshore jack-up drilling rig with gas flare",
+  },
+  {
+    slug: "petrochemical",
+    name: "Petrochemical",
+    tagline: "Chemical Processing • Polymers • Specialty Chemicals",
+    intro:
+      "Petrochemical facilities operate under extreme conditions — high pressures, high temperatures, corrosive media, and continuous operation. Our solutions are engineered to withstand these environments while ensuring process stability and safety.",
+    applications: [
+      "Olefins production (ethylene, propylene) — cracking furnace control, quench tower protection",
+      "Aromatics production — extraction, distillation, hydrotreating",
+      "Polymers (polyethylene, polypropylene, PVC) — reactor feed control, extruder pressure regulation",
+    ],
+    howWeSupport: [
+      "Control valves with anti-cavitation and noise-attenuation trims for high delta-P services",
+      "Safety relief valves for critical process protection — including pilot-operated designs for large-capacity gas service",
+      "Heat exchanger tube inspection (IRIS/Eddy Current) and maintenance to prevent unplanned downtime",
+      "Valve condition monitoring and diagnostics for predictive maintenance programs",
+      "Sizing, selection, and engineering support for new projects and plant expansions",
+    ],
+    productLines:
+      "Farris Series 2600, 2700, 3800 • Dyna-Flo Series 350, 370, 380, DF2000 • EST Pop-A-Plug®, Hydra-Loc®, GripTight®",
+    image: "/images/gas-plant.jpg",
+    imageAlt: "Natural gas wellhead with valve handwheels",
+  },
+  {
+    slug: "power-generation",
+    name: "Power Generation",
+    tagline: "Fossil Fuel • Combined Cycle • Cogeneration",
+    intro:
+      "Power generation plants require equipment that delivers precise control, absolute safety, and long-term reliability.",
+    applications: [
+      "Steam generation — boiler feedwater control, steam pressure regulation, and safety relief for drums and superheaters",
+      "Gas turbines — fuel gas control, inlet air filtration, and emergency shutdown systems",
+      "Combined cycle — HRSG control, duct burner regulation, and condensate management",
+      "Cooling systems — circulating water control, condenser tube maintenance, and cooling tower isolation",
+      "Balance of plant — compressed air systems, auxiliary steam, and fuel handling",
+    ],
+    howWeSupport: [
+      "Safety relief valves for boiler drum protection, steam line protection, and turbine bypass systems",
+      "Control valves for feedwater regulation, desuperheating, and fuel gas control",
+      "Heat exchanger and condenser tube maintenance — including cleaning, plugging, and retubing (EST)",
+      "Pipeline and pressure vessel pressure testing (GripTight®) for hydrostatic testing",
+      "Retrofit and modernization recommendations to improve plant efficiency",
+    ],
+    productLines:
+      "Farris Series 1890, 6400/6600, 3800 • Dyna-Flo Series 360, 390, DF2000 • EST Pop-A-Plug®, Hydra-Loc®, GripTight®",
+    image: "/images/power-station.jpg",
+    imageAlt: "Power station at night",
+  },
+  {
+    slug: "water-treatment",
+    name: "Water Treatment",
+    tagline: "Desalination • Municipal Water • Industrial Wastewater • Cooling Water",
+    intro:
+      "Water treatment facilities require corrosion-resistant materials, precise flow control, and reliable isolation equipment.",
+    applications: [
+      "Desalination (SWRO/MSF/MED) — pretreatment control, high-pressure brine handling, and chemical dosing",
+      "Municipal water — intake control, filtration, disinfection, and distribution network isolation",
+      "Industrial wastewater — neutralization, clarification, sludge handling, and effluent discharge",
+      "Cooling water systems — heat exchanger protection, biocides dosing, and condenser tube maintenance",
+    ],
+    howWeSupport: [
+      "Isolation valves (ball, butterfly) for on/off and flow isolation services",
+      "Pressure regulators and instrumentation for chemical dosing systems",
+      "Heat exchanger maintenance (EST) for plate-and-frame and shell-and-tube exchangers used in cooling and heating circuits",
+      "Backflow prevention and check valves for pipeline protection",
+      "Sizing and selection support for corrosive and erosive media",
+    ],
+    productLines:
+      "Dyna-Flo Series 570 (segmented ball), Model 590 (full-ball) • Farris Series 1890 • EST Pop-A-Plug®",
+    image: "/images/refinery-blue.jpg",
+    imageAlt: "Oil refinery at blue hour",
+  },
+  {
+    slug: "fertilizers",
+    name: "Fertilizers",
+    tagline: "Ammonia • Urea • Phosphate • NPK Blends",
+    intro:
+      "Fertilizer production involves high-pressure synthesis loops, corrosive media, and high-temperature processes — demanding robust equipment with long service life and minimal downtime.",
+    applications: [
+      "Ammonia synthesis — high-pressure steam reforming, shift conversion, CO₂ removal, and synthesis loop control",
+      "Urea production — carbamate formation, urea finishing, and prilling/granulation",
+      "Phosphate processing — acidulation, filtration, and granulation",
+      "Blending and bagging — material handling, dust collection, and bagging equipment control",
+    ],
+    howWeSupport: [
+      "Pilot-operated safety relief valves for high-capacity synthesis loop protection",
+      "Severe-service control valves for erosive slurry and corrosive acid service",
+      "Heat exchanger maintenance — including carbamate condenser inspection and retubing (EST)",
+      "Tube plugging (Pop-A-Plug®) for quick repairs without plant shutdown",
+      "Consultancy services for plant optimization and reliability improvement",
+    ],
+    productLines:
+      "Farris Series 3800, 2600 • Dyna-Flo Series 370, DF2000, Series 570 • EST Pop-A-Plug®, GripTight®",
+    image: "/images/gas-plant.jpg",
+    imageAlt: "Natural gas wellhead with valve handwheels",
+  },
+  {
+    slug: "general-industrial",
+    name: "General Industrial",
+    tagline: "Cement • Steel • Glass • Pulp & Paper • Mining • Manufacturing",
+    intro:
+      "Beyond heavy process industries, we serve a wide range of general industrial applications — providing reliable equipment and technical support for manufacturing facilities of all types.",
+    applications: [
+      "Cement production — preheater control, kiln burner regulation, and dust collection isolation",
+      "Steel processing — furnace control, cooling water regulation, and hydraulic systems",
+      "Glass manufacturing — combustion control, batch handling, and forming machine regulation",
+      "Pulp & paper — chemical dosing, stock preparation, and dryer system control",
+      "Mining — slurry handling, dewatering, and process water management",
+    ],
+    howWeSupport: [
+      "General-purpose control and isolation valves for water, air, steam, and chemicals",
+      "Safety relief valves for compressor systems, pressure vessels, and hydraulic units",
+      "Actuators and positioners for automated process control",
+      "Technical advisory and product selection support for plant engineers",
+      "Spare parts and aftermarket support for critical equipment",
+    ],
+    productLines:
+      "Farris Series 1890, 2850 • Dyna-Flo Series 360, 570, Model 590 • EST Pop-A-Plug®",
+    image: "/images/power-station.jpg",
+    imageAlt: "Power station at night",
+  },
+];
+
+export const industriesSummary = [
+  {
+    industry: "Oil & Gas",
+    challenges: "Safety, severe service, high reliability",
+    solutions:
+      "Safety relief valves, control valves, heat exchanger maintenance, pressure testing",
+  },
+  {
+    industry: "Petrochemical",
+    challenges: "Corrosion, high pressure, high temperature",
+    solutions:
+      "Anti-cavitation trims, pilot-operated valves, tube inspection & retubing",
+  },
+  {
+    industry: "Power Generation",
+    challenges: "Boiler safety, condenser efficiency, uptime",
+    solutions:
+      "Steam relief valves, feedwater control, condenser tube plugging & cleaning",
+  },
+  {
+    industry: "Water Treatment",
+    challenges: "Corrosion, precise dosing, reliability",
+    solutions: "Isolation valves, regulators, heat exchanger maintenance",
+  },
+  {
+    industry: "Fertilizers",
+    challenges: "Corrosive slurries, high-pressure synthesis",
+    solutions:
+      "Severe-service control valves, POSV relief valves, carbamate exchanger solutions",
+  },
+  {
+    industry: "General Industrial",
+    challenges: "Diverse applications, cost efficiency",
+    solutions: "Standard control & isolation valves, actuators, technical advisory",
+  },
+];
+
+export type ProjectClientGroup = {
+  slug: string;
+  category: string;
+  image: string;
+  imageAlt: string;
+  entries: { name: string; sector: string }[];
+};
+
+export const projectClients: ProjectClientGroup[] = [
+  {
+    slug: "upstream",
+    category: "Oil & Gas — Upstream & Exploration",
+    image: "/images/upstream-drilling-rig.jpg",
+    imageAlt: "Land drilling rig at an upstream oil field",
+    entries: [
+      { name: "Khalda Petroleum Company", sector: "Upstream — Western Desert Operations" },
+      { name: "Belayim Petroleum Company (Petrobel)", sector: "Upstream — Gulf of Suez & Sinai" },
+      { name: "GUPCO Petroleum Company", sector: "Upstream — Gulf of Suez" },
+      { name: "Badr El Din Petroleum Company", sector: "Upstream — Western Desert" },
+      { name: "South Dabaah Petroleum Co. (DAPETCO)", sector: "Upstream — Western Desert" },
+      { name: "Nasr Petroleum Company", sector: "Upstream & Refining" },
+      { name: "Scimitar Production Egypt Ltd", sector: "Upstream — International Operator" },
+    ],
+  },
+  {
+    slug: "midstream",
+    category: "Oil & Gas — Midstream, Refining & LNG",
+    image: "/images/refinery-blue.jpg",
+    imageAlt: "Oil refinery at blue hour",
+    entries: [
+      { name: "Cairo Oil Refining Company (CORC)", sector: "Refining — Cairo" },
+      { name: "Suez Oil Processing Company (SOPC)", sector: "Refining — Suez" },
+      { name: "Egyptian Natural Gas Holding Co. (EGAS)", sector: "Midstream — Gas Transmission" },
+      { name: "Arab Petroleum Pipelines Co. (SUMED)", sector: "Midstream — Pipeline Transportation" },
+      { name: "Egypt's Damietta LNG", sector: "LNG — Liquefaction & Export" },
+    ],
+  },
+  {
+    slug: "epc",
+    category: "EPC, Engineering & Project Management",
+    image: "/images/power-station.jpg",
+    imageAlt: "Power station at night",
+    entries: [
+      {
+        name: "ENPPI (Engineering for the Petroleum and Process Industries)",
+        sector: "Engineering & EPC — Oil & Gas",
+      },
+      {
+        name: "Petrojet (The Petroleum Projects & Technical Consultations Co.)",
+        sector: "EPC & Technical Consultancy",
+      },
+    ],
+  },
+  {
+    slug: "petrochemicals",
+    category: "Petrochemicals & Chemicals",
+    image: "/images/petrochemical-plant.jpg",
+    imageAlt: "Petrochemical plant with process towers and steam plumes",
+    entries: [
+      {
+        name: "The Egyptian Ethylene and Derivatives Company (ETHYDCO)",
+        sector: "Petrochemicals — Ethylene & Derivatives",
+      },
+      {
+        name: "Egyptian Propylene and Polypropylene Company",
+        sector: "Petrochemicals — Propylene & Polypropylene",
+      },
+      { name: "Echem — Egyptian Petrochemicals Holding Co.", sector: "Petrochemicals — Holding & Investments" },
+      { name: "Egyptian Methanex Methanol Company", sector: "Petrochemicals — Methanol Production" },
+      {
+        name: "Egypt Basic Industries Corporation (EBIC)",
+        sector: "Petrochemicals — Ammonia & Fertilizers (Fertiglobe)",
+      },
+    ],
+  },
+  {
+    slug: "fertilizers",
+    category: "Fertilizers",
+    image: "/images/gas-plant.jpg",
+    imageAlt: "Natural gas wellhead with valve handwheels",
+    entries: [
+      { name: "Misr Fertilizers Production Company (MOPCO)", sector: "Fertilizers — Ammonia & Urea" },
+      { name: "Birla Carbon", sector: "Fertilizers & Carbon Black" },
+    ],
+  },
+];
+
+// Generic, anonymized descriptions of the kind of work ACTS supports in each
+// sector — not claims about a specific completed project or named client.
+// Specific project details are confidential (see the Projects page).
+export const engagementHighlights = [
+  {
+    slug: "upstream",
+    title: "Wellhead & Separator Protection",
+    text: "Sizing and supply of safety relief valves for wellhead, separator, and gas-compression overpressure protection across upstream production facilities.",
+  },
+  {
+    slug: "midstream",
+    title: "Turnaround & Outage Support",
+    text: "Rapid valve testing, recertification, and replacement coordinated around planned refinery and gas-processing turnarounds to minimize outage windows.",
+  },
+  {
+    slug: "epc",
+    title: "New-Build Project Support",
+    text: "Technical sizing, selection, and procurement support supplied directly to EPC contractors during new facility construction and commissioning.",
+  },
+  {
+    slug: "petrochemicals",
+    title: "Severe-Service Control",
+    text: "Control valve trim selection and cavitation/noise analysis for high-pressure-drop, corrosive-service petrochemical process lines.",
+  },
+  {
+    slug: "fertilizers",
+    title: "Synthesis Loop Protection",
+    text: "Pilot-operated relief valve sizing and heat exchanger tube maintenance supporting high-pressure ammonia and urea synthesis loops.",
+  },
+];
+
+export const serviceNeeds = [
+  "Safety Relief Valve",
+  "Control Valve",
+  "Actuator / Positioner",
+  "Heat Exchanger Service",
+  "Pressure Testing",
+  "Consultancy",
   "Other",
 ];
+
+export const brandOptions = [...brands.map((b) => b.name), "Other"];

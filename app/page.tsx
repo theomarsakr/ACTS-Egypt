@@ -10,44 +10,50 @@ import {
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
-import { brands, suppliers, clients } from "@/lib/data";
+import { brands, pastManufacturers, clients, industries } from "@/lib/data";
 
 const heroStats = [
   { value: 20, suffix: "+", label: "Years in business" },
-  { value: 3, suffix: "", label: "Exclusive valve brands" },
-  { value: 9, suffix: "+", label: "Major energy clients" },
-  { value: 2, suffix: "", label: "Offices in Egypt" },
+  { value: 3, suffix: "", label: "Exclusive brand divisions" },
+  { value: 10, suffix: "+", label: "Major operators served" },
+  { value: 1, suffix: "", label: "HQ in Giza" },
 ];
 
-const industries = [
-  "Oil & Gas Production",
-  "Natural Gas Transfer",
-  "Refining",
-  "Petrochemicals",
-  "Power Generation",
-  "Water & Utilities",
+const whatWeDo = [
+  {
+    title: "Valves, Actuators & Instrumentation",
+    text: "Safety relief valves, linear and rotary control valves, actuators, and process instrumentation, supplied and supported end-to-end.",
+  },
+  {
+    title: "Heat Exchanger & Pressure Testing Equipment",
+    text: "Tube plugging systems for leaking heat exchanger, condenser, and boiler tubes; hydrostatic test and isolation plugs; and on-site field services for inspection and repair.",
+  },
+  {
+    title: "Technical Consultancy",
+    text: "Strategic and operational advisory for industrial clients, including feasibility studies and process improvement.",
+  },
 ];
 
 const features = [
   {
     icon: Award,
     title: "Exclusive agency",
-    text: "The only authorized Egyptian agent for Curtiss-Wright's Farris, Solent & Pratt and CWT valve brands.",
+    text: "The sole Egyptian agent for Farris Engineering, Dyna-Flo, and EST — all Curtiss-Wright divisions.",
   },
   {
     icon: Wrench,
     title: "Technical expertise",
-    text: "Engineers who speak your language — sizing, selection and service conditions handled properly.",
+    text: "In-house engineers handling sizing, selection, and service conditions — not just order processing.",
   },
   {
     icon: Clock,
     title: "Fast quotations",
-    text: "Send a requirement, get a serious answer quickly — usually within one business day.",
+    text: "Send a requirement, get a serious answer quickly — usually within 24 hours.",
   },
   {
     icon: MapPin,
     title: "Local presence",
-    text: "Offices in Giza and Cairo with two decades of relationships across Egypt's energy sector.",
+    text: "Giza headquarters with nearly two decades of relationships across Egypt's industrial sector.",
   },
 ];
 
@@ -74,26 +80,27 @@ export default function Home() {
             <Reveal>
               <div className="inline-flex items-center gap-2 text-[13px] font-semibold text-amber uppercase tracking-widest border border-white/20 bg-white/5 backdrop-blur rounded-full px-4 py-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber" />
-                Exclusive Curtiss-Wright agent in Egypt
+                Sole agent for Farris, Dyna-Flo & EST in Egypt
               </div>
             </Reveal>
             <Reveal delay={100}>
               <h1 className="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
-                Pressure-critical valve solutions for Egypt&apos;s energy
-                sector
+                Engineering Trust into Every Process
               </h1>
             </Reveal>
             <Reveal delay={200}>
               <p className="mt-6 text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
-                Since 2002, ACTS has supplied safety relief, butterfly and
-                severe-service valves to Oil &amp; Gas, Petrochemical and Power
-                operators across Egypt.
+                Since 2006, ACTS has been Egypt&apos;s trusted partner for
+                valves, flow control, and critical process services — proudly
+                serving as the sole agent for Farris Engineering, Dyna-Flo
+                Control Valve Services, and EST, all business divisions of
+                Curtiss-Wright.
               </p>
             </Reveal>
             <Reveal delay={300}>
               <div className="mt-9 flex flex-col sm:flex-row gap-3">
                 <Link
-                  href="/contact"
+                  href="/quote"
                   className="group inline-flex items-center justify-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-navy/40"
                 >
                   Request a quote
@@ -134,13 +141,46 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ BRANDS ============ */}
+      {/* ============ WHAT WE DO ============ */}
       <section className="py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="max-w-2xl">
               <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Our brands
+                What we do
+              </div>
+              <h2 className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight text-navy">
+                Sales, technical support, and aftermarket services
+              </h2>
+              <p className="mt-5 text-lg text-gray-600 leading-relaxed">
+                ACTS provides support across three areas of industrial process
+                equipment, backed by nearly two decades of relationships built
+                on integrity, speed, and technical expertise.
+              </p>
+            </div>
+          </Reveal>
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {whatWeDo.map((w, i) => (
+              <Reveal key={w.title} delay={i * 100}>
+                <div className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+                  <h3 className="text-lg font-bold text-navy">{w.title}</h3>
+                  <p className="mt-2.5 text-[15px] text-gray-600 leading-relaxed">
+                    {w.text}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ BRANDS ============ */}
+      <section className="py-20 md:py-24 bg-gray-50 border-y border-gray-200">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <div className="max-w-2xl">
+              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
+                Our represented brands
               </div>
               <h2 className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight text-navy">
                 Three world-class manufacturers.
@@ -152,8 +192,8 @@ export default function Home() {
             {brands.map((b, i) => (
               <Reveal key={b.slug} delay={i * 120}>
                 <Link
-                  href={`/products/${b.slug}`}
-                  className="group card-lift flex flex-col h-full bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm"
+                  href={`/brands/${b.slug}`}
+                  className="group card-lift flex flex-col h-full bg-white rounded-2xl border-t-4 border-t-brand border-x border-b border-gray-200 overflow-hidden shadow-sm"
                 >
                   <div className="img-zoom relative h-48">
                     <Image
@@ -178,7 +218,7 @@ export default function Home() {
                     <p className="mt-3 text-[15px] text-gray-600 leading-relaxed flex-1">
                       {b.summary}
                     </p>
-                    <div className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-bold text-navy group-hover:text-brand transition-colors">
+                    <div className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors group-hover:text-brand">
                       View products
                       <ArrowRight
                         size={16}
@@ -190,21 +230,28 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+          <Reveal delay={150}>
+            <div className="mt-8 text-center text-[15px] text-gray-500">
+              ACTS has also supplied and supported products from{" "}
+              {pastManufacturers.map((s) => s.name).join(", ")} on past
+              projects.
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ============ CLIENT MARQUEE ============ */}
-      <section className="py-12 bg-gray-50 border-y border-gray-200">
+      <section className="py-12">
         <Reveal>
           <p className="text-center text-[13px] font-bold text-gray-400 uppercase tracking-widest">
-            Trusted by Egypt&apos;s energy leaders
+            Trusted by leading Egyptian operators
           </p>
           <div className="mt-7 overflow-hidden marquee-mask pause-on-hover">
             <div className="flex w-max animate-marquee gap-16 pr-16 items-center">
               {[...clients, ...clients].map((c, i) => (
                 <span
                   key={`${c}-${i}`}
-                  className="text-2xl md:text-3xl font-extrabold text-gray-300 hover:text-navy transition-colors whitespace-nowrap"
+                  className="text-xl md:text-2xl font-extrabold text-gray-300 hover:text-navy transition-colors whitespace-nowrap"
                 >
                   {c}
                 </span>
@@ -223,29 +270,30 @@ export default function Home() {
                 Industries we serve
               </div>
               <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
-                Wherever pressure matters, we&apos;re there.
+                Wherever process integrity matters, we&apos;re there.
               </h2>
               <p className="mt-5 text-lg text-white/70 leading-relaxed">
-                From upstream production to the power grid, our valves protect
-                the critical systems that keep Egypt running.
+                From upstream production to municipal water networks, our
+                equipment protects the critical systems that keep Egypt&apos;s
+                industries running safely and reliably.
               </p>
             </Reveal>
             <div className="mt-9 grid sm:grid-cols-2 gap-x-8 gap-y-4">
-              {industries.map((ind, i) => (
-                <Reveal key={ind} delay={i * 70}>
+              {industries.slice(0, 5).map((ind, i) => (
+                <Reveal key={ind.slug} delay={i * 70}>
                   <div className="flex items-center gap-3 text-[15px] font-medium text-white/90">
                     <CheckCircle2 size={18} className="text-amber shrink-0" />
-                    {ind}
+                    {ind.name}
                   </div>
                 </Reveal>
               ))}
             </div>
             <Reveal delay={300}>
               <Link
-                href="/products"
+                href="/industries"
                 className="group mt-10 inline-flex items-center gap-2 text-[15px] font-semibold text-white border border-white/30 rounded-lg px-6 py-3 hover:bg-white hover:text-navy transition-all"
               >
-                See what we supply
+                See how we support each industry
                 <ArrowRight
                   size={16}
                   className="transition-transform group-hover:translate-x-1"
@@ -278,8 +326,9 @@ export default function Home() {
                 Built for procurement teams
               </h2>
               <p className="mt-5 text-lg text-gray-600">
-                We know what engineering procurement needs from a valve
-                supplier — because we&apos;ve been doing it for two decades.
+                We know what engineering procurement needs from an industrial
+                equipment supplier — because we&apos;ve been doing it for
+                nearly two decades.
               </p>
             </div>
           </Reveal>
@@ -287,7 +336,7 @@ export default function Home() {
             {features.map((f, i) => (
               <Reveal key={f.title} delay={i * 100}>
                 <div className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-brand-light text-brand flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-brand-light text-brand">
                     <f.icon size={23} />
                   </div>
                   <h3 className="mt-4 text-lg font-bold text-navy">{f.title}</h3>
@@ -298,26 +347,6 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-
-          {/* Suppliers strip */}
-          <Reveal delay={150}>
-            <div className="mt-16 rounded-2xl border border-gray-200 bg-gray-50 px-8 py-8">
-              <div className="text-center text-[13px] font-bold text-gray-400 uppercase tracking-widest">
-                We also supply
-              </div>
-              <div className="mt-5 flex flex-wrap justify-center gap-x-10 gap-y-3">
-                {suppliers.map((s) => (
-                  <span
-                    key={s.name}
-                    className="text-lg font-bold text-gray-500 hover:text-navy transition-colors"
-                    title={s.sub}
-                  >
-                    {s.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -336,22 +365,30 @@ export default function Home() {
         <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24 text-center">
           <Reveal>
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-              Need a valve? We&apos;ll quote it.
+              Let&apos;s talk about your next project
             </h2>
             <p className="mt-5 text-lg text-white/75 max-w-xl mx-auto">
-              Tell us the brand, series, size and service conditions — our
-              sales and technical team will get back to you quickly.
+              Have a project, application, or urgent maintenance need? Our
+              team is ready to help.
             </p>
-            <Link
-              href="/contact"
-              className="group mt-9 inline-flex items-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-xl shadow-navy/40"
-            >
-              Request a quote
-              <ArrowRight
-                size={18}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </Link>
+            <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/quote"
+                className="group inline-flex items-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-xl shadow-navy/40"
+              >
+                Request a quote
+                <ArrowRight
+                  size={18}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-white/10 text-white border border-white/30 backdrop-blur hover:bg-white/20 transition-all hover:-translate-y-0.5"
+              >
+                Contact us
+              </Link>
+            </div>
           </Reveal>
         </div>
       </section>

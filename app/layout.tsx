@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s · ACTS Egypt",
   },
   description:
-    "ACTS supplies safety relief, butterfly and severe-service valves to Oil & Gas, Petrochemical and Power Generation operators across Egypt — exclusive local agent for Curtiss-Wright's Farris, Solent & Pratt and CWT valve brands.",
+    "ACTS is Egypt's trusted partner for valves, flow control, and critical process equipment across Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries — sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright).",
 };
 
 export default function RootLayout({
