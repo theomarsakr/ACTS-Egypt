@@ -3,19 +3,22 @@
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Corporate palette — deep navy + engineering blue, amber reserved for
-     small highlights on dark surfaces (echoes the gas-flare imagery). */
-  --color-navy: #0a1e3f;
-  --color-navy-800: #0f2a55;
-  --color-navy-700: #163767;
-  --color-brand: #0a5ce6;
-  --color-brand-dark: #0847b4;
-  --color-brand-light: #e9f0fd;
-  --color-amber: #ffb454;
+  /* Premium, restrained palette: deep navy for structure, a single brass/gold
+     accent (two lightness tiers — muted brand for buttons/links, brighter
+     amber for kickers on dark backgrounds) for everything else. No
+     per-brand/per-tab color cycling. */
+  --color-navy: #0a1628;
+  --color-navy-800: #12243d;
+  --color-navy-700: #1b3352;
+  --color-brand: #8a6a30;
+  --color-brand-dark: #6e5426;
+  --color-brand-light: #f5efe1;
+  --color-amber: #f0c419;
 
   --animate-marquee: marquee 36s linear infinite;
   --animate-page-in: page-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-slow-zoom: slow-zoom 22s ease-out both;
+  --animate-float: float 5s ease-in-out infinite;
 
   @keyframes marquee {
     from {
@@ -41,6 +44,15 @@
     }
     to {
       transform: scale(1);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
     }
   }
 }
@@ -83,8 +95,8 @@ body {
 .card-lift:hover {
   transform: translateY(-5px);
   box-shadow:
-    0 14px 36px -10px rgba(10, 30, 63, 0.22),
-    0 2px 8px rgba(10, 30, 63, 0.08);
+    0 14px 36px -10px rgba(10, 22, 40, 0.22),
+    0 2px 8px rgba(10, 22, 40, 0.08);
 }
 
 /* Photo zoom-on-hover inside cards */
@@ -120,6 +132,33 @@ body {
   transform: scaleX(1);
 }
 
+/* Colored pulse ring, used on the "current" timeline node */
+.pulse-ring::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
+  animation: pulse-ring 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-ring::before {
+    animation: none;
+    display: none;
+  }
+}
+
 /* Marquee fade edges */
 .marquee-mask {
   mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
@@ -137,7 +176,8 @@ body {
   }
   .animate-marquee,
   .animate-page-in,
-  .animate-slow-zoom {
+  .animate-slow-zoom,
+  .animate-float {
     animation: none;
   }
   .img-zoom img {
