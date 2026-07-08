@@ -4,7 +4,7 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 
 const HOURLY_LIMIT = 3;
 const DAILY_LIMIT = 8;
-const NOTIFICATION_EMAIL = "omar.sakr27@gmail.com";
+const NOTIFICATION_EMAIL = "omar.sakr27x@gmail.com";
 
 async function sendNotificationEmail(fields: Record<string, unknown>) {
   const apiKey = process.env.RESEND_API_KEY;
