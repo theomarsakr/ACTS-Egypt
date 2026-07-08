@@ -40,5 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# docs — kept locally, not pushed
-*.md
+# Claude Code config — not for publishing
+CLAUDE.md
+AGENTS.md
