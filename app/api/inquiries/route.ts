@@ -1,8 +1,38 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 const HOURLY_LIMIT = 3;
 const DAILY_LIMIT = 8;
+const NOTIFICATION_EMAIL = "omar.sakr27@gmail.com";
+
+async function sendNotificationEmail(fields: Record<string, unknown>) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return;
+
+  const rows = Object.entries(fields)
+    .filter(([, value]) => value)
+    .map(
+      ([key, value]) =>
+        `<tr><td style="padding:4px 12px 4px 0;color:#6b7280;white-space:nowrap;vertical-align:top">${key}</td><td style="padding:4px 0">${value}</td></tr>`
+    )
+    .join("");
+
+  try {
+    const resend = new Resend(apiKey);
+    await resend.emails.send({
+      from: "ACTS Website <onboarding@resend.dev>",
+      to: NOTIFICATION_EMAIL,
+      replyTo: typeof fields.Email === "string" ? fields.Email : undefined,
+      subject: `New RFQ: ${fields.Company ?? "Unknown company"}`,
+      html: `<table>${rows}</table>`,
+    });
+  } catch (err) {
+    // Don't fail the request over a notification email — the enquiry is
+    // already saved in Supabase either way.
+    console.error("notification email failed:", err);
+  }
+}
 
 function getClientIp(request: Request): string {
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -95,25 +125,32 @@ export async function POST(request: Request) {
   // against the limit (prevents retry-storming on errors).
   await supabase.from("inquiry_rate_limits").insert({ ip_address: ip });
 
+  const jobTitle = typeof body.jobTitle === "string" ? body.jobTitle.trim() : null;
+  const productInterest =
+    typeof body.productNeeded === "string" ? body.productNeeded : null;
+  const brand = typeof body.brand === "string" && body.brand ? body.brand : null;
+  const quantity = typeof body.quantity === "string" ? body.quantity.trim() : null;
+  const deliveryDate =
+    typeof body.deliveryDate === "string" && body.deliveryDate
+      ? body.deliveryDate
+      : null;
+  const serviceConditions =
+    typeof body.serviceConditions === "string"
+      ? body.serviceConditions.trim()
+      : null;
+
   const { error } = await supabase.from("inquiries").insert({
     name,
     company,
     email,
     phone,
-    job_title: typeof body.jobTitle === "string" ? body.jobTitle.trim() : null,
-    product_interest:
-      typeof body.productNeeded === "string" ? body.productNeeded : null,
-    brand: typeof body.brand === "string" && body.brand ? body.brand : null,
-    quantity: typeof body.quantity === "string" ? body.quantity.trim() : null,
+    job_title: jobTitle,
+    product_interest: productInterest,
+    brand,
+    quantity,
     delivery_location: deliveryLocation,
-    delivery_date:
-      typeof body.deliveryDate === "string" && body.deliveryDate
-        ? body.deliveryDate
-        : null,
-    service_conditions:
-      typeof body.serviceConditions === "string"
-        ? body.serviceConditions.trim()
-        : null,
+    delivery_date: deliveryDate,
+    service_conditions: serviceConditions,
     message,
   });
 
@@ -124,6 +161,21 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+
+  await sendNotificationEmail({
+    Name: name,
+    Company: company,
+    Email: email,
+    Phone: phone,
+    "Job title": jobTitle,
+    "Product needed": productInterest,
+    Brand: brand,
+    Quantity: quantity,
+    "Delivery location": deliveryLocation,
+    "Delivery date": deliveryDate,
+    "Service conditions": serviceConditions,
+    Message: message,
+  });
 
   return NextResponse.json({ success: true });
 }
