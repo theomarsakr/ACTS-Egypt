@@ -22,14 +22,12 @@ export default function RFQForm({
     e.preventDefault();
     setStatus("sending");
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
-    delete data.attachment;
+    const formData = new FormData(form);
 
     try {
       const res = await fetch("/api/inquiries", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
@@ -249,12 +247,7 @@ export default function RFQForm({
           className={`${fieldClass} file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-brand-light file:text-brand file:font-semibold file:text-sm cursor-pointer`}
         />
         <p className="mt-1.5 text-[13px] text-gray-500">
-          PDF, DWG, DXF, DOC, DOCX — max 10MB. Online upload isn&apos;t wired
-          up yet — please also email attachments directly to{" "}
-          <a href={`mailto:${contact.salesEmail}`} className="text-brand font-medium">
-            {contact.salesEmail}
-          </a>
-          .
+          PDF, DWG, DXF, DOC, DOCX — max 10MB.
         </p>
       </div>
       <div className="mb-6">
