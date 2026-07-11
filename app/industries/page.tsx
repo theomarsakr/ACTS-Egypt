@@ -18,7 +18,7 @@ import { industries, industriesSummary } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Industries we serve",
   description:
-    "ACTS delivers engineered solutions, critical equipment, and technical support across Egypt's most demanding industrial sectors — Oil & Gas, Petrochemical, Power Generation, Water Treatment, Fertilizers, and General Industrial.",
+    "ACTS delivers engineered solutions, critical equipment, and technical support across Egypt's most demanding industrial sectors: Oil & Gas, Petrochemical, Power Generation, Water Treatment, Fertilizers, and General Industrial.",
 };
 
 const industryIcons: Record<string, typeof Flame> = {
@@ -60,8 +60,8 @@ export default function IndustriesPage() {
               ACTS delivers engineered solutions, critical equipment, and
               technical support across Egypt&apos;s most demanding industrial
               sectors. Our exclusive representation of world-class
-              manufacturers — combined with in-house application engineering
-              — enables us to address the unique challenges of each industry
+              manufacturers, combined with in-house application engineering,
+              enables us to address the unique challenges of each industry
               we serve.
             </p>
           </Reveal>
@@ -227,7 +227,7 @@ export default function IndustriesPage() {
                 </h3>
                 <p className="mt-2 text-[15px] text-white/75 max-w-lg">
                   Every application above is backed by our exclusive
-                  Curtiss-Wright agencies — Farris Engineering, Dyna-Flo, and
+                  Curtiss-Wright agencies: Farris Engineering, Dyna-Flo, and
                   EST.
                 </p>
               </div>

@@ -22,6 +22,7 @@ export type Brand = {
   gridCols: 3 | 4;
   image: string;
   imageAlt: string;
+  logo?: string;
 };
 
 export const brands: Brand[] = [
@@ -47,12 +48,12 @@ export const brands: Brand[] = [
         tag: "SERIES 1890",
         name: "Direct spring-operated, threaded",
         description:
-          "ASME Section VIII, rated to 800 psig — air, steam & liquid service.",
+          "ASME Section VIII, rated to 800 psig: air, steam & liquid service.",
       },
       {
         tag: "SERIES 2600 / 2700",
         name: "Direct spring-operated, flanged/threaded",
-        description: "ASME/NB-certified — air, steam, water.",
+        description: "ASME/NB-certified: air, steam, water.",
       },
       {
         tag: "SERIES 2850",
@@ -127,10 +128,11 @@ export const brands: Brand[] = [
           "Pressure/level control, I/P transducers, positioners.",
       },
     ],
-    externalUrl: "https://www.dynaflo.com/",
+    externalUrl: "https://valves.curtisswright.com/en-us/Dynaflo",
     gridCols: 3,
     image: "/images/dynaflo-control-valve.jpg",
     imageAlt: "Close-up of an industrial control valve with actuator",
+    logo: "/images/dynaflo-logo.png",
   },
   {
     slug: "est",
@@ -174,7 +176,7 @@ export const brands: Brand[] = [
           "Repair for fractured, severed, or damaged tube sections.",
       },
     ],
-    externalUrl: "https://www.cw-estgroup.com/",
+    externalUrl: "https://valves.curtisswright.com/en-us/EST",
     gridCols: 4,
     image: "/images/est-field-service.jpg",
     imageAlt: "Field service technician welding industrial pipework",
@@ -224,7 +226,7 @@ export const timeline = [
   {
     year: "2010",
     unit: "Consultancy",
-    body: "Consultancy services launch — feasibility studies, technical training, and business advisory.",
+    body: "Consultancy services launch: feasibility studies, technical training, and business advisory.",
     now: false,
   },
   {
@@ -310,7 +312,7 @@ export const offices = [
   {
     tag: "Headquarters",
     name: "Arkan Plaza, Building 4, 4th Floor, Office #409",
-    address: "Sheikh Zayed City, Giza, Egypt — 12451",
+    address: "Sheikh Zayed City, Giza, Egypt, 12451",
   },
 ];
 
@@ -371,16 +373,16 @@ export const industries: Industry[] = [
     intro:
       "The Oil & Gas sector demands absolute reliability, safety, and compliance. From wellhead to refinery, we provide critical equipment that protects personnel, assets, and the environment.",
     applications: [
-      "Upstream — wellhead flow control, separation vessels, gas compression, and pipeline protection",
-      "Midstream — pipeline regulation, pump station control, and storage terminal overpressure protection",
-      "Refining — process unit isolation, fractionation column control, fired heater protection, and catalyst handling",
-      "Petrochemical — reactor feed control, steam cracking, polymerization, and specialty chemical production",
+      "Upstream: wellhead flow control, separation vessels, gas compression, and pipeline protection",
+      "Midstream: pipeline regulation, pump station control, and storage terminal overpressure protection",
+      "Refining: process unit isolation, fractionation column control, fired heater protection, and catalyst handling",
+      "Petrochemical: reactor feed control, steam cracking, polymerization, and specialty chemical production",
     ],
     howWeSupport: [
-      "Safety relief valves for overpressure protection (Farris Engineering) — sized for two-phase flow, thermal expansion, and fire-case scenarios",
-      "Precision control valves for severe-service applications (Dyna-Flo) — including high-pressure drop, erosive media, and high-temperature conditions",
-      "Heat exchanger maintenance and retubing (EST) — restoring thermal efficiency and extending asset life during turnarounds",
-      "Pressure testing and pipeline isolation (EST GripTight®) — for commissioning, maintenance, and integrity verification",
+      "Safety relief valves for overpressure protection (Farris Engineering), sized for two-phase flow, thermal expansion, and fire-case scenarios",
+      "Precision control valves for severe-service applications (Dyna-Flo), including high-pressure drop, erosive media, and high-temperature conditions",
+      "Heat exchanger maintenance and retubing (EST) to restore thermal efficiency and extend asset life during turnarounds",
+      "Pressure testing and pipeline isolation (EST GripTight®) for commissioning, maintenance, and integrity verification",
       "API 526/527 compliance verification and re-certification support",
     ],
     productLines:
@@ -393,15 +395,15 @@ export const industries: Industry[] = [
     name: "Petrochemical",
     tagline: "Chemical Processing • Polymers • Specialty Chemicals",
     intro:
-      "Petrochemical facilities operate under extreme conditions — high pressures, high temperatures, corrosive media, and continuous operation. Our solutions are engineered to withstand these environments while ensuring process stability and safety.",
+      "Petrochemical facilities operate under extreme conditions: high pressures, high temperatures, corrosive media, and continuous operation. Our solutions are engineered to withstand these environments and keep the process stable and safe.",
     applications: [
-      "Olefins production (ethylene, propylene) — cracking furnace control, quench tower protection",
-      "Aromatics production — extraction, distillation, hydrotreating",
-      "Polymers (polyethylene, polypropylene, PVC) — reactor feed control, extruder pressure regulation",
+      "Olefins production (ethylene, propylene): cracking furnace control, quench tower protection",
+      "Aromatics production: extraction, distillation, hydrotreating",
+      "Polymers (polyethylene, polypropylene, PVC): reactor feed control, extruder pressure regulation",
     ],
     howWeSupport: [
       "Control valves with anti-cavitation and noise-attenuation trims for high delta-P services",
-      "Safety relief valves for critical process protection — including pilot-operated designs for large-capacity gas service",
+      "Safety relief valves for critical process protection, including pilot-operated designs for large-capacity gas service",
       "Heat exchanger tube inspection (IRIS/Eddy Current) and maintenance to prevent unplanned downtime",
       "Valve condition monitoring and diagnostics for predictive maintenance programs",
       "Sizing, selection, and engineering support for new projects and plant expansions",
@@ -418,16 +420,16 @@ export const industries: Industry[] = [
     intro:
       "Power generation plants require equipment that delivers precise control, absolute safety, and long-term reliability.",
     applications: [
-      "Steam generation — boiler feedwater control, steam pressure regulation, and safety relief for drums and superheaters",
-      "Gas turbines — fuel gas control, inlet air filtration, and emergency shutdown systems",
-      "Combined cycle — HRSG control, duct burner regulation, and condensate management",
-      "Cooling systems — circulating water control, condenser tube maintenance, and cooling tower isolation",
-      "Balance of plant — compressed air systems, auxiliary steam, and fuel handling",
+      "Steam generation: boiler feedwater control, steam pressure regulation, and safety relief for drums and superheaters",
+      "Gas turbines: fuel gas control, inlet air filtration, and emergency shutdown systems",
+      "Combined cycle: HRSG control, duct burner regulation, and condensate management",
+      "Cooling systems: circulating water control, condenser tube maintenance, and cooling tower isolation",
+      "Balance of plant: compressed air systems, auxiliary steam, and fuel handling",
     ],
     howWeSupport: [
       "Safety relief valves for boiler drum protection, steam line protection, and turbine bypass systems",
       "Control valves for feedwater regulation, desuperheating, and fuel gas control",
-      "Heat exchanger and condenser tube maintenance — including cleaning, plugging, and retubing (EST)",
+      "Heat exchanger and condenser tube maintenance, including cleaning, plugging, and retubing (EST)",
       "Pipeline and pressure vessel pressure testing (GripTight®) for hydrostatic testing",
       "Retrofit and modernization recommendations to improve plant efficiency",
     ],
@@ -443,10 +445,10 @@ export const industries: Industry[] = [
     intro:
       "Water treatment facilities require corrosion-resistant materials, precise flow control, and reliable isolation equipment.",
     applications: [
-      "Desalination (SWRO/MSF/MED) — pretreatment control, high-pressure brine handling, and chemical dosing",
-      "Municipal water — intake control, filtration, disinfection, and distribution network isolation",
-      "Industrial wastewater — neutralization, clarification, sludge handling, and effluent discharge",
-      "Cooling water systems — heat exchanger protection, biocides dosing, and condenser tube maintenance",
+      "Desalination (SWRO/MSF/MED): pretreatment control, high-pressure brine handling, and chemical dosing",
+      "Municipal water: intake control, filtration, disinfection, and distribution network isolation",
+      "Industrial wastewater: neutralization, clarification, sludge handling, and effluent discharge",
+      "Cooling water systems: heat exchanger protection, biocides dosing, and condenser tube maintenance",
     ],
     howWeSupport: [
       "Isolation valves (ball, butterfly) for on/off and flow isolation services",
@@ -465,17 +467,17 @@ export const industries: Industry[] = [
     name: "Fertilizers",
     tagline: "Ammonia • Urea • Phosphate • NPK Blends",
     intro:
-      "Fertilizer production involves high-pressure synthesis loops, corrosive media, and high-temperature processes — demanding robust equipment with long service life and minimal downtime.",
+      "Fertilizer production involves high-pressure synthesis loops, corrosive media, and high-temperature processes, so equipment needs a long service life and minimal downtime.",
     applications: [
-      "Ammonia synthesis — high-pressure steam reforming, shift conversion, CO₂ removal, and synthesis loop control",
-      "Urea production — carbamate formation, urea finishing, and prilling/granulation",
-      "Phosphate processing — acidulation, filtration, and granulation",
-      "Blending and bagging — material handling, dust collection, and bagging equipment control",
+      "Ammonia synthesis: high-pressure steam reforming, shift conversion, CO₂ removal, and synthesis loop control",
+      "Urea production: carbamate formation, urea finishing, and prilling/granulation",
+      "Phosphate processing: acidulation, filtration, and granulation",
+      "Blending and bagging: material handling, dust collection, and bagging equipment control",
     ],
     howWeSupport: [
       "Pilot-operated safety relief valves for high-capacity synthesis loop protection",
       "Severe-service control valves for erosive slurry and corrosive acid service",
-      "Heat exchanger maintenance — including carbamate condenser inspection and retubing (EST)",
+      "Heat exchanger maintenance, including carbamate condenser inspection and retubing (EST)",
       "Tube plugging (Pop-A-Plug®) for quick repairs without plant shutdown",
       "Consultancy services for plant optimization and reliability improvement",
     ],
@@ -489,13 +491,13 @@ export const industries: Industry[] = [
     name: "General Industrial",
     tagline: "Cement • Steel • Glass • Pulp & Paper • Mining • Manufacturing",
     intro:
-      "Beyond heavy process industries, we serve a wide range of general industrial applications — providing reliable equipment and technical support for manufacturing facilities of all types.",
+      "Beyond heavy process industries, we serve a wide range of general industrial applications: reliable equipment and technical support for manufacturing facilities of all types.",
     applications: [
-      "Cement production — preheater control, kiln burner regulation, and dust collection isolation",
-      "Steel processing — furnace control, cooling water regulation, and hydraulic systems",
-      "Glass manufacturing — combustion control, batch handling, and forming machine regulation",
-      "Pulp & paper — chemical dosing, stock preparation, and dryer system control",
-      "Mining — slurry handling, dewatering, and process water management",
+      "Cement production: preheater control, kiln burner regulation, and dust collection isolation",
+      "Steel processing: furnace control, cooling water regulation, and hydraulic systems",
+      "Glass manufacturing: combustion control, batch handling, and forming machine regulation",
+      "Pulp & paper: chemical dosing, stock preparation, and dryer system control",
+      "Mining: slurry handling, dewatering, and process water management",
     ],
     howWeSupport: [
       "General-purpose control and isolation valves for water, air, steam, and chemicals",

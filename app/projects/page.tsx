@@ -95,7 +95,7 @@ export default function ProjectsPage() {
               partner for Egypt&apos;s most prominent operators in Oil &amp;
               Gas, Petrochemicals, Power Generation, and Fertilizers. Our
               clients include national oil companies, international EPC
-              contractors, and major industrial manufacturers — all of whom
+              contractors, and major industrial manufacturers. All of them
               rely on our technical expertise, exclusive manufacturer
               representation, and commitment to quality.
             </p>
@@ -201,7 +201,7 @@ export default function ProjectsPage() {
               </h2>
               <p className="mt-4 text-[15px] text-gray-600">
                 Illustrative of our capabilities, not a record of any specific
-                engagement — see our confidentiality statement below.
+                engagement. See our confidentiality statement below.
               </p>
             </div>
           </Reveal>
@@ -243,7 +243,7 @@ export default function ProjectsPage() {
                   <CheckCircle2 size={18} className="text-brand shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-navy">{t.title}</span>
-                    {" — "}
+                    {": "}
                     {t.text}
                   </div>
                 </div>

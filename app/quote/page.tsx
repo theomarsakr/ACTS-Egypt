@@ -7,7 +7,7 @@ import { getBrand } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Request a quote",
   description:
-    "Request a quote for Farris Engineering, Dyna-Flo, and EST products in Egypt — our application engineers typically respond within 24 hours.",
+    "Request a quote for Farris Engineering, Dyna-Flo, and EST products in Egypt. Our application engineers typically respond within 24 hours.",
 };
 
 const steps = [
@@ -52,7 +52,7 @@ export default async function QuotePage({ searchParams }: Props) {
           <Reveal delay={120}>
             <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
               Complete the form below and one of our application engineers
-              will respond with a formal quote — typically within 24 hours.
+              will respond with a formal quote, typically within 24 hours.
             </p>
           </Reveal>
         </div>

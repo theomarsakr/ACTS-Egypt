@@ -83,7 +83,7 @@ export default function Navbar() {
             <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
               <Image
                 src="/logo-transparent.png"
-                alt="ACTS — Advanced Company for Trading Services"
+                alt="ACTS: Advanced Company for Trading Services"
                 width={124}
                 height={41}
                 className="h-9 w-auto"

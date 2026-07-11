@@ -10,7 +10,7 @@ const pillarIcons = [Gauge, Settings2, Thermometer, Briefcase];
 export const metadata: Metadata = {
   title: "Products & services",
   description:
-    "ACTS supplies, supports, and maintains critical process equipment across Egypt's Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries — valves, actuators & instrumentation, heat exchanger & pressure testing equipment, and consultancy & aftermarket services.",
+    "ACTS supplies, supports, and maintains critical process equipment across Egypt's Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: valves, actuators & instrumentation, heat exchanger & pressure testing equipment, and consultancy & aftermarket services.",
 };
 
 const pillars = [
@@ -18,14 +18,14 @@ const pillars = [
     no: "01",
     title: "Valves",
     intro:
-      "We supply a comprehensive range of industrial valves for isolation, regulation, and overpressure protection — backed by application engineering, sizing, and selection support.",
+      "We supply a comprehensive range of industrial valves for isolation, regulation, and overpressure protection, backed by application engineering, sizing, and selection support.",
     rows: [
       {
         category: "Safety Relief Valves",
         types:
           "Direct spring-operated (conventional & balanced-bellows) • Pilot-operated (modulating & pop-action) • Full-nozzle designs",
         applications:
-          "Overpressure protection of pressure vessels, piping systems, and process equipment — upstream, midstream, and refining",
+          "Overpressure protection of pressure vessels, piping systems, and process equipment, across upstream, midstream, and refining",
       },
       {
         category: "Control Valves",
@@ -54,7 +54,7 @@ const pillars = [
     no: "02",
     title: "Actuators & Instrumentation",
     intro:
-      "We provide complete actuation and control solutions — ensuring precise, reliable valve operation under demanding process conditions.",
+      "We provide complete actuation and control solutions for precise, reliable valve operation under demanding process conditions.",
     rows: [
       {
         category: "Pneumatic Actuators",
@@ -87,7 +87,7 @@ const pillars = [
     no: "03",
     title: "Heat Exchanger & Pressure Testing Equipment",
     intro:
-      "We deliver turnkey solutions for thermal asset integrity and pressure safety — combining engineered products with field services.",
+      "We deliver turnkey solutions for thermal asset integrity and pressure safety by combining engineered products with field services.",
     rows: [
       {
         category: "Tube Plugging Systems",
@@ -138,7 +138,7 @@ const consultancy = {
     "Preventative maintenance planning and execution",
     "Valve reconditioning and overhaul (safety relief & control valves)",
     "Field troubleshooting and repair support",
-    "Dedicated overhaul and testing services — in development",
+    "Dedicated overhaul and testing services (in development)",
   ],
 };
 
@@ -191,8 +191,8 @@ export default function ProductsPage() {
               ACTS supplies, supports, and maintains critical process
               equipment across Egypt&apos;s Oil &amp; Gas, Petrochemical,
               Power Generation, Water Treatment, and Fertilizer industries.
-              Our portfolio is organized into four integrated pillars —
-              delivering complete solutions from overpressure protection to
+              Our portfolio is organized into four integrated pillars that
+              deliver complete solutions, from overpressure protection to
               thermal asset management.
             </p>
           </Reveal>
@@ -316,8 +316,8 @@ export default function ProductsPage() {
                           </div>
                         </div>
                         <p className="mt-4 text-[15px] text-gray-600 leading-relaxed max-w-3xl">
-                          We go beyond equipment supply — offering strategic
-                          advisory and lifecycle support to maximize asset
+                          We go beyond equipment supply to offer strategic
+                          advisory and lifecycle support that maximizes asset
                           performance and operational efficiency.
                         </p>
                         <div className="mt-6 grid sm:grid-cols-3 gap-5">
