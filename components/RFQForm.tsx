@@ -47,12 +47,12 @@ export default function RFQForm({
           <CheckCircle2 size={26} />
         </div>
         <h3 className="mt-4 text-xl font-bold text-gray-900">
-          Request received — thank you!
+          Request received. Thank you!
         </h3>
         <p className="mt-2 text-[15px] text-gray-600">
           You&apos;ll receive an auto-confirmation, then one of our
-          application engineers will review your requirements and follow up
-          — typically within 24 hours. For urgent requirements, call{" "}
+          application engineers will review your requirements and follow up,
+          typically within 24 hours. For urgent requirements, call{" "}
           <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="text-brand font-medium">
             {contact.phone}
           </a>
@@ -70,7 +70,7 @@ export default function RFQForm({
       <h2 className="text-xl font-extrabold text-navy">Tell Us What You Need</h2>
       <p className="mt-1 text-sm text-gray-500 mb-6">
         Complete the form below and one of our application engineers will
-        respond with a formal quote — typically within 24 hours.
+        respond with a formal quote, typically within 24 hours.
       </p>
 
       <div className="text-sm font-bold text-navy uppercase tracking-wide mb-3">
@@ -247,7 +247,7 @@ export default function RFQForm({
           className={`${fieldClass} file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-brand-light file:text-brand file:font-semibold file:text-sm cursor-pointer`}
         />
         <p className="mt-1.5 text-[13px] text-gray-500">
-          PDF, DWG, DXF, DOC, DOCX — max 10MB.
+          PDF, DWG, DXF, DOC, DOCX (max 10MB).
         </p>
       </div>
       <div className="mb-6">
@@ -276,7 +276,7 @@ export default function RFQForm({
 
       {status === "error" && (
         <p className="text-sm text-red-600 mb-4">
-          {errorMsg} — you can also email us directly at{" "}
+          {errorMsg} You can also email us directly at{" "}
           <a href={`mailto:${contact.salesEmail}`} className="underline font-medium">
             {contact.salesEmail}
           </a>

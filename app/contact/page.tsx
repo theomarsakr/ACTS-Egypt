@@ -8,7 +8,7 @@ import { offices, contact, team, departments, officeHours } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with ACTS' sales & technical team — headquartered at Arkan Plaza, Sheikh Zayed City, Giza, Egypt.",
+    "Get in touch with ACTS' sales & technical team, headquartered at Arkan Plaza, Sheikh Zayed City, Giza, Egypt.",
 };
 
 export default function ContactPage() {
@@ -85,7 +85,7 @@ export default function ContactPage() {
                     {team.map((t) => (
                       <div key={t.name} className="flex items-baseline gap-2 text-[15px]">
                         <span className="font-semibold text-navy">{t.name}</span>
-                        <span className="text-gray-500">— {t.role}</span>
+                        <span className="text-gray-500">, {t.role}</span>
                       </div>
                     ))}
                   </div>
@@ -128,7 +128,7 @@ export default function ContactPage() {
             <Reveal delay={150}>
               <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden h-full min-h-100">
                 <iframe
-                  title="ACTS headquarters — Arkan Plaza, Sheikh Zayed City, Giza"
+                  title="ACTS headquarters, Arkan Plaza, Sheikh Zayed City, Giza"
                   src="https://maps.google.com/maps?q=Arkan%20Plaza%2C%20Sheikh%20Zayed%20City%2C%20Giza%2C%20Egypt&z=13&output=embed"
                   className="w-full h-full min-h-100 block"
                   loading="lazy"

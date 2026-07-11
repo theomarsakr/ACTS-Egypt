@@ -133,8 +133,8 @@ export default async function BrandPage({ params }: Props) {
                     Interested in {brand.name} products?
                   </h3>
                   <p className="mt-2 text-[15px] text-white/75 max-w-lg">
-                    Send us your requirement — series, size and service
-                    conditions — and we&apos;ll come back with a quotation.
+                    Send us your requirement (series, size and service
+                    conditions) and we&apos;ll come back with a quotation.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3 shrink-0">

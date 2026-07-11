@@ -32,16 +32,16 @@ const aboutStats = [
 
 const specializations = [
   {
-    name: "Farris Engineering — Safety Relief Valves",
+    name: "Farris Engineering: Safety Relief Valves",
     text: "Spring-operated and pilot-operated relief valves for overpressure protection. We support sizing, API 526/527 compliance, and re-certification for upstream, midstream, and refining applications.",
   },
   {
-    name: "Dyna-Flo — Control Valves & Actuation",
+    name: "Dyna-Flo: Control Valves & Actuation",
     text: "Precision control valves, actuators, and positioners. We handle flow sizing (Cv calculations), noise abatement, and severe-service trim selection for stable, accurate control under high pressure drop.",
   },
   {
-    name: "EST — Heat Exchanger Maintenance & Pressure Testing",
-    text: "Field services for shell-and-tube heat exchangers and condensers, including tube cleaning, inspection (eddy current & IRIS), leak detection, tube plugging (Pop-A-Plug®), sleeving, and retubing — plus hydrostatic pressure testing and pipeline isolation via GripTight®, rated to 15,000 psig.",
+    name: "EST: Heat Exchanger Maintenance & Pressure Testing",
+    text: "Field services for shell-and-tube heat exchangers and condensers, including tube cleaning, inspection (eddy current & IRIS), leak detection, tube plugging (Pop-A-Plug®), sleeving, and retubing, plus hydrostatic pressure testing and pipeline isolation via GripTight®, rated to 15,000 psig.",
   },
 ];
 
@@ -288,8 +288,8 @@ export default function AboutPage() {
               </h2>
               <p className="mt-5 text-lg text-gray-600 leading-relaxed">
                 ACTS is the exclusive agent in Egypt for three Curtiss-Wright
-                divisions, giving customers access to an integrated portfolio
-                spanning safety, control, and thermal management.
+                divisions. This gives customers access to an integrated
+                portfolio across safety, control, and thermal management.
               </p>
             </div>
           </Reveal>
@@ -311,9 +311,9 @@ export default function AboutPage() {
             <p className="mt-10 text-[15px] text-gray-600 max-w-3xl">
               Our in-house engineering team supports customers from initial
               sizing and selection through post-sales troubleshooting and
-              aftermarket service — combining safety, control, and thermal
-              expertise into a single, coordinated offer that meets
-              international standards (ASME, PED, API) while reducing
+              aftermarket service. This combines safety, control, and
+              thermal expertise into a single, coordinated offer that meets
+              international standards (ASME, PED, API) and reduces
               procurement complexity.
             </p>
           </Reveal>

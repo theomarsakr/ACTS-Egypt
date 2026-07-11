@@ -19,7 +19,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-sm text-white/60 mt-4 max-w-xs leading-relaxed">
-              Advanced Company for Trading Services — Egypt&apos;s sole agent
+              Advanced Company for Trading Services, Egypt&apos;s sole agent
               for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright)
               since 2006.
             </p>

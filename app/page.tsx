@@ -5,6 +5,7 @@ import {
   Award,
   CheckCircle2,
   Clock,
+  ExternalLink,
   MapPin,
   Wrench,
 } from "lucide-react";
@@ -38,17 +39,17 @@ const features = [
   {
     icon: Award,
     title: "Exclusive agency",
-    text: "The sole Egyptian agent for Farris Engineering, Dyna-Flo, and EST — all Curtiss-Wright divisions.",
+    text: "The sole Egyptian agent for Farris Engineering, Dyna-Flo, and EST, all Curtiss-Wright divisions.",
   },
   {
     icon: Wrench,
     title: "Technical expertise",
-    text: "In-house engineers handling sizing, selection, and service conditions — not just order processing.",
+    text: "In-house engineers handling sizing, selection, and service conditions, not just order processing.",
   },
   {
     icon: Clock,
     title: "Fast quotations",
-    text: "Send a requirement, get a serious answer quickly — usually within 24 hours.",
+    text: "Send a requirement, get a serious answer quickly, usually within 24 hours.",
   },
   {
     icon: MapPin,
@@ -91,10 +92,9 @@ export default function Home() {
             <Reveal delay={200}>
               <p className="mt-6 text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
                 Since 2006, ACTS has been Egypt&apos;s trusted partner for
-                valves, flow control, and critical process services — proudly
-                serving as the sole agent for Farris Engineering, Dyna-Flo
-                Control Valve Services, and EST, all business divisions of
-                Curtiss-Wright.
+                valves, flow control, and critical process services. We are
+                the sole agent for Farris Engineering, Dyna-Flo Control Valve
+                Services, and EST, all business divisions of Curtiss-Wright.
               </p>
             </Reveal>
             <Reveal delay={300}>
@@ -191,11 +191,8 @@ export default function Home() {
           <div className="mt-12 grid md:grid-cols-3 gap-6">
             {brands.map((b, i) => (
               <Reveal key={b.slug} delay={i * 120}>
-                <Link
-                  href={`/brands/${b.slug}`}
-                  className="group card-lift flex flex-col h-full bg-white rounded-2xl border-t-4 border-t-brand border-x border-b border-gray-200 overflow-hidden shadow-sm"
-                >
-                  <div className="img-zoom relative h-48">
+                <div className="group card-lift flex flex-col h-full bg-white rounded-2xl border-t-4 border-t-brand border-x border-b border-gray-200 overflow-hidden shadow-sm">
+                  <Link href={`/brands/${b.slug}`} className="img-zoom relative h-48 block">
                     <Image
                       src={b.image}
                       alt={b.imageAlt}
@@ -207,26 +204,53 @@ export default function Home() {
                     <div className="absolute bottom-3 left-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">
                       {b.no}
                     </div>
-                  </div>
+                    {b.logo && (
+                      <div className="absolute top-3 right-3 bg-white rounded-lg px-3 py-2 shadow-sm">
+                        <Image
+                          src={b.logo}
+                          alt={`${b.name} logo`}
+                          width={90}
+                          height={32}
+                          className="h-6 w-auto object-contain"
+                        />
+                      </div>
+                    )}
+                  </Link>
                   <div className="p-7 flex flex-col flex-1">
-                    <h3 className="text-xl font-extrabold text-navy">
-                      {b.name}
-                    </h3>
+                    <Link href={`/brands/${b.slug}`}>
+                      <h3 className="text-xl font-extrabold text-navy transition-colors group-hover:text-brand">
+                        {b.name}
+                      </h3>
+                    </Link>
                     <div className="mt-1 text-sm font-semibold text-brand">
                       {b.category}
                     </div>
                     <p className="mt-3 text-[15px] text-gray-600 leading-relaxed flex-1">
                       {b.summary}
                     </p>
-                    <div className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors group-hover:text-brand">
-                      View products
-                      <ArrowRight
-                        size={16}
-                        className="transition-transform group-hover:translate-x-1"
-                      />
+                    <div className="mt-5 flex items-center justify-between gap-3">
+                      <Link
+                        href={`/brands/${b.slug}`}
+                        className="inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
+                      >
+                        View products
+                        <ArrowRight
+                          size={16}
+                          className="transition-transform group-hover:translate-x-1"
+                        />
+                      </Link>
+                      <a
+                        href={b.externalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-gray-500 transition-colors hover:text-brand"
+                      >
+                        Curtiss-Wright
+                        <ExternalLink size={13} />
+                      </a>
                     </div>
                   </div>
-                </Link>
+                </div>
               </Reveal>
             ))}
           </div>
@@ -327,8 +351,8 @@ export default function Home() {
               </h2>
               <p className="mt-5 text-lg text-gray-600">
                 We know what engineering procurement needs from an industrial
-                equipment supplier — because we&apos;ve been doing it for
-                nearly two decades.
+                equipment supplier. We&apos;ve been doing it for nearly two
+                decades.
               </p>
             </div>
           </Reveal>

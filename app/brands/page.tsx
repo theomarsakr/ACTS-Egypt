@@ -8,7 +8,7 @@ import { brands, pastManufacturers } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Our brands",
   description:
-    "Farris Engineering safety relief valves, Dyna-Flo control valves, and EST heat exchanger repair equipment — supplied in Egypt by ACTS as sole agent.",
+    "Farris Engineering safety relief valves, Dyna-Flo control valves, and EST heat exchanger repair equipment, supplied in Egypt by ACTS as sole agent.",
 };
 
 export default function BrandsPage() {

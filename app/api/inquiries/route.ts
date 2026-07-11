@@ -84,12 +84,12 @@ async function sendCustomerConfirmationEmail(name: string, email: string) {
     await resend.emails.send({
       from: "ACTS Website <onboarding@resend.dev>",
       to: email,
-      subject: "We've received your request — ACTS",
+      subject: "We've received your request: ACTS",
       html: `
         <p>Hi ${name},</p>
         <p>Thanks for reaching out to ACTS. We've received your request for quote and a member of our team will get back to you shortly.</p>
         <p>If anything is urgent, feel free to reply to this email.</p>
-        <p>— ACTS (Advanced Company for Trading Services)</p>
+        <p>ACTS (Advanced Company for Trading Services)</p>
       `,
     });
   } catch (err) {
