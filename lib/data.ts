@@ -8,6 +8,17 @@ export type ProductLine = {
   description: string;
 };
 
+export type GalleryItem = {
+  src: string;
+  caption: string;
+  category: string;
+  detail: {
+    tag: string;
+    description: string;
+    specs: string[];
+  };
+};
+
 export type Brand = {
   slug: string;
   no: string;
@@ -23,6 +34,8 @@ export type Brand = {
   image: string;
   imageAlt: string;
   logo?: string;
+  bestSellers?: string[];
+  gallery?: GalleryItem[];
 };
 
 export const brands: Brand[] = [
@@ -82,6 +95,357 @@ export const brands: Brand[] = [
     gridCols: 3,
     image: "/images/farris-relief-valves.jpg",
     imageAlt: "Close-up of an industrial safety relief valve",
+    logo: "/images/farris-logo.png",
+    bestSellers: ["Series 1890", "Series 3800", "iNSURE® Monitoring"],
+    gallery: [
+      // Direct & spring-operated valves
+      {
+        src: "/images/farris/direct-spring-valve.jpg",
+        caption: "Direct spring-operated safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 1890",
+          description:
+            "Farris' workhorse direct spring-operated relief valve, opening automatically once inlet pressure exceeds the spring set point — no external power or signal required.",
+          specs: [
+            "ASME Section VIII certified",
+            "Rated to 800 psig",
+            "Air, steam & liquid service",
+            "Threaded or flanged connections",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/direct-spring-closeup.jpg",
+        caption: "Direct spring-operated safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 1890",
+          description:
+            "Close-up of a FAST-tagged direct spring safety valve, showing the exposed spring housing and lifting lever used for manual test and inspection.",
+          specs: [
+            "ASME Section VIII certified",
+            "Manual test lever",
+            "Open-spring bonnet design",
+            "Flanged inlet/outlet",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/direct-spring-lever.jpg",
+        caption: "Direct spring-operated safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 1890",
+          description:
+            "A threaded direct-spring valve with a prominent manual lifting lever and identification nameplate, sized for smaller process lines.",
+          specs: [
+            "Threaded inlet connection",
+            "Manual lifting lever",
+            "Stamped identification nameplate",
+            "Air, steam & liquid service",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/direct-spring-flanged-lever.jpg",
+        caption: "Direct spring-operated safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 2600 / 2700",
+          description:
+            "A flanged direct-spring valve with a full-length lifting lever, allowing manual operational testing while the line stays in service.",
+          specs: [
+            "Flanged inlet & outlet",
+            "Full-length test lever",
+            "ASME/NB-certified",
+            "Air, steam & water service",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/spring-operated-compact.jpg",
+        caption: "Spring-operated safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 2850",
+          description:
+            "A compact threaded spring-loaded valve sized for smaller lines carrying air, steam, vapor or liquid, where a full flanged body isn't required.",
+          specs: [
+            "Threaded connections",
+            "Air, steam, vapor & liquid",
+            "Compact, space-saving body",
+            "FAST authorized service tag",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/spring-operated-lever.jpg",
+        caption: "Spring-operated safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 2850",
+          description:
+            "A threaded spring-loaded relief valve with a compact lifting lever and identification plate for field verification.",
+          specs: [
+            "Threaded connection",
+            "Compact lifting lever",
+            "Field-verifiable set pressure",
+            "Air, steam, vapor & liquid",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/spring-operated-angle.jpg",
+        caption: "Spring-operated safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 2850",
+          description:
+            "A spring-loaded relief valve shown at an angle, highlighting the flanged inlet and side-mounted lifting lever.",
+          specs: [
+            "Flanged inlet connection",
+            "Side-mounted lifting lever",
+            "Compact body profile",
+            "Air, steam, vapor & liquid",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/compact-relief-valve.jpg",
+        caption: "Compact safety relief valve",
+        category: "Direct & Spring-Operated",
+        detail: {
+          tag: "SERIES 1890",
+          description:
+            "A compact, space-saving direct-spring valve for lighter-duty relief service where a smaller footprint is needed.",
+          specs: [
+            "Space-saving body",
+            "Threaded connection",
+            "Lighter-duty relief service",
+            "ASME Section VIII certified",
+          ],
+        },
+      },
+
+      // Pilot-operated valves
+      {
+        src: "/images/farris/pilot-operated.jpg",
+        caption: "Pilot-operated valve — stainless pilot assembly",
+        category: "Pilot-Operated",
+        detail: {
+          tag: "SERIES 3800",
+          description:
+            "A pilot-operated valve uses process pressure itself, through a small external pilot, to hold the main valve closed until set pressure is reached — enabling higher operating ratios and modulating relief.",
+          specs: [
+            "Snap-acting or modulating pilot",
+            "Semi- or full-port nozzle",
+            "Higher operating pressure ratio",
+            "Stainless pilot assembly",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/pilot-operated-dual-gauge.jpg",
+        caption: "Pilot-operated safety relief valve",
+        category: "Pilot-Operated",
+        detail: {
+          tag: "SERIES 3800",
+          description:
+            "A larger pilot-operated valve fitted with dual gauge and test connections and a stainless pilot assembly, suited to high-capacity process protection.",
+          specs: [
+            "Dual gauge/test connections",
+            "Stainless pilot assembly",
+            "High-capacity flanged body",
+            "Semi- or full-port nozzle",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/pilot-operated-branded.jpg",
+        caption: "Pilot-operated safety relief valve",
+        category: "Pilot-Operated",
+        detail: {
+          tag: "SERIES 3800",
+          description:
+            "A Farris-branded pilot-operated valve with an external pilot assembly and isolation valves for online testing without a process shutdown.",
+          specs: [
+            "Online test isolation valves",
+            "External pilot assembly",
+            "No process shutdown required for testing",
+            "Flanged inlet & outlet",
+          ],
+        },
+      },
+
+      // Wireless monitoring & aftermarket
+      {
+        src: "/images/farris/insure-monitoring.jpg",
+        caption: "iNSURE® wireless relief valve monitoring",
+        category: "Monitoring & Aftermarket",
+        detail: {
+          tag: "iNSURE® · SIZEMASTER™ · FAST NETWORK",
+          description:
+            "A wireless monitoring module that clips onto an in-service relief valve, tracking lift events and pressure conditions in real time without interrupting the process.",
+          specs: [
+            "Real-time lift & leak detection",
+            "Wireless data transmission",
+            "Retrofits to existing valves",
+            "Backed by factory FAST service network",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/insure-monitoring-compact.jpg",
+        caption: "iNSURE® wireless relief valve monitoring",
+        category: "Monitoring & Aftermarket",
+        detail: {
+          tag: "iNSURE® · SIZEMASTER™ · FAST NETWORK",
+          description:
+            "The compact iNSURE® module mounted directly on the valve outlet, giving a continuous read on relief valve condition between turnarounds.",
+          specs: [
+            "Continuous condition monitoring",
+            "Compact outlet-mounted module",
+            "Reduces unplanned inspection",
+            "Backed by factory FAST service network",
+          ],
+        },
+      },
+
+      // Product range overviews
+      {
+        src: "/images/farris/body-options.jpg",
+        caption: "Safety relief valve range — body options",
+        category: "Product Range",
+        detail: {
+          tag: "SERIES 2600 / 2700",
+          description:
+            "The same direct-spring design available across multiple body materials and connection styles, so the right valve fits the piping and service already on site.",
+          specs: [
+            "ASME/NB-certified",
+            "Flanged or threaded body",
+            "Carbon steel or stainless trim",
+            "Air, steam & water service",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/valve-range.jpg",
+        caption: "Safety relief valve range",
+        category: "Product Range",
+        detail: {
+          tag: "FULL PRODUCT RANGE",
+          description:
+            "Farris' relief valve line spans compact threaded models to heavy flanged bodies, covering light instrument air through high-capacity process protection.",
+          specs: [
+            "Multiple body sizes & materials",
+            "Threaded & flanged connections",
+            "Balanced-bellows options available",
+            "Backed by FAST authorized service",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/valve-range-grouped.jpg",
+        caption: "Safety relief valve product range",
+        category: "Product Range",
+        detail: {
+          tag: "FULL PRODUCT RANGE",
+          description:
+            "A further view of the Farris relief valve line, spanning compact direct-spring models to larger flanged, lever-operated designs.",
+          specs: [
+            "Compact to large-bore bodies",
+            "Direct-spring & pilot designs",
+            "Multiple finishes & materials",
+            "Backed by FAST authorized service",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/valve-pair.jpg",
+        caption: "Safety relief valve range",
+        category: "Product Range",
+        detail: {
+          tag: "FULL PRODUCT RANGE",
+          description:
+            "A flanged valve and a compact threaded valve shown side by side, illustrating the range of body sizes available for different line sizes.",
+          specs: [
+            "Flanged & threaded options",
+            "Range of body sizes",
+            "Matched finish across the line",
+            "Air, steam & liquid service",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/pilot-assisted-pair.jpg",
+        caption: "Safety relief valve product range",
+        category: "Product Range",
+        detail: {
+          tag: "SERIES 3800",
+          description:
+            "Two pilot-assisted relief valves from the Farris line, each fitted with external sensing and test connections for high-capacity duty.",
+          specs: [
+            "External pilot sensing lines",
+            "Test connections included",
+            "High-capacity process protection",
+            "Flanged process connections",
+          ],
+        },
+      },
+
+      // Internal construction
+      {
+        src: "/images/farris/cross-section.jpg",
+        caption: "Safety relief valve — internal cross-section",
+        category: "Internal Construction",
+        detail: {
+          tag: "INTERNAL CONSTRUCTION",
+          description:
+            "A direct spring-operated valve holds a precision-machined disc against the nozzle seat under spring force, lifting cleanly once inlet pressure overcomes the set pressure.",
+          specs: [
+            "Precision-lapped seat & disc",
+            "Adjustable spring set pressure",
+            "Guided stem for repeatable lift",
+            "Field-serviceable internals",
+          ],
+        },
+      },
+      {
+        src: "/images/farris/cross-section-detail.jpg",
+        caption: "Safety relief valve — internal cross-section",
+        category: "Internal Construction",
+        detail: {
+          tag: "INTERNAL CONSTRUCTION",
+          description:
+            "Another cutaway view of the direct-spring mechanism, showing the guided spindle, spring chamber and seat arrangement in detail.",
+          specs: [
+            "Guided spindle & seat",
+            "Enclosed spring chamber",
+            "Consistent, repeatable lift",
+            "Field-serviceable internals",
+          ],
+        },
+      },
+
+      // Actuated valves
+      {
+        src: "/images/farris/actuated-control-valve.jpg",
+        caption: "Actuated control / relief valve",
+        category: "Actuated Valves",
+        detail: {
+          tag: "ACTUATED RELIEF VALVE",
+          description:
+            "A relief valve fitted with a handwheel and actuator bonnet for remote or automated operation, where local manual reset isn't practical.",
+          specs: [
+            "Manual handwheel override",
+            "Actuator-ready bonnet",
+            "Suited to remote/automated operation",
+            "Flanged process connection",
+          ],
+        },
+      },
+    ],
   },
   {
     slug: "dyna-flo",
@@ -185,6 +549,17 @@ export const brands: Brand[] = [
 
 export function getBrand(slug: string): Brand | undefined {
   return brands.find((b) => b.slug === slug);
+}
+
+// Groups gallery items by category, preserving first-seen category order.
+export function groupGalleryByCategory(items: GalleryItem[]) {
+  const groups = new Map<string, GalleryItem[]>();
+  for (const item of items) {
+    const list = groups.get(item.category);
+    if (list) list.push(item);
+    else groups.set(item.category, [item]);
+  }
+  return Array.from(groups, ([category, items]) => ({ category, items }));
 }
 
 export const pastManufacturers = [

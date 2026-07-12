@@ -159,6 +159,50 @@ body {
   }
 }
 
+/* Diagonal light sweep on hover, used on product photos */
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+.sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.group:hover .sheen::after {
+  left: 130%;
+}
+
+/* Left accent bar that grows in on hover, used on product-line cards */
+.accent-bar {
+  position: relative;
+}
+.accent-bar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0%;
+  background: var(--color-brand);
+  transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.accent-bar:hover::before {
+  height: 100%;
+}
+
 /* Marquee fade edges */
 .marquee-mask {
   mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
@@ -181,6 +225,12 @@ body {
     animation: none;
   }
   .img-zoom img {
+    transition: none;
+  }
+  .sheen::after {
+    display: none;
+  }
+  .accent-bar::before {
     transition: none;
   }
 }
