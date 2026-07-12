@@ -228,6 +228,23 @@ export default function Home() {
                     <p className="mt-3 text-[15px] text-gray-600 leading-relaxed flex-1">
                       {b.summary}
                     </p>
+                    {b.bestSellers && (
+                      <div className="mt-4">
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                          Best sellers in Egypt
+                        </div>
+                        <div className="mt-1.5 flex flex-wrap gap-1.5">
+                          {b.bestSellers.map((s) => (
+                            <span
+                              key={s}
+                              className="text-[12.5px] font-semibold text-brand bg-brand-light rounded-full px-2.5 py-1"
+                            >
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     <div className="mt-5 flex items-center justify-between gap-3">
                       <Link
                         href={`/brands/${b.slug}`}

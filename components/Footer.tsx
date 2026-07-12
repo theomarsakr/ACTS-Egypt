@@ -23,6 +23,15 @@ export default function Footer() {
               for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright)
               since 2006.
             </p>
+            <div className="bg-white rounded-lg px-3 py-2 inline-block mt-5">
+              <Image
+                src="/images/curtiss-wright-logo.png"
+                alt="Curtiss-Wright"
+                width={354}
+                height={100}
+                className="h-6 w-auto object-contain"
+              />
+            </div>
           </div>
 
           <div>

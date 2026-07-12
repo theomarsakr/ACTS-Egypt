@@ -29,8 +29,19 @@ export default function BrandsPage() {
         </div>
         <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
           <Reveal>
-            <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-              Sole agent in Egypt
+            <div className="flex items-center gap-4">
+              <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
+                Sole agent in Egypt
+              </div>
+              <div className="bg-white rounded-lg px-3 py-1.5">
+                <Image
+                  src="/images/curtiss-wright-logo.png"
+                  alt="Curtiss-Wright"
+                  width={354}
+                  height={100}
+                  className="h-4 w-auto object-contain"
+                />
+              </div>
             </div>
             <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
               Our Brands

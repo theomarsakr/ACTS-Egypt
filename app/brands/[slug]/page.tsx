@@ -4,7 +4,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import Reveal from "@/components/Reveal";
-import { brands, getBrand } from "@/lib/data";
+import ProductFlipCard from "@/components/ProductFlipCard";
+import CountUp from "@/components/CountUp";
+import { brands, getBrand, groupGalleryByCategory } from "@/lib/data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -99,7 +101,7 @@ export default async function BrandPage({ params }: Props) {
           >
             {brand.productLines.map((p, i) => (
               <Reveal key={p.name} delay={i * 70}>
-                <div className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:border-brand/50">
+                <div className="accent-bar card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 pl-5.25 shadow-sm hover:border-brand/50 overflow-hidden">
                   {p.tag && (
                     <div className="text-xs font-bold tracking-wider text-brand/70">
                       {p.tag}
@@ -115,6 +117,51 @@ export default async function BrandPage({ params }: Props) {
               </Reveal>
             ))}
           </div>
+
+          {brand.gallery && (
+            <div className="mt-16">
+              <Reveal>
+                <div className="text-[13px] font-bold uppercase tracking-widest text-brand">
+                  Product gallery
+                </div>
+                <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
+                  <CountUp value={brand.gallery.length} className="tabular-nums" /> real{" "}
+                  {brand.name} products, supplied by ACTS
+                </h2>
+                <p className="mt-2 text-[15px] text-gray-500">
+                  Tap a photo to flip it and see valve details.
+                </p>
+              </Reveal>
+              <div className="mt-9 space-y-12">
+                {groupGalleryByCategory(brand.gallery).map((group) => (
+                  <div key={group.category}>
+                    <Reveal>
+                      <div className="flex items-center gap-3">
+                        <span className="w-6 h-px bg-brand/50 shrink-0" />
+                        <h3 className="text-sm font-bold text-navy uppercase tracking-wide">
+                          {group.category}
+                        </h3>
+                        <CountUp
+                          value={group.items.length}
+                          className="text-sm text-gray-400 tabular-nums"
+                        />
+                      </div>
+                    </Reveal>
+                    <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {group.items.map((g, i) => (
+                        <Reveal key={g.src} delay={i * 60}>
+                          <ProductFlipCard
+                            item={g}
+                            alt={`${brand.name} — ${g.caption}`}
+                          />
+                        </Reveal>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <Reveal>
             <div className="mt-14 relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15">
