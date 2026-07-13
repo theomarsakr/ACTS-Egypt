@@ -544,6 +544,7 @@ export const brands: Brand[] = [
     gridCols: 4,
     image: "/images/est-field-service.jpg",
     imageAlt: "Field service technician welding industrial pipework",
+    logo: "/images/curtiss-wright-logo.png",
   },
 ];
 
@@ -572,17 +573,19 @@ export const pastManufacturers = [
   { name: "IMI Orton", sub: "Process automation" },
 ];
 
-export const clients = [
-  "ENPPI",
-  "Petrojet",
-  "Khalda Petroleum Company",
-  "Gasco",
-  "Damietta LNG (DLNG)",
-  "Birla Carbon",
-  "Cairo Oil Refining Company (CORC)",
-  "Belayim Petroleum Company (PETROBEL)",
-  "Suez Oil Processing Company (SOPC)",
-  "Arab Petroleum Pipelines Company (SUMED)",
+export type Client = { name: string; short: string; logo: string };
+
+export const clients: Client[] = [
+  { name: "ENPPI", short: "ENPPI", logo: "/images/clients/enppi.png" },
+  { name: "Petrojet", short: "Petrojet", logo: "/images/clients/petrojet.png" },
+  { name: "Khalda Petroleum Company", short: "Khalda Petroleum", logo: "/images/clients/khalda.png" },
+  { name: "Gasco", short: "GASCO", logo: "/images/clients/gasco.png" },
+  { name: "Damietta LNG (DLNG)", short: "Damietta LNG", logo: "/images/clients/dlng.png" },
+  { name: "Birla Carbon", short: "Birla Carbon", logo: "/images/clients/birla-carbon.png" },
+  { name: "Cairo Oil Refining Company (CORC)", short: "Cairo Oil Refining", logo: "/images/clients/corc.png" },
+  { name: "Belayim Petroleum Company (PETROBEL)", short: "PETROBEL", logo: "/images/clients/petrobel.png" },
+  { name: "Suez Oil Processing Company (SOPC)", short: "Suez Oil Processing", logo: "/images/clients/sopc.png" },
+  { name: "Arab Petroleum Pipelines Company (SUMED)", short: "SUMED", logo: "/images/clients/sumed.png" },
 ];
 
 export const timeline = [

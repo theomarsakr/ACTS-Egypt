@@ -282,24 +282,37 @@ export default function Home() {
       </section>
 
       {/* ============ CLIENT MARQUEE ============ */}
-      <section className="py-12">
+      <section className="py-14 md:py-16">
         <Reveal>
           <p className="text-center text-[13px] font-bold text-gray-400 uppercase tracking-widest">
             Trusted by leading Egyptian operators
           </p>
-          <div className="mt-7 overflow-hidden marquee-mask pause-on-hover">
-            <div className="flex w-max animate-marquee gap-16 pr-16 items-center">
-              {[...clients, ...clients].map((c, i) => (
-                <span
-                  key={`${c}-${i}`}
-                  className="text-xl md:text-2xl font-extrabold text-gray-300 hover:text-navy transition-colors whitespace-nowrap"
-                >
-                  {c}
-                </span>
-              ))}
-            </div>
-          </div>
         </Reveal>
+        <div className="mt-9 overflow-hidden marquee-mask pause-on-hover">
+          <div className="flex w-max animate-marquee gap-5 pr-5 items-stretch">
+            {[...clients, ...clients].map((c, i) => (
+              <div
+                key={`${c.name}-${i}`}
+                title={c.name}
+                className="group/logo shrink-0 flex flex-col items-center w-60 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:border-brand/40"
+              >
+                <div className="relative w-full aspect-2/1">
+                  <Image
+                    src={c.logo}
+                    alt={`${c.name} logo`}
+                    fill
+                    loading="eager"
+                    sizes="240px"
+                    className="object-contain transition-transform duration-300 group-hover/logo:scale-105"
+                  />
+                </div>
+                <div className="mt-3 min-h-[2.2em] flex items-center text-center text-[13px] font-semibold text-navy/60 leading-snug transition-colors group-hover/logo:text-navy">
+                  {c.short}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ============ INDUSTRIES (navy split) ============ */}
