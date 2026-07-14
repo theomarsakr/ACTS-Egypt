@@ -497,6 +497,254 @@ export const brands: Brand[] = [
     image: "/images/dynaflo-control-valve.jpg",
     imageAlt: "Close-up of an industrial control valve with actuator",
     logo: "/images/dynaflo-logo.png",
+    bestSellers: ["360 / 390 Sliding-Stem", "570 Rotary Ball", "DF400 Rotary Plug"],
+    gallery: [
+      // Control valves
+      {
+        src: "/images/dynaflo/sliding-stem.jpg",
+        caption: "Sliding-stem globe control valve",
+        category: "Control Valves",
+        detail: {
+          tag: "360 / 390 / 350 / 370 / 380 SERIES",
+          description:
+            "Direct-acting globe-style control valve that throttles flow through the linear motion of a sliding-stem plug, paired with a spring-and-diaphragm actuator for precise, stable process control.",
+          specs: [
+            "1\"–16\", ASME Class 150–2500",
+            "Cage-guided balanced or unbalanced trim",
+            "Anti-cavitation & low-noise trim options",
+            "Spring-diaphragm or piston actuation",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/rotary-ball.jpg",
+        caption: "Segmented / full-ball rotary control valve",
+        category: "Control Valves",
+        detail: {
+          tag: "MODEL 570 / 571 / 573 / 590",
+          description:
+            "High-capacity rotary control valve with a segmented or full ball for throttling and on/off service, delivering high flow with tight shutoff and a compact face-to-face footprint.",
+          specs: [
+            "1\"–24\", ASME Class 150–900",
+            "Segmented (570) or full-ball (590) designs",
+            "High Cv, wide rangeability",
+            "Throttling or on/off service",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/df400-rotary-plug.jpg",
+        caption: "DF400 eccentric rotary plug valve & actuator",
+        category: "Control Valves",
+        detail: {
+          tag: "DF400 SERIES",
+          description:
+            "Heavy-duty eccentric plug rotary valve with a self-aligning plug and straight-through flow path, combined with a low-profile spring-and-diaphragm actuator for tight shutoff at higher flow capacities in severe service.",
+          specs: [
+            "1\"–6\" (DN 25–150), Class 150–600",
+            "ANSI/FCI Class IV or VI shutoff",
+            "WCC / CF3M body, quarter-turn",
+            "Low-emission packing & NACE options",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/integral-valve-actuator.jpg",
+        caption: "Integral valve-and-actuator assembly",
+        category: "Control Valves",
+        detail: {
+          tag: "DF100 / DF234 / DF270 / DF2410",
+          description:
+            "Compact integral valve-and-actuator unit engineered for dump-valve and tight-shutoff applications where space is limited, combining the control element and actuator in a single assembly.",
+          specs: [
+            "1\" & 2\", ASME Class 150–1500",
+            "Integral actuator, compact footprint",
+            "Ideal for dump-valve service",
+            "Fast, repeatable response",
+          ],
+        },
+      },
+
+      // Pneumatic actuators
+      {
+        src: "/images/dynaflo/dfc-dfo-actuators.jpg",
+        caption: "DFC (fail-closed) & DFO (fail-open) actuators",
+        category: "Pneumatic Actuators",
+        detail: {
+          tag: "DFC / DFO",
+          description:
+            "Large-diaphragm spring-and-diaphragm actuators for low-pressure pneumatic operation. The spring drives the valve to a fail-safe position on loss of air supply — DFC fails closed, DFO fails open.",
+          specs: [
+            "Signal 3–15 or 6–30 PSIG",
+            "Nominal effective area 46–220 in²",
+            "-40°F to 180°F service",
+            "Handwheel & travel-stop options",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/dfr-rotary-actuator.jpg",
+        caption: "DFR rotary spring & diaphragm actuator",
+        category: "Pneumatic Actuators",
+        detail: {
+          tag: "DFR · SIZES 026–220",
+          description:
+            "Large-diaphragm rotary actuator for low-pressure operation, using a spring for fail-safe positioning to automate quarter-turn valves for throttling or on/off control of liquids and gases.",
+          specs: [
+            "Signal 0–18 or 0–33 PSIG",
+            "Valve shaft 1/2\" to 2\"",
+            "Field-reversible action",
+            "-40°F to 180°F service",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/dflp-piston-actuator.jpg",
+        caption: "DFLP linear pneumatic piston actuator",
+        category: "Pneumatic Actuators",
+        detail: {
+          tag: "DFLP · HIGH THRUST",
+          description:
+            "High-force double-acting pneumatic piston actuator for linear valves. With a positioner or two-position signal it handles throttling or on/off control; a volume tank holds the fail position.",
+          specs: [
+            "Thrust up to ~16,940 lbf",
+            "Min cylinder pressure 20 PSIG",
+            "Valve stem 3/4\", 1\", 1-1/4\"",
+            "-40°F to 180°F service",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/dfrp-piston-actuator.jpg",
+        caption: "DFRP rotary pneumatic piston actuator",
+        category: "Pneumatic Actuators",
+        detail: {
+          tag: "DFRP · HIGH TORQUE",
+          description:
+            "High-torque double-acting pneumatic piston actuator for quarter-turn valves, providing throttling or on/off control with a volume tank to hold the fail-safe position.",
+          specs: [
+            "Torque up to ~65,000 lbf-in",
+            "90° rotation, shaft 1/2\"–2-1/2\"",
+            "Min cylinder pressure 20 PSIG",
+            "-40°F to 180°F service",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/dfn-yokeless-actuator.jpg",
+        caption: "DFN yokeless spring & diaphragm actuator",
+        category: "Pneumatic Actuators",
+        detail: {
+          tag: "DFN · SIZES 069 / 156",
+          description:
+            "Bracket-mounted, direct-acting spring-and-diaphragm actuator that operates butterfly valves, chokes and louvers for throttling or on/off control without a conventional yoke.",
+          specs: [
+            "Signal 35 PSIG",
+            "Bolt circle 2-7/8\" or 3-7/8\"",
+            "Butterfly, choke & louver service",
+            "-40°F to 180°F service",
+          ],
+        },
+      },
+
+      // Instrumentation
+      {
+        src: "/images/dynaflo/4000-pressure-controller.jpg",
+        caption: "4000 Series local pressure controller",
+        category: "Instrumentation",
+        detail: {
+          tag: "4000 / 4010 / 4020 / 4030",
+          description:
+            "Field-mounted pneumatic pressure controller offering proportional-only or proportional-plus-reset control, with field-reversible direct/reverse action and emission-compliant, NACE-ready construction.",
+          specs: [
+            "Output 3–15 or 6–30 PSIG",
+            "Repeatability 0.5% of range",
+            "Field-reversible direct/reverse",
+            "Meets EPA emission standards",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/5000-level-controller.jpg",
+        caption: "5000 displacer liquid level controller",
+        category: "Instrumentation",
+        detail: {
+          tag: "5000 / 5000E",
+          description:
+            "Displacer-type liquid level controller with an innovative relay manifold for easy maintenance; the displacer arm seal is serviceable without disturbing the vessel connection, with zero steady-state bleed.",
+          specs: [
+            "Max sensor pressure 3,750 PSIG",
+            "Pneumatic (5000) or electric (5000E)",
+            "Zero bleed in steady state",
+            "-20°F to 400°F ambient",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/ps2-positioner.jpg",
+        caption: "Siemens PS2 digital valve positioner",
+        category: "Instrumentation",
+        detail: {
+          tag: "SIEMENS PS2 · HART",
+          description:
+            "Digital electro-pneumatic valve positioner with on-board programming and a built-in LCD, HART-ready with optional Profibus and Foundation Fieldbus communication for linear or rotary valves.",
+          specs: [
+            "Input 4–20 mA, HART ready",
+            "On-board LCD & auto-setup",
+            "Linear or rotary mounting",
+            "-40°F to 176°F service",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/760-positioner.jpg",
+        caption: "Model 760 pneumatic valve positioner",
+        category: "Instrumentation",
+        detail: {
+          tag: "MODEL 760",
+          description:
+            "Rugged pneumatic valve positioner for linear or rotary control valves, with optional 4–20 mA feedback, internal limit switches, a high-flow Cv module and position-indicator windows.",
+          specs: [
+            "Input 3–15 / 6–30 PSIG or 4–20 mA",
+            "Travel 1/2\"–6\" or 90° rotary",
+            "Optional feedback & limit switches",
+            "-40°F to 185°F service",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/pro-50-regulator.jpg",
+        caption: "PRO-50 instrument supply regulator",
+        category: "Instrumentation",
+        detail: {
+          tag: "PRO-50 / PRO-NR50",
+          description:
+            "Compact, lightweight supply regulator delivering clean, stable pressure to pneumatic and electro-pneumatic instrumentation, engineered for the accuracy and repeatability that digital instruments demand.",
+          specs: [
+            "Inlet up to 250 PSIG",
+            "Outlet 0–35 / 0–60 / 0–125 PSIG",
+            "NACE (MR0175) & non-relieving options",
+            "-40°F to 300°F service",
+          ],
+        },
+      },
+      {
+        src: "/images/dynaflo/t950xp-transducer.jpg",
+        caption: "Control Air T950XP I/P transducer",
+        category: "Instrumentation",
+        detail: {
+          tag: "T950XP I/P",
+          description:
+            "High-performance current-to-pressure (I/P) transducer for hazardous environments, converting a 4–20 mA electrical input into a stable pneumatic output to drive control valve actuators.",
+          specs: [
+            "Input 4–20 mA",
+            "Output 0–18 / 0–20 / 0–33 / 0–35 PSIG",
+            "FM / CSA / Natural Gas approved",
+            "-40°F to 158°F service",
+          ],
+        },
+      },
+    ],
   },
   {
     slug: "est",
@@ -545,6 +793,350 @@ export const brands: Brand[] = [
     image: "/images/est-field-service.jpg",
     imageAlt: "Field service technician welding industrial pipework",
     logo: "/images/curtiss-wright-logo.png",
+    bestSellers: ["Pop-A-Plug® P2", "GripTight MAX®", "GripTight® Isolation"],
+    gallery: [
+      // Heat exchanger tube plugging
+      {
+        src: "/images/est/cpi-perma-plug.jpg",
+        caption: "Pop-A-Plug CPI / Perma tube plugs",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "POP-A-PLUG® CPI / PERMA",
+          description:
+            "Hydraulically installed mechanical tube plug that seals leaking heat exchanger and condenser tubes with a helium-leak-tight metal-to-metal seal, with no welding or explosives.",
+          specs: [
+            "Rated to 1,000 PsiG (68.9 BarG)",
+            "Tube ID 0.472\"–2.067\"",
+            "Metal-to-metal helium-tight seal",
+            "ASME PCC-2 recommended method",
+          ],
+        },
+      },
+      {
+        src: "/images/est/p2-plug.jpg",
+        caption: "Pop-A-Plug P2 high pressure tube plugs",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "POP-A-PLUG® P2",
+          description:
+            "High-pressure mechanical tube plug giving a permanent, weld-free seal for leaking heat exchanger tubes; a metallurgy-matched ring-and-pin design resists ejection and thermal-cycling leaks.",
+          specs: [
+            "Rated to 7,000 PsiG (483 BarG)",
+            "Tube ID 0.400\"–1.460\"",
+            "Helium leak-tight, no welding",
+            "ISO 9001 manufactured",
+          ],
+        },
+      },
+      {
+        src: "/images/est/tube-stabilizer.jpg",
+        caption: "Pop-A-Plug tube stabilizers",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "POP-A-PLUG® TUBE STABILIZER",
+          description:
+            "Rod- or cable-style stabilizer that anchors weakened or fractured heat exchanger tubes, preventing migration until retubing or sleeving can be performed.",
+          specs: [
+            "Rod or cable style",
+            "Bullet or wedge tip options",
+            "Installs with Pop-A-Plug ram packages",
+            "Stainless steel construction",
+          ],
+        },
+      },
+      {
+        src: "/images/est/hydra-loc-sleeving.jpg",
+        caption: "Hydra-Loc tube sleeving system",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "HYDRA-LOC® TUBE SLEEVING",
+          description:
+            "Hydraulically expands a sleeve into intimate contact with a corroded or eroded tube end and locks it in place, recovering tube service without full retubing.",
+          specs: [
+            "Faster than roller expansion",
+            "Conforms to actual tube contours",
+            "Tightly controlled expansion pressure",
+            "Repairs inlet-end tube damage",
+          ],
+        },
+      },
+      {
+        src: "/images/est/ram-package.jpg",
+        caption: "Pop-A-Plug hydraulic ram package",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "POP-A-PLUG® RAM PACKAGES",
+          description:
+            "Hydraulic ram packages that install Pop-A-Plug tube plugs quickly and safely, in standard and close-quarters configurations, with no welding required.",
+          specs: [
+            "Hydraulic, controlled installation",
+            "Standard & close-quarters models",
+            "Covers CPI/Perma & P2 plug ranges",
+            "No welding required",
+          ],
+        },
+      },
+      {
+        src: "/images/est/smart-ram-640t.jpg",
+        caption: "Smart Ram 640T installation tool",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "SMART RAM 640T",
+          description:
+            "Cordless, battery-operated Pop-A-Plug installation tool with a self-contained hydraulic unit and LCD, ideal for remote or confined spaces without shop air or electric.",
+          specs: [
+            "18v / 3.0Ah Li-Ion battery",
+            "Up to 1,000 plugs per charge",
+            "Weighs just 5 lbs (2.3 kg)",
+            "LCD with multi-user presets",
+          ],
+        },
+      },
+      {
+        src: "/images/est/smart-ram-plus.jpg",
+        caption: "Smart Ram Plus installation system",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "SMART RAM PLUS",
+          description:
+            "Real-time Pop-A-Plug installation system that records and monitors every tube plug installation through a rugged tablet, for full documentation and quality assurance.",
+          specs: [
+            "Real-time installation monitoring",
+            "Rugged tablet interface",
+            "Documented, repeatable installs",
+            "Cordless field operation",
+          ],
+        },
+      },
+      {
+        src: "/images/est/manual-installation-tool.jpg",
+        caption: "Pop-A-Plug manual installation tool",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "POP-A-PLUG® MANUAL TOOL",
+          description:
+            "Reliable manual installation tool for Pop-A-Plug tube plugs where air or electricity is unavailable; a locating pin acts as a reaction arm during tightening.",
+          specs: [
+            "No air or electricity needed",
+            "Accepts all MIT pull rods",
+            "Tube ID 0.400\"–1.160\"",
+            "Zinc-plated carbon steel",
+          ],
+        },
+      },
+      {
+        src: "/images/est/removal-tool.jpg",
+        caption: "Pop-A-Plug removal tool",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "POP-A-PLUG® REMOVAL TOOL",
+          description:
+            "Dual-function removal tool: a nose piece threads into the plug pin while a serrated spear grabs the ring, and an integral slide hammer pulls both out in one operation.",
+          specs: [
+            "Removes CPI/Perma & P2 plugs",
+            "Integral slide hammer",
+            "Plug sizes 0.400\"–1.180\"",
+            "Extensions available to 6 ft",
+          ],
+        },
+      },
+      {
+        src: "/images/est/air-cooled-hx.jpg",
+        caption: "Air-cooled heat exchanger plugging system",
+        category: "Heat Exchanger Tube Plugging",
+        detail: {
+          tag: "POP-A-PLUG® ACHE SYSTEM",
+          description:
+            "Extended-reach Pop-A-Plug tooling engineered to test and plug air-cooled heat exchanger (Fin-Fan®) tubes at depth through the narrow plug-sheet entry, without welding.",
+          specs: [
+            "ASME PCC-2 compliant",
+            "Installs in under 15 seconds",
+            "Reaches at depth in header boxes",
+            "No hammering or welding",
+          ],
+        },
+      },
+
+      // Tube & joint leak testing
+      {
+        src: "/images/est/g250-vacuum-tube-tester.jpg",
+        caption: "G-250 vacuum tube tester",
+        category: "Tube & Joint Leak Testing",
+        detail: {
+          tag: "G-250 VACUUM TUBE TESTER",
+          description:
+            "Lightweight aluminum tool that quickly seals off and evacuates individual heat exchanger tubes to locate pinhole leaks; a loss of vacuum indicates a leaking tube.",
+          specs: [
+            "Tube range 0.28\"–1.45\"",
+            "Weighs under 2.1 lbs (1.1 kg)",
+            "Uses 40–125 PsiG plant air",
+            "Analog or digital gauge",
+          ],
+        },
+      },
+      {
+        src: "/images/est/g650-vacuum-joint-tester.jpg",
+        caption: "G-650 vacuum joint tester",
+        category: "Tube & Joint Leak Testing",
+        detail: {
+          tag: "G-650 VACUUM JOINT TESTER",
+          description:
+            "Seals the tube ID and tubesheet face, then evacuates the joint to quickly identify leaking tube-to-tubesheet joints, ideal for manufacturers and retubing operations.",
+          specs: [
+            "Tube OD 3/8\"–1¼\" (G-650A to 2½\")",
+            "Weighs under 2.7 lbs (1.2 kg)",
+            "Uses 40–125 PsiG plant air",
+            "Interchangeable manifolds",
+          ],
+        },
+      },
+
+      // Hydrostatic test & isolation plugs
+      {
+        src: "/images/est/griptight-max.jpg",
+        caption: "GripTight MAX test plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "GRIPTIGHT MAX® TEST PLUG",
+          description:
+            "High-pressure test plug with a patented dual-serrated gripper and hardened shaft, grippers and cone, effective for hardened and high-alloy pipe up to HRC 32.",
+          specs: [
+            "Test pressure to 15,000 PsiG (1,034 BarG)",
+            "Size 3/8\"–48\" NPS (DN10–DN1200)",
+            "Hardened, reusable design",
+            "Hydrostatic or pneumatic testing",
+          ],
+        },
+      },
+      {
+        src: "/images/est/griptight-elbow.jpg",
+        caption: "GripTight elbow test plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "GRIPTIGHT® ELBOW TEST PLUG",
+          description:
+            "Orientation-free test plug for long-radius elbows, using patented dual-serrated GripTight MAX grippers and a self-aligning gripper and seal for pipe spools ending in elbows.",
+          specs: [
+            "Test pressure to 3,350 PsiG (231 BarG)",
+            "Size 2\"–48\" NPS (DN50–DN1200)",
+            "Orientation-independent install",
+            "Fits most long-radius elbows",
+          ],
+        },
+      },
+      {
+        src: "/images/est/griptight-pe.jpg",
+        caption: "GripTight PE test plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "GRIPTIGHT® PE TEST PLUG",
+          description:
+            "Slip-in test plug for polyethylene (LDPE/MDPE/HDPE) pipe that hand-tightens and uses test pressure to energize the seal and gripper for a fast, safe, leak-tight seal.",
+          specs: [
+            "Working pressure to 375 PsiG (25.8 BarG)",
+            "Sizes 2\", 3\", 4\", 6\" & 8\"",
+            "Tests pipe on reels or in trench",
+            "Aluminum / steel construction",
+          ],
+        },
+      },
+      {
+        src: "/images/est/high-lift-flange-weld.jpg",
+        caption: "High Lift flange weld test plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "HIGH LIFT FLANGE WELD TEST PLUG",
+          description:
+            "A 4-in-1 tool that acts as a purge dam, weld fixture, test plug and weld-isolation plug, letting you monitor upstream, purge, weld and hydro-test a flange joint with one tool.",
+          specs: [
+            "Test pressure to 2,250 PsiG (155 BarG)",
+            "Size 3/4\"–24\" NPS (DN20–DN600)",
+            "Ported shaft for upstream monitoring",
+            "Isolates only the weld area",
+          ],
+        },
+      },
+      {
+        src: "/images/est/od-griptight.jpg",
+        caption: "OD GripTight test plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "OD GRIPTIGHT® TEST PLUG",
+          description:
+            "Seals on the pipe outside diameter to test open or plain-end pipe and tube; a patented self-gripping, self-sealing dual-seal design gives fast, safe hydrotesting.",
+          specs: [
+            "Test pressure to 5,000 PsiG (345 BarG)",
+            "Size 1/4\"–4\" (DN8–DN100)",
+            "Seals on the pipe OD",
+            "One plug fits a range of schedules",
+          ],
+        },
+      },
+      {
+        src: "/images/est/socket-weld-sqs.jpg",
+        caption: "Socket Weld SQS test plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "SOCKET WELD SQS TEST PLUG",
+          description:
+            "Twin-cone test plug that seals 3,000 lb socket-weld fittings and couplings, eliminating the need to weld in pipe stubs, pups or end caps for pressure testing.",
+          specs: [
+            "Test pressure to 5,000 PsiG (345 BarG)",
+            "Size 1/2\"–2\" NPS (DN15–DN50)",
+            "Twin-cone uniform gripper expansion",
+            "Replaceable grippers & seals",
+          ],
+        },
+      },
+      {
+        src: "/images/est/griptight-reverse-pressure.jpg",
+        caption: "GripTight reverse pressure test plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "GRIPTIGHT® REVERSE PRESSURE PLUG",
+          description:
+            "Subjects a flange-to-pipe weld to full radial, hoop and axial stresses during hydrostatic testing, equivalent to blinding and pressurizing the entire piping system.",
+          specs: [
+            "Test pressure to 2,250 PsiG (155 BarG)",
+            "Size 2\"–48\" NPS (DN50–DN1200)",
+            "ASME PCC-2 Type I device",
+            "Optional plug-movement indicator",
+          ],
+        },
+      },
+      {
+        src: "/images/est/griptight-isolation.jpg",
+        caption: "GripTight pipe isolation plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "GRIPTIGHT® ISOLATION PLUG",
+          description:
+            "Dual-port isolation plug that creates a positive-pressure barrier between two seals, safely isolating hot work from residual upstream gases while monitoring for explosive vapors.",
+          specs: [
+            "Between-seals to 2,250 PsiG (155 BarG)",
+            "Size 3/4\"–48\" NPS (DN20–DN1200)",
+            "ASME PCC-2 Type IV device",
+            "Monitors vapors during hot work",
+          ],
+        },
+      },
+      {
+        src: "/images/est/double-block-bleed.jpg",
+        caption: "Double block and bleed isolation plug",
+        category: "Test & Isolation Plugs",
+        detail: {
+          tag: "DOUBLE BLOCK & BLEED PLUG",
+          description:
+            "Double block-and-bleed isolation and test plug that isolates and monitors potentially explosive vapors during hot work using minimal water, testable with a simple hand pump.",
+          specs: [
+            "Between-seals to 2,250 PsiG (155 BarG)",
+            "Size 3/4\"–48\" NPS (DN20–DN1200)",
+            "ASME PCC-2 Type IV device",
+            "Multi-schedule, minimal-media testing",
+          ],
+        },
+      },
+    ],
   },
 ];
 
