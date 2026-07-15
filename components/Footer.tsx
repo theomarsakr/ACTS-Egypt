@@ -1,29 +1,82 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin } from "lucide-react";
-import { brands, contact, offices } from "@/lib/data";
+import { Phone, Mail, MapPin, MessageCircle, Clock } from "lucide-react";
+import { brands, contact, offices, industries, officeHours } from "@/lib/data";
+import FooterQuoteForm from "@/components/FooterQuoteForm";
+
+const companyLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About us" },
+  { href: "/products", label: "Products & Services" },
+  { href: "/projects", label: "Projects & Clients" },
+  { href: "/contact", label: "Contact" },
+  { href: "/quote", label: "Request a quote" },
+];
+
+// Real channels only — phone, sales email, WhatsApp (sales mobile), and maps.
+const channels = [
+  {
+    href: `tel:${contact.phone.replace(/\s/g, "")}`,
+    label: "Call ACTS",
+    icon: Phone,
+  },
+  {
+    href: `mailto:${contact.salesEmail}`,
+    label: "Email sales",
+    icon: Mail,
+  },
+  {
+    href: "https://wa.me/201223235399",
+    label: "WhatsApp",
+    icon: MessageCircle,
+  },
+  {
+    href: "https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza",
+    label: "Find us on Maps",
+    icon: MapPin,
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-navy text-white">
-      <div className="max-w-6xl mx-auto px-6 pt-16 pb-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="sm:col-span-2 lg:col-span-1">
-            <div className="bg-white rounded-lg p-2.5 inline-block">
+    <footer className="relative bg-ink text-white overflow-hidden">
+      <div className="absolute inset-0 blueprint opacity-40" aria-hidden />
+      <div className="mesh mesh-steel w-136 h-136 -top-72 -left-40 opacity-50" aria-hidden />
+      <div className="dark-vignette" aria-hidden />
+
+      <div className="relative max-w-7xl mx-auto px-6">
+        {/* RFQ fast lane */}
+        <div className="py-12 md:py-14 flex flex-col lg:flex-row lg:items-center gap-7 border-b border-white/10">
+          <div className="flex-1">
+            <h3 className="text-2xl md:text-[1.7rem] font-extrabold tracking-tight">
+              Have a requirement on your desk?
+            </h3>
+            <p className="mt-2 text-[15px] text-white/60 max-w-lg">
+              Leave your work email and finish the details on the quote form —
+              our engineers typically respond within 24 hours.
+            </p>
+          </div>
+          <FooterQuoteForm />
+        </div>
+
+        {/* Link columns */}
+        <div className="py-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-[1.35fr_0.8fr_1fr_1fr]">
+          <div>
+            <div className="bg-white rounded-xl p-2.5 inline-block">
               <Image
                 src="/logo-transparent.png"
-                alt="ACTS"
+                alt="ACTS: Advanced Company for Trading Services"
                 width={110}
                 height={36}
                 className="h-8 w-auto"
               />
             </div>
-            <p className="text-sm text-white/60 mt-4 max-w-xs leading-relaxed">
-              Advanced Company for Trading Services, Egypt&apos;s sole agent
-              for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright)
-              since 2006.
+            <p className="text-[14.5px] text-white/55 mt-5 max-w-xs leading-relaxed">
+              Advanced Company for Trading Services — Egypt&apos;s sole agent
+              for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright) since
+              2006.
             </p>
-            <div className="bg-white rounded-lg px-3 py-2 inline-block mt-5">
+            <div className="bg-white rounded-xl px-3 py-2 inline-block mt-6">
               <Image
                 src="/images/curtiss-wright-logo.png"
                 alt="Curtiss-Wright"
@@ -32,79 +85,109 @@ export default function Footer() {
                 className="h-6 w-auto object-contain"
               />
             </div>
+            <div className="mt-7 flex gap-2.5">
+              {channels.map((c) => (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  target={c.href.startsWith("http") ? "_blank" : undefined}
+                  rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  aria-label={c.label}
+                  title={c.label}
+                  className="w-10 h-10 rounded-xl glass-dark flex items-center justify-center text-white/70 transition-all hover:text-amber hover:border-amber/40 hover:-translate-y-0.5"
+                >
+                  <c.icon size={17} />
+                </a>
+              ))}
+            </div>
           </div>
 
           <div>
-            <div className="text-sm font-bold uppercase tracking-wider text-white/40 mb-4">
+            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5">
               Company
             </div>
-            <Link href="/" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              Home
-            </Link>
-            <Link href="/about" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              About us
-            </Link>
-            <Link href="/industries" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              Industries
-            </Link>
-            <Link href="/products" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              Products & Services
-            </Link>
-            <Link href="/projects" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              Projects & Clients
-            </Link>
-            <Link href="/contact" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              Contact
-            </Link>
-            <Link href="/quote" className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors">
-              Request a quote
-            </Link>
+            {companyLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
+              >
+                {l.label}
+              </Link>
+            ))}
           </div>
 
           <div>
-            <div className="text-sm font-bold uppercase tracking-wider text-white/40 mb-4">
+            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5">
               Our brands
             </div>
             {brands.map((b) => (
               <Link
                 key={b.slug}
                 href={`/brands/${b.slug}`}
-                className="block text-[15px] text-white/75 py-1.5 hover:text-white transition-colors"
+                className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
               >
                 {b.name}
+              </Link>
+            ))}
+            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5 mt-8">
+              Industries
+            </div>
+            {industries.slice(0, 4).map((ind) => (
+              <Link
+                key={ind.slug}
+                href="/industries"
+                className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
+              >
+                {ind.name}
               </Link>
             ))}
           </div>
 
           <div>
-            <div className="text-sm font-bold uppercase tracking-wider text-white/40 mb-4">
+            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5">
               Get in touch
             </div>
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
-              className="flex items-center gap-2.5 text-[15px] text-white/75 py-1.5 hover:text-white transition-colors"
+              className="flex items-center gap-2.5 text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
             >
               <Phone size={15} className="text-amber shrink-0" /> {contact.phone}
             </a>
             <a
               href={`mailto:${contact.salesEmail}`}
-              className="flex items-center gap-2.5 text-[15px] text-white/75 py-1.5 hover:text-white transition-colors"
+              className="flex items-center gap-2.5 text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
             >
               <Mail size={15} className="text-amber shrink-0" /> {contact.salesEmail}
             </a>
-            <div className="flex items-start gap-2.5 text-[15px] text-white/75 py-1.5">
+            <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5">
               <MapPin size={15} className="text-amber shrink-0 mt-1" />
-              <span>{offices[0].address}</span>
+              <span>
+                {offices[0].name}
+                <br />
+                {offices[0].address}
+              </span>
+            </div>
+            <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5">
+              <Clock size={15} className="text-amber shrink-0 mt-1" />
+              <span>
+                {officeHours[0].day}
+                <br />
+                {officeHours[0].hours}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-3 text-sm text-white/40">
+        {/* Bottom bar */}
+        <div className="py-7 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-3 text-[13px] text-white/40">
           <div>
             © {new Date().getFullYear()} Advanced Company for Trading Services.
             All rights reserved.
           </div>
-          <div className="tracking-wider">SHEIKH ZAYED CITY · GIZA · EGYPT</div>
+          <div className="tracking-[0.18em] uppercase">
+            Sole Curtiss-Wright agent · Egypt
+          </div>
         </div>
       </div>
     </footer>

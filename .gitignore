@@ -43,3 +43,10 @@ next-env.d.ts
 # Claude Code config — not for publishing
 CLAUDE.md
 AGENTS.md
+.claude/
+.agents/
+skills-lock.json
+
+# test + tooling artifacts
+/test-results/
+/playwright-report/

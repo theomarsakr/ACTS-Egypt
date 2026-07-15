@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import RFQForm from "@/components/RFQForm";
 import Reveal from "@/components/Reveal";
+import SpotlightCard from "@/components/ui/SpotlightCard";
 import { getBrand } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -18,11 +19,11 @@ const steps = [
 ];
 
 type Props = {
-  searchParams: Promise<{ brand?: string }>;
+  searchParams: Promise<{ brand?: string; email?: string }>;
 };
 
 export default async function QuotePage({ searchParams }: Props) {
-  const { brand: brandSlug } = await searchParams;
+  const { brand: brandSlug, email } = await searchParams;
   const brand = brandSlug ? getBrand(brandSlug) : undefined;
 
   return (
@@ -61,7 +62,7 @@ export default async function QuotePage({ searchParams }: Props) {
       <section className="py-16">
         <div className="max-w-2xl mx-auto px-6">
           <Reveal>
-            <RFQForm initialBrand={brand?.name} />
+            <RFQForm initialBrand={brand?.name} initialEmail={email} />
           </Reveal>
         </div>
       </section>
@@ -78,10 +79,10 @@ export default async function QuotePage({ searchParams }: Props) {
           <div className="grid sm:grid-cols-2 gap-4">
             {steps.map((s, i) => (
               <Reveal key={s.step} delay={i * 80}>
-                <div className="h-full bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                   <div className="text-sm font-bold text-brand">{s.step}</div>
                   <p className="mt-1.5 text-[15px] text-gray-600">{s.text}</p>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>

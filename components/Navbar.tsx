@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, Mail, ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { Menu, X, Phone, Mail, ChevronDown, ArrowRight } from "lucide-react";
 import { contact, brands } from "@/lib/data";
 
 const links = [
@@ -14,6 +15,15 @@ const links = [
   { href: "/projects", label: "Projects & Clients" },
   { href: "/contact", label: "Contact" },
 ];
+
+const menuItem = {
+  hidden: { opacity: 0, x: -14 },
+  show: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.3, delay: 0.04 * i, ease: [0.16, 1, 0.3, 1] as const },
+  }),
+};
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -50,8 +60,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50">
       {/* Utility bar */}
-      <div className="bg-navy text-white/80 text-[13px] hidden md:block">
-        <div className="max-w-6xl mx-auto px-6 h-9 flex items-center justify-between">
+      <div className="bg-ink text-white/80 text-[13px] hidden md:block">
+        <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
@@ -66,20 +76,22 @@ export default function Navbar() {
               <Mail size={13} /> {contact.salesEmail}
             </a>
           </div>
-          <div className="text-white/60 tracking-wide">
+          <div className="text-white/60 tracking-[0.14em] uppercase text-[11.5px]">
             Sole Curtiss-Wright agent · Egypt
           </div>
         </div>
       </div>
 
-      {/* Main nav */}
+      {/* Main nav — glass that deepens on scroll */}
       <nav
-        className={`bg-white/95 backdrop-blur-lg transition-shadow duration-300 ${
-          scrolled ? "shadow-lg shadow-navy/10" : "border-b border-gray-200"
+        className={`backdrop-blur-2xl transition-all duration-300 ${
+          scrolled
+            ? "bg-white/85 shadow-lg shadow-navy/8 border-b border-gray-200/60"
+            : "bg-white/70 border-b border-gray-200/80"
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="h-[68px] flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="h-17 flex items-center justify-between">
             <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
               <Image
                 src="/logo-transparent.png"
@@ -123,32 +135,40 @@ export default function Navbar() {
                   />
                 </Link>
 
-                {productsOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-72">
-                    <div className="bg-white rounded-xl border border-gray-200 shadow-xl shadow-navy/10 overflow-hidden animate-page-in">
-                      {brands.map((b) => (
+                <AnimatePresence>
+                  {productsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-72"
+                    >
+                      <div className="bg-white/95 backdrop-blur-xl rounded-2xl border border-gray-200 shadow-xl shadow-navy/10 overflow-hidden">
+                        {brands.map((b) => (
+                          <Link
+                            key={b.slug}
+                            href={`/brands/${b.slug}`}
+                            className="block px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100"
+                          >
+                            <div className="text-[14px] font-bold text-navy">
+                              {b.name}
+                            </div>
+                            <div className="text-[12.5px] text-gray-500 mt-0.5">
+                              {b.category}
+                            </div>
+                          </Link>
+                        ))}
                         <Link
-                          key={b.slug}
-                          href={`/brands/${b.slug}`}
-                          className="block px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100"
+                          href="/brands"
+                          className="block px-4 py-3 text-[14px] font-semibold text-brand hover:bg-brand-light transition-colors"
                         >
-                          <div className="text-[14px] font-bold text-navy">
-                            {b.name}
-                          </div>
-                          <div className="text-[12.5px] text-gray-500 mt-0.5">
-                            {b.category}
-                          </div>
+                          View all brands
                         </Link>
-                      ))}
-                      <Link
-                        href="/brands"
-                        className="block px-4 py-3 text-[14px] font-semibold text-brand hover:bg-brand-light transition-colors"
-                      >
-                        View all brands
-                      </Link>
-                    </div>
-                  </div>
-                )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {links.map((l) => (
@@ -166,9 +186,13 @@ export default function Navbar() {
               ))}
               <Link
                 href="/quote"
-                className="text-[15px] font-semibold px-5 py-2.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-sm shadow-brand/30"
+                className="btn btn-primary text-[14.5px] px-5 py-2.5 group"
               >
                 Request a quote
+                <ArrowRight
+                  size={15}
+                  className="transition-transform group-hover:translate-x-0.5 -mr-0.5"
+                />
               </Link>
             </div>
 
@@ -176,86 +200,127 @@ export default function Navbar() {
               className="md:hidden text-navy p-2"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
+              aria-expanded={open}
             >
               {open ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
 
-        {open && (
-          <div className="md:hidden border-t border-gray-100 bg-white animate-page-in">
-            <div className="px-6 py-3 flex flex-col">
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                className={`py-3 text-[15px] font-semibold border-b border-gray-100 ${
-                  pathname === "/" ? "text-navy" : "text-gray-600"
-                }`}
-              >
-                Home
-              </Link>
-
-              <div className="border-b border-gray-100">
-                <button
-                  type="button"
-                  onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                  className={`w-full flex items-center justify-between py-3 text-[15px] font-semibold ${
-                    pathname.startsWith("/brands") ? "text-navy" : "text-gray-600"
-                  }`}
-                >
-                  Our Brands
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform duration-200 ${
-                      mobileProductsOpen ? "rotate-180" : ""
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+              className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-xl overflow-hidden"
+            >
+              <div className="px-6 py-3 flex flex-col">
+                <motion.div variants={menuItem} initial="hidden" animate="show" custom={0}>
+                  <Link
+                    href="/"
+                    onClick={() => setOpen(false)}
+                    className={`block py-3 text-[15px] font-semibold border-b border-gray-100 ${
+                      pathname === "/" ? "text-navy" : "text-gray-600"
                     }`}
-                  />
-                </button>
-                {mobileProductsOpen && (
-                  <div className="pb-3 pl-3 flex flex-col gap-1">
-                    {brands.map((b) => (
-                      <Link
-                        key={b.slug}
-                        href={`/brands/${b.slug}`}
-                        onClick={() => setOpen(false)}
-                        className="py-2 text-[14px] text-gray-600 hover:text-navy"
-                      >
-                        {b.name}
-                      </Link>
-                    ))}
-                    <Link
-                      href="/brands"
-                      onClick={() => setOpen(false)}
-                      className="py-2 text-[14px] font-semibold text-brand"
-                    >
-                      View all brands
-                    </Link>
-                  </div>
-                )}
-              </div>
+                  >
+                    Home
+                  </Link>
+                </motion.div>
 
-              {links.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className={`py-3 text-[15px] font-semibold border-b border-gray-100 last:border-0 ${
-                    pathname.startsWith(l.href) ? "text-navy" : "text-gray-600"
-                  }`}
+                <motion.div
+                  variants={menuItem}
+                  initial="hidden"
+                  animate="show"
+                  custom={1}
+                  className="border-b border-gray-100"
                 >
-                  {l.label}
-                </Link>
-              ))}
-              <Link
-                href="/quote"
-                onClick={() => setOpen(false)}
-                className="my-3 text-center text-[15px] font-semibold px-5 py-3 rounded-lg bg-brand text-white"
-              >
-                Request a quote
-              </Link>
-            </div>
-          </div>
-        )}
+                  <button
+                    type="button"
+                    onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                    className={`w-full flex items-center justify-between py-3 text-[15px] font-semibold ${
+                      pathname.startsWith("/brands") ? "text-navy" : "text-gray-600"
+                    }`}
+                  >
+                    Our Brands
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform duration-200 ${
+                        mobileProductsOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {mobileProductsOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pb-3 pl-3 flex flex-col gap-1">
+                          {brands.map((b) => (
+                            <Link
+                              key={b.slug}
+                              href={`/brands/${b.slug}`}
+                              onClick={() => setOpen(false)}
+                              className="py-2 text-[14px] text-gray-600 hover:text-navy"
+                            >
+                              {b.name}
+                            </Link>
+                          ))}
+                          <Link
+                            href="/brands"
+                            onClick={() => setOpen(false)}
+                            className="py-2 text-[14px] font-semibold text-brand"
+                          >
+                            View all brands
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                {links.map((l, i) => (
+                  <motion.div
+                    key={l.href}
+                    variants={menuItem}
+                    initial="hidden"
+                    animate="show"
+                    custom={i + 2}
+                  >
+                    <Link
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className={`block py-3 text-[15px] font-semibold border-b border-gray-100 ${
+                        pathname.startsWith(l.href) ? "text-navy" : "text-gray-600"
+                      }`}
+                    >
+                      {l.label}
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div
+                  variants={menuItem}
+                  initial="hidden"
+                  animate="show"
+                  custom={links.length + 2}
+                >
+                  <Link
+                    href="/quote"
+                    onClick={() => setOpen(false)}
+                    className="btn btn-primary w-full my-3 px-5 py-3 text-[15px]"
+                  >
+                    Request a quote
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

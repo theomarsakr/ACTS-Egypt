@@ -62,7 +62,7 @@ export default function ProductFlipCard({
               </li>
             ))}
           </ul>
-          <div className="mt-auto pt-3 flex items-center gap-1.5 text-[12px] font-semibold text-navy/50">
+          <div className="mt-auto pt-3 flex items-center gap-1.5 text-[12px] font-semibold text-navy/70">
             <RotateCw size={12} /> Tap to flip back
           </div>
         </div>

@@ -3,6 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Magnetic from "@/components/ui/Magnetic";
+import SpecSheet from "@/components/SpecSheet";
 import { offices, contact, team, departments, officeHours } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -55,7 +58,7 @@ export default function ContactPage() {
             <div className="space-y-4">
               {offices.map((o) => (
                 <Reveal key={o.tag}>
-                  <div className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+                  <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
                     <div className="flex gap-4">
                       <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
                         <MapPin size={20} />
@@ -72,12 +75,12 @@ export default function ContactPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </SpotlightCard>
                 </Reveal>
               ))}
 
               <Reveal delay={90}>
-                <div className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+                <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
                   <div className="text-sm font-bold text-navy uppercase tracking-wide">
                     Meet our team
                   </div>
@@ -89,11 +92,11 @@ export default function ContactPage() {
                       </div>
                     ))}
                   </div>
-                </div>
+                </SpotlightCard>
               </Reveal>
 
               <Reveal delay={150}>
-                <div className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+                <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
                   <div className="text-sm font-bold text-navy uppercase tracking-wide">
                     Office hours
                   </div>
@@ -108,29 +111,50 @@ export default function ContactPage() {
                       </div>
                     ))}
                   </div>
-                </div>
+                </SpotlightCard>
               </Reveal>
 
               <Reveal delay={210}>
-                <Link
-                  href="/quote"
-                  className="group inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-brand/25"
-                >
-                  Request a quote
-                  <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </Link>
+                <Magnetic>
+                  <Link
+                    href="/quote"
+                    className="group inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-brand/25"
+                  >
+                    Request a quote
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                </Magnetic>
               </Reveal>
             </div>
 
-            <Reveal delay={150}>
-              <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden h-full min-h-100">
+            <Reveal delay={150} className="h-full">
+              <div className="flex h-full min-h-100 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+                <div className="flex items-center justify-between gap-3 border-b border-gray-100 px-5 py-3.5">
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-light text-brand">
+                      <MapPin size={16} />
+                    </span>
+                    <div className="text-[13px] font-bold uppercase tracking-[0.14em] text-navy">
+                      Headquarters
+                    </div>
+                  </div>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-brand hover:text-brand-dark transition-colors"
+                  >
+                    Open in Maps
+                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+                  </a>
+                </div>
                 <iframe
                   title="ACTS headquarters, Arkan Plaza, Sheikh Zayed City, Giza"
                   src="https://maps.google.com/maps?q=Arkan%20Plaza%2C%20Sheikh%20Zayed%20City%2C%20Giza%2C%20Egypt&z=13&output=embed"
-                  className="w-full h-full min-h-100 block"
+                  className="w-full flex-1 min-h-88 block grayscale-[0.25] transition-[filter] duration-500 hover:grayscale-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
@@ -153,54 +177,54 @@ export default function ContactPage() {
               </h2>
             </div>
           </Reveal>
-          <Reveal delay={100}>
-            <div className="mt-10 overflow-x-auto rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <table className="w-full text-left text-[15px]">
-                <thead>
-                  <tr className="border-b border-gray-200 bg-gray-50">
-                    <th className="px-5 py-3.5 font-bold text-navy">Department</th>
-                    <th className="px-5 py-3.5 font-bold text-navy">Phone</th>
-                    <th className="px-5 py-3.5 font-bold text-navy">Mobile</th>
-                    <th className="px-5 py-3.5 font-bold text-navy">Fax</th>
-                    <th className="px-5 py-3.5 font-bold text-navy">Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {departments.map((d) => (
-                    <tr key={d.name} className="border-b border-gray-100 last:border-0 align-top">
-                      <td className="px-5 py-4 font-semibold text-navy whitespace-nowrap">
-                        {d.name}
-                      </td>
-                      <td className="px-5 py-4 text-gray-600 whitespace-nowrap">
-                        <a href={`tel:${d.phone.replace(/\s/g, "")}`} className="hover:text-brand transition-colors">
-                          {d.phone}
-                        </a>
-                      </td>
-                      <td className="px-5 py-4 text-gray-600 whitespace-nowrap">
-                        <a href={`tel:${d.mobile.replace(/\s/g, "")}`} className="hover:text-brand transition-colors">
-                          {d.mobile}
-                        </a>
-                      </td>
-                      <td className="px-5 py-4 text-gray-600 whitespace-nowrap">{d.fax}</td>
-                      <td className="px-5 py-4 text-gray-600">
-                        <div className="flex flex-col gap-0.5">
-                          {d.emails.map((e) => (
-                            <a
-                              key={e}
-                              href={`mailto:${e}`}
-                              className="hover:text-brand transition-colors"
-                            >
-                              {e}
-                            </a>
-                          ))}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Reveal>
+          <div className="mt-10">
+            <SpecSheet
+              records={departments.map((d) => ({
+                title: d.name,
+                fields: [
+                  {
+                    label: "Phone",
+                    value: (
+                      <a
+                        href={`tel:${d.phone.replace(/\s/g, "")}`}
+                        className="hover:text-brand transition-colors"
+                      >
+                        {d.phone}
+                      </a>
+                    ),
+                  },
+                  {
+                    label: "Mobile",
+                    value: (
+                      <a
+                        href={`tel:${d.mobile.replace(/\s/g, "")}`}
+                        className="hover:text-brand transition-colors"
+                      >
+                        {d.mobile}
+                      </a>
+                    ),
+                  },
+                  { label: "Fax", value: d.fax },
+                  {
+                    label: "Email",
+                    value: (
+                      <span className="flex flex-col gap-0.5">
+                        {d.emails.map((e) => (
+                          <a
+                            key={e}
+                            href={`mailto:${e}`}
+                            className="hover:text-brand transition-colors break-all"
+                          >
+                            {e}
+                          </a>
+                        ))}
+                      </span>
+                    ),
+                  },
+                ],
+              }))}
+            />
+          </div>
         </div>
       </section>
 
@@ -218,7 +242,7 @@ export default function ContactPage() {
             <Reveal delay={60}>
               <a
                 href={`mailto:${contact.infoEmail}`}
-                className="card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+                className="spotlight-card card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
               >
                 <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
                   <Mail size={20} />
@@ -232,7 +256,7 @@ export default function ContactPage() {
             <Reveal delay={120}>
               <a
                 href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                className="card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+                className="spotlight-card card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
               >
                 <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
                   <Phone size={20} />
@@ -244,7 +268,7 @@ export default function ContactPage() {
               </a>
             </Reveal>
             <Reveal delay={180}>
-              <div className="card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+              <div className="spotlight-card card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
                   <MapPin size={20} />
                 </div>

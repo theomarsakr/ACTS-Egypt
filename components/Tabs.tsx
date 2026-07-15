@@ -40,7 +40,7 @@ export default function Tabs({ items }: { items: TabItem[] }) {
             >
               <span
                 className={`flex items-center justify-center w-7 h-7 rounded-lg transition-colors ${
-                  isActive ? "bg-brand-light text-brand" : "bg-gray-100 text-gray-400 group-hover:text-gray-600"
+                  isActive ? "bg-brand-light text-brand" : "bg-gray-100 text-gray-500 group-hover:text-gray-600"
                 }`}
               >
                 {it.icon}

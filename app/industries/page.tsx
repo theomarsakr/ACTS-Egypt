@@ -13,6 +13,9 @@ import {
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import Tabs, { type TabItem } from "@/components/Tabs";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Magnetic from "@/components/ui/Magnetic";
+import SpecSheet from "@/components/SpecSheet";
 import { industries, industriesSummary } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -80,7 +83,7 @@ export default function IndustriesPage() {
                   label: ind.name,
                   icon: <Icon size={15} />,
                   content: (
-                    <div
+                    <SpotlightCard
                       id={ind.slug}
                       className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-lift"
                     >
@@ -157,7 +160,7 @@ export default function IndustriesPage() {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </SpotlightCard>
                   ),
                 };
               })}
@@ -176,43 +179,17 @@ export default function IndustriesPage() {
               </h2>
             </div>
           </Reveal>
-          <Reveal delay={100}>
-            <div className="mt-10 overflow-x-auto rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <table className="w-full text-left text-[15px]">
-                <thead>
-                  <tr className="border-b border-gray-200 bg-gray-50">
-                    <th className="px-5 py-3.5 font-bold text-navy">
-                      Industry
-                    </th>
-                    <th className="px-5 py-3.5 font-bold text-navy">
-                      Key challenges
-                    </th>
-                    <th className="px-5 py-3.5 font-bold text-navy">
-                      Our solutions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {industriesSummary.map((row) => (
-                    <tr
-                      key={row.industry}
-                      className="border-b border-gray-100 last:border-0"
-                    >
-                      <td className="px-5 py-4 font-semibold text-navy whitespace-nowrap">
-                        {row.industry}
-                      </td>
-                      <td className="px-5 py-4 text-gray-600">
-                        {row.challenges}
-                      </td>
-                      <td className="px-5 py-4 text-gray-600">
-                        {row.solutions}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Reveal>
+          <div className="mt-10">
+            <SpecSheet
+              records={industriesSummary.map((row) => ({
+                title: row.industry,
+                fields: [
+                  { label: "Key challenges", value: row.challenges },
+                  { label: "Our solutions", value: row.solutions },
+                ],
+              }))}
+            />
+          </div>
         </div>
       </section>
 
@@ -220,7 +197,7 @@ export default function IndustriesPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="border-beam rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
               <div>
                 <h3 className="text-2xl font-extrabold text-white">
                   See the brands behind these solutions
@@ -231,17 +208,19 @@ export default function IndustriesPage() {
                   EST.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3 shrink-0">
-                <Link
-                  href="/brands"
-                  className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5"
-                >
-                  See our brands
-                  <ArrowRight
-                    size={16}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </Link>
+              <div className="relative flex flex-wrap gap-3 shrink-0">
+                <Magnetic>
+                  <Link
+                    href="/brands"
+                    className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5"
+                  >
+                    See our brands
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                </Magnetic>
                 <Link
                   href="/contact"
                   className="inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-white/10 text-white border border-white/30 hover:bg-white/20 transition-all hover:-translate-y-0.5"
