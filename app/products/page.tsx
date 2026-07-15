@@ -4,6 +4,9 @@ import Image from "next/image";
 import { ArrowRight, CheckCircle2, Gauge, Settings2, Thermometer, Briefcase } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import Tabs, { type TabItem } from "@/components/Tabs";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Magnetic from "@/components/ui/Magnetic";
+import SpecSheet from "@/components/SpecSheet";
 
 const pillarIcons = [Gauge, Settings2, Thermometer, Briefcase];
 
@@ -230,40 +233,16 @@ export default function ProductsPage() {
                           {p.intro}
                         </p>
 
-                        <div className="mt-6 overflow-x-auto rounded-2xl border border-brand/30 bg-white shadow-sm card-lift">
-                          <table className="w-full text-left text-[15px]">
-                            <thead>
-                              <tr className="border-b border-gray-200 bg-gray-50">
-                                <th className="px-5 py-3.5 font-bold text-navy w-1/5">
-                                  Category
-                                </th>
-                                <th className="px-5 py-3.5 font-bold text-navy w-2/5">
-                                  Product Types
-                                </th>
-                                <th className="px-5 py-3.5 font-bold text-navy w-2/5">
-                                  Key Applications
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {p.rows.map((row) => (
-                                <tr
-                                  key={row.category}
-                                  className="border-b border-gray-100 last:border-0 align-top hover:bg-gray-50/80 transition-colors"
-                                >
-                                  <td className="px-5 py-4 font-semibold text-navy">
-                                    {row.category}
-                                  </td>
-                                  <td className="px-5 py-4 text-gray-600">
-                                    {row.types}
-                                  </td>
-                                  <td className="px-5 py-4 text-gray-600">
-                                    {row.applications}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                        <div className="mt-6">
+                          <SpecSheet
+                            records={p.rows.map((row) => ({
+                              title: row.category,
+                              fields: [
+                                { label: "Product Types", value: row.types },
+                                { label: "Key Applications", value: row.applications },
+                              ],
+                            }))}
+                          />
                         </div>
 
                         <div className="mt-6 border border-brand/30 rounded-2xl p-6 bg-brand-light">
@@ -322,7 +301,7 @@ export default function ProductsPage() {
                         </p>
                         <div className="mt-6 grid sm:grid-cols-3 gap-5">
                           {groups.map((g) => (
-                            <div
+                            <SpotlightCard
                               key={g.title}
                               className="card-lift bg-white rounded-2xl border border-brand/30 p-6 shadow-sm"
                             >
@@ -336,7 +315,7 @@ export default function ProductsPage() {
                                   </li>
                                 ))}
                               </ul>
-                            </div>
+                            </SpotlightCard>
                           ))}
                         </div>
                       </div>
@@ -366,12 +345,13 @@ export default function ProductsPage() {
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {approach.map((a, i) => (
               <Reveal key={a.title} delay={i * 90}>
-                <div className="card-lift h-full bg-white rounded-2xl border-t-4 border-t-brand border-x border-b border-gray-200 p-6 shadow-sm">
+                <SpotlightCard className="card-premium glow-hover h-full p-6">
                   <h3 className="text-lg font-bold text-navy">{a.title}</h3>
-                  <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
+                  <div className="mt-3 h-0.5 w-8 rounded-full bg-brand/70" />
+                  <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
                     {a.text}
                   </p>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -382,7 +362,7 @@ export default function ProductsPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="border-beam relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <h3 className="text-2xl font-extrabold text-white">
                   Need one of these products or services?
@@ -392,17 +372,19 @@ export default function ProductsPage() {
                   requirement directly.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3 shrink-0">
-                <Link
-                  href="/brands"
-                  className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5"
-                >
-                  See our brands
-                  <ArrowRight
-                    size={16}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </Link>
+              <div className="relative flex flex-wrap gap-3 shrink-0">
+                <Magnetic>
+                  <Link
+                    href="/brands"
+                    className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5"
+                  >
+                    See our brands
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                </Magnetic>
                 <Link
                   href="/quote"
                   className="inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-white/10 text-white border border-white/30 hover:bg-white/20 transition-all hover:-translate-y-0.5"

@@ -2,11 +2,28 @@
 
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif,
+    system-ui, sans-serif;
+
+  /* Radius scale — 16px (1rem) is the brand's default card tier. */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+
+  /* Elevation scale — soft (resting), elevated (hover), glow (brass accent). */
+  --shadow-soft: 0 1px 2px rgba(10, 22, 40, 0.05),
+    0 12px 32px -18px rgba(10, 22, 40, 0.14);
+  --shadow-elevated: 0 18px 44px -14px rgba(10, 22, 40, 0.22);
+  --shadow-glow: 0 0 44px -14px rgba(138, 106, 48, 0.3);
 
   /* Premium, restrained palette: deep navy for structure, a single brass/gold
      accent (two lightness tiers — muted brand for buttons/links, brighter
-     amber for kickers on dark backgrounds) for everything else. No
-     per-brand/per-tab color cycling. */
+     amber for kickers on dark backgrounds) for everything else. "Ink" is the
+     deepest tier used for hero/CTA bands; "steel" is a cool machined-metal
+     tone used ONLY inside gradient meshes and glows, never for text/UI. */
+  --color-ink: #060d1c;
   --color-navy: #0a1628;
   --color-navy-800: #12243d;
   --color-navy-700: #1b3352;
@@ -14,6 +31,14 @@
   --color-brand-dark: #6e5426;
   --color-brand-light: #f5efe1;
   --color-amber: #f0c419;
+  --color-steel: #3e6fa3;
+
+  /* Tailwind v4 ships a noticeably lighter gray ramp than v3; on this white/
+     near-white UI its gray-500 (#8b919e) and gray-600 (#727b87) fall below the
+     WCAG AA 4.5:1 floor for body and label text. Pin the two text grays back to
+     legible, on-brand slate values (5.6:1–7.5:1 on every surface we use). */
+  --color-gray-500: #5b6472;
+  --color-gray-600: #4b5563;
 
   --animate-marquee: marquee 36s linear infinite;
   --animate-page-in: page-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -57,12 +82,321 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: #ffffff;
   color: #374151; /* gray-700 */
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+/* Longer prose reads calmer with pretty wrapping (no orphans / rivers). */
+p {
+  text-wrap: pretty;
+}
+
+/* Brand-tinted, slim scrollbar — a small "considered" detail that reads
+   premium on desktop without fighting the OS on mobile. */
+@media (pointer: fine) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(138, 106, 48, 0.4) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(138, 106, 48, 0.35);
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(138, 106, 48, 0.6);
+    background-clip: padding-box;
+  }
+}
+
+/* Display face on headings + kickers; body copy stays Inter. */
+h1,
+h2,
+h3,
+.eyebrow,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+.eyebrow {
+  letter-spacing: 0.22em;
+}
+
+/* ================= Design system ================= */
+
+/* Spec-label eyebrow: uppercase tracking with a short brass rule, the way a
+   datasheet labels its sections. Color comes from the text color utility. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    filter 0.3s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #a37d3a 0%, #8a6a30 55%, #6e5426 100%);
+  color: #fff;
+  box-shadow:
+    0 10px 28px -10px rgba(138, 106, 48, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+/* Keep label + icon above the sheen sweep */
+.btn-primary > * {
+  position: relative;
+  z-index: 1;
+}
+/* A single specular highlight sweeps across on hover — the "machined metal"
+   glint that sells the brass button as a physical object. */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.38) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.btn-primary:hover::after {
+  left: 130%;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.07);
+  box-shadow:
+    0 16px 36px -10px rgba(138, 106, 48, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary::after {
+    display: none;
+  }
+}
+.btn-ghost-dark {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  backdrop-filter: blur(12px);
+}
+.btn-ghost-dark:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.42);
+  transform: translateY(-2px);
+}
+.btn-ghost-light {
+  background: #fff;
+  border: 1px solid #dfe3ea;
+  color: var(--color-navy);
+}
+.btn-ghost-light:hover {
+  border-color: rgba(138, 106, 48, 0.5);
+  color: var(--color-brand);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -14px rgba(10, 22, 40, 0.18);
+}
+
+/* Hairline blueprint grid for dark bands */
+.blueprint {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+/* Drifting gradient-mesh blobs (pair per dark band, steel + brass) */
+.mesh {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+  will-change: transform;
+}
+.mesh-steel {
+  background: radial-gradient(
+    circle at center,
+    rgba(62, 111, 163, 0.5),
+    transparent 65%
+  );
+  animation: mesh-drift-a 26s ease-in-out infinite alternate;
+}
+.mesh-brass {
+  background: radial-gradient(
+    circle at center,
+    rgba(163, 125, 58, 0.4),
+    transparent 65%
+  );
+  animation: mesh-drift-b 32s ease-in-out infinite alternate;
+}
+@keyframes mesh-drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-70px, 50px, 0) scale(1.18);
+  }
+}
+@keyframes mesh-drift-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  to {
+    transform: translate3d(60px, -40px, 0) scale(0.95);
+  }
+}
+
+/* Glass chip on dark surfaces */
+.glass-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+}
+
+/* Cinematic depth for dark bands: a hairline of light along the top edge and a
+   soft vignette pulling the corners down. Sits above the mesh/blueprint layers
+   but below content (aria-hidden background div), so text stays crisp. */
+.dark-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      130% 90% at 50% -10%,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      120% 130% at 50% 115%,
+      rgba(0, 0, 0, 0.4) 0%,
+      transparent 55%
+    );
+}
+.dark-vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.14) 22%,
+    rgba(240, 196, 25, 0.28) 50%,
+    rgba(255, 255, 255, 0.14) 78%,
+    transparent
+  );
+}
+
+/* Premium light card + brass glow hover (bento tiles) */
+.card-premium {
+  background: #fff;
+  border: 1px solid #e7eaf0;
+  border-radius: 1.25rem;
+  box-shadow:
+    0 1px 2px rgba(10, 22, 40, 0.05),
+    0 12px 32px -18px rgba(10, 22, 40, 0.14);
+}
+.glow-hover {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+.glow-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(138, 106, 48, 0.4);
+  box-shadow:
+    0 18px 44px -14px rgba(10, 22, 40, 0.22),
+    0 0 44px -14px rgba(138, 106, 48, 0.3);
+}
+
+/* ---- Keyboard focus ---- */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  background: var(--color-navy);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.625rem;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+:root {
+  --focus-ring: var(--color-brand);
+}
+.bg-ink,
+.bg-navy,
+.bg-navy-800,
+.bg-navy-700 {
+  --focus-ring: var(--color-amber);
+}
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 ::selection {
@@ -74,14 +408,25 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(28px);
+  filter: blur(6px);
   transition:
     opacity 0.7s ease,
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.7s ease;
   transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
+  will-change: opacity, transform, filter;
 }
 .reveal.in-view {
   opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+/* Scale-in variant: for imagery that should settle into place rather than slide up */
+.reveal.reveal-scale {
+  transform: scale(0.94);
+}
+.reveal.reveal-scale.in-view {
   transform: none;
 }
 
@@ -199,38 +544,121 @@ body {
   background: var(--color-brand);
   transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.accent-bar:hover::before {
+.accent-bar:hover::before,
+.group:hover .accent-bar::before {
   height: 100%;
 }
 
-/* Marquee fade edges */
-.marquee-mask {
-  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+/* ================= Premium motion layer ================= */
+/* Cursor-tracked spotlight, traveling border beam, shimmer, and micro-hovers
+   used to lift the homepage into showpiece territory. Every effect below has a
+   prefers-reduced-motion fallback at the foot of this file. */
+
+/* Brass spotlight that follows the cursor across a card. The glow sits on a
+   ::before with negative z-index inside an isolated stacking context, so it
+   paints over the card's fill but always beneath the text — fully legible. */
+.spotlight-card {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--spot-color, rgba(163, 125, 58, 0.14)),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.spotlight-card:hover::before {
+  opacity: 1;
 }
 
-.pause-on-hover:hover .animate-marquee {
-  animation-play-state: paused;
+/* A single arc of light travelling around a rounded border (MagicUI-style
+   "border beam"), tuned amber. Uses @property so the conic angle can animate. */
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.border-beam {
+  position: relative;
+}
+.border-beam::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg 250deg,
+    rgba(240, 196, 25, 0.85) 305deg,
+    rgba(255, 244, 200, 1) 325deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-beam-spin 7s linear infinite;
+  pointer-events: none;
+}
+@keyframes border-beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* Slow gold sheen sweeping through a headline word. */
+.text-shimmer {
+  background: linear-gradient(
+    110deg,
+    var(--color-amber) 35%,
+    #fff3c4 50%,
+    var(--color-amber) 65%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 7s linear infinite;
+}
+@keyframes text-shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+/* Client-logo micro-lift as the marquee passes under the cursor. */
+.logo-tile {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.logo-tile:hover {
+  transform: translateY(-5px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
+  .spotlight-card::before,
+  .logo-tile {
     transition: none;
   }
-  .animate-marquee,
-  .animate-page-in,
-  .animate-slow-zoom,
-  .animate-float {
+  .border-beam::after {
     animation: none;
+    background: none;
   }
-  .img-zoom img {
-    transition: none;
-  }
-  .sheen::after {
-    display: none;
-  }
-  .accent-bar::before {
-    transition: none;
+  .text-shimmer {
+    animation: none;
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: var(--color-amber);
   }
 }

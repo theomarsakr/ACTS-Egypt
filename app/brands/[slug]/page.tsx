@@ -6,6 +6,8 @@ import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import ProductFlipCard from "@/components/ProductFlipCard";
 import CountUp from "@/components/CountUp";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Magnetic from "@/components/ui/Magnetic";
 import { brands, getBrand, groupGalleryByCategory } from "@/lib/data";
 
 type Props = {
@@ -101,9 +103,9 @@ export default async function BrandPage({ params }: Props) {
           >
             {brand.productLines.map((p, i) => (
               <Reveal key={p.name} delay={i * 70}>
-                <div className="accent-bar card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 pl-5.25 shadow-sm hover:border-brand/50 overflow-hidden">
+                <SpotlightCard className="accent-bar card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 pl-5.25 shadow-sm hover:border-brand/50 overflow-hidden">
                   {p.tag && (
-                    <div className="text-xs font-bold tracking-wider text-brand/70">
+                    <div className="text-xs font-bold tracking-wider text-brand">
                       {p.tag}
                     </div>
                   )}
@@ -113,7 +115,7 @@ export default async function BrandPage({ params }: Props) {
                   <p className="mt-2 text-[15px] text-gray-600">
                     {p.description}
                   </p>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -143,7 +145,7 @@ export default async function BrandPage({ params }: Props) {
                         </h3>
                         <CountUp
                           value={group.items.length}
-                          className="text-sm text-gray-400 tabular-nums"
+                          className="text-sm text-gray-500 tabular-nums"
                         />
                       </div>
                     </Reveal>
@@ -164,7 +166,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           <Reveal>
-            <div className="mt-14 relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15">
+            <div className="border-beam mt-14 relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15">
               <div className="absolute inset-0" aria-hidden>
                 <Image
                   src="/images/refinery-blue.jpg"
@@ -185,16 +187,18 @@ export default async function BrandPage({ params }: Props) {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3 shrink-0">
-                  <Link
-                    href={`/quote?brand=${brand.slug}`}
-                    className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5"
-                  >
-                    Get a quote
-                    <ArrowRight
-                      size={16}
-                      className="transition-transform group-hover:translate-x-1"
-                    />
-                  </Link>
+                  <Magnetic>
+                    <Link
+                      href={`/quote?brand=${brand.slug}`}
+                      className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5"
+                    >
+                      Get a quote
+                      <ArrowRight
+                        size={16}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    </Link>
+                  </Magnetic>
                   <a
                     href={brand.externalUrl}
                     target="_blank"

@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Magnetic from "@/components/ui/Magnetic";
 import { brands, pastManufacturers } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -65,7 +67,7 @@ export default function BrandsPage() {
         <div className="max-w-6xl mx-auto px-6 space-y-10">
           {brands.map((b) => (
             <Reveal key={b.slug}>
-              <div className="bg-white rounded-2xl border-t-4 border-t-brand border-x border-b border-gray-200 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-500">
+              <SpotlightCard className="card-premium glow-hover overflow-hidden rounded-3xl!">
                 <div className="grid lg:grid-cols-5">
                   <div className="img-zoom relative min-h-56 lg:col-span-2">
                     <Image
@@ -101,16 +103,18 @@ export default function BrandsPage() {
                       ))}
                     </div>
                     <div className="mt-7 flex flex-wrap gap-3">
-                      <Link
-                        href={`/brands/${b.slug}`}
-                        className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-navy text-white hover:bg-navy-700 transition-all hover:-translate-y-0.5"
-                      >
-                        View {b.productLines.length} product lines
-                        <ArrowRight
-                          size={16}
-                          className="transition-transform group-hover:translate-x-1"
-                        />
-                      </Link>
+                      <Magnetic>
+                        <Link
+                          href={`/brands/${b.slug}`}
+                          className="group inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-navy text-white hover:bg-navy-700 transition-all hover:-translate-y-0.5"
+                        >
+                          View {b.productLines.length} product lines
+                          <ArrowRight
+                            size={16}
+                            className="transition-transform group-hover:translate-x-1"
+                          />
+                        </Link>
+                      </Magnetic>
                       <Link
                         href={`/quote?brand=${b.slug}`}
                         className="inline-flex items-center gap-2 text-[15px] font-semibold px-6 py-3 rounded-lg bg-white text-navy border border-gray-300 hover:border-navy hover:bg-gray-50 transition-all hover:-translate-y-0.5"
@@ -120,7 +124,7 @@ export default function BrandsPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>
@@ -145,10 +149,10 @@ export default function BrandsPage() {
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
             {pastManufacturers.map((s, i) => (
               <Reveal key={s.name} delay={i * 70}>
-                <div className="card-lift bg-white rounded-xl border border-gray-200 p-6 text-center shadow-sm">
+                <SpotlightCard className="card-lift bg-white rounded-xl border border-gray-200 p-6 text-center shadow-sm">
                   <div className="text-lg font-bold text-navy">{s.name}</div>
                   <div className="text-sm text-gray-500 mt-1">{s.sub}</div>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>

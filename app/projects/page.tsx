@@ -3,16 +3,24 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
-  CheckCircle2,
   Drill,
   Fuel,
   HardHat,
   FlaskConical,
   Sprout,
+  Cpu,
+  BadgeCheck,
+  Workflow,
+  MapPin,
+  ShieldCheck,
+  UserCheck,
+  Lock,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
 import Tabs, { type TabItem } from "@/components/Tabs";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Magnetic from "@/components/ui/Magnetic";
 import { projectClients, engagementHighlights } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -31,26 +39,32 @@ const categoryIcons: Record<string, typeof Drill> = {
 
 const trust = [
   {
+    icon: Cpu,
     title: "Technical Expertise",
     text: "In-house engineering support for sizing, selection, and application engineering",
   },
   {
+    icon: BadgeCheck,
     title: "Exclusive Representation",
     text: "Sole agency for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright)",
   },
   {
+    icon: Workflow,
     title: "End-to-End Support",
     text: "From initial enquiry through commissioning and aftermarket service",
   },
   {
+    icon: MapPin,
     title: "Local Presence",
     text: "Responsive, Egypt-based support with deep understanding of local market conditions",
   },
   {
+    icon: ShieldCheck,
     title: "Supply Chain Reliability",
     text: "Authentic products with full traceability and factory-backed warranties",
   },
   {
+    icon: UserCheck,
     title: "Project Accountability",
     text: "Single-point coordination for multi-discipline requirements",
   },
@@ -164,7 +178,7 @@ export default function ProjectsPage() {
                           </h3>
                           <div className="mt-5 grid sm:grid-cols-2 gap-3">
                             {group.entries.map((e) => (
-                              <div
+                              <SpotlightCard
                                 key={e.name}
                                 className="card-lift bg-gray-50 rounded-xl border border-gray-200 p-4"
                               >
@@ -174,7 +188,7 @@ export default function ProjectsPage() {
                                 <div className="mt-1 text-[13px] text-gray-500">
                                   {e.sector}
                                 </div>
-                              </div>
+                              </SpotlightCard>
                             ))}
                           </div>
                         </div>
@@ -210,7 +224,7 @@ export default function ProjectsPage() {
               const Icon = categoryIcons[h.slug] ?? Drill;
               return (
                 <Reveal key={h.slug} delay={i * 80}>
-                  <div className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <SpotlightCard className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                     <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center">
                       <Icon size={20} strokeWidth={2.25} />
                     </div>
@@ -218,7 +232,7 @@ export default function ProjectsPage() {
                     <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
                       {h.text}
                     </p>
-                  </div>
+                  </SpotlightCard>
                 </Reveal>
               );
             })}
@@ -237,36 +251,52 @@ export default function ProjectsPage() {
             </div>
           </Reveal>
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {trust.map((t, i) => (
-              <Reveal key={t.title} delay={i * 80}>
-                <div className="flex gap-3 text-[15px] text-gray-600 leading-relaxed">
-                  <CheckCircle2 size={18} className="text-brand shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-bold text-navy">{t.title}</span>
-                    {": "}
-                    {t.text}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+            {trust.map((t, i) => {
+              const Icon = t.icon;
+              return (
+                <Reveal key={t.title} delay={i * 80}>
+                  <SpotlightCard className="group h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                      <Icon size={20} strokeWidth={2.25} />
+                    </span>
+                    <h3 className="mt-4 text-lg font-bold text-navy">{t.title}</h3>
+                    <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
+                      {t.text}
+                    </p>
+                  </SpotlightCard>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Confidentiality */}
       <section className="py-16 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+        <div className="max-w-3xl mx-auto px-6">
           <Reveal>
-            <h2 className="text-2xl font-extrabold tracking-tight text-navy">
-              Confidentiality Statement
-            </h2>
-            <p className="mt-4 text-[15px] text-gray-600 leading-relaxed">
-              We take our clients&apos; confidentiality seriously. Specific
-              project details, technical data, and operational information
-              are protected under non-disclosure agreements. For further
-              references or detailed project information, please contact us
-              directly.
-            </p>
+            <div className="relative overflow-hidden rounded-2xl border border-brand/30 bg-brand-light/60 p-7 md:p-9">
+              <div className="flex flex-col sm:flex-row gap-5">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-lg shadow-brand/25">
+                  <Lock size={22} />
+                </span>
+                <div>
+                  <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand">
+                    Client confidentiality
+                  </div>
+                  <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-navy">
+                    Confidentiality Statement
+                  </h2>
+                  <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
+                    We take our clients&apos; confidentiality seriously. Specific
+                    project details, technical data, and operational information
+                    are protected under non-disclosure agreements. For further
+                    references or detailed project information, please contact us
+                    directly.
+                  </p>
+                </div>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -303,16 +333,18 @@ export default function ProjectsPage() {
                   className="transition-transform group-hover:translate-x-1"
                 />
               </Link>
-              <Link
-                href="/quote"
-                className="group inline-flex items-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-xl shadow-navy/40"
-              >
-                Request a quote
-                <ArrowRight
-                  size={18}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </Link>
+              <Magnetic>
+                <Link
+                  href="/quote"
+                  className="group inline-flex items-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-xl shadow-navy/40"
+                >
+                  Request a quote
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </Link>
+              </Magnetic>
             </div>
           </Reveal>
         </div>

@@ -9,10 +9,16 @@ import {
   TrendingUp,
   RefreshCw,
   Rocket,
+  Headset,
+  ClipboardCheck,
+  Lightbulb,
+  Wrench,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
 import TimelineTrack from "@/components/TimelineTrack";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Magnetic from "@/components/ui/Magnetic";
 import { timeline, mission, values, offices } from "@/lib/data";
 
 const timelineIcons = [Building2, MapPin, GraduationCap, TrendingUp, RefreshCw, Rocket];
@@ -47,18 +53,22 @@ const specializations = [
 
 const howWeOperate = [
   {
+    icon: Headset,
     title: "Single-point technical support",
     text: "One dedicated contact who understands both the product and the application.",
   },
   {
+    icon: ClipboardCheck,
     title: "Structured project management",
     text: "Clear documentation and timelines from enquiry to delivery.",
   },
   {
+    icon: Lightbulb,
     title: "Consultancy-driven approach",
     text: "Feasibility input and technical advisory, not just transactional sales.",
   },
   {
+    icon: Wrench,
     title: "Aftermarket accountability",
     text: "Maintenance and reconditioning support built into how we work.",
   },
@@ -161,12 +171,12 @@ export default function AboutPage() {
                     >
                       <Icon size={17} strokeWidth={2.25} />
                     </div>
-                    <div className="card-lift flex-1 bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+                    <SpotlightCard className="card-lift flex-1 bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
                       <div className="flex items-baseline gap-3 flex-wrap">
                         <span className="text-2xl font-extrabold text-navy">
                           {t.year}
                         </span>
-                        <span className="text-sm font-semibold rounded-full px-3 py-0.5 bg-brand-light text-brand">
+                        <span className="text-sm font-semibold rounded-full px-3 py-0.5 bg-brand-light text-brand-dark">
                           {t.unit}
                         </span>
                         {t.now && (
@@ -178,7 +188,7 @@ export default function AboutPage() {
                       <p className="mt-2.5 text-[15px] text-gray-600 leading-relaxed">
                         {t.body}
                       </p>
-                    </div>
+                    </SpotlightCard>
                   </div>
                 </Reveal>
               );
@@ -191,7 +201,7 @@ export default function AboutPage() {
       <section className="py-4 pb-16">
         <div className="max-w-4xl mx-auto px-6 grid sm:grid-cols-2 gap-6">
           <Reveal>
-            <div className="h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
               <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
                 Vision
               </div>
@@ -199,10 +209,10 @@ export default function AboutPage() {
                 To be Egypt&apos;s most trusted partner for valves, flow
                 control, and critical process equipment.
               </p>
-            </div>
+            </SpotlightCard>
           </Reveal>
           <Reveal delay={100}>
-            <div className="h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
               <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
                 Mission
               </div>
@@ -211,7 +221,7 @@ export default function AboutPage() {
                 employees through technical excellence, ethical business
                 practices, and responsive local support.
               </p>
-            </div>
+            </SpotlightCard>
           </Reveal>
         </div>
       </section>
@@ -232,7 +242,10 @@ export default function AboutPage() {
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {mission.map((m, i) => (
               <Reveal key={m.num} delay={i * 90}>
-                <div className="h-full bg-navy-800 rounded-2xl border border-white/10 p-6 hover:border-amber/50 hover:bg-navy-700 transition-colors">
+                <SpotlightCard
+                  color="rgba(240, 196, 25, 0.1)"
+                  className="h-full bg-navy-800 rounded-2xl border border-white/10 p-6 hover:border-amber/50 hover:bg-navy-700 transition-colors"
+                >
                   <div className="w-10 h-10 rounded-xl bg-white/10 text-amber font-extrabold flex items-center justify-center">
                     {m.num}
                   </div>
@@ -240,7 +253,7 @@ export default function AboutPage() {
                   <p className="mt-2 text-[15px] text-white/65">
                     {m.description}
                   </p>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -260,14 +273,19 @@ export default function AboutPage() {
               </h2>
             </div>
           </Reveal>
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="mt-14 grid sm:grid-cols-2 gap-x-12 gap-y-9">
             {values.map((v, i) => (
               <Reveal key={v.name} delay={i * 80}>
-                <div className="h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                  <h3 className="text-lg font-bold text-navy">{v.name}</h3>
-                  <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
-                    {v.description}
-                  </p>
+                <div className="group flex gap-5">
+                  <span className="text-2xl font-extrabold tabular-nums text-brand-dark/70 transition-colors group-hover:text-brand">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="pt-0.5">
+                    <h3 className="text-lg font-bold text-navy">{v.name}</h3>
+                    <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
+                      {v.description}
+                    </p>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -293,19 +311,30 @@ export default function AboutPage() {
               </p>
             </div>
           </Reveal>
-          <div className="mt-12 grid lg:grid-cols-3 gap-6">
-            {specializations.map((s, i) => (
-              <Reveal key={s.name} delay={i * 100}>
-                <div className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
-                  <h3 className="text-lg font-bold text-navy leading-snug">
-                    {s.name}
-                  </h3>
-                  <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
-                    {s.text}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-12 space-y-4">
+            {specializations.map((s, i) => {
+              const [brand, ...rest] = s.name.split(":");
+              const spec = rest.join(":").trim();
+              return (
+                <Reveal key={s.name} delay={i * 100}>
+                  <SpotlightCard className="accent-bar group card-lift bg-white rounded-2xl border border-gray-200 p-7 pl-8 shadow-sm hover:border-brand/40">
+                    <div className="grid gap-x-10 gap-y-2 md:grid-cols-[minmax(0,19rem)_1fr] md:items-baseline">
+                      <div>
+                        <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand">
+                          {String(i + 1).padStart(2, "0")} · {brand.trim()}
+                        </div>
+                        <h3 className="mt-1 text-xl font-bold text-navy leading-snug">
+                          {spec || brand.trim()}
+                        </h3>
+                      </div>
+                      <p className="text-[15px] text-gray-600 leading-relaxed">
+                        {s.text}
+                      </p>
+                    </div>
+                  </SpotlightCard>
+                </Reveal>
+              );
+            })}
           </div>
           <Reveal delay={150}>
             <p className="mt-10 text-[15px] text-gray-600 max-w-3xl">
@@ -333,17 +362,25 @@ export default function AboutPage() {
               </h2>
             </div>
           </Reveal>
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {howWeOperate.map((h, i) => (
-              <Reveal key={h.title} delay={i * 90}>
-                <div className="h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                  <h3 className="text-lg font-bold text-navy">{h.title}</h3>
-                  <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
-                    {h.text}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-14 grid sm:grid-cols-2 gap-5">
+            {howWeOperate.map((h, i) => {
+              const Icon = h.icon;
+              return (
+                <Reveal key={h.title} delay={i * 90}>
+                  <div className="group flex h-full gap-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                      <Icon size={22} />
+                    </span>
+                    <div>
+                      <h3 className="text-lg font-bold text-navy">{h.title}</h3>
+                      <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
+                        {h.text}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -364,7 +401,7 @@ export default function AboutPage() {
               <div className="mt-8 space-y-5">
                 {offices.map((o, i) => (
                   <Reveal key={o.tag} delay={i * 120}>
-                    <div className="card-lift bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex gap-4">
+                    <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex gap-4">
                       <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
                         <MapPin size={21} />
                       </div>
@@ -379,22 +416,24 @@ export default function AboutPage() {
                           {o.address}
                         </div>
                       </div>
-                    </div>
+                    </SpotlightCard>
                   </Reveal>
                 ))}
               </div>
               <Reveal delay={240}>
                 <div className="mt-9 flex flex-wrap gap-3">
-                  <Link
-                    href="/contact"
-                    className="group inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-brand/25"
-                  >
-                    Contact us
-                    <ArrowRight
-                      size={18}
-                      className="transition-transform group-hover:translate-x-1"
-                    />
-                  </Link>
+                  <Magnetic>
+                    <Link
+                      href="/contact"
+                      className="group inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-brand/25"
+                    >
+                      Contact us
+                      <ArrowRight
+                        size={18}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    </Link>
+                  </Magnetic>
                   <Link
                     href="/products"
                     className="inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-white text-navy border border-gray-300 hover:border-navy hover:bg-gray-50 transition-all hover:-translate-y-0.5"
