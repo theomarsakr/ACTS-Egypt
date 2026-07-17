@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useRef } from "react";
 import {
   motion,
@@ -14,38 +13,15 @@ import {
 import { ArrowRight } from "lucide-react";
 import Counter from "@/components/Counter";
 import Magnetic from "@/components/ui/Magnetic";
+import ShimmerButton from "@/components/ui/ShimmerButton";
+import HeroInteractiveBackground from "@/components/HeroInteractiveBackground";
+import HeroProductCards from "@/components/home/HeroProductCards";
 
 const heroStats = [
   { value: 20, suffix: "+", label: "Years in business" },
   { value: 3, suffix: "", label: "Exclusive brand divisions" },
   { value: 10, suffix: "+", label: "Major operators served" },
   { value: 24, suffix: "h", label: "Typical quote turnaround" },
-];
-
-/* The three real product spec-cards (Farris red / Dyna-Flo blue / EST black)
-   float as parallax layers — the catalog itself is the hero imagery. */
-const specCards = [
-  {
-    src: "/images/farris/pilot-operated.jpg",
-    alt: "Farris Engineering pilot-operated safety relief valve — ACTS product card",
-    className: "left-0 top-10 w-56 lg:w-64 -rotate-6",
-    depth: -36,
-    duration: 7,
-  },
-  {
-    src: "/images/dynaflo/df400-rotary-plug.jpg",
-    alt: "Dyna-Flo DF400 rotary plug valve and actuator — ACTS product card",
-    className: "left-1/2 -translate-x-1/2 -top-2 w-60 lg:w-72 rotate-2 z-10",
-    depth: -70,
-    duration: 8.5,
-  },
-  {
-    src: "/images/est/griptight-max.jpg",
-    alt: "EST Group GripTight MAX test plug — ACTS product card",
-    className: "right-0 top-24 w-56 lg:w-64 rotate-6",
-    depth: -24,
-    duration: 7.8,
-  },
 ];
 
 const rise = {
@@ -100,20 +76,9 @@ export default function Hero() {
       ref={sectionRef}
       className="relative overflow-hidden bg-ink text-white"
     >
-      {/* Blueprint grid + drifting gradient mesh */}
-      <div className="absolute inset-0" aria-hidden>
-        <div
-          className="absolute inset-0 blueprint"
-          style={{
-            maskImage:
-              "radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%)",
-          }}
-        />
-        <div className="mesh mesh-steel w-184 h-184 -top-56 -right-40" />
-        <div className="mesh mesh-brass w-152 h-152 -bottom-64 -left-48" />
-        <div className="dark-vignette" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-ink to-transparent" />
-      </div>
+      {/* Interactive dot-mesh field: navy base, blueprint grid, amber glow, and
+          a live particle canvas that lights up amber toward the cursor. */}
+      <HeroInteractiveBackground />
 
       <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-14 md:pt-24 md:pb-16 lg:pt-28">
         <div className="grid lg:grid-cols-[1.02fr_0.98fr] gap-14 lg:gap-10 items-center">
@@ -163,16 +128,16 @@ export default function Hero() {
               className="mt-9 flex flex-col sm:flex-row gap-3"
             >
               <Magnetic>
-                <Link
+                <ShimmerButton
                   href="/quote"
-                  className="btn btn-primary group px-8 py-4 text-base"
+                  className="group px-8 py-4 text-base shadow-lg shadow-brand/25"
                 >
                   Request a quote
                   <ArrowRight
                     size={18}
                     className="transition-transform group-hover:translate-x-1"
                   />
-                </Link>
+                </ShimmerButton>
               </Magnetic>
               <Link href="/brands" className="btn btn-ghost-dark px-8 py-4 text-base">
                 Explore our brands
@@ -200,7 +165,10 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Floating spec-card stack — tilts toward the cursor like an instrument panel */}
+          {/* Floating spec-card stack — tilts toward the cursor like an
+              instrument panel. Cards orbit through front/middle/back and preview
+              the brand's range on hover (see HeroProductCards). Decorative
+              flourish (hover-only), so aria-hidden. */}
           <motion.div
             style={{ y: stackY, rotateX, rotateY, transformPerspective: 1000 }}
             onMouseMove={handleStackMouseMove}
@@ -208,43 +176,7 @@ export default function Hero() {
             className="relative h-[420px] lg:h-[520px] hidden md:block"
             aria-hidden
           >
-            {specCards.map((c, i) => (
-              <motion.div
-                key={c.src}
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.9,
-                  delay: 0.25 + i * 0.15,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className={`absolute ${c.className}`}
-              >
-                <motion.div
-                  animate={
-                    reduced
-                      ? undefined
-                      : { y: [0, c.depth / 4, 0] }
-                  }
-                  transition={{
-                    duration: c.duration,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="rounded-2xl overflow-hidden ring-1 ring-white/15 shadow-2xl shadow-black/60 bg-white"
-                >
-                  <Image
-                    src={c.src}
-                    alt={c.alt}
-                    width={288}
-                    height={384}
-                    sizes="(max-width: 1024px) 240px, 288px"
-                    className="w-full h-auto"
-                    priority={i === 1}
-                  />
-                </motion.div>
-              </motion.div>
-            ))}
+            <HeroProductCards />
           </motion.div>
         </div>
       </div>

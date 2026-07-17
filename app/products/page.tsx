@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle2, Gauge, Settings2, Thermometer, Briefcase } fr
 import Reveal from "@/components/Reveal";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
+import { ShineBorder } from "@/components/ui/ShineBorder";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
 
@@ -345,13 +346,21 @@ export default function ProductsPage() {
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {approach.map((a, i) => (
               <Reveal key={a.title} delay={i * 90}>
-                <SpotlightCard className="card-premium glow-hover h-full p-6">
-                  <h3 className="text-lg font-bold text-navy">{a.title}</h3>
-                  <div className="mt-3 h-0.5 w-8 rounded-full bg-brand/70" />
-                  <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
-                    {a.text}
-                  </p>
-                </SpotlightCard>
+                {/* Brass shimmer rim, radius matched to the card; staggered
+                    durations so the four don't pulse in lockstep. */}
+                <ShineBorder
+                  borderRadius={20}
+                  duration={12 + i * 2}
+                  className="h-full w-full"
+                >
+                  <SpotlightCard className="card-lift h-full w-full rounded-xl border border-brand/15 bg-white p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-navy">{a.title}</h3>
+                    <div className="mt-3 h-0.5 w-8 rounded-full bg-brand/70" />
+                    <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
+                      {a.text}
+                    </p>
+                  </SpotlightCard>
+                </ShineBorder>
               </Reveal>
             ))}
           </div>

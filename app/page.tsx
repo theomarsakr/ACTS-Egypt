@@ -14,8 +14,11 @@ import {
 import Reveal from "@/components/Reveal";
 import Hero from "@/components/home/Hero";
 import FieldProof from "@/components/home/FieldProof";
+import AutoRotateImage from "@/components/home/AutoRotateImage";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
+import ShimmerButton from "@/components/ui/ShimmerButton";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
 import {
   brands,
   pastManufacturers,
@@ -24,6 +27,10 @@ import {
   engagementHighlights,
   contact,
 } from "@/lib/data";
+import {
+  brandProductImages,
+  brandSlugToFolder,
+} from "@/lib/brandProductImages";
 
 const whatWeDo = [
   {
@@ -43,20 +50,12 @@ const whatWeDo = [
   },
 ];
 
-/* Hero shot on each brand card: the brand's #1 best seller, cut out on white */
-const bestSellerShots: Record<string, { src: string; alt: string }> = {
-  "farris-engineering": {
-    src: "/images/home/bestseller-farris.jpg",
-    alt: "Farris Series 1890 spring-loaded safety relief valve, the brand's best seller in Egypt",
-  },
-  "dyna-flo": {
-    src: "/images/home/bestseller-dynaflo.jpg",
-    alt: "Dyna-Flo 360/390 sliding-stem globe control valve, the brand's best seller in Egypt",
-  },
-  est: {
-    src: "/images/home/bestseller-est.jpg",
-    alt: "EST Group Pop-A-Plug P2 heat exchanger tube plug, the brand's best seller in Egypt",
-  },
+/* Lead product shot on each brand card — frame 0 of the auto-rotating gallery,
+   a clean cut-out on white before the card cycles through the brand's range. */
+const brandLeadShots: Record<string, string> = {
+  "farris-engineering": "/images/home/bestseller-farris.jpg",
+  "dyna-flo": "/images/home/bestseller-dynaflo.jpg",
+  est: "/images/home/bestseller-est.jpg",
 };
 
 const sectorLabels: Record<string, string> = {
@@ -237,23 +236,39 @@ export default function Home() {
             </div>
           </Reveal>
           <div className="mt-12 grid md:grid-cols-3 gap-6">
-            {brands.map((b, i) => (
+            {brands.map((b, i) => {
+              // Auto-rotating gallery: the lead cut-out first, then the brand's
+              // full product range from its public/images/<folder>/.
+              const folder = brandSlugToFolder[b.slug];
+              const lead = brandLeadShots[b.slug];
+              const galleryImages = folder
+                ? [lead, ...brandProductImages[folder]]
+                : [lead ?? b.image];
+              // The lead cut-out is a clean product on white → contain it. The
+              // datasheet shots carry a branded footer we don't want here → fill
+              // + top-anchor so the footer is cropped, leaving just the product.
+              const hoverZoom =
+                "transition-transform duration-500 ease-out group-hover:scale-105";
+              return (
               <Reveal key={b.slug} delay={i * 120}>
                 <SpotlightCard className="group card-premium glow-hover flex flex-col h-full overflow-hidden !rounded-3xl">
                   <Link
                     href={`/brands/${b.slug}`}
-                    className="relative h-60 block overflow-hidden bg-white border-b border-gray-100"
+                    className="relative aspect-15/16 block overflow-hidden bg-white border-b border-gray-100"
                   >
-                    <Image
-                      src={bestSellerShots[b.slug]?.src ?? b.image}
-                      alt={bestSellerShots[b.slug]?.alt ?? b.imageAlt}
-                      fill
+                    <AutoRotateImage
+                      images={galleryImages}
+                      alt={`${b.name} product`}
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-contain p-5 pb-9 transition-transform duration-500 ease-out group-hover:scale-105"
+                      imgClassName={`object-cover object-top ${hoverZoom}`}
+                      leadSrc={lead}
+                      leadClassName={`object-contain p-3 pb-9 ${hoverZoom}`}
+                      intervalMs={8000}
+                      startDelayMs={i * 2200}
                     />
                     <div className="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-white to-transparent" />
                     <div className="absolute bottom-3.5 left-5 text-[11.5px] font-bold text-gray-500 uppercase tracking-[0.2em]">
-                      {b.no} · Best seller
+                      {b.no}
                     </div>
                     {b.logo && (
                       <div className="absolute top-3.5 right-3.5 bg-white/95 backdrop-blur rounded-xl px-3 py-2 shadow-lg shadow-ink/10 ring-1 ring-gray-200/70">
@@ -282,7 +297,7 @@ export default function Home() {
                     {b.bestSellers && (
                       <div className="mt-4">
                         <div className="text-[11px] font-bold uppercase tracking-wider text-gray-500">
-                          Best sellers in Egypt
+                          Featured products in Egypt
                         </div>
                         <div className="mt-1.5 flex flex-wrap gap-1.5">
                           {b.bestSellers.map((s) => (
@@ -320,7 +335,8 @@ export default function Home() {
                   </div>
                 </SpotlightCard>
               </Reveal>
-            ))}
+              );
+            })}
           </div>
           <Reveal delay={150}>
             <div className="mt-8 text-center text-[14.5px] text-gray-500">
@@ -456,8 +472,50 @@ export default function Home() {
               </SpotlightCard>
             </Reveal>
 
+            {/* Wide tile: industries served */}
+            <Reveal delay={280} className="md:col-span-2 lg:col-span-4">
+              <SpotlightCard className="card-premium glow-hover p-7 md:px-9 flex flex-col gap-6">
+                <div>
+                  <div className="inline-flex items-center gap-2 text-[12.5px] font-bold text-brand-dark uppercase tracking-[0.14em] bg-brand-light rounded-full px-3.5 py-1.5">
+                    Industries we serve
+                  </div>
+                  <h3 className="mt-4 text-[16px] font-bold text-navy">
+                    Wherever process integrity matters, we&apos;re there
+                  </h3>
+                  <p className="mt-2 text-[14.5px] text-gray-600 leading-relaxed">
+                    From upstream production to municipal water networks, our equipment protects the critical systems that keep Egypt&apos;s industries running safely and reliably.
+                  </p>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {industries.slice(0, 6).map((ind) => (
+                    <Link
+                      key={ind.slug}
+                      href={`/industries#${ind.slug}`}
+                      className="group flex items-center gap-2 text-[14px] text-gray-600 hover:text-brand transition-colors"
+                    >
+                      <CheckCircle2
+                        size={16}
+                        className="text-brand shrink-0 group-hover:scale-110 transition-transform"
+                      />
+                      {ind.name}
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  href="/industries"
+                  className="btn btn-ghost-light w-fit px-5 py-2.5 text-[14px] group"
+                >
+                  See how we support each industry
+                  <ArrowRight
+                    size={15}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </Link>
+              </SpotlightCard>
+            </Reveal>
+
             {/* Wide tile: local presence */}
-            <Reveal delay={120} className="md:col-span-2 lg:col-span-4">
+            <Reveal delay={320} className="md:col-span-2 lg:col-span-4">
               <SpotlightCard className="card-premium glow-hover p-7 md:px-9 flex flex-col md:flex-row md:items-center gap-6">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-brand-light text-brand shrink-0">
                   <MapPin size={23} />
@@ -484,91 +542,31 @@ export default function Home() {
               </SpotlightCard>
             </Reveal>
           </div>
-        </div>
-      </section>
 
-      {/* ============ INDUSTRIES (ink split) ============ */}
-      <section className="bg-ink text-white overflow-hidden relative">
-        <div className="absolute inset-0 blueprint opacity-50" aria-hidden />
-        <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2">
-          <div className="py-20 lg:py-28 lg:pr-16">
+          {/* Proven in the Field - Integrated */}
+          <div className="mt-20 md:mt-28 pt-20 md:pt-28 border-t border-gray-100">
             <Reveal>
-              <div className="inline-flex items-center gap-2.5 text-[12.5px] font-semibold text-amber uppercase tracking-[0.18em] glass-dark rounded-full px-4 py-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber" />
-                Industries we serve
+              <div className="max-w-2xl">
+                <div className="eyebrow text-brand">Proven in the field</div>
+                <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
+                  The work our clients rely on us for
+                </h2>
+                <p className="mt-5 text-lg text-gray-600 leading-relaxed">
+                  Project specifics stay confidential — these are the engagements
+                  Egypt&apos;s operators bring to ACTS, from named clients like
+                  ENPPI, Petrojet, and Khalda Petroleum.
+                </p>
               </div>
-              <h2 className="mt-4 text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
-                Wherever process integrity matters, we&apos;re there.
-              </h2>
-              <p className="mt-5 text-lg text-white/70 leading-relaxed">
-                From upstream production to municipal water networks, our
-                equipment protects the critical systems that keep Egypt&apos;s
-                industries running safely and reliably.
-              </p>
             </Reveal>
-            <div className="mt-9 grid sm:grid-cols-2 gap-x-8 gap-y-4">
-              {industries.slice(0, 5).map((ind, i) => (
-                <Reveal key={ind.slug} delay={i * 70}>
-                  <Link
-                    href={`/industries#${ind.slug}`}
-                    className="group flex items-center gap-3 text-[15px] font-medium text-white/85 hover:text-white transition-colors"
-                  >
-                    <CheckCircle2
-                      size={18}
-                      className="text-amber shrink-0 transition-transform group-hover:scale-110"
-                    />
-                    {ind.name}
-                  </Link>
-                </Reveal>
-              ))}
+            <div className="mt-10">
+              <FieldProof items={fieldProofItems} />
             </div>
-            <Reveal delay={300}>
-              <Link
-                href="/industries"
-                className="btn btn-ghost-dark mt-10 px-6 py-3 text-[15px] group"
-              >
-                See how we support each industry
-                <ArrowRight
-                  size={16}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </Link>
-            </Reveal>
           </div>
-          <Reveal className="reveal-scale relative min-h-80 lg:min-h-0 -mx-6 lg:mx-0">
-            <Image
-              src="/images/power-station.jpg"
-              alt="Power station at night"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-linear-to-r from-ink via-ink/30 to-transparent" />
-          </Reveal>
         </div>
       </section>
 
-      {/* ============ PROVEN IN THE FIELD ============ */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6">
-          <Reveal>
-            <div className="max-w-2xl">
-              <div className="eyebrow text-brand">Proven in the field</div>
-              <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                The work our clients rely on us for
-              </h2>
-              <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                Project specifics stay confidential — these are the engagements
-                Egypt&apos;s operators bring to ACTS, from named clients like
-                ENPPI, Petrojet, and Khalda Petroleum.
-              </p>
-            </div>
-          </Reveal>
-          <div className="mt-10">
-            <FieldProof items={fieldProofItems} />
-          </div>
-        </div>
-      </section>
+      {/* ============ CLIENT TESTIMONIALS ============ */}
+      <TestimonialCarousel />
 
       {/* ============ ACTIVITIES MASONRY ============ */}
       <section className="pb-20 md:pb-28">
@@ -660,16 +658,16 @@ export default function Home() {
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Magnetic>
-                <Link
+                <ShimmerButton
                   href="/quote"
-                  className="btn btn-primary px-8 py-4 text-base group"
+                  className="group px-8 py-4 text-base shadow-lg shadow-brand/25"
                 >
                   Request a quote
                   <ArrowRight
                     size={18}
                     className="transition-transform group-hover:translate-x-1"
                   />
-                </Link>
+                </ShimmerButton>
               </Magnetic>
               <Link href="/contact" className="btn btn-ghost-dark px-8 py-4 text-base">
                 Contact us
