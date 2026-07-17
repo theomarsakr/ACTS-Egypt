@@ -40,10 +40,10 @@
   --color-gray-500: #5b6472;
   --color-gray-600: #4b5563;
 
-  --animate-marquee: marquee 36s linear infinite;
-  --animate-page-in: page-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-slow-zoom: slow-zoom 22s ease-out both;
-  --animate-float: float 5s ease-in-out infinite;
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-page-in: page-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-slow-zoom: slow-zoom 30s ease-out both;
+  --animate-float: float 8s ease-in-out infinite;
 
   @keyframes marquee {
     from {

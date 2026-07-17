@@ -1,0 +1,453 @@
+- generic [active] [ref=f1e1]:
+  - link "Skip to main content" [ref=f1e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f1e3]:
+    - generic [ref=f1e5]:
+      - generic [ref=f1e6]:
+        - link "+202 3850 8135" [ref=f1e7] [cursor=pointer]:
+          - /url: tel:+20238508135
+        - link "sales@actsegypt.com" [ref=f1e10] [cursor=pointer]:
+          - /url: mailto:sales@actsegypt.com
+      - generic [ref=f1e14]: Sole Curtiss-Wright agent · Egypt
+    - navigation [ref=f1e15]:
+      - generic [ref=f1e17]:
+        - link [ref=f1e18] [cursor=pointer]:
+          - /url: /
+          - 'img "ACTS: Advanced Company for Trading Services" [ref=f1e19]'
+        - generic [ref=f1e20]:
+          - link "Home" [ref=f1e21] [cursor=pointer]:
+            - /url: /
+          - link "Our Brands" [ref=f1e23] [cursor=pointer]:
+            - /url: /brands
+          - link "About us" [ref=f1e26] [cursor=pointer]:
+            - /url: /about
+          - link "Industries" [ref=f1e27] [cursor=pointer]:
+            - /url: /industries
+          - link "Products & Services" [ref=f1e28] [cursor=pointer]:
+            - /url: /products
+          - link "Projects & Clients" [ref=f1e29] [cursor=pointer]:
+            - /url: /projects
+          - link "Contact" [ref=f1e30] [cursor=pointer]:
+            - /url: /contact
+          - link "Request a quote" [ref=f1e31] [cursor=pointer]:
+            - /url: /quote
+  - main [ref=f1e34]:
+    - generic [ref=f1e35]:
+      - generic [ref=f1e36]:
+        - generic [ref=f1e39]:
+          - generic [ref=f1e40]: Sole Curtiss-Wright agent · Egypt
+          - heading "Engineering trust into every process" [level=1] [ref=f1e45]
+          - paragraph [ref=f1e46]: Since 2006, ACTS has been Egypt's trusted partner for valves, flow control, and critical process services — the sole agent for Farris Engineering, Dyna-Flo, and EST, all divisions of Curtiss-Wright.
+          - generic [ref=f1e47]:
+            - link [ref=f1e49] [cursor=pointer]:
+              - /url: /quote
+            - link "Explore our brands" [ref=f1e53] [cursor=pointer]:
+              - /url: /brands
+          - generic [ref=f1e54]:
+            - generic [ref=f1e55]: Farris Engineering
+            - generic [ref=f1e56]: Dyna-Flo
+            - generic [ref=f1e57]: EST Group
+            - generic [ref=f1e58]: exclusive to ACTS in Egypt
+        - generic [ref=f1e73]:
+          - generic [ref=f1e74]:
+            - generic [ref=f1e75]: 0+
+            - generic [ref=f1e77]: Years in business
+          - generic [ref=f1e78]:
+            - generic [ref=f1e79]: "0"
+            - generic [ref=f1e80]: Exclusive brand divisions
+          - generic [ref=f1e81]:
+            - generic [ref=f1e82]: 0+
+            - generic [ref=f1e84]: Major operators served
+          - generic [ref=f1e85]:
+            - generic [ref=f1e86]: 0h
+            - generic [ref=f1e88]: Typical quote turnaround
+      - generic [ref=f1e89]:
+        - paragraph [ref=f1e91]: Trusted by Egypt's leading operators
+        - generic [ref=f1e93]:
+          - generic "ENPPI" [ref=f1e94]:
+            - img "ENPPI logo" [ref=f1e96]
+          - generic "Petrojet" [ref=f1e98]:
+            - img "Petrojet logo" [ref=f1e100]
+          - generic "Khalda Petroleum Company" [ref=f1e102]:
+            - img "Khalda Petroleum Company logo" [ref=f1e104]
+            - generic [ref=f1e105]: Khalda Petroleum
+          - generic "Gasco" [ref=f1e106]:
+            - img "Gasco logo" [ref=f1e108]
+            - generic [ref=f1e109]: GASCO
+          - generic "Damietta LNG (DLNG)" [ref=f1e110]:
+            - img "Damietta LNG (DLNG) logo" [ref=f1e112]
+            - generic [ref=f1e113]: Damietta LNG
+          - generic "Birla Carbon" [ref=f1e114]:
+            - img "Birla Carbon logo" [ref=f1e116]
+          - generic "Cairo Oil Refining Company (CORC)" [ref=f1e118]:
+            - img "Cairo Oil Refining Company (CORC) logo" [ref=f1e120]
+            - generic [ref=f1e121]: Cairo Oil Refining
+          - generic "Belayim Petroleum Company (PETROBEL)" [ref=f1e122]:
+            - img "Belayim Petroleum Company (PETROBEL) logo" [ref=f1e124]
+            - generic [ref=f1e125]: PETROBEL
+          - generic "Suez Oil Processing Company (SOPC)" [ref=f1e126]:
+            - img "Suez Oil Processing Company (SOPC) logo" [ref=f1e128]
+            - generic [ref=f1e129]: Suez Oil Processing
+          - generic "Arab Petroleum Pipelines Company (SUMED)" [ref=f1e130]:
+            - img "Arab Petroleum Pipelines Company (SUMED) logo" [ref=f1e132]
+            - generic [ref=f1e133]: SUMED
+          - generic "ENPPI" [ref=f1e134]:
+            - img "ENPPI logo" [ref=f1e136]
+          - generic "Petrojet" [ref=f1e138]:
+            - img "Petrojet logo" [ref=f1e140]
+          - generic "Khalda Petroleum Company" [ref=f1e142]:
+            - img "Khalda Petroleum Company logo" [ref=f1e144]
+            - generic [ref=f1e145]: Khalda Petroleum
+          - generic "Gasco" [ref=f1e146]:
+            - img "Gasco logo" [ref=f1e148]
+            - generic [ref=f1e149]: GASCO
+          - generic "Damietta LNG (DLNG)" [ref=f1e150]:
+            - img "Damietta LNG (DLNG) logo" [ref=f1e152]
+            - generic [ref=f1e153]: Damietta LNG
+          - generic "Birla Carbon" [ref=f1e154]:
+            - img "Birla Carbon logo" [ref=f1e156]
+          - generic "Cairo Oil Refining Company (CORC)" [ref=f1e158]:
+            - img "Cairo Oil Refining Company (CORC) logo" [ref=f1e160]
+            - generic [ref=f1e161]: Cairo Oil Refining
+          - generic "Belayim Petroleum Company (PETROBEL)" [ref=f1e162]:
+            - img "Belayim Petroleum Company (PETROBEL) logo" [ref=f1e164]
+            - generic [ref=f1e165]: PETROBEL
+          - generic "Suez Oil Processing Company (SOPC)" [ref=f1e166]:
+            - img "Suez Oil Processing Company (SOPC) logo" [ref=f1e168]
+            - generic [ref=f1e169]: Suez Oil Processing
+          - generic "Arab Petroleum Pipelines Company (SUMED)" [ref=f1e170]:
+            - img "Arab Petroleum Pipelines Company (SUMED) logo" [ref=f1e172]
+            - generic [ref=f1e173]: SUMED
+      - generic [ref=f1e175]:
+        - generic [ref=f1e177]:
+          - generic [ref=f1e178]: What we do
+          - heading "Sales, technical support, and aftermarket services" [level=2] [ref=f1e179]
+          - paragraph [ref=f1e180]: Three areas of industrial process equipment, backed by nearly two decades of relationships built on integrity, speed, and technical expertise.
+        - generic [ref=f1e181]:
+          - generic [ref=f1e183]:
+            - heading "Valves, Actuators & Instrumentation" [level=3] [ref=f1e188]
+            - paragraph [ref=f1e189]: Safety relief valves, linear and rotary control valves, actuators, and process instrumentation, supplied and supported end-to-end.
+          - generic [ref=f1e191]:
+            - heading "Heat Exchanger & Pressure Testing" [level=3] [ref=f1e195]
+            - paragraph [ref=f1e196]: Tube plugging systems for leaking heat exchanger, condenser, and boiler tubes; hydrostatic test and isolation plugs; on-site field services.
+          - generic [ref=f1e198]:
+            - heading "Technical Consultancy" [level=3] [ref=f1e203]
+            - paragraph [ref=f1e204]: Strategic and operational advisory for industrial clients, including feasibility studies and process improvement.
+      - generic [ref=f1e206]:
+        - generic [ref=f1e208]:
+          - generic [ref=f1e209]:
+            - generic [ref=f1e210]: Represented brands
+            - heading "Three world-class manufacturers. One local partner." [level=2] [ref=f1e211]
+          - link "All brands" [ref=f1e212] [cursor=pointer]:
+            - /url: /brands
+        - generic [ref=f1e215]:
+          - generic [ref=f1e217]:
+            - link "Farris Engineering product BRAND 01 Farris Engineering logo" [ref=f1e218] [cursor=pointer]:
+              - /url: /brands/farris-engineering
+              - img "Farris Engineering product" [ref=f1e220]
+              - generic [ref=f1e222]: BRAND 01
+              - img "Farris Engineering logo" [ref=f1e224]
+            - generic [ref=f1e225]:
+              - link [ref=f1e226] [cursor=pointer]:
+                - /url: /brands/farris-engineering
+                - heading "Farris Engineering" [level=3] [ref=f1e227]
+              - generic [ref=f1e228]: Safety Relief Valves
+              - paragraph [ref=f1e229]: Direct-spring and pilot-operated safety relief valves protecting pressure systems for over 70 years, across oil & gas, refining, petrochemical and power generation.
+              - generic [ref=f1e230]:
+                - generic [ref=f1e231]: Featured products in Egypt
+                - generic [ref=f1e232]:
+                  - generic [ref=f1e233]: Series 1890
+                  - generic [ref=f1e234]: Series 3800
+                  - generic [ref=f1e235]: iNSURE® Monitoring
+              - generic [ref=f1e236]:
+                - link "View products" [ref=f1e237] [cursor=pointer]:
+                  - /url: /brands/farris-engineering
+                - link "Curtiss-Wright" [ref=f1e240] [cursor=pointer]:
+                  - /url: https://valves.curtisswright.com/en-us/Farris
+          - generic [ref=f1e246]:
+            - link "Dyna-Flo Control Valve Services product BRAND 02 Dyna-Flo Control Valve Services logo" [ref=f1e247] [cursor=pointer]:
+              - /url: /brands/dyna-flo
+              - img "Dyna-Flo Control Valve Services product" [ref=f1e249]
+              - generic [ref=f1e251]: BRAND 02
+              - img "Dyna-Flo Control Valve Services logo" [ref=f1e253]
+            - generic [ref=f1e254]:
+              - link [ref=f1e255] [cursor=pointer]:
+                - /url: /brands/dyna-flo
+                - heading "Dyna-Flo Control Valve Services" [level=3] [ref=f1e256]
+              - generic [ref=f1e257]: Control Valves, Actuators & Instrumentation
+              - paragraph [ref=f1e258]: Linear and rotary control valves, actuators and instrumentation for stable, accurate process control under high pressure drop.
+              - generic [ref=f1e259]:
+                - generic [ref=f1e260]: Featured products in Egypt
+                - generic [ref=f1e261]:
+                  - generic [ref=f1e262]: 360 / 390 Sliding-Stem
+                  - generic [ref=f1e263]: 570 Rotary Ball
+                  - generic [ref=f1e264]: DF400 Rotary Plug
+              - generic [ref=f1e265]:
+                - link "View products" [ref=f1e266] [cursor=pointer]:
+                  - /url: /brands/dyna-flo
+                - link "Curtiss-Wright" [ref=f1e269] [cursor=pointer]:
+                  - /url: https://valves.curtisswright.com/en-us/Dynaflo
+          - generic [ref=f1e275]:
+            - link "EST product BRAND 03 EST logo" [ref=f1e276] [cursor=pointer]:
+              - /url: /brands/est
+              - img "EST product" [ref=f1e278]
+              - generic [ref=f1e280]: BRAND 03
+              - img "EST logo" [ref=f1e282]
+            - generic [ref=f1e283]:
+              - link [ref=f1e284] [cursor=pointer]:
+                - /url: /brands/est
+                - heading "EST" [level=3] [ref=f1e285]
+              - generic [ref=f1e286]: Heat Exchanger Repair & Pressure Testing
+              - paragraph [ref=f1e287]: Tube plugging, hydrostatic test & isolation equipment, and field services restoring thermal efficiency across refining, petrochemical and power plants.
+              - generic [ref=f1e288]:
+                - generic [ref=f1e289]: Featured products in Egypt
+                - generic [ref=f1e290]:
+                  - generic [ref=f1e291]: Pop-A-Plug® P2
+                  - generic [ref=f1e292]: GripTight MAX®
+                  - generic [ref=f1e293]: GripTight® Isolation
+              - generic [ref=f1e294]:
+                - link "View products" [ref=f1e295] [cursor=pointer]:
+                  - /url: /brands/est
+                - link "Curtiss-Wright" [ref=f1e298] [cursor=pointer]:
+                  - /url: https://valves.curtisswright.com/en-us/EST
+        - generic [ref=f1e303]: ACTS has also supplied and supported products from Solent & Pratt, ALCO Valves Group, Control Seal, Flowserve, AVK Group, Bürkert, IMI Orton on past projects.
+      - generic [ref=f1e306]:
+        - generic [ref=f1e308]:
+          - generic [ref=f1e309]: Why ACTS
+          - heading "Built for procurement teams" [level=2] [ref=f1e310]
+          - paragraph [ref=f1e311]: We know what engineering procurement needs from an industrial equipment supplier — we've been doing it for nearly two decades.
+        - generic [ref=f1e312]:
+          - generic [ref=f1e314]:
+            - generic [ref=f1e316]:
+              - generic [ref=f1e317]: Exclusive agency
+              - heading "The sole authorized source for three Curtiss-Wright divisions in Egypt" [level=3] [ref=f1e318]
+              - paragraph [ref=f1e319]: Factory-backed pricing, genuine parts, and direct access to manufacturer engineering — without intermediaries.
+            - generic [ref=f1e320]:
+              - img "Farris Engineering" [ref=f1e322]
+              - img "Dyna-Flo" [ref=f1e324]
+              - img "Curtiss-Wright" [ref=f1e326]
+              - link "Our brands" [ref=f1e327] [cursor=pointer]:
+                - /url: /brands
+          - generic [ref=f1e332]:
+            - generic [ref=f1e333]: 24h
+            - heading "Fast quotations" [level=3] [ref=f1e334]
+            - paragraph [ref=f1e335]: Send a requirement, get a serious answer — usually within one business day.
+          - generic [ref=f1e337]:
+            - heading "Engineers, not order-takers" [level=3] [ref=f1e341]
+            - paragraph [ref=f1e342]: In-house sizing, selection, and service-condition review on every enquiry.
+          - generic [ref=f1e344]:
+            - generic [ref=f1e345]: "2006"
+            - heading "Two decades on the ground" [level=3] [ref=f1e346]
+            - paragraph [ref=f1e347]: Relationships across Egypt's industrial sector since our founding in Giza.
+          - generic [ref=f1e349]:
+            - heading "Genuine parts & aftermarket" [level=3] [ref=f1e354]
+            - paragraph [ref=f1e355]: Factory-original spares and service support across the equipment lifecycle.
+          - generic [ref=f1e357]:
+            - generic [ref=f1e358]:
+              - generic [ref=f1e359]: Industries we serve
+              - heading "Wherever process integrity matters, we're there" [level=3] [ref=f1e360]
+              - paragraph [ref=f1e361]: From upstream production to municipal water networks, our equipment protects the critical systems that keep Egypt's industries running safely and reliably.
+            - generic [ref=f1e362]:
+              - link "Oil & Gas" [ref=f1e363] [cursor=pointer]:
+                - /url: /industries#oil-gas
+              - link "Petrochemical" [ref=f1e367] [cursor=pointer]:
+                - /url: /industries#petrochemical
+              - link "Power Generation" [ref=f1e371] [cursor=pointer]:
+                - /url: /industries#power-generation
+              - link "Water Treatment" [ref=f1e375] [cursor=pointer]:
+                - /url: /industries#water-treatment
+              - link "Fertilizers" [ref=f1e379] [cursor=pointer]:
+                - /url: /industries#fertilizers
+              - link "General Industrial" [ref=f1e383] [cursor=pointer]:
+                - /url: /industries#general-industrial
+            - link "See how we support each industry" [ref=f1e387] [cursor=pointer]:
+              - /url: /industries
+          - generic [ref=f1e391]:
+            - generic [ref=f1e396]:
+              - heading "Giza headquarters, nationwide reach" [level=3] [ref=f1e397]
+              - paragraph [ref=f1e398]: Arkan Plaza, Sheikh Zayed City — supporting sites from the Western Desert to the Gulf of Suez.
+            - link "Visit or contact us" [ref=f1e399] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=f1e405]:
+        - paragraph [ref=f1e410]: "[Client Photo]"
+        - generic [ref=f1e411]:
+          - generic [ref=f1e412]: Client Testimonial
+          - heading "[CLIENT NAME]" [level=3] [ref=f1e415]
+          - generic [ref=f1e416]:
+            - paragraph [ref=f1e417]: "[Job Title]"
+            - paragraph [ref=f1e418]: "[Company Name]"
+          - blockquote [ref=f1e419]: "\"[Add client testimonial quote here — focus on business impact, speed, technical expertise, or reliability. Keep it 2-3 sentences.]\""
+          - generic [ref=f1e420]:
+            - button "Previous testimonial" [ref=f1e421]
+            - generic [ref=f1e424]:
+              - button "Go to testimonial 1" [ref=f1e425]
+              - button "Go to testimonial 2" [ref=f1e426]
+            - button "Next testimonial" [ref=f1e427]
+      - generic [ref=f1e431]:
+        - generic [ref=f1e433]:
+          - generic [ref=f1e434]: Proven in the field
+          - heading "The work our clients rely on us for" [level=2] [ref=f1e435]
+          - paragraph [ref=f1e436]: Project specifics stay confidential — these are the engagements Egypt's operators bring to ACTS, from named clients like ENPPI, Petrojet, and Khalda Petroleum.
+        - generic [ref=f1e438]:
+          - figure "Oil & Gas — Upstream" [ref=f1e441]:
+            - blockquote [ref=f1e443]:
+              - generic [ref=f1e444]: Wellhead & Separator Protection
+              - paragraph [ref=f1e445]: Sizing and supply of safety relief valves for wellhead, separator, and gas-compression overpressure protection across upstream production facilities.
+            - generic [ref=f1e446]:
+              - text: Client details confidential ·
+              - link "See who we work with" [ref=f1e448] [cursor=pointer]:
+                - /url: /projects
+          - generic [ref=f1e451]:
+            - generic [ref=f1e452]:
+              - 'button "Show: Wellhead & Separator Protection" [ref=f1e453]'
+              - 'button "Show: Turnaround & Outage Support" [ref=f1e454]'
+              - 'button "Show: New-Build Project Support" [ref=f1e455]'
+              - 'button "Show: Severe-Service Control" [ref=f1e456]'
+              - 'button "Show: Synthesis Loop Protection" [ref=f1e457]'
+            - generic [ref=f1e458]:
+              - button "Previous" [ref=f1e459]
+              - button "Next" [ref=f1e462]
+      - generic [ref=f1e466]:
+        - generic [ref=f1e468]:
+          - generic [ref=f1e469]:
+            - generic [ref=f1e470]: In the field
+            - heading "Where our equipment works" [level=2] [ref=f1e471]
+          - link "Projects & clients" [ref=f1e472] [cursor=pointer]:
+            - /url: /projects
+        - generic [ref=f1e475]:
+          - 'link "Refining: Turnaround & outage support Refining Turnaround & outage support" [ref=f1e477] [cursor=pointer]':
+            - /url: /industries/oil-gas
+            - 'img "Refining: Turnaround & outage support" [ref=f1e478]'
+            - generic [ref=f1e481]:
+              - generic [ref=f1e482]: Refining
+              - generic [ref=f1e483]: Turnaround & outage support
+          - 'link "Overpressure protection: Farris safety relief valves Overpressure protection Farris safety relief valves" [ref=f1e489] [cursor=pointer]':
+            - /url: /brands/farris-engineering
+            - 'img "Overpressure protection: Farris safety relief valves" [ref=f1e490]'
+            - generic [ref=f1e493]:
+              - generic [ref=f1e494]: Overpressure protection
+              - generic [ref=f1e495]: Farris safety relief valves
+          - 'link "Upstream: Wellhead & separator protection Upstream Wellhead & separator protection" [ref=f1e501] [cursor=pointer]':
+            - /url: /industries/oil-gas
+            - 'img "Upstream: Wellhead & separator protection" [ref=f1e502]'
+            - generic [ref=f1e505]:
+              - generic [ref=f1e506]: Upstream
+              - generic [ref=f1e507]: Wellhead & separator protection
+          - 'link "Process control: Dyna-Flo control valves Process control Dyna-Flo control valves" [ref=f1e513] [cursor=pointer]':
+            - /url: /brands/dyna-flo
+            - 'img "Process control: Dyna-Flo control valves" [ref=f1e514]'
+            - generic [ref=f1e517]:
+              - generic [ref=f1e518]: Process control
+              - generic [ref=f1e519]: Dyna-Flo control valves
+          - 'link "Power generation: Boiler & turbine systems Power generation Boiler & turbine systems" [ref=f1e525] [cursor=pointer]':
+            - /url: /industries/power-generation
+            - 'img "Power generation: Boiler & turbine systems" [ref=f1e526]'
+            - generic [ref=f1e529]:
+              - generic [ref=f1e530]: Power generation
+              - generic [ref=f1e531]: Boiler & turbine systems
+          - 'link "Field services: EST heat-exchanger repair Field services EST heat-exchanger repair" [ref=f1e537] [cursor=pointer]':
+            - /url: /brands/est
+            - 'img "Field services: EST heat-exchanger repair" [ref=f1e538]'
+            - generic [ref=f1e541]:
+              - generic [ref=f1e542]: Field services
+              - generic [ref=f1e543]: EST heat-exchanger repair
+          - 'link "Gas processing: Pressure regulation & control Gas processing Pressure regulation & control" [ref=f1e549] [cursor=pointer]':
+            - /url: /industries/oil-gas
+            - 'img "Gas processing: Pressure regulation & control" [ref=f1e550]'
+            - generic [ref=f1e553]:
+              - generic [ref=f1e554]: Gas processing
+              - generic [ref=f1e555]: Pressure regulation & control
+          - 'link "Petrochemical: Severe-service applications Petrochemical Severe-service applications" [ref=f1e561] [cursor=pointer]':
+            - /url: /industries/petrochemical
+            - 'img "Petrochemical: Severe-service applications" [ref=f1e562]'
+            - generic [ref=f1e565]:
+              - generic [ref=f1e566]: Petrochemical
+              - generic [ref=f1e567]: Severe-service applications
+          - 'link "Drilling: Upstream operations Drilling Upstream operations" [ref=f1e573] [cursor=pointer]':
+            - /url: /projects
+            - 'img "Drilling: Upstream operations" [ref=f1e574]'
+            - generic [ref=f1e577]:
+              - generic [ref=f1e578]: Drilling
+              - generic [ref=f1e579]: Upstream operations
+      - generic [ref=f1e588]:
+        - generic [ref=f1e589]: Start a conversation
+        - heading "Let's talk about your next project" [level=2] [ref=f1e592]
+        - paragraph [ref=f1e593]: A project, an application question, or an urgent maintenance need — our engineers are ready.
+        - generic [ref=f1e594]:
+          - link [ref=f1e596] [cursor=pointer]:
+            - /url: /quote
+          - link "Contact us" [ref=f1e600] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=f1e601]:
+          - link "+202 3850 8135" [ref=f1e602] [cursor=pointer]:
+            - /url: tel:+20238508135
+          - link "sales@actsegypt.com" [ref=f1e604] [cursor=pointer]:
+            - /url: mailto:sales@actsegypt.com
+  - contentinfo [ref=f1e605]:
+    - generic [ref=f1e607]:
+      - generic [ref=f1e608]:
+        - generic [ref=f1e609]:
+          - heading "Have a requirement on your desk?" [level=3] [ref=f1e610]
+          - paragraph [ref=f1e611]: Leave your work email and finish the details on the quote form — our engineers typically respond within 24 hours.
+        - generic [ref=f1e612]:
+          - generic [ref=f1e613]: Work email
+          - textbox "Work email" [ref=f1e614]:
+            - /placeholder: you@company.com
+          - button "Start a quote" [ref=f1e615] [cursor=pointer]
+      - generic [ref=f1e618]:
+        - generic [ref=f1e619]:
+          - 'img "ACTS: Advanced Company for Trading Services" [ref=f1e621]'
+          - paragraph [ref=f1e622]: Advanced Company for Trading Services — Egypt's sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright) since 2006.
+          - img "Curtiss-Wright" [ref=f1e624]
+          - generic [ref=f1e625]:
+            - link "Call ACTS" [ref=f1e626] [cursor=pointer]:
+              - /url: tel:+20238508135
+            - link "Email sales" [ref=f1e629] [cursor=pointer]:
+              - /url: mailto:sales@actsegypt.com
+            - link "WhatsApp" [ref=f1e633] [cursor=pointer]:
+              - /url: https://wa.me/201223235399
+            - link "Find us on Maps" [ref=f1e636] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza
+        - generic [ref=f1e640]:
+          - generic [ref=f1e641]: Company
+          - link "Home" [ref=f1e642] [cursor=pointer]:
+            - /url: /
+          - link "About us" [ref=f1e643] [cursor=pointer]:
+            - /url: /about
+          - link "Products & Services" [ref=f1e644] [cursor=pointer]:
+            - /url: /products
+          - link "Projects & Clients" [ref=f1e645] [cursor=pointer]:
+            - /url: /projects
+          - link "Contact" [ref=f1e646] [cursor=pointer]:
+            - /url: /contact
+          - link "Request a quote" [ref=f1e647] [cursor=pointer]:
+            - /url: /quote
+        - generic [ref=f1e648]:
+          - generic [ref=f1e649]: Our brands
+          - link "Farris Engineering" [ref=f1e650] [cursor=pointer]:
+            - /url: /brands/farris-engineering
+          - link "Dyna-Flo Control Valve Services" [ref=f1e651] [cursor=pointer]:
+            - /url: /brands/dyna-flo
+          - link "EST" [ref=f1e652] [cursor=pointer]:
+            - /url: /brands/est
+          - generic [ref=f1e653]: Industries
+          - link "Oil & Gas" [ref=f1e654] [cursor=pointer]:
+            - /url: /industries
+          - link "Petrochemical" [ref=f1e655] [cursor=pointer]:
+            - /url: /industries
+          - link "Power Generation" [ref=f1e656] [cursor=pointer]:
+            - /url: /industries
+          - link "Water Treatment" [ref=f1e657] [cursor=pointer]:
+            - /url: /industries
+        - generic [ref=f1e658]:
+          - generic [ref=f1e659]: Get in touch
+          - link "+202 3850 8135" [ref=f1e660] [cursor=pointer]:
+            - /url: tel:+20238508135
+          - link "sales@actsegypt.com" [ref=f1e663] [cursor=pointer]:
+            - /url: mailto:sales@actsegypt.com
+          - generic [ref=f1e667]: "Arkan Plaza, Building 4, 4th Floor, Office #409Sheikh Zayed City, Giza, Egypt, 12451"
+          - generic [ref=f1e672]: Sunday – Thursday9:00 AM – 5:00 PM (Cairo Time)
+      - generic [ref=f1e677]:
+        - generic [ref=f1e678]: © 2026 Advanced Company for Trading Services. All rights reserved.
+        - generic [ref=f1e679]: Sole Curtiss-Wright agent · Egypt
+  - button "Open Next.js Dev Tools" [ref=f1e685] [cursor=pointer]
