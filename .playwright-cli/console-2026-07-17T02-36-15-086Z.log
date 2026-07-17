@@ -1,0 +1,2169 @@
+[  408389ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  408544ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  519966ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  520238ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  520243ms] [LOG] [Fast Refresh] done in 387ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  520411ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  520536ms] [LOG] [Fast Refresh] done in 288ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  520650ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  521388ms] [LOG] [Fast Refresh] done in 840ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  521944ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  521999ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  526505ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  526592ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  526648ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  526712ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  526759ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  526827ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  526905ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  526959ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527033ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527100ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527150ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527218ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527274ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527341ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527416ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527470ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527534ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527590ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527655ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527717ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527783ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527833ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527904ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  527967ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528019ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528084ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528149ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528199ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528266ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528315ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528389ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528450ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528500ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528556ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528616ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528682ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528740ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528798ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528855ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  528952ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529004ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529071ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529131ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529189ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529256ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529331ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529398ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529466ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529531ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529584ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529652ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529713ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529768ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529848ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529899ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  529949ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530015ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530081ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530147ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530214ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530266ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530316ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530386ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530464ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530530ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530597ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530664ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530730ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530797ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530863ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  530914ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531002ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531080ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531147ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531213ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531281ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531347ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531412ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531484ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531563ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531630ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531697ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531747ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531829ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531896ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  531951ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532029ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532096ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532146ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532212ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532265ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532328ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532395ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532463ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532528ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532598ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532662ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532719ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532787ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532846ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532917ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  532980ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533046ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533118ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533178ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533245ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533312ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533372ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533428ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533497ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533562ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533627ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533678ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533745ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533811ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533870ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533929ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  533994ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534052ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534117ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534184ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534261ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534319ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534394ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534452ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534528ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534610ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534677ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534743ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534810ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534877ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  534934ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  535011ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  535081ms] [ERROR] ./components/TestimonialCarousel.tsx:192:10
+the name `ChevronDown` is defined multiple times
+  190 |
+  191 | // Import for the missing icon
+> 192 | import { ChevronDown } from "lucide-react";
+      |          ^^^^^^^^^^^
+  193 |
+  194 | export default memo(TestimonialCarousel);
+  195 |
+
+Ecmascript file had an error
+
+Import trace:
+  Server Component:
+    ./components/TestimonialCarousel.tsx
+    ./app/page.tsx @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  535195ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  535296ms] [LOG] [Fast Refresh] done in 192ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  535429ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  535466ms] [LOG] [Fast Refresh] done in 169ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  535576ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  535647ms] [LOG] [Fast Refresh] done in 181ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  699731ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  700146ms] [LOG] [Fast Refresh] done in 520ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  701658ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  701686ms] [LOG] [Fast Refresh] done in 132ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  874264ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  874541ms] [LOG] [Fast Refresh] done in 380ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1528245ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1530130ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1533128ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1533204ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1904750ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1905066ms] [LOG] [Fast Refresh] done in 416ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1905172ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1905347ms] [LOG] [Fast Refresh] done in 277ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1929487ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[ 1929712ms] [LOG] [Fast Refresh] done in 309ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477

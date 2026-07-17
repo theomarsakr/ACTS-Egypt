@@ -22,7 +22,7 @@ function AutoRotateImage({
   imgClassName,
   leadSrc,
   leadClassName,
-  intervalMs = 8000,
+  intervalMs = 15000,
   startDelayMs = 0,
 }: {
   images: string[];
