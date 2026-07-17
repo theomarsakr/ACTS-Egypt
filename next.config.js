@@ -8,7 +8,6 @@ const nextConfig = {
   },
   
   // Optimizations
-  swcMinify: true,
   reactStrictMode: false,
   
   // Compress
