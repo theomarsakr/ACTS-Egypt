@@ -617,6 +617,173 @@ h3,
   }
 }
 
+/* Shimmering gradient rim (Magic UI "shine border" genre, tuned brass→amber). A
+   masked ::before paints only the border ring, and a drifting radial gradient
+   sweeps a soft highlight around it. Fed by --shine-* vars from <ShineBorder>. */
+.shine-border {
+  border-radius: var(--shine-radius, 16px);
+}
+.shine-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* sit above the wrapped card so the rim reads on its edge */
+  border-radius: inherit;
+  padding: var(--shine-width, 1.5px);
+  background-image: radial-gradient(
+    transparent,
+    transparent,
+    var(--shine-color, #8a6a30, #f0c419, #8a6a30),
+    transparent,
+    transparent
+  );
+  background-size: 300% 300%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  will-change: background-position;
+  animation: shine var(--shine-duration, 14s) linear infinite;
+}
+@keyframes shine {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+/* Shimmer button (Magic UI genre): a conic-gradient glint continuously laps the
+   border over a brass fill. A container-query lane holds a sliding track; the
+   glint spins inside it; the fill (inset by --shimmer-cut) masks it to a thin
+   ring. Fed --shimmer-* vars from <ShimmerButton>. Padding/size come from the
+   consumer's utilities, like the site's other buttons. */
+.shimmer-btn {
+  --shimmer-spread: 90deg;
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-weight: 600;
+  background: var(--shimmer-bg, #0a1628);
+  border-radius: var(--shimmer-radius, 0.875rem);
+  cursor: pointer;
+  transform: translateZ(0);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.3s ease;
+}
+.shimmer-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+.shimmer-btn:active {
+  transform: translateY(1px);
+}
+.shimmer-btn__spark {
+  position: absolute;
+  inset: 0;
+  z-index: -30;
+  overflow: visible;
+  filter: blur(2px);
+  container-type: size;
+  pointer-events: none;
+}
+.shimmer-btn__track {
+  position: absolute;
+  inset: 0;
+  height: 100cqh;
+  aspect-ratio: 1;
+  animation: shimmer-slide var(--shimmer-speed, 3s) ease-in-out infinite alternate;
+}
+.shimmer-btn__glint {
+  position: absolute;
+  inset: -100%;
+  width: auto;
+  background: conic-gradient(
+    from calc(270deg - (var(--shimmer-spread) * 0.5)),
+    transparent 0,
+    var(--shimmer-color, #fff3c4) var(--shimmer-spread),
+    transparent var(--shimmer-spread)
+  );
+  animation: spin-around calc(var(--shimmer-speed, 3s) * 2) infinite linear;
+}
+.shimmer-btn__label {
+  position: relative;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.shimmer-btn__highlight {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--shimmer-radius, 0.875rem);
+  box-shadow: inset 0 -8px 10px #ffffff1f;
+  transition: box-shadow 0.3s ease-in-out;
+  pointer-events: none;
+}
+.shimmer-btn:hover .shimmer-btn__highlight {
+  box-shadow: inset 0 -6px 10px #ffffff3f;
+}
+.shimmer-btn:active .shimmer-btn__highlight {
+  box-shadow: inset 0 -10px 10px #ffffff3f;
+}
+.shimmer-btn__backdrop {
+  position: absolute;
+  z-index: -20;
+  inset: var(--shimmer-cut, 0.05em);
+  background: var(--shimmer-bg, #0a1628);
+  border-radius: var(--shimmer-radius, 0.875rem);
+  pointer-events: none;
+}
+@keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+  }
+}
+@keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+  }
+  15%,
+  35% {
+    transform: translateZ(0) rotate(90deg);
+  }
+  65%,
+  85% {
+    transform: translateZ(0) rotate(270deg);
+  }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-btn__track,
+  .shimmer-btn__glint {
+    animation: none;
+  }
+  .shimmer-btn:hover {
+    transform: none;
+  }
+}
+
 /* Slow gold sheen sweeping through a headline word. */
 .text-shimmer {
   background: linear-gradient(
@@ -653,6 +820,9 @@ h3,
   .border-beam::after {
     animation: none;
     background: none;
+  }
+  .shine-border::before {
+    animation: none;
   }
   .text-shimmer {
     animation: none;

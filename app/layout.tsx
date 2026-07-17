@@ -4,10 +4,13 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import IntroOverlay from "@/components/IntroOverlay";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 // Display face for headings and large numerals — a geometric counterpoint to
@@ -16,6 +19,8 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
+  display: "swap",
+  preload: true,
 });
 
 const siteUrl =
@@ -97,6 +102,7 @@ export default function RootLayout({
       className={`${inter.variable} ${jakarta.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <IntroOverlay />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
