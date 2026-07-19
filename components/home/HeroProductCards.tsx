@@ -44,14 +44,14 @@ const cards: Card[] = [
   {
     brand: "Farris Engineering",
     images: brandProductImages.farris,
-    position: "left-0 top-10 w-56 lg:w-64",
+    position: "left-0 top-10 w-40 sm:w-48 md:w-56 lg:w-64",
     baseRotate: -6,
     baseZ: 10,
   },
   {
     brand: "Dyna-Flo",
     images: brandProductImages.dynaflo,
-    position: "left-1/2 -translate-x-1/2 -top-2 w-60 lg:w-72",
+    position: "left-1/2 -translate-x-1/2 -top-2 w-44 sm:w-52 md:w-60 lg:w-72",
     baseRotate: 2,
     baseZ: 20, // center sits on top at rest, as before
     center: true,
@@ -59,7 +59,7 @@ const cards: Card[] = [
   {
     brand: "EST Group",
     images: brandProductImages.est,
-    position: "right-0 top-24 w-56 lg:w-64",
+    position: "right-0 top-24 w-40 sm:w-48 md:w-56 lg:w-64",
     baseRotate: 6,
     baseZ: 10,
   },

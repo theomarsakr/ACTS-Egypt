@@ -173,7 +173,7 @@ export default function Hero() {
             style={{ y: stackY, rotateX, rotateY, transformPerspective: 1000 }}
             onMouseMove={handleStackMouseMove}
             onMouseLeave={handleStackMouseLeave}
-            className="relative h-[420px] lg:h-[520px] hidden md:block"
+            className="relative h-[360px] md:h-[420px] lg:h-[520px]"
             aria-hidden
           >
             <HeroProductCards />
