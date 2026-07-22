@@ -16,13 +16,8 @@ import Magnetic from "@/components/ui/Magnetic";
 import ShimmerButton from "@/components/ui/ShimmerButton";
 import HeroInteractiveBackground from "@/components/HeroInteractiveBackground";
 import HeroProductCards from "@/components/home/HeroProductCards";
-
-const heroStats = [
-  { value: 20, suffix: "+", label: "Years in business" },
-  { value: 3, suffix: "", label: "Exclusive brand divisions" },
-  { value: 10, suffix: "+", label: "Major operators served" },
-  { value: 24, suffix: "h", label: "Typical quote turnaround" },
-];
+import { localeHref, type Locale } from "@/lib/i18n/routing";
+import type { Dict } from "@/lib/i18n/en";
 
 const rise = {
   hidden: { opacity: 0, y: 28 },
@@ -37,7 +32,14 @@ const rise = {
   }),
 };
 
-export default function Hero() {
+export default function Hero({
+  t,
+  lang = "en",
+}: {
+  t: Dict["home"]["hero"];
+  lang?: Locale;
+}) {
+  const heroStats = t.stats;
   const reduced = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -90,7 +92,7 @@ export default function Hero() {
                   <span className="absolute inline-flex h-full w-full rounded-full bg-amber opacity-60 animate-ping" />
                   <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-amber" />
                 </span>
-                Sole Curtiss-Wright agent · Egypt
+                {t.badge}
               </div>
             </motion.div>
 
@@ -101,10 +103,8 @@ export default function Hero() {
               custom={1}
               className="mt-7 text-[2.7rem] leading-[1.04] md:text-6xl lg:text-[4.35rem] tracking-[-0.03em] text-balance"
             >
-              <span className="font-medium text-white/80">
-                Engineering trust into
-              </span>{" "}
-              <span className="font-extrabold text-shimmer">every process</span>
+              <span className="font-medium text-white/80">{t.titleA}</span>{" "}
+              <span className="font-extrabold text-shimmer">{t.titleB}</span>
             </motion.h1>
 
             <motion.p
@@ -114,10 +114,7 @@ export default function Hero() {
               custom={2}
               className="mt-6 text-lg md:text-xl text-white/75 leading-relaxed max-w-xl"
             >
-              Since 2006, ACTS has been Egypt&apos;s trusted partner for valves,
-              flow control, and critical process services — the sole agent for
-              Farris Engineering, Dyna-Flo, and EST, all divisions of
-              Curtiss-Wright.
+              {t.lede}
             </motion.p>
 
             <motion.div
@@ -129,18 +126,18 @@ export default function Hero() {
             >
               <Magnetic>
                 <ShimmerButton
-                  href="/quote"
+                  href={localeHref(lang, "/quote")}
                   className="group px-8 py-4 text-base shadow-lg shadow-brand/25"
                 >
-                  Request a quote
+                  {t.ctaQuote}
                   <ArrowRight
                     size={18}
-                    className="transition-transform group-hover:translate-x-1"
+                    className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
                   />
                 </ShimmerButton>
               </Magnetic>
               <Link href="/brands" className="btn btn-ghost-dark px-8 py-4 text-base">
-                Explore our brands
+                {t.ctaBrands}
               </Link>
             </motion.div>
 
@@ -160,21 +157,20 @@ export default function Hero() {
                 </span>
               ))}
               <span className="text-[12.5px] text-white/40">
-                exclusive to ACTS in Egypt
+                {t.exclusiveNote}
               </span>
             </motion.div>
           </div>
 
           {/* Floating spec-card stack — tilts toward the cursor like an
-              instrument panel. Cards orbit through front/middle/back and preview
-              the brand's range on hover (see HeroProductCards). Decorative
-              flourish (hover-only), so aria-hidden. */}
+              instrument panel. Cards orbit through front/middle/back, preview
+              the brand's range on hover, and link to each brand's page (see
+              HeroProductCards) — interactive, so not aria-hidden. */}
           <motion.div
             style={{ y: stackY, rotateX, rotateY, transformPerspective: 1000 }}
             onMouseMove={handleStackMouseMove}
             onMouseLeave={handleStackMouseLeave}
             className="relative h-[360px] md:h-[420px] lg:h-[520px]"
-            aria-hidden
           >
             <HeroProductCards />
           </motion.div>

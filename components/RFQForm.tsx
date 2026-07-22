@@ -3,29 +3,31 @@
 import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, UserRound, ClipboardList, Send } from "lucide-react";
 import { serviceNeeds, brandOptions, contact } from "@/lib/data";
+import { fill } from "@/lib/i18n/routing";
+import type { Dict } from "@/lib/i18n/en";
 
 const fieldClass =
   "w-full bg-white border border-gray-300 rounded-lg text-gray-900 text-[15px] px-4 py-3 outline-none transition-shadow placeholder:text-gray-500 focus:border-brand focus:ring-2 focus:ring-brand/20";
 const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
 
-const steps = [
-  { label: "Your details", icon: UserRound },
-  { label: "Requirement", icon: ClipboardList },
-  { label: "Finish", icon: Send },
-];
+const stepIcons = [UserRound, ClipboardList, Send];
 
 export default function RFQForm({
   initialBrand,
   initialEmail,
+  t,
 }: {
   initialBrand?: string;
   initialEmail?: string;
+  t: Dict["rfq"];
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
   const [errorMsg, setErrorMsg] = useState("");
   const [step, setStep] = useState(0);
+
+  const steps = t.stepLabels;
 
   // One ref per step container — used to validate only the visible step's
   // controls before advancing, so the native submit on the final step never
@@ -71,11 +73,11 @@ export default function RFQForm({
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
-        throw new Error(json.error || "Something went wrong.");
+        throw new Error(json.error || t.genericError);
       }
       setStatus("sent");
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
+      setErrorMsg(err instanceof Error ? err.message : t.genericError);
       setStatus("error");
     }
   }
@@ -86,15 +88,14 @@ export default function RFQForm({
         <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto">
           <CheckCircle2 size={26} />
         </div>
-        <h3 className="mt-4 text-xl font-bold text-gray-900">
-          Request received. Thank you!
-        </h3>
+        <h3 className="mt-4 text-xl font-bold text-gray-900">{t.successTitle}</h3>
         <p className="mt-2 text-[15px] text-gray-600">
-          You&apos;ll receive an auto-confirmation, then one of our
-          application engineers will review your requirements and follow up,
-          typically within 24 hours. For urgent requirements, call{" "}
-          <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="text-brand font-medium">
-            {contact.phone}
+          {t.successBody}{" "}
+          <a
+            href={`tel:${contact.phone.replace(/\s/g, "")}`}
+            className="text-brand font-medium"
+          >
+            <span className="ltr-inline">{contact.phone}</span>
           </a>
           .
         </p>
@@ -109,21 +110,18 @@ export default function RFQForm({
       onSubmit={onSubmit}
       className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8"
     >
-      <h2 className="text-xl font-extrabold text-navy">Tell Us What You Need</h2>
-      <p className="mt-1 text-sm text-gray-600 mb-6">
-        Complete the form below and one of our application engineers will
-        respond with a formal quote, typically within 24 hours.
-      </p>
+      <h2 className="text-xl font-extrabold text-navy">{t.title}</h2>
+      <p className="mt-1 text-sm text-gray-600 mb-6">{t.lede}</p>
 
       {/* Stepper */}
-      <ol className="flex items-center mb-8" aria-label="Progress">
-        {steps.map((s, i) => {
-          const Icon = s.icon;
+      <ol className="flex items-center mb-8" aria-label={t.progress}>
+        {steps.map((label, i) => {
+          const Icon = stepIcons[i] ?? Send;
           const done = i < step;
           const active = i === step;
           return (
             <li
-              key={s.label}
+              key={label}
               className="flex items-center"
               style={{ flex: i < steps.length - 1 ? "1 1 0%" : "0 0 auto" }}
             >
@@ -145,7 +143,7 @@ export default function RFQForm({
                     active ? "text-navy" : done ? "text-brand" : "text-gray-600"
                   }`}
                 >
-                  {s.label}
+                  {label}
                 </span>
               </div>
               {i < steps.length - 1 && (
@@ -163,32 +161,32 @@ export default function RFQForm({
       {/* Step 1 — Contact information */}
       <div ref={stepRefs[0]} hidden={step !== 0} className="animate-page-in">
         <div className="text-sm font-bold text-navy uppercase tracking-wide mb-3">
-          Contact information
+          {t.contactInfo}
         </div>
         <div className="grid sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label htmlFor="name" className={labelClass}>
-              Full Name *
+              {t.fullName} *
             </label>
             <input
               id="name"
               name="name"
               type="text"
               required
-              placeholder="Your full name"
+              placeholder={t.fullNamePh}
               className={fieldClass}
             />
           </div>
           <div>
             <label htmlFor="company" className={labelClass}>
-              Company Name *
+              {t.company} *
             </label>
             <input
               id="company"
               name="company"
               type="text"
               required
-              placeholder="Company name"
+              placeholder={t.companyPh}
               className={fieldClass}
             />
           </div>
@@ -196,19 +194,19 @@ export default function RFQForm({
         <div className="grid sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label htmlFor="jobTitle" className={labelClass}>
-              Job Title
+              {t.jobTitle}
             </label>
             <input
               id="jobTitle"
               name="jobTitle"
               type="text"
-              placeholder="Your role"
+              placeholder={t.jobTitlePh}
               className={fieldClass}
             />
           </div>
           <div>
             <label htmlFor="email" className={labelClass}>
-              Email Address *
+              {t.email} *
             </label>
             <input
               id="email"
@@ -216,22 +214,24 @@ export default function RFQForm({
               type="email"
               required
               defaultValue={initialEmail}
-              placeholder="you@company.com"
-              className={fieldClass}
+              placeholder={t.emailPh}
+              dir="ltr"
+              className={`${fieldClass} rtl:text-right rtl:placeholder:text-right`}
             />
           </div>
         </div>
         <div>
           <label htmlFor="phone" className={labelClass}>
-            Phone / Mobile *
+            {t.phone} *
           </label>
           <input
             id="phone"
             name="phone"
             type="tel"
             required
-            placeholder="+20 ..."
-            className={fieldClass}
+            placeholder={t.phonePh}
+            dir="ltr"
+            className={`${fieldClass} rtl:text-right rtl:placeholder:text-right`}
           />
         </div>
       </div>
@@ -239,12 +239,12 @@ export default function RFQForm({
       {/* Step 2 — Project details */}
       <div ref={stepRefs[1]} hidden={step !== 1} className="animate-page-in">
         <div className="text-sm font-bold text-navy uppercase tracking-wide mb-3">
-          Project details
+          {t.projectDetails}
         </div>
         <div className="grid sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label htmlFor="productNeeded" className={labelClass}>
-              Product or Service Needed *
+              {t.product} *
             </label>
             <select
               id="productNeeded"
@@ -255,14 +255,14 @@ export default function RFQForm({
             >
               {serviceNeeds.map((s) => (
                 <option key={s} value={s}>
-                  {s}
+                  {t.serviceNeedLabels[s] ?? s}
                 </option>
               ))}
             </select>
           </div>
           <div>
             <label htmlFor="brand" className={labelClass}>
-              Brand (if known)
+              {t.brandLabel}
             </label>
             <select
               id="brand"
@@ -270,7 +270,7 @@ export default function RFQForm({
               defaultValue={initialBrand || ""}
               className={fieldClass}
             >
-              <option value="">Select a brand</option>
+              <option value="">{t.selectBrand}</option>
               {brandOptions.map((b) => (
                 <option key={b} value={b}>
                   {b}
@@ -282,49 +282,52 @@ export default function RFQForm({
         <div className="grid sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label htmlFor="quantity" className={labelClass}>
-              Quantity
+              {t.quantity}
             </label>
             <input
               id="quantity"
               name="quantity"
               type="text"
-              placeholder="e.g. 4 units"
+              placeholder={t.quantityPh}
               className={fieldClass}
             />
           </div>
           <div>
             <label htmlFor="deliveryLocation" className={labelClass}>
-              Delivery Location *
+              {t.delivery} *
             </label>
             <input
               id="deliveryLocation"
               name="deliveryLocation"
               type="text"
               required
-              placeholder="Site or city"
+              placeholder={t.deliveryPh}
               className={fieldClass}
             />
           </div>
         </div>
         <div className="mb-4">
           <label htmlFor="deliveryDate" className={labelClass}>
-            Required Delivery Date
+            {t.deliveryDate}
           </label>
+          {/* Forced LTR: RTL date inputs hit a Chromium-on-Windows paint bug
+              that blanks the whole tab, and dates read LTR anyway. */}
           <input
             id="deliveryDate"
             name="deliveryDate"
             type="date"
-            className={fieldClass}
+            dir="ltr"
+            className={`${fieldClass} rtl:text-right`}
           />
         </div>
         <div>
           <label htmlFor="serviceConditions" className={labelClass}>
-            Application / Service Conditions
+            {t.conditions}
           </label>
           <textarea
             id="serviceConditions"
             name="serviceConditions"
-            placeholder="e.g., media, temperature, pressure, pipe size, flow rate"
+            placeholder={t.conditionsPh}
             className={`${fieldClass} resize-y min-h-20`}
           />
         </div>
@@ -333,51 +336,53 @@ export default function RFQForm({
       {/* Step 3 — Attachment + notes */}
       <div ref={stepRefs[2]} hidden={step !== 2} className="animate-page-in">
         <div className="text-sm font-bold text-navy uppercase tracking-wide mb-3">
-          Final details
+          {t.finalDetails}
         </div>
         <div className="mb-4">
           <label htmlFor="attachment" className={labelClass}>
-            Upload Specification, Drawing, or RFQ
+            {t.upload}
           </label>
           <input
             id="attachment"
             name="attachment"
             type="file"
             accept=".pdf,.dwg,.dxf,.doc,.docx"
-            className={`${fieldClass} file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-brand-light file:text-brand file:font-semibold file:text-sm cursor-pointer`}
+            className={`${fieldClass} file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-brand-light file:text-brand file:font-semibold file:text-sm cursor-pointer rtl:file:mr-0 rtl:file:ml-4`}
           />
           <p className="mt-1.5 text-[13px] text-gray-600">
-            PDF, DWG, DXF, DOC, DOCX (max 10MB).
+            <span className="ltr-inline">{t.uploadHint}</span>
           </p>
         </div>
         <div>
           <label htmlFor="message" className={labelClass}>
-            Additional Notes *
+            {t.notes} *
           </label>
           <textarea
             id="message"
             name="message"
             required
-            placeholder="Anything else our engineers should know"
+            placeholder={t.notesPh}
             className={`${fieldClass} resize-y min-h-20`}
           />
         </div>
       </div>
 
       {/* Honeypot — invisible to real users, catches basic bots. Not display:none
-          since naive bots skip that; kept in normal flow but off-screen. */}
+          since naive bots skip that. Hidden via clip-path rather than an
+          off-screen `left` offset: in RTL, left-overflow extends the paint
+          canvas and triggers a Chromium bug that blanks the whole tab. */}
       <input
         type="text"
         name="website"
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
-        className="absolute left-[-9999px] w-px h-px opacity-0 pointer-events-none"
+        className="absolute w-px h-px opacity-0 overflow-hidden pointer-events-none [clip-path:inset(50%)]"
       />
 
       {status === "error" && (
         <p className="text-sm text-red-600 mt-6">
-          {errorMsg} You can also email us directly at{" "}
+          {errorMsg} {t.errorSuffix}{" "}
           <a href={`mailto:${contact.salesEmail}`} className="underline font-medium">
             {contact.salesEmail}
           </a>
@@ -395,13 +400,13 @@ export default function RFQForm({
           >
             <ArrowLeft
               size={16}
-              className="transition-transform group-hover:-translate-x-1"
+              className="transition-transform group-hover:-translate-x-1 rtl:rotate-180 rtl:group-hover:translate-x-1"
             />
-            Back
+            {t.back}
           </button>
         ) : (
           <span className="text-[13px] text-gray-600">
-            Step {step + 1} of {steps.length}
+            {fill(t.stepOf, { n: step + 1, total: steps.length })}
           </span>
         )}
 
@@ -411,9 +416,9 @@ export default function RFQForm({
             disabled={status === "sending"}
             className="group inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-brand/25 disabled:opacity-60 disabled:cursor-wait cursor-pointer"
           >
-            {status === "sending" ? "Submitting…" : "Submit Request"}
+            {status === "sending" ? t.submitting : t.submit}
             {status !== "sending" && (
-              <Send size={16} className="transition-transform group-hover:translate-x-0.5" />
+              <Send size={16} className="transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
             )}
           </button>
         ) : (
@@ -422,19 +427,16 @@ export default function RFQForm({
             onClick={next}
             className="group inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-brand/25 cursor-pointer"
           >
-            Continue
+            {t.continue}
             <ArrowRight
               size={16}
-              className="transition-transform group-hover:translate-x-1"
+              className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
             />
           </button>
         )}
       </div>
 
-      <p className="mt-4 text-[13px] text-gray-600">
-        Fields marked with * are required. Your information is used solely to
-        prepare your quote and will not be shared with third parties.
-      </p>
+      <p className="mt-4 text-[13px] text-gray-600">{t.requiredNote}</p>
     </form>
   );
 }

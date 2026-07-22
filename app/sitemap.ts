@@ -32,5 +32,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...brandEntries];
+  // Arabic pages (phase 1: the translated conversion path).
+  const arabicEntries: MetadataRoute.Sitemap = ["/ar", "/ar/contact", "/ar/quote"].map(
+    (path) => ({
+      url: `${siteUrl}${path}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: path === "/ar" ? 0.9 : 0.6,
+    })
+  );
+
+  return [...staticEntries, ...brandEntries, ...arabicEntries];
 }

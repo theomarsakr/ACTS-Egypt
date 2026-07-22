@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useReducedMotion } from "motion/react";
 import type { MotionValue } from "motion/react";
@@ -32,6 +33,8 @@ import { brandProductImages } from "@/lib/brandProductImages";
 
 type Card = {
   brand: string;
+  /** Brand slug from lib/data — each card links to its /brands/<slug> page. */
+  slug: string;
   images: string[];
   /** absolute position + width only — no rotation, no z-index */
   position: string;
@@ -43,6 +46,7 @@ type Card = {
 const cards: Card[] = [
   {
     brand: "Farris Engineering",
+    slug: "farris-engineering",
     images: brandProductImages.farris,
     position: "left-0 top-10 w-40 sm:w-48 md:w-56 lg:w-64",
     baseRotate: -6,
@@ -50,6 +54,7 @@ const cards: Card[] = [
   },
   {
     brand: "Dyna-Flo",
+    slug: "dyna-flo",
     images: brandProductImages.dynaflo,
     position: "left-1/2 -translate-x-1/2 -top-2 w-44 sm:w-52 md:w-60 lg:w-72",
     baseRotate: 2,
@@ -58,6 +63,7 @@ const cards: Card[] = [
   },
   {
     brand: "EST Group",
+    slug: "est",
     images: brandProductImages.est,
     position: "right-0 top-24 w-40 sm:w-48 md:w-56 lg:w-64",
     baseRotate: 6,
@@ -186,12 +192,14 @@ function ProductCard({
     >
       {/* Layer B — orbital drift (x/y) + static base rotation. */}
       <motion.div style={{ x: orbit.x, y: orbit.y, rotate: card.baseRotate }}>
-        {/* Card visual — hover previews the brand's product range. */}
-        <div
+        {/* Card visual — hover previews the brand's product range, click
+            navigates to that brand's page. */}
+        <Link
+          href={`/brands/${card.slug}`}
+          aria-label={`${card.brand} — view brand page`}
           onMouseEnter={handleEnter}
           onMouseLeave={handleLeave}
-          aria-hidden
-          className="overflow-hidden rounded-2xl bg-white shadow-2xl shadow-black/60 ring-1 ring-white/15 transition-shadow duration-300 hover:ring-amber/60"
+          className="block overflow-hidden rounded-2xl bg-white shadow-2xl shadow-black/60 ring-1 ring-white/15 transition-shadow duration-300 hover:ring-amber/60 focus-visible:ring-2 focus-visible:ring-amber focus-visible:outline-none"
         >
           <div className="relative aspect-3/4 w-full">
             {/* Every image is rendered (preloaded on mount); the active one is
@@ -213,7 +221,7 @@ function ProductCard({
               />
             ))}
           </div>
-        </div>
+        </Link>
       </motion.div>
     </motion.div>
   );

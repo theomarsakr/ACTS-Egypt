@@ -50,3 +50,4 @@ skills-lock.json
 # test + tooling artifacts
 /test-results/
 /playwright-report/
+/.playwright-cli/

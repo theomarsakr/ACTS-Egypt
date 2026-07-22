@@ -3,7 +3,6 @@ import Image from "next/image";
 import {
   ArrowRight,
   ArrowUpRight,
-  CheckCircle2,
   ExternalLink,
   Gauge,
   LineChart,
@@ -14,6 +13,7 @@ import {
 import Reveal from "@/components/Reveal";
 import Hero from "@/components/home/Hero";
 import FieldProof from "@/components/home/FieldProof";
+import FieldGallery from "@/components/home/FieldGallery";
 import AutoRotateImage from "@/components/home/AutoRotateImage";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
@@ -31,24 +31,9 @@ import {
   brandProductImages,
   brandSlugToFolder,
 } from "@/lib/brandProductImages";
+import { fill, getDict, localeHref, type Locale } from "@/lib/i18n";
 
-const whatWeDo = [
-  {
-    icon: Gauge,
-    title: "Valves, Actuators & Instrumentation",
-    text: "Safety relief valves, linear and rotary control valves, actuators, and process instrumentation, supplied and supported end-to-end.",
-  },
-  {
-    icon: Wrench,
-    title: "Heat Exchanger & Pressure Testing",
-    text: "Tube plugging systems for leaking heat exchanger, condenser, and boiler tubes; hydrostatic test and isolation plugs; on-site field services.",
-  },
-  {
-    icon: LineChart,
-    title: "Technical Consultancy",
-    text: "Strategic and operational advisory for industrial clients, including feasibility studies and process improvement.",
-  },
-];
+const whatWeDoIcons = [Gauge, Wrench, LineChart];
 
 /* Lead product shot on each brand card — frame 0 of the auto-rotating gallery,
    a clean cut-out on white before the card cycles through the brand's range. */
@@ -58,100 +43,63 @@ const brandLeadShots: Record<string, string> = {
   est: "/images/home/bestseller-est.jpg",
 };
 
-const sectorLabels: Record<string, string> = {
-  upstream: "Oil & Gas — Upstream",
-  midstream: "Refining & Midstream",
-  epc: "EPC & Engineering",
-  petrochemicals: "Petrochemicals",
-  fertilizers: "Fertilizers",
-};
-
-const fieldProofItems = engagementHighlights.map((e) => ({
-  slug: e.slug,
-  sector: sectorLabels[e.slug] ?? e.slug,
-  title: e.title,
-  text: e.text,
-}));
-
-const activities = [
-  {
-    src: "/images/refinery-blue.jpg",
-    label: "Refining",
-    sub: "Turnaround & outage support",
-    href: "/industries/oil-gas",
-    aspect: "aspect-[4/5]",
-  },
-  {
-    src: "/images/farris-relief-valves.jpg",
-    label: "Overpressure protection",
-    sub: "Farris safety relief valves",
-    href: "/brands/farris-engineering",
-    aspect: "aspect-[4/3]",
-  },
-  {
-    src: "/images/offshore-rig.jpg",
-    label: "Upstream",
-    sub: "Wellhead & separator protection",
-    href: "/industries/oil-gas",
-    aspect: "aspect-square",
-  },
-  {
-    src: "/images/dynaflo-control-valve.jpg",
-    label: "Process control",
-    sub: "Dyna-Flo control valves",
-    href: "/brands/dyna-flo",
-    aspect: "aspect-[4/3]",
-  },
-  {
-    src: "/images/power-station.jpg",
-    label: "Power generation",
-    sub: "Boiler & turbine systems",
-    href: "/industries/power-generation",
-    aspect: "aspect-[4/5]",
-  },
-  {
-    src: "/images/est-field-service.jpg",
-    label: "Field services",
-    sub: "EST heat-exchanger repair",
-    href: "/brands/est",
-    aspect: "aspect-[4/3]",
-  },
-  {
-    src: "/images/gas-plant.jpg",
-    label: "Gas processing",
-    sub: "Pressure regulation & control",
-    href: "/industries/oil-gas",
-    aspect: "aspect-square",
-  },
-  {
-    src: "/images/petrochemical-plant.jpg",
-    label: "Petrochemical",
-    sub: "Severe-service applications",
-    href: "/industries/petrochemical",
-    aspect: "aspect-[4/3]",
-  },
-  {
-    src: "/images/upstream-drilling-rig.jpg",
-    label: "Drilling",
-    sub: "Upstream operations",
-    href: "/projects",
-    aspect: "aspect-[4/5]",
-  },
+/* Gallery photos — labels/subtitles/groups come from the locale dictionary
+   (aligned by index); the structural fields live here. */
+const activityBase = [
+  { src: "/images/refinery-blue.jpg", href: "/industries/oil-gas", aspect: "aspect-[4/5]", groupKey: "sites" as const },
+  { src: "/images/farris-relief-valves.jpg", href: "/brands/farris-engineering", aspect: "aspect-[4/3]", groupKey: "equipment" as const },
+  { src: "/images/offshore-rig.jpg", href: "/industries/oil-gas", aspect: "aspect-square", groupKey: "sites" as const },
+  { src: "/images/dynaflo-control-valve.jpg", href: "/brands/dyna-flo", aspect: "aspect-[4/3]", groupKey: "equipment" as const },
+  { src: "/images/power-station.jpg", href: "/industries/power-generation", aspect: "aspect-[4/5]", groupKey: "sites" as const },
+  { src: "/images/est-field-service.jpg", href: "/brands/est", aspect: "aspect-[4/3]", groupKey: "equipment" as const },
+  { src: "/images/gas-plant.jpg", href: "/industries/oil-gas", aspect: "aspect-square", groupKey: "sites" as const },
+  { src: "/images/petrochemical-plant.jpg", href: "/industries/petrochemical", aspect: "aspect-[4/3]", groupKey: "sites" as const },
+  { src: "/images/upstream-drilling-rig.jpg", href: "/projects", aspect: "aspect-[4/5]", groupKey: "sites" as const },
 ];
 
-export default function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang: rawLang } = await params;
+  const lang: Locale = rawLang === "ar" ? "ar" : "en";
+  const dict = getDict(lang);
+  const hm = dict.home;
+
+  const fieldProofItems = engagementHighlights.map((e) => ({
+    slug: e.slug,
+    sector: hm.proven.sectors[e.slug] ?? e.slug,
+    title: hm.proven.items[e.slug]?.title ?? e.title,
+    text: hm.proven.items[e.slug]?.text ?? e.text,
+  }));
+
+  const activities = activityBase.map((a, i) => ({
+    src: a.src,
+    href: a.href,
+    aspect: a.aspect,
+    label: hm.gallery.items[i]?.label ?? "",
+    sub: hm.gallery.items[i]?.sub ?? "",
+    group:
+      a.groupKey === "sites" ? hm.gallery.groups.sites : hm.gallery.groups.equipment,
+  }));
+
+  const arrowFlip = "rtl:rotate-180";
+  const arrowNudge =
+    "transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1";
+
   return (
     <>
-      <Hero />
+      <Hero t={hm.hero} lang={lang} />
 
       {/* ============ CLIENT MARQUEE ============ */}
       <section className="py-14 md:py-16 border-b border-gray-100">
         <Reveal>
           <p className="text-center text-[12px] font-bold text-gray-500 uppercase tracking-[0.22em]">
-            Trusted by Egypt&apos;s leading operators
+            {hm.marquee}
           </p>
         </Reveal>
-        <div className="mt-9 overflow-hidden marquee-mask pause-on-hover">
+        <div className="mt-9 overflow-hidden marquee-mask pause-on-hover" dir="ltr">
           <div className="flex w-max animate-marquee items-start gap-12 pr-12">
             {[...clients, ...clients].map((c, i) => (
               <div
@@ -183,31 +131,32 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="max-w-2xl">
-              <div className="eyebrow text-brand">What we do</div>
+              <div className="eyebrow text-brand">{hm.whatWeDo.eyebrow}</div>
               <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                Sales, technical support, and aftermarket services
+                {hm.whatWeDo.title}
               </h2>
               <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                Three areas of industrial process equipment, backed by nearly
-                two decades of relationships built on integrity, speed, and
-                technical expertise.
+                {hm.whatWeDo.lede}
               </p>
             </div>
           </Reveal>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {whatWeDo.map((w, i) => (
-              <Reveal key={w.title} delay={i * 100}>
-                <SpotlightCard className="group card-premium glow-hover h-full p-7">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                    <w.icon size={23} />
-                  </div>
-                  <h3 className="mt-5 text-lg font-bold text-navy">{w.title}</h3>
-                  <p className="mt-2.5 text-[15px] text-gray-600 leading-relaxed">
-                    {w.text}
-                  </p>
-                </SpotlightCard>
-              </Reveal>
-            ))}
+            {hm.whatWeDo.items.map((w, i) => {
+              const Icon = whatWeDoIcons[i] ?? Gauge;
+              return (
+                <Reveal key={w.title} delay={i * 100}>
+                  <SpotlightCard className="group card-premium glow-hover h-full p-7">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                      <Icon size={23} />
+                    </div>
+                    <h3 className="mt-5 text-lg font-bold text-navy">{w.title}</h3>
+                    <p className="mt-2.5 text-[15px] text-gray-600 leading-relaxed">
+                      {w.text}
+                    </p>
+                  </SpotlightCard>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -218,20 +167,17 @@ export default function Home() {
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div className="max-w-2xl">
-                <div className="eyebrow text-brand">Represented brands</div>
+                <div className="eyebrow text-brand">{hm.brands.eyebrow}</div>
                 <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                  Three world-class manufacturers. One local partner.
+                  {hm.brands.title}
                 </h2>
               </div>
               <Link
                 href="/brands"
                 className="btn btn-ghost-light px-6 py-3 text-[15px] group"
               >
-                All brands
-                <ArrowRight
-                  size={16}
-                  className="transition-transform group-hover:translate-x-1"
-                />
+                {hm.brands.allBrands}
+                <ArrowRight size={16} className={arrowNudge} />
               </Link>
             </div>
           </Reveal>
@@ -244,6 +190,10 @@ export default function Home() {
               const galleryImages = folder
                 ? [lead, ...brandProductImages[folder]]
                 : [lead ?? b.image];
+              const meta = hm.brands.meta[b.slug] ?? {
+                category: b.category,
+                summary: b.summary,
+              };
               // The lead cut-out is a clean product on white → contain it. The
               // datasheet shots carry a branded footer we don't want here → fill
               // + top-anchor so the footer is cropped, leaving just the product.
@@ -289,15 +239,15 @@ export default function Home() {
                       </h3>
                     </Link>
                     <div className="mt-1 text-sm font-semibold text-brand">
-                      {b.category}
+                      {meta.category}
                     </div>
                     <p className="mt-3 text-[15px] text-gray-600 leading-relaxed flex-1">
-                      {b.summary}
+                      {meta.summary}
                     </p>
                     {b.bestSellers && (
                       <div className="mt-4">
                         <div className="text-[11px] font-bold uppercase tracking-wider text-gray-500">
-                          Featured products in Egypt
+                          {hm.brands.featured}
                         </div>
                         <div className="mt-1.5 flex flex-wrap gap-1.5">
                           {b.bestSellers.map((s) => (
@@ -316,11 +266,8 @@ export default function Home() {
                         href={`/brands/${b.slug}`}
                         className="inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
                       >
-                        View products
-                        <ArrowRight
-                          size={16}
-                          className="transition-transform group-hover:translate-x-1"
-                        />
+                        {hm.brands.viewProducts}
+                        <ArrowRight size={16} className={arrowNudge} />
                       </Link>
                       <a
                         href={b.externalUrl}
@@ -340,9 +287,9 @@ export default function Home() {
           </div>
           <Reveal delay={150}>
             <div className="mt-8 text-center text-[14.5px] text-gray-500">
-              ACTS has also supplied and supported products from{" "}
-              {pastManufacturers.map((s) => s.name).join(", ")} on past
-              projects.
+              {fill(hm.brands.pastNote, {
+                names: pastManufacturers.map((s) => s.name).join(", "),
+              })}
             </div>
           </Reveal>
         </div>
@@ -353,14 +300,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="max-w-2xl">
-              <div className="eyebrow text-brand">Why ACTS</div>
+              <div className="eyebrow text-brand">{hm.why.eyebrow}</div>
               <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                Built for procurement teams
+                {hm.why.title}
               </h2>
               <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                We know what engineering procurement needs from an industrial
-                equipment supplier — we&apos;ve been doing it for nearly two
-                decades.
+                {hm.why.lede}
               </p>
             </div>
           </Reveal>
@@ -372,14 +317,12 @@ export default function Home() {
                 <div className="absolute inset-0 blueprint opacity-70" aria-hidden />
                 <div className="mesh mesh-brass w-80 h-80 -bottom-32 -right-24" aria-hidden />
                 <div className="relative flex-1">
-                  <div className="eyebrow text-amber">Exclusive agency</div>
+                  <div className="eyebrow text-amber">{hm.why.exclusive.eyebrow}</div>
                   <h3 className="mt-4 text-2xl md:text-[1.8rem] font-extrabold tracking-tight leading-tight">
-                    The sole authorized source for three Curtiss-Wright
-                    divisions in Egypt
+                    {hm.why.exclusive.title}
                   </h3>
                   <p className="mt-4 text-[15.5px] text-white/65 leading-relaxed max-w-md">
-                    Factory-backed pricing, genuine parts, and direct access to
-                    manufacturer engineering — without intermediaries.
+                    {hm.why.exclusive.text}
                   </p>
                 </div>
                 <div className="relative mt-8 flex flex-wrap items-center gap-2.5">
@@ -400,9 +343,10 @@ export default function Home() {
                   ))}
                   <Link
                     href="/brands"
-                    className="ml-auto inline-flex items-center gap-1.5 text-[14px] font-semibold text-amber hover:text-white transition-colors"
+                    className="ms-auto inline-flex items-center gap-1.5 text-[14px] font-semibold text-amber hover:text-white transition-colors"
                   >
-                    Our brands <ArrowUpRight size={15} />
+                    {hm.why.exclusive.link}{" "}
+                    <ArrowUpRight size={15} className="rtl:-scale-x-100" />
                   </Link>
                 </div>
               </div>
@@ -412,14 +356,14 @@ export default function Home() {
             <Reveal delay={80}>
               <SpotlightCard className="card-premium glow-hover h-full p-7 flex flex-col">
                 <div className="text-5xl font-extrabold tracking-tight text-navy tabular-nums">
-                  24<span className="text-brand">h</span>
+                  {hm.why.fast.big}
+                  <span className="text-brand text-[0.6em]">{hm.why.fast.unit}</span>
                 </div>
                 <h3 className="mt-3 text-[16px] font-bold text-navy">
-                  Fast quotations
+                  {hm.why.fast.title}
                 </h3>
                 <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  Send a requirement, get a serious answer — usually within one
-                  business day.
+                  {hm.why.fast.text}
                 </p>
               </SpotlightCard>
             </Reveal>
@@ -431,11 +375,10 @@ export default function Home() {
                   <Wrench size={21} />
                 </div>
                 <h3 className="mt-4 text-[16px] font-bold text-navy">
-                  Engineers, not order-takers
+                  {hm.why.engineers.title}
                 </h3>
                 <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  In-house sizing, selection, and service-condition review on
-                  every enquiry.
+                  {hm.why.engineers.text}
                 </p>
               </SpotlightCard>
             </Reveal>
@@ -444,14 +387,13 @@ export default function Home() {
             <Reveal delay={200}>
               <SpotlightCard className="card-premium glow-hover h-full p-7 flex flex-col">
                 <div className="text-5xl font-extrabold tracking-tight text-navy tabular-nums">
-                  2006
+                  {hm.why.since.big}
                 </div>
                 <h3 className="mt-3 text-[16px] font-bold text-navy">
-                  Two decades on the ground
+                  {hm.why.since.title}
                 </h3>
                 <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  Relationships across Egypt&apos;s industrial sector since our
-                  founding in Giza.
+                  {hm.why.since.text}
                 </p>
               </SpotlightCard>
             </Reveal>
@@ -463,168 +405,169 @@ export default function Home() {
                   <ShieldCheck size={21} />
                 </div>
                 <h3 className="mt-4 text-[16px] font-bold text-navy">
-                  Genuine parts & aftermarket
+                  {hm.why.genuine.title}
                 </h3>
                 <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  Factory-original spares and service support across the
-                  equipment lifecycle.
+                  {hm.why.genuine.text}
                 </p>
               </SpotlightCard>
             </Reveal>
 
-            {/* Wide tile: industries served */}
-            <Reveal delay={280} className="md:col-span-2 lg:col-span-4">
-              <SpotlightCard className="card-premium glow-hover p-7 md:px-9 flex flex-col gap-6">
-                <div>
-                  <div className="inline-flex items-center gap-2 text-[12.5px] font-bold text-brand-dark uppercase tracking-[0.14em] bg-brand-light rounded-full px-3.5 py-1.5">
-                    Industries we serve
-                  </div>
-                  <h3 className="mt-4 text-[16px] font-bold text-navy">
-                    Wherever process integrity matters, we&apos;re there
-                  </h3>
-                  <p className="mt-2 text-[14.5px] text-gray-600 leading-relaxed">
-                    From upstream production to municipal water networks, our equipment protects the critical systems that keep Egypt&apos;s industries running safely and reliably.
-                  </p>
+            {/* Half tile: industries served — quick-scan chips */}
+            <Reveal delay={280} className="md:col-span-2">
+              <SpotlightCard className="card-premium glow-hover h-full p-7 md:p-8 flex flex-col">
+                <div className="inline-flex w-fit items-center gap-2 text-[12.5px] font-bold text-brand-dark uppercase tracking-[0.14em] bg-brand-light rounded-full px-3.5 py-1.5">
+                  {hm.why.industriesTile.chip}
                 </div>
-                <div className="grid sm:grid-cols-2 gap-2">
+                <h3 className="mt-4 text-[16px] font-bold text-navy">
+                  {hm.why.industriesTile.title}
+                </h3>
+                <div className="mt-4 flex flex-wrap gap-2">
                   {industries.slice(0, 6).map((ind) => (
                     <Link
                       key={ind.slug}
                       href={`/industries#${ind.slug}`}
-                      className="group flex items-center gap-2 text-[14px] text-gray-600 hover:text-brand transition-colors"
+                      className="inline-flex items-center rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[13.5px] font-semibold text-gray-600 transition-colors hover:border-brand/40 hover:bg-brand-light hover:text-brand"
                     >
-                      <CheckCircle2
-                        size={16}
-                        className="text-brand shrink-0 group-hover:scale-110 transition-transform"
-                      />
-                      {ind.name}
+                      {dict.industryNames[ind.slug] ?? ind.name}
                     </Link>
                   ))}
                 </div>
                 <Link
                   href="/industries"
-                  className="btn btn-ghost-light w-fit px-5 py-2.5 text-[14px] group"
+                  className="group mt-auto pt-5 inline-flex w-fit items-center gap-1.5 text-[14px] font-bold text-navy transition-colors hover:text-brand"
                 >
-                  See how we support each industry
-                  <ArrowRight
-                    size={15}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
+                  {hm.why.industriesTile.cta}
+                  <ArrowRight size={15} className={arrowNudge} />
                 </Link>
               </SpotlightCard>
             </Reveal>
 
-            {/* Wide tile: local presence */}
-            <Reveal delay={320} className="md:col-span-2 lg:col-span-4">
-              <SpotlightCard className="card-premium glow-hover p-7 md:px-9 flex flex-col md:flex-row md:items-center gap-6">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-brand-light text-brand shrink-0">
-                  <MapPin size={23} />
-                </div>
-                <div className="flex-1">
+            {/* Half tile: local presence */}
+            <Reveal delay={320} className="md:col-span-2">
+              <SpotlightCard className="card-premium glow-hover h-full p-7 md:p-8 flex flex-col">
+                <div className="flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-brand-light text-brand shrink-0">
+                    <MapPin size={21} />
+                  </div>
                   <h3 className="text-[16px] font-bold text-navy">
-                    Giza headquarters, nationwide reach
+                    {hm.why.locationTile.title}
                   </h3>
-                  <p className="mt-1 text-[14.5px] text-gray-600">
-                    Arkan Plaza, Sheikh Zayed City — supporting sites from the
-                    Western Desert to the Gulf of Suez.
-                  </p>
+                </div>
+                <p className="mt-3.5 text-[14.5px] text-gray-600 leading-relaxed">
+                  {hm.why.locationTile.text}
+                </p>
+                {/* Direct lines — the two things a procurement engineer
+                    actually needs from this card. */}
+                <div className="mt-4 flex flex-col gap-1.5 text-[14px] font-semibold">
+                  <a
+                    href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                    className="w-fit text-gray-600 transition-colors hover:text-brand"
+                  >
+                    <span className="ltr-inline">{contact.phone}</span>
+                  </a>
+                  <a
+                    href={`mailto:${contact.salesEmail}`}
+                    className="w-fit text-gray-600 transition-colors hover:text-brand"
+                  >
+                    {contact.salesEmail}
+                  </a>
                 </div>
                 <Link
-                  href="/contact"
-                  className="btn btn-ghost-light px-5 py-2.5 text-[14px] shrink-0 group"
+                  href={localeHref(lang, "/contact")}
+                  className="group mt-auto pt-5 inline-flex w-fit items-center gap-1.5 text-[14px] font-bold text-navy transition-colors hover:text-brand"
                 >
-                  Visit or contact us
-                  <ArrowRight
-                    size={15}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
+                  {hm.why.locationTile.cta}
+                  <ArrowRight size={15} className={arrowNudge} />
                 </Link>
               </SpotlightCard>
             </Reveal>
           </div>
+        </div>
+      </section>
 
-          {/* Proven in the Field - Integrated */}
-          <div className="mt-20 md:mt-28 pt-20 md:pt-28 border-t border-gray-100">
-            <Reveal>
-              <div className="max-w-2xl">
-                <div className="eyebrow text-brand">Proven in the field</div>
-                <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                  The work our clients rely on us for
-                </h2>
-                <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                  Project specifics stay confidential — these are the engagements
-                  Egypt&apos;s operators bring to ACTS, from named clients like
-                  ENPPI, Petrojet, and Khalda Petroleum.
-                </p>
-              </div>
-            </Reveal>
-            <div className="mt-10">
-              <FieldProof items={fieldProofItems} />
+      {/* ============ PROVEN IN THE FIELD — DARK BAND ============ */}
+      {/* Its own chapter: the dark band answers the "Why ACTS" claims above
+          with the engagements that back them up, in the same visual language
+          as the hero. The translucent carousel card lets the band's blueprint
+          grid run through it, so the section reads as one continuous surface. */}
+      <section className="relative overflow-hidden bg-ink text-white py-20 md:py-28">
+        <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
+        <div
+          className="mesh mesh-steel w-[30rem] h-[30rem] -top-44 -right-28 opacity-60"
+          aria-hidden
+        />
+        <div
+          className="mesh mesh-brass w-96 h-96 -bottom-48 -left-28 opacity-50"
+          aria-hidden
+        />
+        <div className="relative max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="max-w-2xl">
+              <div className="eyebrow text-amber">{hm.proven.eyebrow}</div>
+              <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+                {hm.proven.title}
+              </h2>
+              <p className="mt-5 text-lg text-white/70 leading-relaxed">
+                {hm.proven.lede}
+              </p>
             </div>
+          </Reveal>
+          <div className="mt-10">
+            <FieldProof
+              items={fieldProofItems}
+              dark
+              labels={{
+                confidential: hm.proven.confidential,
+                seeWho: hm.proven.seeWho,
+              }}
+            />
           </div>
         </div>
       </section>
 
       {/* ============ CLIENT TESTIMONIALS ============ */}
-      <TestimonialCarousel />
+      {/* Placeholder content — English only until real quotes are supplied. */}
+      {lang !== "ar" && <TestimonialCarousel />}
 
-      {/* ============ ACTIVITIES MASONRY ============ */}
-      <section className="pb-20 md:pb-28">
+      {/* ============ COMPANY GALLERY ============ */}
+      <section className="pb-20 md:pb-28 pt-20 md:pt-28">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div className="max-w-2xl">
                 <div className="inline-flex items-center gap-2 text-[12.5px] font-bold text-brand-dark uppercase tracking-[0.14em] bg-brand-light rounded-full px-3.5 py-1.5">
-                  In the field
+                  {hm.gallery.chip}
                 </div>
                 <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                  Where our equipment works
+                  {hm.gallery.title}
                 </h2>
+                <p className="mt-5 text-lg text-gray-600 leading-relaxed">
+                  {hm.gallery.lede}
+                </p>
               </div>
               <Link
                 href="/projects"
                 className="btn btn-ghost-light px-6 py-3 text-[15px] group"
               >
-                Projects & clients
-                <ArrowRight
-                  size={16}
-                  className="transition-transform group-hover:translate-x-1"
-                />
+                {hm.gallery.projectsBtn}
+                <ArrowRight size={16} className={arrowNudge} />
               </Link>
             </div>
           </Reveal>
-          <div className="mt-12 columns-1 sm:columns-2 lg:columns-3 gap-5 [&>*]:mb-5">
-            {activities.map((a, i) => (
-              <Reveal key={a.src} delay={(i % 3) * 90} className="break-inside-avoid">
-                <Link
-                  href={a.href}
-                  className={`group relative block overflow-hidden rounded-2xl ${a.aspect}`}
-                >
-                  <Image
-                    src={a.src}
-                    alt={`${a.label}: ${a.sub}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-ink/85 via-ink/15 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
-                  <div className="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-3">
-                    <div>
-                      <div className="text-[11px] font-bold text-amber uppercase tracking-[0.18em]">
-                        {a.label}
-                      </div>
-                      <div className="mt-1 text-[15.5px] font-bold text-white leading-snug">
-                        {a.sub}
-                      </div>
-                    </div>
-                    <span className="w-9 h-9 rounded-full glass-dark flex items-center justify-center text-white opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                      <ArrowUpRight size={16} />
-                    </span>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+          <FieldGallery
+            items={activities}
+            labels={{
+              allPhotos: hm.gallery.allPhotos,
+              learnMore: hm.gallery.learnMore,
+              closeLabel: hm.gallery.closeLabel,
+              prevLabel: hm.gallery.prevLabel,
+              nextLabel: hm.gallery.nextLabel,
+              openLabel: hm.gallery.openLabel,
+              thumbLabel: hm.gallery.thumbLabel,
+              dialogLabel: hm.gallery.dialogLabel,
+            }}
+          />
         </div>
       </section>
 
@@ -646,31 +589,30 @@ export default function Home() {
           <Reveal>
             <div className="eyebrow text-amber justify-center [&::before]:hidden">
               <span className="w-6.5 h-0.5 rounded bg-current opacity-85" />
-              Start a conversation
+              {hm.cta.eyebrow}
               <span className="w-6.5 h-0.5 rounded bg-current opacity-85" />
             </div>
             <h2 className="mt-5 text-4xl md:text-6xl font-extrabold tracking-[-0.03em] text-balance">
-              Let&apos;s talk about your next project
+              {hm.cta.title}
             </h2>
             <p className="mt-6 text-lg md:text-xl text-white/70 max-w-xl mx-auto">
-              A project, an application question, or an urgent maintenance need
-              — our engineers are ready.
+              {hm.cta.lede}
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Magnetic>
                 <ShimmerButton
-                  href="/quote"
+                  href={localeHref(lang, "/quote")}
                   className="group px-8 py-4 text-base shadow-lg shadow-brand/25"
                 >
-                  Request a quote
-                  <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
+                  {hm.cta.quote}
+                  <ArrowRight size={18} className={arrowNudge} />
                 </ShimmerButton>
               </Magnetic>
-              <Link href="/contact" className="btn btn-ghost-dark px-8 py-4 text-base">
-                Contact us
+              <Link
+                href={localeHref(lang, "/contact")}
+                className="btn btn-ghost-dark px-8 py-4 text-base"
+              >
+                {hm.cta.contactUs}
               </Link>
             </div>
             <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-x-8 gap-y-2 text-[14.5px] text-white/50">
@@ -678,7 +620,7 @@ export default function Home() {
                 href={`tel:${contact.phone.replace(/\s/g, "")}`}
                 className="hover:text-white transition-colors"
               >
-                {contact.phone}
+                <span className="ltr-inline">{contact.phone}</span>
               </a>
               <span className="hidden sm:block w-px h-4 bg-white/15" />
               <a

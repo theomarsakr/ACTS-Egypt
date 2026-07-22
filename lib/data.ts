@@ -2,10 +2,22 @@
 // here instead of Supabase for v1 — edit this file to update the catalog.
 // Inquiries (RFQ form) DO go to Supabase via /api/inquiries.
 
+export type ProductLineItem = {
+  /** Branded product-card photo (white bg) from public/images/<brand>/, or a
+   *  manufacturer catalog photo under public/Data/ when the line has no
+   *  branded shot (these simply don't deep-link into the gallery). */
+  image: string;
+  /** Short product name shown under the photo. */
+  name: string;
+};
+
 export type ProductLine = {
   tag?: string;
   name: string;
   description: string;
+  /** The individual products in this line, revealed as a scrollable photo strip
+   *  when the card is expanded, so customers can see the whole range. */
+  products?: ProductLineItem[];
 };
 
 export type GalleryItem = {
@@ -62,33 +74,113 @@ export const brands: Brand[] = [
         name: "Direct spring-operated, threaded",
         description:
           "ASME Section VIII, rated to 800 psig: air, steam & liquid service.",
+        products: [
+          {
+            image: "/images/farris/direct-spring-valve.jpg",
+            name: "Direct spring-operated safety relief valve",
+          },
+          {
+            image: "/images/farris/direct-spring-closeup.jpg",
+            name: "Open-spring bonnet with test lever",
+          },
+          {
+            image: "/images/farris/direct-spring-lever.jpg",
+            name: "Threaded valve with lifting lever",
+          },
+          {
+            image: "/images/farris/compact-relief-valve.jpg",
+            name: "Compact safety relief valve",
+          },
+        ],
       },
       {
         tag: "SERIES 2600 / 2700",
         name: "Direct spring-operated, flanged/threaded",
         description: "ASME/NB-certified: air, steam, water.",
+        products: [
+          {
+            image: "/images/farris/direct-spring-flanged-lever.jpg",
+            name: "Flanged valve with full-length test lever",
+          },
+          {
+            image: "/images/farris/body-options.jpg",
+            name: "Body material & connection options",
+          },
+        ],
       },
       {
         tag: "SERIES 2850",
         name: "Threaded, spring-loaded",
         description: "Air, steam, vapor & liquid.",
+        products: [
+          {
+            image: "/images/farris/spring-operated-compact.jpg",
+            name: "Compact spring-operated relief valve",
+          },
+          {
+            image: "/images/farris/spring-operated-lever.jpg",
+            name: "Spring-operated valve with lifting lever",
+          },
+          {
+            image: "/images/farris/spring-operated-angle.jpg",
+            name: "Flanged-inlet valve with side lever",
+          },
+        ],
       },
       {
         tag: "SERIES 3800",
         name: "Pilot-operated",
         description:
           "Snap-acting or modulating control, semi/full-port nozzle.",
+        products: [
+          {
+            image: "/images/farris/pilot-operated.jpg",
+            name: "Pilot-operated valve — stainless pilot assembly",
+          },
+          {
+            image: "/images/farris/pilot-operated-dual-gauge.jpg",
+            name: "High-capacity valve with dual gauges",
+          },
+          {
+            image: "/images/farris/pilot-operated-branded.jpg",
+            name: "Online-testable pilot-operated valve",
+          },
+          {
+            image: "/images/farris/pilot-assisted-pair.jpg",
+            name: "Pilot-assisted relief valve pair",
+          },
+        ],
       },
       {
         tag: "SERIES 6400 / 6600",
         name: "Flanged steam safety valves",
         description: "Boiler safety service.",
+        products: [
+          {
+            image: "/Data/Farris-Valves/images/6400.jpg",
+            name: "6400 Series flanged steam safety valve",
+          },
+          {
+            image: "/Data/Farris-Valves/images/6400_1.jpg",
+            name: "6400 Series — internal cross-section",
+          },
+        ],
       },
       {
         tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
         name: "Sizing, monitoring & aftermarket support",
         description:
           "Sizing software, real-time relief-valve monitoring, and factory-backed repair/recertification network.",
+        products: [
+          {
+            image: "/images/farris/insure-monitoring.jpg",
+            name: "iNSURE® wireless relief-valve monitoring",
+          },
+          {
+            image: "/images/farris/insure-monitoring-compact.jpg",
+            name: "Compact outlet-mounted iNSURE® module",
+          },
+        ],
       },
     ],
     externalUrl: "https://valves.curtisswright.com/en-us/Farris",
@@ -469,27 +561,97 @@ export const brands: Brand[] = [
         tag: "360 / 390 / 350 / 370 / 380 / DF2000",
         name: "Linear sliding-stem valves",
         description: "1\"–16\", pressure classes 150–2500.",
+        products: [
+          {
+            image: "/images/dynaflo/sliding-stem.jpg",
+            name: "Sliding-stem globe control valve",
+          },
+        ],
       },
       {
         tag: "SERIES 570 / 590",
         name: "Rotary valves (segmented & full ball)",
         description: "High-flow, throttling or on/off service.",
+        products: [
+          {
+            image: "/images/dynaflo/rotary-ball.jpg",
+            name: "Segmented / full-ball rotary control valve",
+          },
+          {
+            image: "/images/dynaflo/df400-rotary-plug.jpg",
+            name: "DF400 eccentric rotary plug valve & actuator",
+          },
+        ],
       },
       {
         tag: "DF100 / DF234 / DF270",
         name: "Integral actuator valves",
         description: "Compact dump-valve applications.",
+        products: [
+          {
+            image: "/images/dynaflo/integral-valve-actuator.jpg",
+            name: "Integral valve-and-actuator assembly",
+          },
+        ],
       },
       {
         tag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
         name: "Pneumatic actuators",
         description: "Linear & rotary, spring-return or double-acting.",
+        products: [
+          {
+            image: "/images/dynaflo/dfc-dfo-actuators.jpg",
+            name: "DFC (fail-closed) & DFO (fail-open) actuators",
+          },
+          {
+            image: "/images/dynaflo/dfr-rotary-actuator.jpg",
+            name: "DFR rotary spring & diaphragm actuator",
+          },
+          {
+            image: "/images/dynaflo/dflp-piston-actuator.jpg",
+            name: "DFLP linear pneumatic piston actuator",
+          },
+          {
+            image: "/images/dynaflo/dfrp-piston-actuator.jpg",
+            name: "DFRP rotary pneumatic piston actuator",
+          },
+          {
+            image: "/images/dynaflo/dfn-yokeless-actuator.jpg",
+            name: "DFN yokeless spring & diaphragm actuator",
+          },
+        ],
       },
       {
         tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
         name: "Instrumentation",
         description:
           "Pressure/level control, I/P transducers, positioners.",
+        products: [
+          {
+            image: "/images/dynaflo/4000-pressure-controller.jpg",
+            name: "4000 Series local pressure controller",
+          },
+          {
+            image: "/images/dynaflo/5000-level-controller.jpg",
+            name: "5000 displacer liquid level controller",
+          },
+          {
+            image: "/images/dynaflo/ps2-positioner.jpg",
+            name: "Siemens PS2 digital valve positioner",
+          },
+          {
+            image: "/images/dynaflo/760-positioner.jpg",
+            name: "Model 760 pneumatic valve positioner",
+          },
+          {
+            image: "/images/dynaflo/pro-50-regulator.jpg",
+            name: "PRO-50 instrument supply regulator",
+          },
+          {
+            image: "/images/dynaflo/t950xp-transducer.jpg",
+            name: "Control Air T950XP I/P transducer",
+          },
+        ],
       },
     ],
     externalUrl: "https://valves.curtisswright.com/en-us/Dynaflo",
@@ -769,23 +931,115 @@ export const brands: Brand[] = [
         name: "Mechanical tube plugging",
         description:
           "Weld-free sealing of leaking heat exchanger, condenser & boiler tubes, rated to 7,000 psi.",
+        products: [
+          {
+            image: "/images/est/cpi-perma-plug.jpg",
+            name: "Pop-A-Plug CPI / Perma tube plugs",
+          },
+          {
+            image: "/images/est/p2-plug.jpg",
+            name: "Pop-A-Plug P2 high-pressure tube plugs",
+          },
+          {
+            image: "/images/est/tube-stabilizer.jpg",
+            name: "Pop-A-Plug tube stabilizers",
+          },
+          {
+            image: "/images/est/ram-package.jpg",
+            name: "Pop-A-Plug hydraulic ram package",
+          },
+          {
+            image: "/images/est/smart-ram-plus.jpg",
+            name: "Smart Ram Plus installation system",
+          },
+          {
+            image: "/images/est/smart-ram-640t.jpg",
+            name: "Smart Ram 640T installation tool",
+          },
+          {
+            image: "/images/est/manual-installation-tool.jpg",
+            name: "Manual installation tool",
+          },
+          {
+            image: "/images/est/removal-tool.jpg",
+            name: "Pop-A-Plug removal tool",
+          },
+          {
+            image: "/images/est/air-cooled-hx.jpg",
+            name: "Air-cooled heat exchanger plugging",
+          },
+        ],
       },
       {
         tag: "GRIPTIGHT®",
         name: "Hydrostatic test & isolation plugs",
         description:
           "Pipe, pipeline and pressure vessel testing, rated up to 15,000 psig.",
+        products: [
+          {
+            image: "/images/est/griptight-max.jpg",
+            name: "GripTight MAX test plug",
+          },
+          {
+            image: "/images/est/griptight-pe.jpg",
+            name: "GripTight PE test plug",
+          },
+          {
+            image: "/images/est/griptight-elbow.jpg",
+            name: "GripTight elbow test plug",
+          },
+          {
+            image: "/images/est/od-griptight.jpg",
+            name: "OD GripTight test plug",
+          },
+          {
+            image: "/images/est/high-lift-flange-weld.jpg",
+            name: "High Lift flange weld test plug",
+          },
+          {
+            image: "/images/est/socket-weld-sqs.jpg",
+            name: "Socket Weld SQS test plug",
+          },
+          {
+            image: "/images/est/griptight-reverse-pressure.jpg",
+            name: "GripTight reverse-pressure test plug",
+          },
+          {
+            image: "/images/est/griptight-isolation.jpg",
+            name: "GripTight pipe isolation plug",
+          },
+          {
+            image: "/images/est/double-block-bleed.jpg",
+            name: "Double block & bleed isolation plug",
+          },
+        ],
       },
       {
         tag: "G-SERIES",
         name: "Tube testing tools",
         description: "Testing guns for locating and identifying leaking tubes.",
+        products: [
+          {
+            image: "/images/est/g250-vacuum-tube-tester.jpg",
+            name: "G-250 vacuum tube tester",
+          },
+          {
+            image: "/images/est/g650-vacuum-joint-tester.jpg",
+            name: "G-650 vacuum joint tester",
+          },
+        ],
       },
       {
         tag: "HYDRA-LOC®",
         name: "Tube stabilizers & sleeving",
         description:
           "Repair for fractured, severed, or damaged tube sections.",
+        products: [
+          {
+            image: "/images/est/hydra-loc-sleeving.jpg",
+            name: "Hydra-Loc tube sleeving system",
+          },
+        ],
       },
     ],
     externalUrl: "https://valves.curtisswright.com/en-us/EST",

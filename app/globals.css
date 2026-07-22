@@ -149,7 +149,7 @@ h3,
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -161,6 +161,33 @@ h3,
   border-radius: 2px;
   background: currentColor;
   opacity: 0.85;
+}
+
+/* ================= Arabic (RTL) ================= */
+/* Cairo carries Arabic text; Latin glyphs inside Arabic copy (brand names,
+   model numbers, emails) fall through to Inter/Jakarta automatically. Arabic
+   is a joined script, so any letter-spacing breaks it — neutralize both the
+   heading defaults above and every tracking-* utility. */
+html[lang="ar"] body {
+  font-family: var(--font-cairo), var(--font-inter), system-ui, sans-serif;
+}
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] .eyebrow,
+html[lang="ar"] .font-display {
+  font-family: var(--font-cairo), var(--font-jakarta), system-ui, sans-serif;
+  letter-spacing: 0;
+}
+html[lang="ar"] [class*="tracking-"],
+html[lang="ar"] .eyebrow {
+  letter-spacing: 0 !important;
+}
+/* Numbers and phone-style strings inside Arabic text read left-to-right. */
+html[lang="ar"] .ltr-inline {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
 }
 
 /* Buttons */
@@ -453,6 +480,34 @@ h3,
 }
 .img-zoom:hover img {
   transform: scale(1.06);
+}
+
+/* Deep-link target: when a product-line strip photo links down to its matching
+   gallery card, flash a brass ring around the arrived-at card so it's easy to
+   spot which one. Radius matches the flip card (rounded-2xl). */
+.gallery-anchor {
+  scroll-margin-top: 9.5rem;
+  border-radius: 1.75rem;
+}
+.gallery-anchor:target {
+  animation: gallery-target 2.8s ease-out;
+}
+@keyframes gallery-target {
+  0%,
+  35% {
+    box-shadow:
+      0 0 0 3px var(--color-amber),
+      0 0 0 13px rgba(240, 196, 25, 0.26);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(240, 196, 25, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-anchor:target {
+    animation: none;
+    box-shadow: 0 0 0 3px var(--color-amber);
+  }
 }
 
 /* Animated underline for nav links */

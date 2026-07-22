@@ -7,14 +7,9 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, Phone, Mail, ChevronDown, ArrowRight } from "lucide-react";
 import { contact, brands } from "@/lib/data";
-
-const links = [
-  { href: "/about", label: "About us" },
-  { href: "/industries", label: "Industries" },
-  { href: "/products", label: "Products & Services" },
-  { href: "/projects", label: "Projects & Clients" },
-  { href: "/contact", label: "Contact" },
-];
+import { localeHref, stripLocale, type Locale } from "@/lib/i18n/routing";
+import type { Dict } from "@/lib/i18n/en";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const menuItem = {
   hidden: { opacity: 0, x: -14 },
@@ -25,14 +20,31 @@ const menuItem = {
   }),
 };
 
-export default function Navbar() {
+export default function Navbar({
+  lang = "en",
+  t,
+}: {
+  lang?: Locale;
+  t: Dict["nav"];
+}) {
   const [open, setOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  // Active-state checks compare the canonical (locale-stripped) path so the
+  // same link highlights on both /contact and /ar/contact.
+  const path = stripLocale(pathname);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ticking = useRef(false);
+
+  const links = [
+    { href: "/about", label: t.about },
+    { href: "/industries", label: t.industries },
+    { href: "/products", label: t.products },
+    { href: "/projects", label: t.projects },
+    { href: "/contact", label: t.contact },
+  ];
 
   useEffect(() => {
     function onScroll() {
@@ -67,7 +79,7 @@ export default function Navbar() {
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
               className="inline-flex items-center gap-1.5 hover:text-white transition-colors"
             >
-              <Phone size={13} /> {contact.phone}
+              <Phone size={13} /> <span className="ltr-inline">{contact.phone}</span>
             </a>
             <a
               href={`mailto:${contact.salesEmail}`}
@@ -77,7 +89,7 @@ export default function Navbar() {
             </a>
           </div>
           <div className="text-white/60 tracking-[0.14em] uppercase text-[11.5px]">
-            Sole Curtiss-Wright agent · Egypt
+            {t.tagline}
           </div>
         </div>
       </div>
@@ -92,7 +104,11 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="h-17 flex items-center justify-between">
-            <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
+            <Link
+              href={localeHref(lang, "/")}
+              className="flex items-center"
+              onClick={() => setOpen(false)}
+            >
               <Image
                 src="/logo-transparent.png"
                 alt="ACTS: Advanced Company for Trading Services"
@@ -105,12 +121,12 @@ export default function Navbar() {
 
             <div className="hidden md:flex items-center gap-6">
               <Link
-                href="/"
+                href={localeHref(lang, "/")}
                 className={`nav-underline text-[15px] font-semibold transition-colors ${
-                  pathname === "/" ? "text-navy active" : "text-gray-600 hover:text-navy"
+                  path === "/" ? "text-navy active" : "text-gray-600 hover:text-navy"
                 }`}
               >
-                Home
+                {t.home}
               </Link>
 
               <div
@@ -121,12 +137,12 @@ export default function Navbar() {
                 <Link
                   href="/brands"
                   className={`nav-underline inline-flex items-center gap-1 text-[15px] font-semibold transition-colors ${
-                    pathname.startsWith("/brands")
+                    path.startsWith("/brands")
                       ? "text-navy active"
                       : "text-gray-600 hover:text-navy"
                   }`}
                 >
-                  Our Brands
+                  {t.ourBrands}
                   <ChevronDown
                     size={15}
                     className={`transition-transform duration-200 ${
@@ -163,7 +179,7 @@ export default function Navbar() {
                           href="/brands"
                           className="block px-4 py-3 text-[14px] font-semibold text-brand hover:bg-brand-light transition-colors"
                         >
-                          View all brands
+                          {t.viewAllBrands}
                         </Link>
                       </div>
                     </motion.div>
@@ -174,9 +190,9 @@ export default function Navbar() {
               {links.map((l) => (
                 <Link
                   key={l.href}
-                  href={l.href}
+                  href={localeHref(lang, l.href)}
                   className={`nav-underline text-[15px] font-semibold transition-colors ${
-                    pathname.startsWith(l.href)
+                    path.startsWith(l.href)
                       ? "text-navy active"
                       : "text-gray-600 hover:text-navy"
                   }`}
@@ -184,26 +200,30 @@ export default function Navbar() {
                   {l.label}
                 </Link>
               ))}
+              <LanguageSwitcher lang={lang} />
               <Link
-                href="/quote"
+                href={localeHref(lang, "/quote")}
                 className="btn btn-primary text-[14.5px] px-5 py-2.5 group"
               >
-                Request a quote
+                {t.requestQuote}
                 <ArrowRight
                   size={15}
-                  className="transition-transform group-hover:translate-x-0.5 -mr-0.5"
+                  className="transition-transform group-hover:translate-x-0.5 -mr-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
                 />
               </Link>
             </div>
 
-            <button
-              className="md:hidden text-navy p-2"
-              onClick={() => setOpen(!open)}
-              aria-label="Toggle menu"
-              aria-expanded={open}
-            >
-              {open ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="md:hidden flex items-center gap-2">
+              <LanguageSwitcher lang={lang} />
+              <button
+                className="text-navy p-2"
+                onClick={() => setOpen(!open)}
+                aria-label={t.toggleMenu}
+                aria-expanded={open}
+              >
+                {open ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -219,13 +239,13 @@ export default function Navbar() {
               <div className="px-6 py-3 flex flex-col">
                 <motion.div variants={menuItem} initial="hidden" animate="show" custom={0}>
                   <Link
-                    href="/"
+                    href={localeHref(lang, "/")}
                     onClick={() => setOpen(false)}
                     className={`block py-3 text-[15px] font-semibold border-b border-gray-100 ${
-                      pathname === "/" ? "text-navy" : "text-gray-600"
+                      path === "/" ? "text-navy" : "text-gray-600"
                     }`}
                   >
-                    Home
+                    {t.home}
                   </Link>
                 </motion.div>
 
@@ -240,10 +260,10 @@ export default function Navbar() {
                     type="button"
                     onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
                     className={`w-full flex items-center justify-between py-3 text-[15px] font-semibold ${
-                      pathname.startsWith("/brands") ? "text-navy" : "text-gray-600"
+                      path.startsWith("/brands") ? "text-navy" : "text-gray-600"
                     }`}
                   >
-                    Our Brands
+                    {t.ourBrands}
                     <ChevronDown
                       size={16}
                       className={`transition-transform duration-200 ${
@@ -260,7 +280,7 @@ export default function Navbar() {
                         transition={{ duration: 0.25 }}
                         className="overflow-hidden"
                       >
-                        <div className="pb-3 pl-3 flex flex-col gap-1">
+                        <div className="pb-3 ps-3 flex flex-col gap-1">
                           {brands.map((b) => (
                             <Link
                               key={b.slug}
@@ -276,7 +296,7 @@ export default function Navbar() {
                             onClick={() => setOpen(false)}
                             className="py-2 text-[14px] font-semibold text-brand"
                           >
-                            View all brands
+                            {t.viewAllBrands}
                           </Link>
                         </div>
                       </motion.div>
@@ -293,10 +313,10 @@ export default function Navbar() {
                     custom={i + 2}
                   >
                     <Link
-                      href={l.href}
+                      href={localeHref(lang, l.href)}
                       onClick={() => setOpen(false)}
                       className={`block py-3 text-[15px] font-semibold border-b border-gray-100 ${
-                        pathname.startsWith(l.href) ? "text-navy" : "text-gray-600"
+                        path.startsWith(l.href) ? "text-navy" : "text-gray-600"
                       }`}
                     >
                       {l.label}
@@ -310,11 +330,11 @@ export default function Navbar() {
                   custom={links.length + 2}
                 >
                   <Link
-                    href="/quote"
+                    href={localeHref(lang, "/quote")}
                     onClick={() => setOpen(false)}
                     className="btn btn-primary w-full my-3 px-5 py-3 text-[15px]"
                   >
-                    Request a quote
+                    {t.requestQuote}
                   </Link>
                 </motion.div>
               </div>

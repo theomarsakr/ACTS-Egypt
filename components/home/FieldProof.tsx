@@ -13,8 +13,21 @@ export type FieldProofItem = {
 };
 
 /* Engagement-highlight carousel. Deliberately NOT fake testimonials: these are
-   the real (anonymized) engagement types ACTS supports, from lib/data.ts. */
-export default function FieldProof({ items }: { items: FieldProofItem[] }) {
+   the real (anonymized) engagement types ACTS supports, from lib/data.ts.
+   `dark` renders it for a dark band: the card goes translucent (the band's
+   blueprint grid shows through) and the controls switch to glass/amber. */
+export default function FieldProof({
+  items,
+  dark = false,
+  labels = {
+    confidential: "Client details confidential ·",
+    seeWho: "See who we work with",
+  },
+}: {
+  items: FieldProofItem[];
+  dark?: boolean;
+  labels?: { confidential: string; seeWho: string };
+}) {
   const [[index, dir], setIndex] = useState<[number, number]>([0, 1]);
   const reduced = useReducedMotion();
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -44,12 +57,20 @@ export default function FieldProof({ items }: { items: FieldProofItem[] }) {
       onMouseLeave={() => (hovering.current = false)}
       className="relative"
     >
-      <div className="relative overflow-hidden rounded-3xl bg-ink text-white min-h-[21rem] md:min-h-[17rem]">
-        <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
-        <div
-          className="mesh mesh-steel w-96 h-96 -top-40 -right-24 opacity-70"
-          aria-hidden
-        />
+      <div
+        className={`relative overflow-hidden rounded-3xl text-white min-h-[21rem] md:min-h-[17rem] ${
+          dark ? "bg-white/3 ring-1 ring-white/10" : "bg-ink"
+        }`}
+      >
+        {!dark && (
+          <>
+            <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
+            <div
+              className="mesh mesh-steel w-96 h-96 -top-40 -right-24 opacity-70"
+              aria-hidden
+            />
+          </>
+        )}
         <AnimatePresence mode="wait" custom={dir}>
           <motion.figure
             key={item.slug}
@@ -78,12 +99,12 @@ export default function FieldProof({ items }: { items: FieldProofItem[] }) {
             </blockquote>
             <div className="mt-6 flex items-center gap-3 text-[13.5px] text-white/45">
               <span className="w-8 h-px bg-white/20" />
-              Client details confidential ·{" "}
+              {labels.confidential}{" "}
               <Link
                 href="/projects"
                 className="inline-flex items-center gap-1 font-semibold text-white/75 hover:text-amber transition-colors"
               >
-                See who we work with <ArrowRight size={14} />
+                {labels.seeWho} <ArrowRight size={14} className="rtl:rotate-180" />
               </Link>
             </div>
           </motion.figure>
@@ -100,27 +121,34 @@ export default function FieldProof({ items }: { items: FieldProofItem[] }) {
               onClick={() => setIndex([i, i > index ? 1 : -1])}
               className={`h-1.5 rounded-full transition-all duration-400 ${
                 i === index
-                  ? "w-7 bg-brand"
-                  : "w-2.5 bg-gray-300 hover:bg-gray-400"
+                  ? `w-7 ${dark ? "bg-amber" : "bg-brand"}`
+                  : `w-2.5 ${
+                      dark
+                        ? "bg-white/25 hover:bg-white/40"
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`
               }`}
             />
           ))}
         </div>
         <div className="flex gap-2">
-          <button
-            onClick={() => go(-1)}
-            aria-label="Previous"
-            className="w-10 h-10 rounded-full border border-gray-200 bg-white text-navy flex items-center justify-center transition-all hover:border-brand/50 hover:text-brand hover:-translate-y-0.5 shadow-sm"
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <button
-            onClick={() => go(1)}
-            aria-label="Next"
-            className="w-10 h-10 rounded-full border border-gray-200 bg-white text-navy flex items-center justify-center transition-all hover:border-brand/50 hover:text-brand hover:-translate-y-0.5 shadow-sm"
-          >
-            <ChevronRight size={18} />
-          </button>
+          {[
+            { delta: -1, label: "Previous", Icon: ChevronLeft },
+            { delta: 1, label: "Next", Icon: ChevronRight },
+          ].map(({ delta, label, Icon }) => (
+            <button
+              key={label}
+              onClick={() => go(delta)}
+              aria-label={label}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:-translate-y-0.5 ${
+                dark
+                  ? "glass-dark border border-white/15 text-white/80 hover:border-amber/50 hover:text-amber"
+                  : "border border-gray-200 bg-white text-navy shadow-sm hover:border-brand/50 hover:text-brand"
+              }`}
+            >
+              <Icon size={18} />
+            </button>
+          ))}
         </div>
       </div>
     </div>

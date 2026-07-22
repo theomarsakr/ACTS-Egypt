@@ -3,41 +3,57 @@ import Image from "next/image";
 import { Phone, Mail, MapPin, MessageCircle, Clock } from "lucide-react";
 import { brands, contact, offices, industries, officeHours } from "@/lib/data";
 import FooterQuoteForm from "@/components/FooterQuoteForm";
+import { getDict, localeHref, type Dict, type Locale } from "@/lib/i18n";
 
-const companyLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About us" },
-  { href: "/products", label: "Products & Services" },
-  { href: "/projects", label: "Projects & Clients" },
-  { href: "/contact", label: "Contact" },
-  { href: "/quote", label: "Request a quote" },
-];
+export default function Footer({
+  lang = "en",
+  t,
+  industryNames,
+}: {
+  lang?: Locale;
+  t: Dict["footer"];
+  industryNames: Dict["industryNames"];
+}) {
+  const isAr = lang === "ar";
+  const dict = getDict(lang);
 
-// Real channels only — phone, sales email, WhatsApp (sales mobile), and maps.
-const channels = [
-  {
-    href: `tel:${contact.phone.replace(/\s/g, "")}`,
-    label: "Call ACTS",
-    icon: Phone,
-  },
-  {
-    href: `mailto:${contact.salesEmail}`,
-    label: "Email sales",
-    icon: Mail,
-  },
-  {
-    href: "https://wa.me/201223235399",
-    label: "WhatsApp",
-    icon: MessageCircle,
-  },
-  {
-    href: "https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza",
-    label: "Find us on Maps",
-    icon: MapPin,
-  },
-];
+  const companyLinks = [
+    { href: "/", label: dict.nav.home },
+    { href: "/about", label: dict.nav.about },
+    { href: "/products", label: dict.nav.products },
+    { href: "/projects", label: dict.nav.projects },
+    { href: "/contact", label: dict.nav.contact },
+    { href: "/quote", label: dict.nav.requestQuote },
+  ];
 
-export default function Footer() {
+  // Real channels only — phone, sales email, WhatsApp (sales mobile), and maps.
+  const channels = [
+    {
+      href: `tel:${contact.phone.replace(/\s/g, "")}`,
+      label: t.channels.call,
+      icon: Phone,
+    },
+    {
+      href: `mailto:${contact.salesEmail}`,
+      label: t.channels.email,
+      icon: Mail,
+    },
+    {
+      href: "https://wa.me/201223235399",
+      label: t.channels.whatsapp,
+      icon: MessageCircle,
+    },
+    {
+      href: "https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza",
+      label: t.channels.maps,
+      icon: MapPin,
+    },
+  ];
+
+  // Arabic address + hours come from the contact dictionary.
+  const office = isAr ? dict.contact.office : offices[0];
+  const hours = isAr ? dict.contact.officeHours[0] : officeHours[0];
+
   return (
     <footer className="relative bg-ink text-white overflow-hidden">
       <div className="absolute inset-0 blueprint opacity-40" aria-hidden />
@@ -49,14 +65,16 @@ export default function Footer() {
         <div className="py-12 md:py-14 flex flex-col lg:flex-row lg:items-center gap-7 border-b border-white/10">
           <div className="flex-1">
             <h3 className="text-2xl md:text-[1.7rem] font-extrabold tracking-tight">
-              Have a requirement on your desk?
+              {t.rfqTitle}
             </h3>
-            <p className="mt-2 text-[15px] text-white/60 max-w-lg">
-              Leave your work email and finish the details on the quote form —
-              our engineers typically respond within 24 hours.
-            </p>
+            <p className="mt-2 text-[15px] text-white/60 max-w-lg">{t.rfqText}</p>
           </div>
-          <FooterQuoteForm />
+          <FooterQuoteForm
+            lang={lang}
+            emailLabel={t.emailLabel}
+            emailPlaceholder={t.emailPlaceholder}
+            startQuote={t.startQuote}
+          />
         </div>
 
         {/* Link columns */}
@@ -72,9 +90,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-[14.5px] text-white/55 mt-5 max-w-xs leading-relaxed">
-              Advanced Company for Trading Services — Egypt&apos;s sole agent
-              for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright) since
-              2006.
+              {t.blurb}
             </p>
             <div className="bg-white rounded-xl px-3 py-2 inline-block mt-6">
               <Image
@@ -104,12 +120,12 @@ export default function Footer() {
 
           <div>
             <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5">
-              Company
+              {t.company}
             </div>
             {companyLinks.map((l) => (
               <Link
                 key={l.href}
-                href={l.href}
+                href={localeHref(lang, l.href)}
                 className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
               >
                 {l.label}
@@ -119,7 +135,7 @@ export default function Footer() {
 
           <div>
             <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5">
-              Our brands
+              {t.ourBrands}
             </div>
             {brands.map((b) => (
               <Link
@@ -131,7 +147,7 @@ export default function Footer() {
               </Link>
             ))}
             <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5 mt-8">
-              Industries
+              {t.industries}
             </div>
             {industries.slice(0, 4).map((ind) => (
               <Link
@@ -139,20 +155,21 @@ export default function Footer() {
                 href="/industries"
                 className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
               >
-                {ind.name}
+                {industryNames[ind.slug] ?? ind.name}
               </Link>
             ))}
           </div>
 
           <div>
             <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5">
-              Get in touch
+              {t.getInTouch}
             </div>
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
               className="flex items-center gap-2.5 text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
             >
-              <Phone size={15} className="text-amber shrink-0" /> {contact.phone}
+              <Phone size={15} className="text-amber shrink-0" />{" "}
+              <span className="ltr-inline">{contact.phone}</span>
             </a>
             <a
               href={`mailto:${contact.salesEmail}`}
@@ -163,17 +180,17 @@ export default function Footer() {
             <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5">
               <MapPin size={15} className="text-amber shrink-0 mt-1" />
               <span>
-                {offices[0].name}
+                {office.name}
                 <br />
-                {offices[0].address}
+                {office.address}
               </span>
             </div>
             <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5">
               <Clock size={15} className="text-amber shrink-0 mt-1" />
               <span>
-                {officeHours[0].day}
+                {hours.day}
                 <br />
-                {officeHours[0].hours}
+                {hours.hours}
               </span>
             </div>
           </div>
@@ -182,12 +199,9 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="py-7 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-3 text-[13px] text-white/40">
           <div>
-            © {new Date().getFullYear()} Advanced Company for Trading Services.
-            All rights reserved.
+            © {new Date().getFullYear()} {t.companyFull}. {t.rights}
           </div>
-          <div className="tracking-[0.18em] uppercase">
-            Sole Curtiss-Wright agent · Egypt
-          </div>
+          <div className="tracking-[0.18em] uppercase">{t.tagline}</div>
         </div>
       </div>
     </footer>

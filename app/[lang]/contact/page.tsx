@@ -6,15 +6,24 @@ import Reveal from "@/components/Reveal";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
-import { offices, contact, team, departments, officeHours } from "@/lib/data";
+import { contact, team, departments } from "@/lib/data";
+import { getDict, localeHref, type Locale } from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get in touch with ACTS' sales & technical team, headquartered at Arkan Plaza, Sheikh Zayed City, Giza, Egypt.",
-};
+type PageProps = { params: Promise<{ lang: string }> };
 
-export default function ContactPage() {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const c = getDict(lang).contact;
+  return { title: c.metaTitle, description: c.metaDescription };
+}
+
+export default async function ContactPage({ params }: PageProps) {
+  const { lang: rawLang } = await params;
+  const lang: Locale = rawLang === "ar" ? "ar" : "en";
+  const c = getDict(lang).contact;
+  const arrowNudge =
+    "transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1";
+
   return (
     <>
       {/* Page hero */}
@@ -28,23 +37,25 @@ export default function ContactPage() {
             sizes="100vw"
             className="object-cover opacity-40"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50" />
+          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50 rtl:bg-linear-to-l" />
         </div>
         <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
           <Reveal>
             <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-              Contact
+              {c.heroChip}
             </div>
             <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
-              Get in touch
+              {c.heroTitle}
             </h1>
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              Have a technical question, need a quote, or want to discuss a
-              project? Our team is ready to help. Looking for pricing?{" "}
-              <Link href="/quote" className="text-amber font-semibold hover:underline">
-                Request a quote instead
+              {c.lede}{" "}
+              <Link
+                href={localeHref(lang, "/quote")}
+                className="text-amber font-semibold hover:underline"
+              >
+                {c.quoteInstead}
               </Link>
               .
             </p>
@@ -56,39 +67,39 @@ export default function ContactPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-4">
-              {offices.map((o) => (
-                <Reveal key={o.tag}>
-                  <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-                    <div className="flex gap-4">
-                      <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
-                        <MapPin size={20} />
+              <Reveal>
+                <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+                  <div className="flex gap-4">
+                    <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
+                      <MapPin size={20} />
+                    </div>
+                    <div>
+                      <div className="text-[13px] font-semibold text-brand">
+                        {c.office.tag}
                       </div>
-                      <div>
-                        <div className="text-[13px] font-semibold text-brand">
-                          {o.tag}
-                        </div>
-                        <div className="font-bold text-navy mt-0.5">
-                          Advanced Company for Trading Services (ACTS)
-                        </div>
-                        <div className="text-[15px] text-gray-600 mt-0.5">
-                          {o.name}, {o.address}
-                        </div>
+                      <div className="font-bold text-navy mt-0.5">
+                        {c.companyFull}
+                      </div>
+                      <div className="text-[15px] text-gray-600 mt-0.5">
+                        {c.office.name}, {c.office.address}
                       </div>
                     </div>
-                  </SpotlightCard>
-                </Reveal>
-              ))}
+                  </div>
+                </SpotlightCard>
+              </Reveal>
 
               <Reveal delay={90}>
                 <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
                   <div className="text-sm font-bold text-navy uppercase tracking-wide">
-                    Meet our team
+                    {c.meetTeam}
                   </div>
                   <div className="mt-3 space-y-1.5">
                     {team.map((t) => (
                       <div key={t.name} className="flex items-baseline gap-2 text-[15px]">
                         <span className="font-semibold text-navy">{t.name}</span>
-                        <span className="text-gray-500">, {t.role}</span>
+                        <span className="text-gray-500">
+                          , {c.teamRoles[t.role] ?? t.role}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -98,10 +109,10 @@ export default function ContactPage() {
               <Reveal delay={150}>
                 <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
                   <div className="text-sm font-bold text-navy uppercase tracking-wide">
-                    Office hours
+                    {c.officeHoursTitle}
                   </div>
                   <div className="mt-3 space-y-1.5">
-                    {officeHours.map((h) => (
+                    {c.officeHours.map((h) => (
                       <div
                         key={h.day}
                         className="flex items-center justify-between text-[15px] text-gray-600"
@@ -117,14 +128,11 @@ export default function ContactPage() {
               <Reveal delay={210}>
                 <Magnetic>
                   <Link
-                    href="/quote"
+                    href={localeHref(lang, "/quote")}
                     className="group inline-flex items-center gap-2 text-base font-semibold px-7 py-3.5 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-lg shadow-brand/25"
                   >
-                    Request a quote
-                    <ArrowRight
-                      size={18}
-                      className="transition-transform group-hover:translate-x-1"
-                    />
+                    {c.requestQuote}
+                    <ArrowRight size={18} className={arrowNudge} />
                   </Link>
                 </Magnetic>
               </Reveal>
@@ -138,7 +146,7 @@ export default function ContactPage() {
                       <MapPin size={16} />
                     </span>
                     <div className="text-[13px] font-bold uppercase tracking-[0.14em] text-navy">
-                      Headquarters
+                      {c.headquarters}
                     </div>
                   </div>
                   <a
@@ -147,12 +155,15 @@ export default function ContactPage() {
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-brand hover:text-brand-dark transition-colors"
                   >
-                    Open in Maps
-                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+                    {c.openInMaps}
+                    <ArrowRight
+                      size={14}
+                      className="transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
+                    />
                   </a>
                 </div>
                 <iframe
-                  title="ACTS headquarters, Arkan Plaza, Sheikh Zayed City, Giza"
+                  title={c.mapTitle}
                   src="https://maps.google.com/maps?q=Arkan%20Plaza%2C%20Sheikh%20Zayed%20City%2C%20Giza%2C%20Egypt&z=13&output=embed"
                   className="w-full flex-1 min-h-88 block grayscale-[0.25] transition-[filter] duration-500 hover:grayscale-0"
                   loading="lazy"
@@ -170,43 +181,46 @@ export default function ContactPage() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
               <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Reach the right team
+                {c.deptChip}
               </div>
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy">
-                Departments &amp; direct lines
+                {c.deptTitle}
               </h2>
             </div>
           </Reveal>
           <div className="mt-10">
             <SpecSheet
               records={departments.map((d) => ({
-                title: d.name,
+                title: c.departmentNames[d.name] ?? d.name,
                 fields: [
                   {
-                    label: "Phone",
+                    label: c.specLabels.phone,
                     value: (
                       <a
                         href={`tel:${d.phone.replace(/\s/g, "")}`}
                         className="hover:text-brand transition-colors"
                       >
-                        {d.phone}
+                        <span className="ltr-inline">{d.phone}</span>
                       </a>
                     ),
                   },
                   {
-                    label: "Mobile",
+                    label: c.specLabels.mobile,
                     value: (
                       <a
                         href={`tel:${d.mobile.replace(/\s/g, "")}`}
                         className="hover:text-brand transition-colors"
                       >
-                        {d.mobile}
+                        <span className="ltr-inline">{d.mobile}</span>
                       </a>
                     ),
                   },
-                  { label: "Fax", value: d.fax },
                   {
-                    label: "Email",
+                    label: c.specLabels.fax,
+                    value: <span className="ltr-inline">{d.fax}</span>,
+                  },
+                  {
+                    label: c.specLabels.email,
                     value: (
                       <span className="flex flex-col gap-0.5">
                         {d.emails.map((e) => (
@@ -234,7 +248,7 @@ export default function ContactPage() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-10">
               <h2 className="text-3xl font-extrabold tracking-tight text-navy">
-                Let&apos;s Connect
+                {c.connectTitle}
               </h2>
             </div>
           </Reveal>
@@ -248,8 +262,12 @@ export default function ContactPage() {
                   <Mail size={20} />
                 </div>
                 <div>
-                  <div className="text-[13px] font-semibold text-brand">Email</div>
-                  <div className="text-[15px] font-medium text-navy">{contact.infoEmail}</div>
+                  <div className="text-[13px] font-semibold text-brand">
+                    {c.emailLabel}
+                  </div>
+                  <div className="text-[15px] font-medium text-navy">
+                    {contact.infoEmail}
+                  </div>
                 </div>
               </a>
             </Reveal>
@@ -262,8 +280,12 @@ export default function ContactPage() {
                   <Phone size={20} />
                 </div>
                 <div>
-                  <div className="text-[13px] font-semibold text-brand">Phone</div>
-                  <div className="text-[15px] font-medium text-navy">{contact.phone}</div>
+                  <div className="text-[13px] font-semibold text-brand">
+                    {c.phoneLabel}
+                  </div>
+                  <div className="text-[15px] font-medium text-navy">
+                    <span className="ltr-inline">{contact.phone}</span>
+                  </div>
                 </div>
               </a>
             </Reveal>
@@ -273,9 +295,11 @@ export default function ContactPage() {
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <div className="text-[13px] font-semibold text-brand">Location</div>
+                  <div className="text-[13px] font-semibold text-brand">
+                    {c.locationLabel}
+                  </div>
                   <div className="text-[15px] font-medium text-navy">
-                    Arkan Plaza, Sheikh Zayed City, Giza, Egypt
+                    {c.locationValue}
                   </div>
                 </div>
               </div>

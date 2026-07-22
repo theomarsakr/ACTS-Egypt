@@ -4,26 +4,31 @@ import RFQForm from "@/components/RFQForm";
 import Reveal from "@/components/Reveal";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import { getBrand } from "@/lib/data";
+import { getDict, type Locale } from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Request a quote",
-  description:
-    "Request a quote for Farris Engineering, Dyna-Flo, and EST products in Egypt. Our application engineers typically respond within 24 hours.",
-};
-
-const steps = [
-  { step: "1. Acknowledgment", text: "You'll receive an auto-confirmation of your submission" },
-  { step: "2. Technical Review", text: "Our engineering team reviews your requirements" },
-  { step: "3. Quotation", text: "A formal quote is prepared and sent to you" },
-  { step: "4. Follow-Up", text: "One of our engineers will contact you to clarify any details" },
-];
-
-type Props = {
+type PageProps = {
+  params: Promise<{ lang: string }>;
   searchParams: Promise<{ brand?: string; email?: string }>;
 };
 
-export default async function QuotePage({ searchParams }: Props) {
-  const { brand: brandSlug, email } = await searchParams;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const q = getDict(lang).quote;
+  return { title: q.metaTitle, description: q.metaDescription };
+}
+
+export default async function QuotePage({ params, searchParams }: PageProps) {
+  const [{ lang: rawLang }, { brand: brandSlug, email }] = await Promise.all([
+    params,
+    searchParams,
+  ]);
+  const lang: Locale = rawLang === "ar" ? "ar" : "en";
+  const dict = getDict(lang);
+  const q = dict.quote;
   const brand = brandSlug ? getBrand(brandSlug) : undefined;
 
   return (
@@ -39,21 +44,20 @@ export default async function QuotePage({ searchParams }: Props) {
             sizes="100vw"
             className="object-cover opacity-40"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50" />
+          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50 rtl:bg-linear-to-l" />
         </div>
         <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
           <Reveal>
             <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-              Request a quote
+              {q.heroChip}
             </div>
             <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
-              Get a quotation
+              {q.heroTitle}
             </h1>
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              Complete the form below and one of our application engineers
-              will respond with a formal quote, typically within 24 hours.
+              {q.lede}
             </p>
           </Reveal>
         </div>
@@ -62,7 +66,7 @@ export default async function QuotePage({ searchParams }: Props) {
       <section className="py-16">
         <div className="max-w-2xl mx-auto px-6">
           <Reveal>
-            <RFQForm initialBrand={brand?.name} initialEmail={email} />
+            <RFQForm initialBrand={brand?.name} initialEmail={email} t={dict.rfq} />
           </Reveal>
         </div>
       </section>
@@ -72,12 +76,12 @@ export default async function QuotePage({ searchParams }: Props) {
           <Reveal>
             <div className="text-center mb-8">
               <h2 className="text-2xl font-extrabold tracking-tight text-navy">
-                What Happens Next?
+                {q.nextTitle}
               </h2>
             </div>
           </Reveal>
           <div className="grid sm:grid-cols-2 gap-4">
-            {steps.map((s, i) => (
+            {q.steps.map((s, i) => (
               <Reveal key={s.step} delay={i * 80}>
                 <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                   <div className="text-sm font-bold text-brand">{s.step}</div>

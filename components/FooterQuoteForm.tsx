@@ -3,9 +3,20 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { localeHref, type Locale } from "@/lib/i18n/routing";
 
 /* Fast-lane into the real RFQ flow: takes an email and prefills /quote. */
-export default function FooterQuoteForm() {
+export default function FooterQuoteForm({
+  lang = "en",
+  emailLabel,
+  emailPlaceholder,
+  startQuote,
+}: {
+  lang?: Locale;
+  emailLabel: string;
+  emailPlaceholder: string;
+  startQuote: string;
+}) {
   const router = useRouter();
   const [email, setEmail] = useState("");
 
@@ -13,12 +24,13 @@ export default function FooterQuoteForm() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        router.push(`/quote${email ? `?email=${encodeURIComponent(email)}` : ""}`);
+        const base = localeHref(lang, "/quote");
+        router.push(`${base}${email ? `?email=${encodeURIComponent(email)}` : ""}`);
       }}
       className="flex flex-col sm:flex-row gap-3 w-full max-w-md"
     >
       <label htmlFor="footer-email" className="sr-only">
-        Work email
+        {emailLabel}
       </label>
       <input
         id="footer-email"
@@ -26,14 +38,15 @@ export default function FooterQuoteForm() {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="you@company.com"
+        placeholder={emailPlaceholder}
+        dir="ltr"
         className="flex-1 glass-dark rounded-xl px-4 py-3.5 text-[15px] text-white placeholder:text-white/50 outline-none transition-all focus:border-amber/60 focus:bg-white/10"
       />
       <button type="submit" className="btn btn-primary px-6 py-3.5 text-[15px] group shrink-0">
-        Start a quote
+        {startQuote}
         <ArrowRight
           size={16}
-          className="transition-transform group-hover:translate-x-1"
+          className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
         />
       </button>
     </form>
