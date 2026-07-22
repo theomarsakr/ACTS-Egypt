@@ -44,8 +44,9 @@ export const brandHeroVideo: Record<string, BrandMedia> = {
   est: {
     src: "/videos/est-hero.mp4",
     poster: "/videos/est-hero-poster.jpg",
-    // Opens on a near-white product slide that blows out the hero copy —
-    // needs the strongest navy wash of the three films.
-    dim: "opacity-50",
+    // Film trimmed to its clean dark macro slides (title cards, framed ACTS
+    // slide and closing collage cut; caption band + AI watermark cropped) —
+    // light wash for copy contrast, matching Farris.
+    dim: "opacity-75",
   },
 };
