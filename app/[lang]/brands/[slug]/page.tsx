@@ -13,6 +13,7 @@ import {
 import Reveal from "@/components/Reveal";
 import BrandHeroVideo from "@/components/brands/BrandHeroVideo";
 import ProductLineCard from "@/components/brands/ProductLineCard";
+import ProductShowcase from "@/components/brands/ProductShowcase";
 import { brandHeroVideo, galleryAnchorId } from "@/lib/brandMedia";
 import ProductFlipCard from "@/components/ProductFlipCard";
 import CountUp from "@/components/CountUp";
@@ -353,6 +354,11 @@ export default async function BrandPage({ params }: Props) {
               </Reveal>
             ))}
           </div>
+
+          {/* Scroll-driven 3D turntable of each brand's flagship product,
+              modeled procedurally in three.js with spec callouts from the hub
+              data — then docked into its real-world installation. */}
+          <ProductShowcase slug={brand.slug} />
 
           {hub && (
             <div id="engineering-hub" className="mt-20 scroll-mt-40">
