@@ -5,6 +5,11 @@
 export type BrandMedia = {
   /** Muted, looping hero clip (H.264, +faststart for progressive streaming). */
   src: string;
+  /**
+   * Phone-sized variant (~640px, center-cropped on the product) — roughly a
+   * third of the desktop file, and portrait screens crop far less of it.
+   */
+  srcMobile?: string;
   /** Poster still — first paint for the hero and the reduced-motion fallback. */
   poster: string;
   /**
@@ -30,6 +35,7 @@ export function galleryAnchorId(src: string): string {
 export const brandHeroVideo: Record<string, BrandMedia> = {
   "farris-engineering": {
     src: "/videos/farris-hero.mp4",
+    srcMobile: "/videos/farris-hero-mobile.mp4",
     poster: "/videos/farris-hero-poster.jpg",
     // Film trimmed to its clean slides (title-card intro/outro cut with
     // ffmpeg); only small lower-third captions remain, which the hero's bottom
@@ -38,11 +44,13 @@ export const brandHeroVideo: Record<string, BrandMedia> = {
   },
   "dyna-flo": {
     src: "/videos/dyna-flo-hero.mp4",
+    srcMobile: "/videos/dyna-flo-hero-mobile.mp4",
     poster: "/videos/dyna-flo-hero-poster.jpg",
     // Dark macro footage — reads perfectly behind the scrims at full strength.
   },
   est: {
     src: "/videos/est-hero.mp4",
+    srcMobile: "/videos/est-hero-mobile.mp4",
     poster: "/videos/est-hero-poster.jpg",
     // Film trimmed to its clean dark macro slides (title cards, framed ACTS
     // slide and closing collage cut; caption band + AI watermark cropped) —

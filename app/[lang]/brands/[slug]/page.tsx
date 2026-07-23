@@ -236,6 +236,7 @@ export default async function BrandPage({ params }: Props) {
         {heroVideo ? (
           <BrandHeroVideo
             src={heroVideo.src}
+            srcMobile={heroVideo.srcMobile}
             poster={heroVideo.poster}
             dim={heroVideo.dim}
           />

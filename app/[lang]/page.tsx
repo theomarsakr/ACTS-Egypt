@@ -27,21 +27,10 @@ import {
   engagementHighlights,
   contact,
 } from "@/lib/data";
-import {
-  brandProductImages,
-  brandSlugToFolder,
-} from "@/lib/brandProductImages";
+import { brandCardImages, brandSlugToFolder } from "@/lib/brandProductImages";
 import { fill, getDict, localeHref, type Locale } from "@/lib/i18n";
 
 const whatWeDoIcons = [Gauge, Wrench, LineChart];
-
-/* Lead product shot on each brand card — frame 0 of the auto-rotating gallery,
-   a clean cut-out on white before the card cycles through the brand's range. */
-const brandLeadShots: Record<string, string> = {
-  "farris-engineering": "/images/home/bestseller-farris.jpg",
-  "dyna-flo": "/images/home/bestseller-dynaflo.jpg",
-  est: "/images/home/bestseller-est.jpg",
-};
 
 /* Gallery photos — labels/subtitles/groups come from the locale dictionary
    (aligned by index); the structural fields live here. */
@@ -183,20 +172,15 @@ export default async function Home({
           </Reveal>
           <div className="mt-12 grid md:grid-cols-3 gap-6">
             {brands.map((b, i) => {
-              // Auto-rotating gallery: the lead cut-out first, then the brand's
-              // full product range from its public/images/<folder>/.
+              // Auto-rotating gallery of normalized card tiles (lead cut-out
+              // first) — every frame is the product centered on an identical
+              // 15:16 white canvas, so one fit works for all of them.
               const folder = brandSlugToFolder[b.slug];
-              const lead = brandLeadShots[b.slug];
-              const galleryImages = folder
-                ? [lead, ...brandProductImages[folder]]
-                : [lead ?? b.image];
+              const galleryImages = folder ? brandCardImages[folder] : [b.image];
               const meta = hm.brands.meta[b.slug] ?? {
                 category: b.category,
                 summary: b.summary,
               };
-              // The lead cut-out is a clean product on white → contain it. The
-              // datasheet shots carry a branded footer we don't want here → fill
-              // + top-anchor so the footer is cropped, leaving just the product.
               const hoverZoom =
                 "transition-transform duration-500 ease-out group-hover:scale-105";
               return (
@@ -210,9 +194,7 @@ export default async function Home({
                       images={galleryImages}
                       alt={`${b.name} product`}
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      imgClassName={`object-cover object-top ${hoverZoom}`}
-                      leadSrc={lead}
-                      leadClassName={`object-contain p-3 pb-9 ${hoverZoom}`}
+                      imgClassName={`object-cover ${hoverZoom}`}
                       intervalMs={8000}
                       startDelayMs={i * 2200}
                     />
