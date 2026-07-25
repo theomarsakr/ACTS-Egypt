@@ -7,6 +7,7 @@ import SpotlightCard from "@/components/ui/SpotlightCard";
 import BrandResourceCard from "@/components/brands/BrandResourceCard";
 import DocumentLibrary from "@/components/brands/DocumentLibrary";
 import { brands, pastManufacturers } from "@/lib/data";
+import { brandCardImages, brandSlugToFolder } from "@/lib/brandProductImages";
 import { getBrandDocuments } from "@/lib/documents";
 
 export const metadata: Metadata = {
@@ -75,8 +76,11 @@ export default function BrandsPage() {
       {/* Brand sections */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-6 space-y-10">
-          {brands.map((b) => {
+          {brands.map((b, i) => {
             const docs = docsBySlug.get(b.slug);
+            // Same normalized product tiles as the homepage brand cards —
+            // every frame is the product centered on an identical white canvas.
+            const folder = brandSlugToFolder[b.slug];
             return (
               <Reveal key={b.slug}>
                 <BrandResourceCard
@@ -92,6 +96,8 @@ export default function BrandsPage() {
                     imageAlt: b.imageAlt,
                     productLinesCount: b.productLines.length,
                   }}
+                  images={folder ? brandCardImages[folder] : undefined}
+                  startDelayMs={i * 2200}
                   featured={docs?.featured ?? []}
                   total={docs?.total ?? 0}
                   anchor={docs?.anchor ?? "document-library"}

@@ -11,6 +11,7 @@ import {
   RotateCw,
   Library,
 } from "lucide-react";
+import AutoRotateImage from "@/components/home/AutoRotateImage";
 
 export type CardDoc = {
   title: string;
@@ -34,11 +35,19 @@ export type ResourceCardBrand = {
 
 export default function BrandResourceCard({
   brand,
+  images,
+  startDelayMs = 0,
   featured,
   total,
   anchor,
 }: {
   brand: ResourceCardBrand;
+  /** Normalized product tiles (public/images/cards/) — when present, the image
+      panel becomes an auto-rotating product gallery on white instead of the
+      static site photo from brand.image. */
+  images?: string[];
+  /** Staggers the rotation so stacked cards don't flip in unison. */
+  startDelayMs?: number;
   featured: CardDoc[];
   total: number;
   anchor: string;
@@ -58,19 +67,36 @@ export default function BrandResourceCard({
           className="backface-hidden card-premium glow-hover overflow-hidden rounded-3xl"
         >
           <div className="grid lg:grid-cols-5">
-            <div className="img-zoom relative min-h-56 lg:col-span-2">
-              <Image
-                src={brand.image}
-                alt={brand.imageAlt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-navy/50 to-transparent" />
-              <div className="absolute bottom-4 left-5 text-[12px] font-bold text-white/90 uppercase tracking-widest">
-                {brand.no}
+            {images ? (
+              <div className="relative min-h-56 lg:col-span-2 bg-white border-b lg:border-b-0 lg:border-r border-gray-100">
+                <AutoRotateImage
+                  images={images}
+                  alt={`${brand.name} product`}
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  imgClassName="object-contain"
+                  intervalMs={8000}
+                  startDelayMs={startDelayMs}
+                />
+                <div className="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-white to-transparent" />
+                <div className="absolute bottom-4 left-5 text-[12px] font-bold text-gray-500 uppercase tracking-widest">
+                  {brand.no}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="img-zoom relative min-h-56 lg:col-span-2">
+                <Image
+                  src={brand.image}
+                  alt={brand.imageAlt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-navy/50 to-transparent" />
+                <div className="absolute bottom-4 left-5 text-[12px] font-bold text-white/90 uppercase tracking-widest">
+                  {brand.no}
+                </div>
+              </div>
+            )}
             <div className="lg:col-span-3 p-8 md:p-10">
               <h2 className="text-2xl md:text-3xl font-extrabold text-navy">
                 {brand.name}
