@@ -17,6 +17,11 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Trigger on ANY intersection (threshold 0), not a percentage of the
+    // element. A percentage threshold can never be met by content taller than
+    // the viewport (e.g. the full document library), leaving it stuck at
+    // opacity 0. The negative bottom margin still delays the reveal until the
+    // element has scrolled a little way into view.
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -24,7 +29,7 @@ export default function Reveal({
           io.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0, rootMargin: "0px 0px -80px 0px" }
     );
     io.observe(el);
     return () => io.disconnect();
