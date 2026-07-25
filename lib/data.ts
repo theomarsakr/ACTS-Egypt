@@ -292,14 +292,14 @@ export const brands: Brand[] = [
         caption: "Spring-operated safety relief valve",
         category: "Direct & Spring-Operated",
         detail: {
-          tag: "SERIES 2850",
+          tag: "SERIES 2400",
           description:
-            "A spring-loaded relief valve shown at an angle, highlighting the flanged inlet and side-mounted lifting lever.",
+            "A direct spring-loaded relief valve that reaches full lift at set pressure, with external blowdown adjustment and a manual lifting lever for in-service testing.",
           specs: [
-            "Flanged inlet connection",
-            "Side-mounted lifting lever",
-            "Compact body profile",
-            "Air, steam, vapor & liquid",
+            "ASME Section VIII certified",
+            "Direct spring-loaded — full lift at set",
+            "Soft seat design",
+            "External blowdown control",
           ],
         },
       },
