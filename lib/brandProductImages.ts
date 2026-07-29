@@ -26,7 +26,38 @@ const FARRIS_NAMES = [
   "valve-range-grouped",
   "valve-range",
 ];
-const FARRIS = FARRIS_NAMES.map((n) => `/images/farris/${n}.jpg`);
+/* A subset of the source shots were re-exported as higher-res PNG (Jul 2026);
+   the rest stay JPG. Card derivatives in public/images/cards/ are always JPG
+   regardless (see cardTiles below), so this only affects the product paths. */
+const PNG_SOURCES = new Set([
+  // farris
+  "actuated-control-valve",
+  "cross-section-detail",
+  "direct-spring-closeup",
+  "direct-spring-flanged-lever",
+  "direct-spring-lever",
+  "insure-monitoring-compact",
+  "pilot-assisted-pair",
+  "spring-operated-lever",
+  "valve-pair",
+  "valve-range-grouped",
+  // dynaflo
+  "t950xp-transducer",
+  // est
+  "air-cooled-hx",
+  "g250-vacuum-tube-tester",
+  "g650-vacuum-joint-tester",
+  "griptight-pe",
+  "griptight-reverse-pressure",
+  "ram-package",
+  "removal-tool",
+  "smart-ram-640t",
+  "tube-stabilizer",
+]);
+const srcPath = (folder: string, name: string) =>
+  `/images/${folder}/${name}.${PNG_SOURCES.has(name) ? "png" : "jpg"}`;
+
+const FARRIS = FARRIS_NAMES.map((n) => srcPath("farris", n));
 
 const DYNAFLO_NAMES = [
   "df400-rotary-plug",
@@ -45,7 +76,7 @@ const DYNAFLO_NAMES = [
   "sliding-stem",
   "t950xp-transducer",
 ];
-const DYNAFLO = DYNAFLO_NAMES.map((n) => `/images/dynaflo/${n}.jpg`);
+const DYNAFLO = DYNAFLO_NAMES.map((n) => srcPath("dynaflo", n));
 
 const EST_NAMES = [
   "griptight-max",
@@ -70,7 +101,7 @@ const EST_NAMES = [
   "socket-weld-sqs",
   "tube-stabilizer",
 ];
-const EST = EST_NAMES.map((n) => `/images/est/${n}.jpg`);
+const EST = EST_NAMES.map((n) => srcPath("est", n));
 
 /** Keyed by the public/images/ folder name. */
 export const brandProductImages: Record<string, string[]> = {

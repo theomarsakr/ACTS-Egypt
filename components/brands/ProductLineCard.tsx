@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import Image from "next/image";
-import { ChevronDown, Images } from "lucide-react";
+import { ChevronDown, Images, Layers } from "lucide-react";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import type { ProductLine } from "@/lib/data";
 
@@ -20,11 +20,16 @@ import type { ProductLine } from "@/lib/data";
 export default function ProductLineCard({
   line,
   galleryHref = {},
+  hubHref = {},
 }: {
   line: ProductLine;
   /** Product image src → gallery anchor (e.g. "#gallery-sliding-stem"). When a
    *  product has an entry, its photo links down to that card in the gallery. */
   galleryHref?: Record<string, string>;
+  /** Product image src → Engineering Hub anchor (e.g. "#hubview-series-6400"),
+   *  for photos that only exist as a raw catalog shot in the Hub with no
+   *  polished gallery card. Only used when the photo has no galleryHref. */
+  hubHref?: Record<string, string>;
 }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
@@ -91,7 +96,9 @@ export default function ProductLineCard({
             >
               <ul className="flex snap-x gap-3 overflow-x-auto px-5 pb-2">
                 {products.map((p) => {
-                  const href = galleryHref[p.image];
+                  const galleryLink = galleryHref[p.image];
+                  const hubLink = !galleryLink ? hubHref[p.image] : undefined;
+                  const href = galleryLink ?? hubLink;
                   const photo = (
                     <div className="relative aspect-3/4 w-full overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors group-hover/item:border-brand/60">
                       <Image
@@ -101,9 +108,14 @@ export default function ProductLineCard({
                         sizes="148px"
                         className="object-contain"
                       />
-                      {href && (
+                      {galleryLink && (
                         <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-navy/85 py-1.5 text-[10.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/item:opacity-100">
                           <Images size={12} /> View in gallery
+                        </div>
+                      )}
+                      {hubLink && (
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-navy/85 py-1.5 text-[10.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/item:opacity-100">
+                          <Layers size={12} /> View in Hub
                         </div>
                       )}
                     </div>

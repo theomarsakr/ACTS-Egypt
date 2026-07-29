@@ -6,7 +6,9 @@ import {
   ExternalLink,
   Gauge,
   LineChart,
+  Mail,
   MapPin,
+  Phone,
   ShieldCheck,
   Wrench,
 } from "lucide-react";
@@ -15,6 +17,11 @@ import Hero from "@/components/home/Hero";
 import FieldProof from "@/components/home/FieldProof";
 import FieldGallery from "@/components/home/FieldGallery";
 import AutoRotateImage from "@/components/home/AutoRotateImage";
+import RotatingEarth from "@/components/home/RotatingEarth";
+import Parallax from "@/components/home/Parallax";
+import ScrollRail from "@/components/home/ScrollRail";
+import EgyptReach from "@/components/home/EgyptReach";
+import { ContainerScroll } from "@/components/ui/ContainerScroll";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import ShimmerButton from "@/components/ui/ShimmerButton";
@@ -277,194 +284,342 @@ export default async function Home({
         </div>
       </section>
 
-      {/* ============ WHY ACTS — BENTO ============ */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6">
+      {/* ============ GLOBAL REACH ============ */}
+      <section className="relative overflow-hidden bg-ink text-white py-20 md:py-28">
+        <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
+        <div
+          className="mesh mesh-brass w-96 h-96 -top-40 -left-24 opacity-50"
+          aria-hidden
+        />
+        <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <Reveal>
-            <div className="max-w-2xl">
-              <div className="eyebrow text-brand">{hm.why.eyebrow}</div>
-              <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                {hm.why.title}
-              </h2>
-              <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                {hm.why.lede}
-              </p>
+            <div className="eyebrow text-amber">{hm.global.eyebrow}</div>
+            <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+              {hm.global.title}
+            </h2>
+            <p className="mt-5 text-lg text-white/70 leading-relaxed max-w-lg">
+              {hm.global.lede}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-2.5">
+              {brands.map((b) => (
+                <span
+                  key={b.slug}
+                  className="glass-dark rounded-full px-3.5 py-2 text-[13px] font-semibold text-white/80"
+                >
+                  {b.name}
+                  <span className="text-white/40"> · {b.origin.split(" · ")[0]}</span>
+                </span>
+              ))}
             </div>
           </Reveal>
+          <Reveal delay={120} className="flex justify-center">
+            <RotatingEarth width={520} height={520} lang={lang} />
+          </Reveal>
+        </div>
+      </section>
 
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {/* Large tile: exclusive agency */}
-            <Reveal className="md:col-span-2 lg:row-span-2">
-              <div className="border-beam glow-hover relative h-full min-h-[22rem] rounded-3xl overflow-hidden bg-ink text-white border border-white/5 p-8 flex flex-col">
-                <div className="absolute inset-0 blueprint opacity-70" aria-hidden />
-                <div className="mesh mesh-brass w-80 h-80 -bottom-32 -right-24" aria-hidden />
-                <div className="relative flex-1">
-                  <div className="eyebrow text-amber">{hm.why.exclusive.eyebrow}</div>
-                  <h3 className="mt-4 text-2xl md:text-[1.8rem] font-extrabold tracking-tight leading-tight">
-                    {hm.why.exclusive.title}
-                  </h3>
-                  <p className="mt-4 text-[15.5px] text-white/65 leading-relaxed max-w-md">
-                    {hm.why.exclusive.text}
-                  </p>
-                </div>
-                <div className="relative mt-8 flex flex-wrap items-center gap-2.5">
-                  {[
-                    { src: "/images/farris-logo.png", alt: "Farris Engineering" },
-                    { src: "/images/dynaflo-logo.png", alt: "Dyna-Flo" },
-                    { src: "/images/curtiss-wright-logo.png", alt: "Curtiss-Wright" },
-                  ].map((l) => (
-                    <span key={l.src} className="bg-white rounded-xl px-3.5 py-2">
-                      <Image
-                        src={l.src}
-                        alt={l.alt}
-                        width={110}
-                        height={36}
-                        className="h-5.5 w-auto object-contain"
-                      />
-                    </span>
-                  ))}
+      {/* ============ WHY ACTS — STICKY RAIL + PROOF CARDS ============ */}
+      {/* The argument holds still while the evidence moves: the headline and
+          CTA pin in a rail on the left, the proof cards travel past them on the
+          right. Everything sits at full size in normal document flow — no
+          nested scroller, nothing clipped, nothing behind a second gesture. */}
+      {/* `overflow-x-clip`, never `overflow-hidden`: hidden would make this
+          section the scroll container for the sticky rail inside it, and the
+          rail would silently stop sticking. `clip` isn't a scroll container. */}
+      <section className="why-section relative overflow-x-clip py-24 md:py-32">
+        <div className="why-backdrop" aria-hidden />
+        <div className="relative max-w-7xl mx-auto px-6">
+          <ContainerScroll label={hm.why.eyebrow}>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.6fr)] lg:gap-16">
+            {/* ---------- Sticky narrative rail ---------- */}
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <Reveal>
+                <div className="eyebrow text-brand">{hm.why.eyebrow}</div>
+                <h2 className="mt-4 text-4xl leading-[1.06] font-extrabold tracking-tight text-balance text-navy md:text-5xl xl:text-[3.3rem]">
+                  {hm.why.title}
+                </h2>
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-gray-600">
+                  {hm.why.lede}
+                </p>
+                <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+                  <Magnetic>
+                    <ShimmerButton
+                      href={localeHref(lang, "/quote")}
+                      className="group px-7 py-3.5 text-[15px] shadow-lg shadow-brand/25"
+                    >
+                      {hm.hero.ctaQuote}
+                      <ArrowRight size={17} className={arrowNudge} />
+                    </ShimmerButton>
+                  </Magnetic>
                   <Link
                     href="/brands"
-                    className="ms-auto inline-flex items-center gap-1.5 text-[14px] font-semibold text-amber hover:text-white transition-colors"
+                    className="group inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
                   >
-                    {hm.why.exclusive.link}{" "}
-                    <ArrowUpRight size={15} className="rtl:-scale-x-100" />
+                    {hm.why.exclusive.link}
+                    <ArrowRight size={16} className={arrowNudge} />
                   </Link>
                 </div>
-              </div>
-            </Reveal>
+                <ScrollRail className="mt-12 hidden lg:block" />
+              </Reveal>
+            </div>
 
-            {/* Numeral tile: 24h */}
-            <Reveal delay={80}>
-              <SpotlightCard className="card-premium glow-hover h-full p-7 flex flex-col">
-                <div className="text-5xl font-extrabold tracking-tight text-navy tabular-nums">
-                  {hm.why.fast.big}
-                  <span className="text-brand text-[0.6em]">{hm.why.fast.unit}</span>
-                </div>
-                <h3 className="mt-3 text-[16px] font-bold text-navy">
-                  {hm.why.fast.title}
-                </h3>
-                <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  {hm.why.fast.text}
-                </p>
-              </SpotlightCard>
-            </Reveal>
+            {/* ---------- Proof cards ---------- */}
+            <div className="why-bento grid gap-5 sm:grid-cols-2 sm:gap-6">
+              {/* Anchor card: the exclusive agency, with the three divisions
+                  named — "three divisions" only means something once you can
+                  see which three. */}
+              <Reveal className="sm:col-span-2">
+                <div className="border-beam glow-hover relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-ink p-7 text-white md:p-9">
+                  <div className="absolute inset-0 blueprint opacity-70" aria-hidden />
+                  <div className="mesh mesh-brass -right-24 -bottom-32 h-80 w-80" aria-hidden />
+                  <div className="dark-vignette" aria-hidden />
 
-            {/* Icon tile: engineers */}
-            <Reveal delay={140}>
-              <SpotlightCard className="group card-premium glow-hover h-full p-7 flex flex-col">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                  <Wrench size={21} />
-                </div>
-                <h3 className="mt-4 text-[16px] font-bold text-navy">
-                  {hm.why.engineers.title}
-                </h3>
-                <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  {hm.why.engineers.text}
-                </p>
-              </SpotlightCard>
-            </Reveal>
-
-            {/* Numeral tile: since 2006 */}
-            <Reveal delay={200}>
-              <SpotlightCard className="card-premium glow-hover h-full p-7 flex flex-col">
-                <div className="text-5xl font-extrabold tracking-tight text-navy tabular-nums">
-                  {hm.why.since.big}
-                </div>
-                <h3 className="mt-3 text-[16px] font-bold text-navy">
-                  {hm.why.since.title}
-                </h3>
-                <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  {hm.why.since.text}
-                </p>
-              </SpotlightCard>
-            </Reveal>
-
-            {/* Icon tile: genuine parts */}
-            <Reveal delay={260}>
-              <SpotlightCard className="group card-premium glow-hover h-full p-7 flex flex-col">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                  <ShieldCheck size={21} />
-                </div>
-                <h3 className="mt-4 text-[16px] font-bold text-navy">
-                  {hm.why.genuine.title}
-                </h3>
-                <p className="mt-1.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  {hm.why.genuine.text}
-                </p>
-              </SpotlightCard>
-            </Reveal>
-
-            {/* Half tile: industries served — quick-scan chips */}
-            <Reveal delay={280} className="md:col-span-2">
-              <SpotlightCard className="card-premium glow-hover h-full p-7 md:p-8 flex flex-col">
-                <div className="inline-flex w-fit items-center gap-2 text-[12.5px] font-bold text-brand-dark uppercase tracking-[0.14em] bg-brand-light rounded-full px-3.5 py-1.5">
-                  {hm.why.industriesTile.chip}
-                </div>
-                <h3 className="mt-4 text-[16px] font-bold text-navy">
-                  {hm.why.industriesTile.title}
-                </h3>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {industries.slice(0, 6).map((ind) => (
-                    <Link
-                      key={ind.slug}
-                      href={`/industries#${ind.slug}`}
-                      className="inline-flex items-center rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[13.5px] font-semibold text-gray-600 transition-colors hover:border-brand/40 hover:bg-brand-light hover:text-brand"
-                    >
-                      {dict.industryNames[ind.slug] ?? ind.name}
-                    </Link>
-                  ))}
-                </div>
-                <Link
-                  href="/industries"
-                  className="group mt-auto pt-5 inline-flex w-fit items-center gap-1.5 text-[14px] font-bold text-navy transition-colors hover:text-brand"
-                >
-                  {hm.why.industriesTile.cta}
-                  <ArrowRight size={15} className={arrowNudge} />
-                </Link>
-              </SpotlightCard>
-            </Reveal>
-
-            {/* Half tile: local presence */}
-            <Reveal delay={320} className="md:col-span-2">
-              <SpotlightCard className="card-premium glow-hover h-full p-7 md:p-8 flex flex-col">
-                <div className="flex items-center gap-4">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-brand-light text-brand shrink-0">
-                    <MapPin size={21} />
+                  <div className="relative flex items-start justify-between gap-4">
+                    <div className="eyebrow text-amber">{hm.why.exclusive.eyebrow}</div>
+                    <span className="sheen shrink-0 rounded-xl bg-white px-3 py-2 shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
+                      <Image
+                        src="/images/curtiss-wright-logo.png"
+                        alt="Curtiss-Wright"
+                        width={120}
+                        height={38}
+                        className="h-4.5 w-auto object-contain"
+                      />
+                    </span>
                   </div>
-                  <h3 className="text-[16px] font-bold text-navy">
-                    {hm.why.locationTile.title}
+
+                  <h3 className="relative mt-6 text-[1.7rem] leading-[1.14] font-extrabold tracking-tight text-balance md:text-[2.05rem]">
+                    {hm.why.exclusive.title}
                   </h3>
+                  <p className="relative mt-4 max-w-lg text-[15.5px] leading-relaxed text-white/60">
+                    {hm.why.exclusive.text}
+                  </p>
+
+                  <div className="relative mt-8 border-t border-white/10">
+                    {brands.map((b, i) => (
+                      <Link
+                        key={b.slug}
+                        href={`/brands/${b.slug}`}
+                        className="group flex items-center gap-4 border-b border-white/10 py-4 transition-colors hover:border-amber/30"
+                      >
+                        <span className="w-6 text-[11.5px] font-bold text-amber/70 tabular-nums">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        {/* Wraps rather than truncates: these names are the
+                            point of the card, and a nowrap row would also force
+                            the grid track wider than its column. */}
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-[15.5px] leading-snug font-bold transition-colors group-hover:text-amber">
+                            {b.name}
+                          </span>
+                          <span className="mt-0.5 block text-[12.5px] leading-snug text-white/45">
+                            {hm.brands.meta[b.slug]?.category ?? b.category}
+                          </span>
+                        </span>
+                        <ArrowUpRight
+                          size={16}
+                          className="shrink-0 text-white/25 transition-colors group-hover:text-amber rtl:-scale-x-100"
+                        />
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-                <p className="mt-3.5 text-[14.5px] text-gray-600 leading-relaxed">
-                  {hm.why.locationTile.text}
-                </p>
-                {/* Direct lines — the two things a procurement engineer
-                    actually needs from this card. */}
-                <div className="mt-4 flex flex-col gap-1.5 text-[14px] font-semibold">
-                  <a
-                    href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                    className="w-fit text-gray-600 transition-colors hover:text-brand"
+              </Reveal>
+
+              {/* Numeral card: 24h */}
+              <Parallax speed={12}>
+                <Reveal delay={80} className="h-full">
+                  <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                    <div className="stat-numeral text-[3.4rem] leading-none font-extrabold tracking-tight tabular-nums">
+                      <span className="digit-rise">
+                        {hm.why.fast.big.split("").map((d, i) => (
+                          <span key={i} style={{ "--i": i } as React.CSSProperties}>
+                            {d}
+                          </span>
+                        ))}
+                      </span>
+                      <span className="stat-unit text-brand text-[0.5em]">
+                        {hm.why.fast.unit}
+                      </span>
+                    </div>
+                    {/* Copy sits on the card's baseline so a card stretched by
+                        its taller neighbour reads composed, not top-heavy. */}
+                    <div className="mt-auto pt-7">
+                      <span className="stat-rule mb-4 block h-px bg-brand/45" aria-hidden />
+                      <h3 className="text-[17px] font-bold text-navy">
+                        {hm.why.fast.title}
+                      </h3>
+                      <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
+                        {hm.why.fast.text}
+                      </p>
+                    </div>
+                  </SpotlightCard>
+                </Reveal>
+              </Parallax>
+
+              {/* Icon card: engineers */}
+              <Parallax speed={-10}>
+                <Reveal delay={140} className="h-full">
+                  <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                    <div className="tile-icon">
+                      <Wrench size={21} />
+                    </div>
+                    <div className="mt-auto pt-7">
+                      <h3 className="text-[17px] font-bold text-navy">
+                        {hm.why.engineers.title}
+                      </h3>
+                      <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
+                        {hm.why.engineers.text}
+                      </p>
+                    </div>
+                  </SpotlightCard>
+                </Reveal>
+              </Parallax>
+
+              {/* Numeral card: since 2006 */}
+              <Parallax speed={-12}>
+                <Reveal delay={200} className="h-full">
+                  <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                    <div className="stat-numeral text-[3.4rem] leading-none font-extrabold tracking-tight tabular-nums">
+                      <span className="digit-rise">
+                        {hm.why.since.big.split("").map((d, i) => (
+                          <span key={i} style={{ "--i": i } as React.CSSProperties}>
+                            {d}
+                          </span>
+                        ))}
+                      </span>
+                    </div>
+                    <div className="mt-auto pt-7">
+                      <span className="stat-rule mb-4 block h-px bg-brand/45" aria-hidden />
+                      <h3 className="text-[17px] font-bold text-navy">
+                        {hm.why.since.title}
+                      </h3>
+                      <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
+                        {hm.why.since.text}
+                      </p>
+                    </div>
+                  </SpotlightCard>
+                </Reveal>
+              </Parallax>
+
+              {/* Icon card: genuine parts */}
+              <Parallax speed={10}>
+                <Reveal delay={260} className="h-full">
+                  <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                    <div className="tile-icon">
+                      <ShieldCheck size={21} />
+                    </div>
+                    <div className="mt-auto pt-7">
+                      <h3 className="text-[17px] font-bold text-navy">
+                        {hm.why.genuine.title}
+                      </h3>
+                      <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
+                        {hm.why.genuine.text}
+                      </p>
+                    </div>
+                  </SpotlightCard>
+                </Reveal>
+              </Parallax>
+
+              {/* Industries served — quick-scan chips */}
+              <Reveal delay={300} className="sm:col-span-2">
+                <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-9">
+                  <div className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-light px-3.5 py-1.5 text-[12.5px] font-bold tracking-[0.14em] text-brand-dark uppercase">
+                    {hm.why.industriesTile.chip}
+                  </div>
+                  <h3 className="mt-4 text-[17px] font-bold text-navy">
+                    {hm.why.industriesTile.title}
+                  </h3>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {industries.slice(0, 6).map((ind, i) => (
+                      <Link
+                        key={ind.slug}
+                        href={`/industries#${ind.slug}`}
+                        style={{ "--i": i } as React.CSSProperties}
+                        className="chip-in inline-flex items-center rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[13.5px] font-semibold text-gray-600 transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:bg-brand-light hover:text-brand"
+                      >
+                        {dict.industryNames[ind.slug] ?? ind.name}
+                      </Link>
+                    ))}
+                  </div>
+                  <Link
+                    href="/industries"
+                    className="group mt-auto inline-flex w-fit items-center gap-1.5 pt-6 text-[14px] font-bold text-navy transition-colors hover:text-brand"
                   >
-                    <span className="ltr-inline">{contact.phone}</span>
-                  </a>
-                  <a
-                    href={`mailto:${contact.salesEmail}`}
-                    className="w-fit text-gray-600 transition-colors hover:text-brand"
-                  >
-                    {contact.salesEmail}
-                  </a>
-                </div>
-                <Link
-                  href={localeHref(lang, "/contact")}
-                  className="group mt-auto pt-5 inline-flex w-fit items-center gap-1.5 text-[14px] font-bold text-navy transition-colors hover:text-brand"
-                >
-                  {hm.why.locationTile.cta}
-                  <ArrowRight size={15} className={arrowNudge} />
-                </Link>
-              </SpotlightCard>
-            </Reveal>
+                    {hm.why.industriesTile.cta}
+                    <ArrowRight size={15} className={arrowNudge} />
+                  </Link>
+                </SpotlightCard>
+              </Reveal>
+
+              {/* Local presence — the copy's claim, mapped. Text and map sit
+                  in their own grid columns (stacked below the container
+                  query threshold) so the map has dedicated space and can
+                  never overlap the copy or the tappable pills, at any
+                  breakpoint or hover/focus state. A container query (keyed
+                  to this card's own rendered width) drives the split rather
+                  than a viewport breakpoint — this tile's width doesn't
+                  track the viewport linearly inside the bento grid's
+                  scrollable "screen" panel, so `lg:` alone under-sized the
+                  text column at plenty of real widths. */}
+              <Reveal delay={340} className="sm:col-span-2">
+                <SpotlightCard className="card-premium glow-hover @container relative h-full p-7 md:p-9">
+                  <div className="grid gap-6 @[36rem]:grid-cols-[minmax(0,1fr)_15rem] @[36rem]:items-center @[36rem]:gap-8">
+                    <div>
+                      <div className="flex items-start gap-4">
+                        <div className="tile-icon shrink-0">
+                          <MapPin size={21} />
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-[17px] font-bold text-navy">
+                            {hm.why.locationTile.title}
+                          </h3>
+                          <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
+                            {hm.why.locationTile.text}
+                          </p>
+                        </div>
+                      </div>
+                      {/* Direct lines — the two things a procurement engineer
+                          actually needs from this card, as tappable targets. */}
+                      <div className="mt-6 grid gap-2">
+                        <a
+                          href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                          className="flex min-w-0 items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3.5 py-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
+                        >
+                          <Phone size={15} className="shrink-0 text-brand" />
+                          <span className="ltr-inline truncate text-[14px] font-semibold text-navy">
+                            {contact.phone}
+                          </span>
+                        </a>
+                        <a
+                          href={`mailto:${contact.salesEmail}`}
+                          className="flex min-w-0 items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3.5 py-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
+                        >
+                          <Mail size={15} className="shrink-0 text-brand" />
+                          <span className="ltr-inline truncate text-[14px] font-semibold text-navy">
+                            {contact.salesEmail}
+                          </span>
+                        </a>
+                      </div>
+                      <Link
+                        href={localeHref(lang, "/contact")}
+                        className="group mt-6 inline-flex w-fit items-center gap-1.5 text-[14px] font-bold text-navy transition-colors hover:text-brand"
+                      >
+                        {hm.why.locationTile.cta}
+                        <ArrowRight size={15} className={arrowNudge} />
+                      </Link>
+                    </div>
+                    <div className="mx-auto w-full max-w-56 @[36rem]:max-w-none">
+                      <EgyptReach />
+                      <p className="mt-2 text-center text-[11.5px] text-gray-400">
+                        {hm.why.locationTile.mapHint}
+                      </p>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </Reveal>
+            </div>
           </div>
+          </ContainerScroll>
         </div>
       </section>
 

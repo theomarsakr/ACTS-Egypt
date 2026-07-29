@@ -393,6 +393,412 @@ html[lang="ar"] .ltr-inline {
     0 0 44px -14px rgba(138, 106, 48, 0.3);
 }
 
+/* Tiles sitting inside the ContainerScroll "screen" get a touch more depth,
+   since they now float on a framed panel rather than the page background.
+   The border still needs to read clearly against the panel's own warm wash
+   (screen-canvas) — too faint and the tiles lose their edges entirely. */
+.why-bento .card-premium {
+  border-color: rgba(10, 22, 40, 0.1);
+  box-shadow:
+    0 1px 2px rgba(10, 22, 40, 0.05),
+    0 22px 40px -22px rgba(10, 22, 40, 0.28);
+}
+
+/* Grid items default to min-width:auto, so one nowrap/truncating line inside a
+   tile (an email address, a long product-line name) widens the shared column
+   track for every tile and pushes the whole bento past its container. */
+.why-bento > * {
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   WHY ACTS — the section's own visual language: a lit drafting surface, cards
+   that rise out of depth, numerals that count themselves in, and a drawn map.
+   --------------------------------------------------------------------------- */
+
+/* Backdrop: a brass wash from the top-left and a cool one at the right, over a
+   drafting grid that fades out before it reaches any edge. */
+.why-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      55% 45% at 8% 0%,
+      rgba(138, 106, 48, 0.11),
+      transparent 62%
+    ),
+    radial-gradient(
+      45% 40% at 98% 22%,
+      rgba(62, 111, 163, 0.09),
+      transparent 68%
+    );
+}
+.why-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(10, 22, 40, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 22, 40, 0.045) 1px, transparent 1px);
+  background-size: 58px 58px;
+  -webkit-mask-image: radial-gradient(75% 55% at 50% 42%, #000, transparent 78%);
+  mask-image: radial-gradient(75% 55% at 50% 42%, #000, transparent 78%);
+}
+
+/* Cards rise out of depth rather than sliding flat, and the whole grid shares
+   one vanishing point so a staggered entrance reads as a single movement. */
+.why-bento {
+  perspective: 1400px;
+  perspective-origin: 50% 20%;
+}
+.why-bento .reveal {
+  transform: translateY(46px) rotateX(7deg) scale(0.975);
+  transform-origin: 50% 0;
+}
+.why-bento .reveal.in-view {
+  transform: none;
+}
+
+/* ContainerScroll's tilt-in: a plain CSS transition rather than a
+   framer-motion scroll-linked transform, specifically so the ancestor's
+   transform resolves to the literal keyword `none` once settled — see the
+   component doc comment for why that distinction is load-bearing for any
+   `position: sticky` descendant. */
+.device-frame {
+  transform: perspective(1400px) rotateX(9deg) scale(0.96);
+  transform-origin: center top;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow:
+    0 9px 20px rgba(0, 0, 0, 0.24),
+    0 37px 37px rgba(0, 0, 0, 0.2),
+    0 84px 60px rgba(0, 0, 0, 0.12),
+    0 149px 80px rgba(0, 0, 0, 0.04);
+}
+.device-frame.in-view {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .device-frame {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Numerals wipe up from behind a mask, digit by digit. */
+.digit-rise {
+  display: inline-flex;
+  /* Each digit is its own flex item, so an RTL container would lay them out
+     right-to-left and render 2006 as 6002. Numerals are always written LTR. */
+  direction: ltr;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.digit-rise > span {
+  display: inline-block;
+  transform: translateY(105%);
+  opacity: 0;
+}
+.reveal.in-view .digit-rise > span {
+  animation: digit-rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * 80ms + 140ms);
+}
+@keyframes digit-rise {
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+/* The unit follows its numeral in. */
+.stat-unit {
+  opacity: 0;
+}
+.reveal.in-view .stat-unit {
+  animation: fade-in 0.5s ease 0.5s forwards;
+}
+/* The rule under a numeral draws out to its width. */
+.stat-rule {
+  width: 0;
+}
+.reveal.in-view .stat-rule {
+  animation: rule-draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+}
+@keyframes rule-draw {
+  to {
+    width: 2.5rem;
+  }
+}
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Industry chips arrive in sequence after their card has settled. */
+.chip-in {
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+}
+.reveal.in-view .chip-in {
+  animation: chip-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * 65ms + 220ms);
+}
+@keyframes chip-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Brass-lit icon plate shared by the icon cards. */
+.tile-icon {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  color: var(--color-brand);
+  background: linear-gradient(140deg, var(--color-brand-light), #fff);
+  box-shadow:
+    inset 0 0 0 1px rgba(138, 106, 48, 0.16),
+    0 8px 20px -12px rgba(138, 106, 48, 0.75);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .tile-icon {
+  transform: translateY(-2px) rotate(3deg);
+}
+
+/* A slow glint across a light surface (the manufacturer badge). */
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.72) 50%,
+    transparent 62%
+  );
+  transform: translateX(-130%);
+  animation: sheen 6s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+@keyframes sheen {
+  0%,
+  62% {
+    transform: translateX(-130%);
+  }
+  88%,
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+/* ---- Egypt reach map ---- */
+.eg-map-wrap {
+  width: 100%;
+}
+.eg-map {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.eg-map .eg-shape {
+  fill: rgba(138, 106, 48, 0.06);
+  stroke: var(--color-brand);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-dasharray: 1100;
+  stroke-dashoffset: 1100;
+}
+.reveal.in-view .eg-map .eg-shape {
+  animation: eg-draw 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+.eg-map .eg-nile {
+  fill: none;
+  stroke: rgba(62, 111, 163, 0.6);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+}
+.reveal.in-view .eg-map .eg-nile {
+  animation: eg-draw 1.6s ease 1s forwards;
+}
+.reveal.in-view .eg-map .eg-nile-b {
+  animation-delay: 1.5s;
+}
+/* Reach lines from the HQ out to the named extremes */
+.eg-map .eg-reach {
+  fill: none;
+  stroke: rgba(138, 106, 48, 0.55);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+}
+.reveal.in-view .eg-map .eg-reach {
+  animation: eg-draw 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.9s forwards;
+}
+.reveal.in-view .eg-map .eg-reach-b {
+  animation-delay: 2.2s;
+}
+.eg-map .eg-site {
+  opacity: 0;
+  cursor: pointer;
+  outline: none;
+}
+.reveal.in-view .eg-map .eg-site {
+  animation: fade-in 0.5s ease forwards;
+  animation-delay: calc(2.5s + var(--i) * 0.3s);
+}
+.eg-map .eg-site-ring {
+  fill: none;
+  stroke: rgba(138, 106, 48, 0.45);
+  stroke-width: 1.1;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    stroke 0.2s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.eg-map .eg-site-core {
+  fill: var(--color-brand);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.eg-map .eg-site:hover .eg-site-ring,
+.eg-map .eg-site:focus-visible .eg-site-ring,
+.eg-map .eg-site:hover .eg-site-core,
+.eg-map .eg-site:focus-visible .eg-site-core {
+  transform: scale(1.35);
+}
+.eg-map .eg-site:hover .eg-site-ring,
+.eg-map .eg-site:focus-visible .eg-site-ring {
+  stroke: var(--color-brand);
+}
+.eg-map .eg-hq {
+  cursor: pointer;
+  outline: none;
+}
+.eg-map .eg-hq-core {
+  fill: var(--color-amber);
+  stroke: var(--color-navy);
+  stroke-width: 1.6;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.eg-map .eg-hq:hover .eg-hq-core,
+.eg-map .eg-hq:focus-visible .eg-hq-core {
+  transform: scale(1.25);
+}
+.eg-map .eg-pulse {
+  fill: none;
+  stroke: rgba(240, 196, 25, 0.85);
+  stroke-width: 1.4;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+.reveal.in-view .eg-map .eg-pulse {
+  animation: eg-pulse 3s cubic-bezier(0.16, 1, 0.3, 1) 2.2s infinite;
+}
+.reveal.in-view .eg-map .eg-pulse-b {
+  animation-delay: 3.7s;
+}
+@keyframes eg-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes eg-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-bento .reveal {
+    transform: none;
+  }
+  .digit-rise > span,
+  .stat-unit,
+  .chip-in,
+  .eg-map .eg-site {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
+  .stat-rule {
+    width: 2.5rem;
+    animation: none !important;
+  }
+  .eg-map .eg-shape,
+  .eg-map .eg-nile,
+  .eg-map .eg-reach {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+  .eg-map .eg-pulse,
+  .sheen::after {
+    animation: none !important;
+    opacity: 0;
+  }
+}
+
+/* The lit surface inside the ContainerScroll bezel: a hairline drafting grid
+   under a brass wash falling from the top edge, so the bento tiles read as
+   floating on a panel rather than sitting on flat page background. */
+.screen-canvas {
+  background-color: #f5f7fb;
+  background-image:
+    radial-gradient(
+      90% 55% at 50% -8%,
+      rgba(138, 106, 48, 0.09),
+      transparent 62%
+    ),
+    linear-gradient(rgba(10, 22, 40, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 22, 40, 0.035) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    44px 44px,
+    44px 44px;
+}
+
+/* Oversized bento numerals (24h / 2006) — inked with a subtle vertical fade so
+   they read as a display element, not just large body type. The gradient is
+   clipped per digit rather than on the container: each digit sits in its own
+   overflow-clipped mask for the rise animation, and a parent's
+   `background-clip: text` does not paint through a clipped, transformed child. */
+.stat-numeral {
+  color: var(--color-navy);
+}
+.stat-numeral .digit-rise > span {
+  background: linear-gradient(
+    170deg,
+    var(--color-navy) 0%,
+    var(--color-navy) 45%,
+    var(--color-navy-700) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* ---- Keyboard focus ---- */
 .skip-link {
   position: fixed;
@@ -622,9 +1028,9 @@ html[lang="ar"] .ltr-inline {
   inset: 0;
   border-radius: inherit;
   background: radial-gradient(
-    260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    var(--spot-color, rgba(163, 125, 58, 0.14)),
-    transparent 65%
+    420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--spot-color, rgba(163, 125, 58, 0.1)),
+    transparent 80%
   );
   opacity: 0;
   transition: opacity 0.4s ease;

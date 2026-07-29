@@ -1,0 +1,60 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+/**
+ * ScrollRail — a hairline that fills with brass as the reader moves through the
+ * section it sits in. Pairs with a sticky column: while the headline holds
+ * still and the cards move past it, this is the only cue for how much is left.
+ *
+ * Finds its own section rather than taking a ref, so it can be dropped into
+ * server-rendered markup with no wiring.
+ */
+export default function ScrollRail({ className = "" }: { className?: string }) {
+  const hostRef = useRef<HTMLDivElement>(null);
+  const fillRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const section = hostRef.current?.closest("section");
+    const fill = fillRef.current;
+    if (!section || !fill) return;
+
+    let frame = 0;
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const travel = rect.height - window.innerHeight;
+      const progress =
+        travel > 0
+          ? Math.min(1, Math.max(0, -rect.top / travel))
+          : rect.top < 0
+            ? 1
+            : 0;
+      fill.style.transform = `scaleY(${progress.toFixed(3)})`;
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  return (
+    <div ref={hostRef} className={className} aria-hidden>
+      <span className="relative block h-28 w-[3px] overflow-hidden rounded-full bg-navy/10">
+        <span
+          ref={fillRef}
+          className="absolute inset-0 origin-top rounded-full bg-linear-to-b from-brand to-amber"
+          style={{ transform: "scaleY(0)" }}
+        />
+      </span>
+    </div>
+  );
+}

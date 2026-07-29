@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "motion/react";
 import {
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   CheckCircle2,
+  Expand,
   Zap,
   Info,
   Table2,
@@ -15,9 +20,11 @@ import {
   Boxes,
   ArrowUpRight,
   Link2,
+  Play,
+  X,
 } from "lucide-react";
 import DocCard from "./DocCard";
-import type { HubProduct, HubDoc, HubGroup } from "@/lib/brandHub";
+import type { HubProduct, HubDoc, HubGroup, HubVideo } from "@/lib/brandHub";
 
 type ProductWithDocs = HubProduct & { docs: HubDoc[] };
 
@@ -48,16 +55,20 @@ export default function ProductHub({
     });
   };
 
-  // Deep-link support: `#hub-<id>` opens that product on its Documentation tab.
+  // Deep-link support: `#hub-<id>` opens that product on its Documentation
+  // tab; `#hubview-<id>` opens it on the default Overview tab (used by
+  // product-line photos that only have a raw catalog shot in the Hub).
   useEffect(() => {
     const apply = () => {
       const hash = window.location.hash;
-      if (!hash.startsWith("#hub-")) return;
-      const id = hash.slice("#hub-".length);
+      const isDocs = hash.startsWith("#hub-");
+      const isView = hash.startsWith("#hubview-");
+      if (!isDocs && !isView) return;
+      const id = hash.slice(isView ? "#hubview-".length : "#hub-".length);
       if (!products.some((p) => p.id === id)) return;
       setGroup("all");
       setOpenId(id);
-      setFocusTab("docs");
+      setFocusTab(isView ? null : "docs");
       setFocusNonce((n) => n + 1);
       requestAnimationFrame(() => {
         document
@@ -263,6 +274,9 @@ function ProductPanel({
     ...(p.certifications?.length
       ? [{ id: "certs", label: "Certifications", icon: <BadgeCheck size={15} /> }]
       : []),
+    ...(p.videos?.length
+      ? [{ id: "videos", label: "Videos", icon: <Play size={15} />, badge: p.videos.length }]
+      : []),
   ];
   const [tab, setTab] = useState(
     tabs.some((t) => t.id === initialTab) ? initialTab : "overview"
@@ -324,6 +338,7 @@ function ProductPanel({
             {tab === "certs" && p.certifications && (
               <CertsTab certifications={p.certifications} />
             )}
+            {tab === "videos" && p.videos && <VideosTab videos={p.videos} />}
           </div>
 
           {/* Related products */}
@@ -358,17 +373,51 @@ function ProductPanel({
 
 function Gallery({ images, name }: { images: string[]; name: string }) {
   const [active, setActive] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  const close = useCallback(() => setOpen(false), []);
+  const go = useCallback(
+    (delta: number) =>
+      setActive((i) => (i + delta + images.length) % images.length),
+    [images.length]
+  );
+
+  // Keyboard nav + scroll lock while the lightbox is up.
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowRight") go(1);
+      else if (e.key === "ArrowLeft") go(-1);
+    }
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, close, go]);
+
   return (
     <div>
-      <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-linear-to-br from-gray-50 to-gray-100 ring-1 ring-gray-200">
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={`View larger photo of ${name}`}
+        className="group relative block aspect-4/3 w-full overflow-hidden rounded-2xl bg-linear-to-br from-gray-50 to-gray-100 ring-1 ring-gray-200 cursor-zoom-in"
+      >
         <Image
           src={images[active]}
           alt={name}
           fill
           sizes="(max-width: 1024px) 100vw, 40vw"
-          className="object-contain p-4"
+          className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105"
         />
-      </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 bg-navy/85 py-2 text-[12.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
+          <Expand size={13} /> View photo
+        </div>
+      </button>
       {images.length > 1 && (
         <div className="mt-3 flex flex-wrap gap-2">
           {images.map((src, i) => (
@@ -394,6 +443,114 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
           ))}
         </div>
       )}
+
+      {/* Lightbox — portaled to <body> so the collapsed-panel's overflow-hidden
+          ancestor can never clip or trap it. */}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                role="dialog"
+                aria-modal="true"
+                aria-label={`${name} photo`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-100 flex flex-col bg-ink/95 backdrop-blur-sm"
+                onClick={(e) => {
+                  if (e.target === e.currentTarget) close();
+                }}
+              >
+                <div className="flex items-center justify-between px-5 py-4 md:px-8">
+                  <div className="text-[13px] font-semibold text-white/70">
+                    {name}
+                    {images.length > 1 && (
+                      <span className="ml-2 text-white/30 tabular-nums">
+                        {active + 1} / {images.length}
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={close}
+                    aria-label="Close photo"
+                    className="w-10 h-10 rounded-full glass-dark flex items-center justify-center text-white/80 hover:text-white transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div
+                  className="relative flex-1 min-h-0"
+                  onClick={(e) => {
+                    if (e.target === e.currentTarget) close();
+                  }}
+                >
+                  <Image
+                    src={images[active]}
+                    alt={name}
+                    fill
+                    sizes="100vw"
+                    draggable={false}
+                    className="object-contain p-6 select-none"
+                  />
+                  {images.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => go(-1)}
+                        aria-label="Previous photo"
+                        className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full glass-dark flex items-center justify-center text-white/80 hover:text-white transition-colors"
+                      >
+                        <ChevronLeft size={20} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => go(1)}
+                        aria-label="Next photo"
+                        className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full glass-dark flex items-center justify-center text-white/80 hover:text-white transition-colors"
+                      >
+                        <ChevronRight size={20} />
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {images.length > 1 && (
+                  <div className="px-5 md:px-8 pb-5 pt-2">
+                    <div className="flex gap-2 overflow-x-auto pb-1 md:justify-center">
+                      {images.map((src, i) => (
+                        <button
+                          key={src}
+                          type="button"
+                          onClick={() => setActive(i)}
+                          aria-label={`View image ${i + 1}`}
+                          aria-current={i === active}
+                          className={`relative w-14 h-11 shrink-0 rounded-lg overflow-hidden transition-all ${
+                            i === active
+                              ? "ring-2 ring-amber opacity-100"
+                              : "opacity-45 hover:opacity-80"
+                          }`}
+                        >
+                          <Image
+                            src={src}
+                            alt=""
+                            fill
+                            sizes="56px"
+                            className="object-contain bg-white"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </div>
   );
 }
@@ -583,6 +740,66 @@ function CertsTab({ certifications }: { certifications: string[] }) {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function VideosTab({ videos }: { videos: HubVideo[] }) {
+  return (
+    <div>
+      <SectionLabel icon={<Play size={14} />}>
+        {videos.length > 1 ? "Product Videos" : "Product Video"}
+      </SectionLabel>
+      <p className="mt-1 text-[12.5px] text-gray-400">
+        From Curtiss-Wright&rsquo;s official YouTube channel.
+      </p>
+      <div className="mt-3 grid sm:grid-cols-2 gap-4">
+        {videos.map((v) => (
+          <VideoCard key={v.id} video={v} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function VideoCard({ video }: { video: HubVideo }) {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <div className="relative aspect-video w-full bg-navy">
+        {playing ? (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1`}
+            title={video.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full"
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setPlaying(true)}
+            aria-label={`Play video: ${video.title}`}
+            className="group absolute inset-0 block h-full w-full cursor-pointer"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-ink/25 transition-colors duration-200 group-hover:bg-ink/40" />
+            <span className="absolute inset-0 flex items-center justify-center">
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-white/90 text-brand shadow-lg transition-transform duration-200 group-hover:scale-110">
+                <Play size={20} className="ml-0.5" fill="currentColor" />
+              </span>
+            </span>
+          </button>
+        )}
+      </div>
+      <p className="px-3.5 py-2.5 text-[13px] font-medium text-navy leading-snug">
+        {video.title}
+      </p>
     </div>
   );
 }

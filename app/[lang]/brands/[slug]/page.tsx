@@ -107,42 +107,42 @@ const BRAND_TOOLS: Record<string, { heading: string; blurb: string; cards: ToolC
       "Beyond the tools, EST Group delivers on-site engineered services and a global network that keep heat exchangers, condensers and pipework running.",
     cards: [
       {
-        img: "/Data/EST/images/Product-Photos/Field-Services.jpg",
+        img: "/Data/EST/images/Product-Photos/Field-Services-2.jpg",
         title: "Field Services",
         desc: "A full range of on-site services for tubular heat exchangers, condensers and oil coolers — plugging, pulling, sleeving and testing.",
         href: "/contact",
         cta: "Request field service",
       },
       {
-        img: "/Data/EST/images/Product-Photos/Hydrostatic-Test.jpg",
+        img: "/Data/EST/images/Product-Photos/Hydrostatic-Test-2.jpg",
         title: "Testing & Inspection",
         desc: "Tube, pipe and pressure-vessel testing and inspection, including hydrostatic testing applications and integrity verification.",
         href: "/contact",
         cta: "Talk to ACTS",
       },
       {
-        img: "/Data/EST/images/Product-Photos/Tube-Sleeve-Before-After.jpg",
+        img: "/Data/EST/images/Product-Photos/Tube-Sleeve-Before-After.png",
         title: "Tube Sleeving, Plugging & Pulling",
         desc: "Engineered tube repair — Hydra-Loc® sleeving, Pop-A-Plug® plugging and controlled tube pulling to extend asset life.",
         href: "/contact",
         cta: "Enquire",
       },
       {
-        img: "/Data/EST/images/Product-Photos/Tooling-Package.jpg",
+        img: "/Data/EST/images/Product-Photos/Tooling-Package.png",
         title: "Complete Tooling Packages",
         desc: "Turnkey tooling packages that bundle the plugs, rams and accessories needed for a full turnaround scope.",
         href: "/contact",
         cta: "Request a package",
       },
       {
-        img: "/Data/EST/images/Product-Photos/Group_Photo-2.jpg",
+        img: "/Data/EST/images/Product-Photos/Group_Photo-2.png",
         title: "On-Site Training",
         desc: "Hands-on operator training so your crews can install, test and maintain EST equipment safely and repeatably.",
         href: "/contact",
         cta: "Book training",
       },
       {
-        img: "/Data/EST/images/Product-Photos/Global-Presence.jpg",
+        img: "/Data/EST/images/Product-Photos/Global-Presence-2.jpg",
         title: "Global Presence",
         desc: "Headquartered in Hatfield, PA with offices in the Netherlands and Singapore and a worldwide representative network.",
         href: "https://valves.curtisswright.com/en-us/EST",
@@ -182,6 +182,18 @@ export default async function BrandPage({ params }: Props) {
   if (brand.gallery) {
     for (const g of brand.gallery) {
       galleryHref[g.src] = `#${galleryAnchorId(g.src)}`;
+    }
+  }
+
+  // Same idea, but for strip photos that only exist as a raw catalog shot in
+  // the Engineering Hub (no polished gallery card) — link those down to their
+  // Hub product section instead. Gallery entries win if a photo has both.
+  const hubHref: Record<string, string> = {};
+  if (hub) {
+    for (const product of hub.products) {
+      for (const image of product.images) {
+        hubHref[image] ??= `#hubview-${product.id}`;
+      }
     }
   }
 
@@ -351,7 +363,7 @@ export default async function BrandPage({ params }: Props) {
           >
             {brand.productLines.map((p, i) => (
               <Reveal key={p.name} delay={i * 70}>
-                <ProductLineCard line={p} galleryHref={galleryHref} />
+                <ProductLineCard line={p} galleryHref={galleryHref} hubHref={hubHref} />
               </Reveal>
             ))}
           </div>

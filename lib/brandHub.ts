@@ -10,6 +10,11 @@ import { getBrandDocuments, type BrandDoc } from "@/lib/documents";
 
 export type HubSpec = { label: string; value: string };
 
+/** A real product video from Curtiss-Wright's (or the brand's) official
+ *  YouTube channel — never a guessed or third-party link. `id` is the
+ *  YouTube video id, embedded via youtube-nocookie.com. */
+export type HubVideo = { id: string; title: string };
+
 export type HubProduct = {
   id: string;
   code: string;
@@ -26,6 +31,7 @@ export type HubProduct = {
   specs?: HubSpec[];
   certifications?: string[];
   images: string[];
+  videos?: HubVideo[];
   externalUrl?: string;
   tokens: string[];
   related?: string[];
@@ -63,6 +69,7 @@ export type BrandHubData = {
 const F = "/Data/Farris-Valves/images";
 const D = "/Data/Dynaflo/images";
 const E = "/Data/EST/images/Product-Photos";
+const EE = `${E}/enhanced`;
 
 // ── Product catalogs ────────────────────────────────────────────────────────
 
@@ -143,6 +150,10 @@ const FARRIS: HubProduct[] = [
       "Full-port option delivers maximum certified capacity",
     ],
     images: [`${F}/3800.jpg`, `${F}/3800_1.jpg`, `${F}/3800_2.jpg`],
+    videos: [
+      { id: "Hit0yKF36Zc", title: "Farris 3800 Pilot Operated Relief Valve" },
+      { id: "h0R2arixQ48", title: "Farris 3800 — Exploded View" },
+    ],
     tokens: ["3800"],
     related: ["series-2600", "series-2700"],
   },
@@ -322,6 +333,12 @@ const FARRIS: HubProduct[] = [
       "Documented lift history supports emissions compliance",
     ],
     images: [`${F}/inSure.png`, `${F}/inSure-Web-image.png`, `${F}/inSure-phone-image.png`],
+    videos: [
+      { id: "IV3fA8VdmvA", title: "iNSURE® Monitoring Device — Overview" },
+      { id: "csOEcnCzh4k", title: "iNSURE® Monitor — Demonstration" },
+      { id: "OEWzom_yO4g", title: "iNSURE® — Installation" },
+      { id: "c-JjL-yaS3Q", title: "iNSURE® Monitoring Device — In Brief" },
+    ],
     externalUrl:
       "https://valves.curtisswright.com/en-us/services/farris/insure-monitoring-device",
     tokens: ["insure", "isure", "524t"],
@@ -363,6 +380,12 @@ const DYNAFLO: HubProduct[] = [
       `${D}/380_Series-Button.jpg`,
       `${D}/320_Series-Button.jpg`,
       `${D}/DF2000_Series-Button.jpg`,
+    ],
+    videos: [
+      {
+        id: "yH5FuJixezQ",
+        title: "Dyna-Flo — 320 AxFlo Anti-Cavitation Sliding Stem Control Valve",
+      },
     ],
     externalUrl:
       "https://valves.curtisswright.com/en-us/dynaflo/products/sliding-stem-control-valves",
@@ -430,6 +453,12 @@ const DYNAFLO: HubProduct[] = [
       { label: "Operation", value: "Quarter-turn, RF flanged" },
     ],
     images: [`${D}/DF400_Front-View.png`],
+    videos: [
+      {
+        id: "smUViOj2kSA",
+        title: "Dyna-Flo — DF400 Series Eccentric Rotary Plug Control Valve System",
+      },
+    ],
     externalUrl:
       "https://valves.curtisswright.com/en-us/dynaflo/products/rotary-plug-valves/df400-series",
     tokens: ["df400"],
@@ -760,7 +789,15 @@ const EST: HubProduct[] = [
       { label: "Seal", value: "Metal-to-metal, helium leak-tight" },
       { label: "Standard", value: "ASME PCC-2 method" },
     ],
-    images: [`${E}/cpi-perma-pap_web.png`],
+    images: [`${EE}/cpi-perma.png`, `${EE}/cpi-perma-2.png`],
+    videos: [
+      { id: "hGMySeOiu94", title: "EST Group: Pop-A-Plug® Tube Plugging System" },
+      { id: "yd8pdKqd5hc", title: "Through-The-Tube Plugging™" },
+      { id: "ZsYQj32Nm-0", title: "Product Overview — Pop-A-Plug® Tube Plugging System" },
+      { id: "RJCe7ybWO58", title: "Pop-A-Plug® Heat Exchanger Tube Plugging — Introduction" },
+      { id: "Ntk05vPN8GQ", title: "Pop-A-Plug® Heat Exchanger Tube Plug" },
+      { id: "qpdGY2lCq8M", title: "Pop-A-Plug® Installation, 6,000 PsiG Test and Removal" },
+    ],
     tokens: ["cpi", "perma"],
     related: ["est-p2", "est-ram", "est-manual-tool"],
   },
@@ -785,7 +822,14 @@ const EST: HubProduct[] = [
       { label: "Seal", value: "Helium leak-tight, weld-free" },
       { label: "Quality", value: "ISO 9001 manufactured" },
     ],
-    images: [`${E}/P2-004-web.jpg`, `${E}/P2520C_Bg_Med-Red_Diagonal-Back-Left_Web.jpg`],
+    images: [`${EE}/p2.png`, `${EE}/p2-2.png`],
+    videos: [
+      { id: "zIGFQX7El1c", title: "Installation Training — Pop-A-Plug P2 Heat Exchanger Tube Plugging System" },
+      { id: "L5yiXYwnAlE", title: "Ream, Brush and Install — Pop-A-Plug® P2" },
+      { id: "Jyt9x3m8K9Y", title: "Pop-A-Plug® Tapered Reamer — Weld Droop Removal" },
+      { id: "9qk3xo7bjMs", title: "Pop-A-Plug® Tube Preparation Brush" },
+      { id: "rFWhvbcTu1E", title: "Pop-A-Plug® Tube Stabilizer — Installation" },
+    ],
     tokens: ["p2"],
     related: ["est-cpi-perma", "est-ram", "est-removal-tool"],
   },
@@ -804,7 +848,8 @@ const EST: HubProduct[] = [
       "Tightly controlled expansion pressure",
       "Repairs inlet-end tube damage",
     ],
-    images: [`${E}/Tube-Sleeve-Before-After.jpg`],
+    images: [`${EE}/hydra-loc.png`],
+    videos: [{ id: "cNX9JrPCHi4", title: "Hydra-Loc Tube Sleeving" }],
     tokens: ["hydra-loc", "hydra loc"],
     related: ["est-cpi-perma"],
   },
@@ -829,10 +874,10 @@ const EST: HubProduct[] = [
       { label: "Weight", value: "~5 lbs (2.3 kg)" },
       { label: "Display", value: "LCD with multi-user presets" },
     ],
-    images: [
-      `${E}/sr640t_caseshot-open_CROPPED.png`,
-      `${E}/sr-plus-kit-capped.png`,
-      `${E}/srepa-web.png`,
+    images: [`${EE}/smart-ram.png`],
+    videos: [
+      { id: "hXxI-oakqYY", title: "Pop-A-Plug® Smart Ram 640T Hydraulic Installation Tool" },
+      { id: "MOos_h6u5ls", title: "Smart Ram Plus™ Advanced Tube Plugging System" },
     ],
     tokens: ["smart ram", "640t"],
     related: ["est-ram", "est-cpi-perma"],
@@ -852,7 +897,7 @@ const EST: HubProduct[] = [
       "Covers CPI/Perma & P2 ranges",
       "No welding required",
     ],
-    images: [`${E}/Manual-Installation-Tool.jpg`],
+    images: [`${EE}/ram.png`],
     tokens: ["ram package", "ram packages"],
     related: ["est-smart-ram", "est-manual-tool"],
   },
@@ -871,7 +916,7 @@ const EST: HubProduct[] = [
       "Zinc-plated carbon steel",
     ],
     specs: [{ label: "Tube ID Range", value: '0.400" – 1.160"' }],
-    images: [`${E}/Manual-Installation-Tool.jpg`],
+    images: [`${EE}/manual-tool.png`],
     tokens: ["manual tool", "manual installation"],
     related: ["est-ram", "est-removal-tool"],
   },
@@ -890,7 +935,11 @@ const EST: HubProduct[] = [
       "Extensions available to 6 ft",
     ],
     specs: [{ label: "Plug Sizes", value: '0.400" – 1.180"' }],
-    images: [`${E}/Plug-Removal-Tool-2.jpg`],
+    images: [`${EE}/removal-tool.png`],
+    videos: [
+      { id: "DFrvnIor0cI", title: "Pop-A-Plug® Removal Tool" },
+      { id: "3agWN1oY6sI", title: "Pop-A-Plug® Removal Tool — Product Demonstration" },
+    ],
     tokens: ["removal tool"],
     related: ["est-manual-tool"],
   },
@@ -909,7 +958,14 @@ const EST: HubProduct[] = [
       "Reaches at depth in header boxes",
       "No hammering or welding",
     ],
-    images: [`${E}/Air-Cooled-Heat-Exchanger.jpg`],
+    images: [`${EE}/ache.png`],
+    videos: [
+      { id: "A-wokizervk", title: "Pop-A-Plug® Air-Cooled Heat Exchanger Tube Plugging System" },
+      { id: "1yfA_L76nGs", title: "Pop-A-Plug® Air-Cooled Heat Exchanger Tube Plug" },
+      { id: "RYcvHhRnNzk", title: "Air-Cooled Heat Exchanger Tube Sizing — Go/No-Go Gage" },
+      { id: "LCMTVurmopg", title: "Air-Cooled Heat Exchanger — Tapered Reamer" },
+      { id: "QaAabmtguh8", title: "Air-Cooled Heat Exchanger — Tube Preparation Brush" },
+    ],
     tokens: ["ache", "air-cooled", "air cooled"],
     related: ["est-cpi-perma", "est-condenser"],
   },
@@ -927,7 +983,7 @@ const EST: HubProduct[] = [
       "Weld-free change-out",
       "Restores condenser vacuum",
     ],
-    images: [`${E}/Condenser-Plug-Change-Out-1.jpg`, `${E}/Boiler-Plug.jpg`],
+    images: [`${EE}/condenser.png`],
     tokens: ["condenser plug", "vibra"],
     related: ["est-ache", "est-cpi-perma"],
   },
@@ -951,7 +1007,17 @@ const EST: HubProduct[] = [
       { label: "Size Range", value: "3/8\" – 48\" NPS (DN10–DN1200)" },
       { label: "Design", value: "Hardened, reusable" },
     ],
-    images: [`${E}/GTMAX4P40_Bg_Med-Res_Diagonal-Back-Left.jpg`, `${E}/gtmax_web-icon.jpg`],
+    images: [`${EE}/griptight-max.png`],
+    videos: [
+      { id: "hMKWUSx_-Pc", title: "Product Overview — GripTight Test and Isolation Plugs" },
+      { id: "ylIJ_8LoDrA", title: "GripTight MAX® Test Plug" },
+      { id: "wcEXBumZlrc", title: "GripTight MAX High Pressure Test Plug" },
+      { id: "G7kigVX31Tk", title: "Installation and Removal — GripTight MAX® Test Plug" },
+      { id: "UHn1hqjasKk", title: "Preparation for Installation — GripTight MAX® Test Plug" },
+      { id: "hzB7iGMW3qw", title: "Cleaning and Storage — GripTight MAX® Test Plug" },
+      { id: "uhfPPAyfjKk", title: "Seal Replacement — GripTight MAX® Test Plug" },
+      { id: "0b4FLdPITFA", title: "Gripper Assembly Replacement — GripTight MAX® Test Plug" },
+    ],
     tokens: ["griptight max", "gtmax", "gt max"],
     related: ["est-griptight-elbow", "est-od-griptight", "est-reverse-pressure"],
   },
@@ -973,7 +1039,12 @@ const EST: HubProduct[] = [
       { label: "Test Pressure", value: "3,350 PsiG (231 BarG)" },
       { label: "Size Range", value: "2\" – 48\" NPS (DN50–DN1200)" },
     ],
-    images: [`${E}/GTLBO-thumbnail.jpg`],
+    images: [`${EE}/griptight-elbow.png`],
+    videos: [
+      { id: "GViWs4ht6oY", title: "GripTight® Elbow Test Plug" },
+      { id: "EcTzG5xDiWE", title: "GripTight® Elbow Test Plug Installation Video" },
+      { id: "VTNIVUAdp-U", title: "GripTight® Elbow Test Plug Animation" },
+    ],
     tokens: ["elbow", "gtlbo"],
     related: ["est-griptight-max"],
   },
@@ -995,7 +1066,7 @@ const EST: HubProduct[] = [
       { label: "Working Pressure", value: "375 PsiG (25.8 BarG)" },
       { label: "Sizes", value: '2", 3", 4", 6" & 8"' },
     ],
-    images: [`${E}/GTPE-thumbnail.jpg`],
+    images: [`${EE}/griptight-pe.png`],
     tokens: ["griptight pe", "gtpe", "pe test", "pe griptight"],
     related: ["est-griptight-max"],
   },
@@ -1017,7 +1088,10 @@ const EST: HubProduct[] = [
       { label: "Test Pressure", value: "2,250 PsiG (155 BarG)" },
       { label: "Size Range", value: "3/4\" – 24\" NPS (DN20–DN600)" },
     ],
-    images: [`${E}/HLA2P40_No-Bg_Med-Res_Diagonal-Back-Left.jpg`],
+    images: [`${EE}/high-lift.png`],
+    videos: [
+      { id: "taSVY3zAojk", title: "High Lift Flange Weld Test Plug" },
+    ],
     tokens: ["high lift", "hla"],
     related: ["est-griptight-max", "est-reverse-pressure"],
   },
@@ -1039,7 +1113,7 @@ const EST: HubProduct[] = [
       { label: "Test Pressure", value: "5,000 PsiG (345 BarG)" },
       { label: "Size Range", value: "1/4\" – 4\" (DN8–DN100)" },
     ],
-    images: [`${E}/ODGT075P_Bg_Med-Res_Diagonal-Back-Left.jpg`],
+    images: [`${EE}/od-griptight.png`],
     tokens: ["od griptight", "odgt"],
     related: ["est-griptight-max", "est-socket-sqs"],
   },
@@ -1061,7 +1135,7 @@ const EST: HubProduct[] = [
       { label: "Test Pressure", value: "5,000 PsiG (345 BarG)" },
       { label: "Size Range", value: "1/2\" – 2\" NPS (DN15–DN50)" },
     ],
-    images: [`${E}/SQS0073U_Bg_Med-Res_Diagonal-Back-Left.jpg`, `${E}/SQ2-Test-Plug.jpg`],
+    images: [`${EE}/socket-sqs.png`, `${EE}/socket-sqs-2.png`],
     tokens: ["socket weld", "sqs", "sq2"],
     related: ["est-od-griptight"],
   },
@@ -1083,7 +1157,8 @@ const EST: HubProduct[] = [
       { label: "Test Pressure", value: "2,250 PsiG (155 BarG)" },
       { label: "Size Range", value: "2\" – 48\" NPS (DN50–DN1200)" },
     ],
-    images: [`${E}/V524C_Bg_Med-Red_Diagonal-Back-Left_Web_Sq.jpg`],
+    images: [`${EE}/reverse-pressure.png`],
+    videos: [{ id: "71MPMG09LyQ", title: "GripTight® Reverse Pressure Test Plug" }],
     tokens: ["reverse pressure", "gtrp"],
     related: ["est-high-lift", "est-griptight-max"],
   },
@@ -1106,9 +1181,9 @@ const EST: HubProduct[] = [
       { label: "Between-Seals Pressure", value: "2,250 PsiG (155 BarG)" },
       { label: "Size Range", value: "3/4\" – 48\" NPS (DN20–DN1200)" },
     ],
-    images: [
-      `${E}/1_DBB8P40_Bg_Med-Res_Diagonal-AFront-Left.jpg`,
-      `${E}/1_GTDBB8P40_Bg_Med-Res_aDiagonal-Front-Left.jpg`,
+    images: [`${EE}/dbb.png`, `${EE}/dbb-2.png`, `${EE}/dbb-3.png`],
+    videos: [
+      { id: "jToybPE1-o0", title: "Double Block and Bleed Isolation Plug" },
     ],
     tokens: ["double block", "dbb", "gtdbb"],
     related: ["est-high-lift", "est-reverse-pressure"],
@@ -1127,10 +1202,7 @@ const EST: HubProduct[] = [
       "Economy low-pressure design",
       "Simple, cost-effective testing",
     ],
-    images: [
-      `${E}/BTT0137N_Bg_Med-Res_Diagonal-Back-Left.jpg`,
-      `${E}/ECY0073N_Bg_Med-Res_Diagonal-Back-Left.jpg`,
-    ],
+    images: [`${EE}/bolt-type.png`],
     tokens: ["bolt type", "bolt-type", "economy"],
     related: ["est-od-griptight"],
   },
@@ -1154,7 +1226,14 @@ const EST: HubProduct[] = [
       { label: "G-650 Tube OD", value: '3/8" – 1¼", under 2.7 lbs' },
       { label: "Air Supply", value: "40–125 PsiG plant air" },
     ],
-    images: [`${E}/G250.jpg`, `${E}/G650.jpg`],
+    images: [`${EE}/g-series.png`, `${EE}/g-series-2.png`],
+    videos: [
+      { id: "pSghlBoNuzk", title: "G-160 Tube Testing Tools — Product Demonstration" },
+      { id: "ku1-MTJfyR4", title: "G-250 Vacuum Tube Testing Tool — Product Demonstration" },
+      { id: "FGSZ4u5437g", title: "G-160 Heat Exchanger Tube Testing Tools" },
+      { id: "2qo6IQvDFNM", title: "G-160 Tube Testing Tools with Grippers" },
+      { id: "ho0ajTGjdN0", title: "G-150 Tube Testing Gun" },
+    ],
     tokens: [
       "g-160",
       "g-250",
@@ -1184,7 +1263,10 @@ const EST: HubProduct[] = [
       "Compact & lightweight",
       "Small and standard D-Series models",
     ],
-    images: [`${E}/dseries.jpg`],
+    images: [`${EE}/d-series.png`],
+    videos: [
+      { id: "zpfFH0sfgbc", title: "D-Series Hot Tapping Tool" },
+    ],
     tokens: ["d-series", "hot tapping", "hot-tapping"],
     related: ["est-g-series"],
   },
@@ -1202,7 +1284,7 @@ const EST: HubProduct[] = [
       "Fixtures for 26\" to 48\" plugs",
       "Reduces manual-handling risk",
     ],
-    images: [`${E}/TestPlug_LiftingArm_001.jpg`],
+    images: [`${EE}/lifting-arm.png`],
     tokens: ["lifting arm", "lifting fixture", "tp-lift", "tp lift"],
     related: ["est-griptight-max"],
   },

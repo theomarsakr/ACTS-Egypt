@@ -145,9 +145,13 @@ for (const brand of BRANDS) {
   // Lead cut-out first.
   rows.push(await processOne(LEADS[brand], path.join(outDir, "lead.jpg")));
 
-  const files = (await readdir(path.join(PUB, brand))).filter((f) => f.endsWith(".jpg"));
+  // Sources may be .jpg or .png (higher-res re-exports); tiles are always .jpg.
+  const files = (await readdir(path.join(PUB, brand))).filter((f) =>
+    /\.(jpe?g|png)$/i.test(f)
+  );
   for (const f of files) {
-    rows.push(await processOne(`${brand}/${f}`, path.join(outDir, f)));
+    const outName = f.replace(/\.(jpe?g|png)$/i, ".jpg");
+    rows.push(await processOne(`${brand}/${f}`, path.join(outDir, outName)));
   }
 
   const photos = rows.filter((r) => r.kind === "photo").map((r) => r.out);

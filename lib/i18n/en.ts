@@ -122,6 +122,11 @@ export const en = {
         },
       } as Record<string, { category: string; summary: string }>,
     },
+    global: {
+      eyebrow: "Global manufacturing, local execution",
+      title: "World-class engineering, delivered and supported from Egypt",
+      lede: "Every valve and tool we supply traces back to a Curtiss-Wright manufacturing site in North America — backed on the ground in Giza by engineers who size, stock, and service it.",
+    },
     why: {
       eyebrow: "Why ACTS",
       title: "Built for procurement teams",
@@ -160,6 +165,7 @@ export const en = {
         title: "Giza headquarters, nationwide reach",
         text: "Arkan Plaza, Sheikh Zayed City — supporting sites from the Western Desert to the Gulf of Suez.",
         cta: "Visit or contact us",
+        mapHint: "Hover a pin to see who we work with",
       },
     },
     proven: {

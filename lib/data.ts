@@ -80,11 +80,11 @@ export const brands: Brand[] = [
             name: "Direct spring-operated safety relief valve",
           },
           {
-            image: "/images/farris/direct-spring-closeup.jpg",
+            image: "/images/farris/direct-spring-closeup.png",
             name: "Open-spring bonnet with test lever",
           },
           {
-            image: "/images/farris/direct-spring-lever.jpg",
+            image: "/images/farris/direct-spring-lever.png",
             name: "Threaded valve with lifting lever",
           },
           {
@@ -99,7 +99,7 @@ export const brands: Brand[] = [
         description: "ASME/NB-certified: air, steam, water.",
         products: [
           {
-            image: "/images/farris/direct-spring-flanged-lever.jpg",
+            image: "/images/farris/direct-spring-flanged-lever.png",
             name: "Flanged valve with full-length test lever",
           },
           {
@@ -118,7 +118,7 @@ export const brands: Brand[] = [
             name: "Compact spring-operated relief valve",
           },
           {
-            image: "/images/farris/spring-operated-lever.jpg",
+            image: "/images/farris/spring-operated-lever.png",
             name: "Spring-operated valve with lifting lever",
           },
           {
@@ -146,7 +146,7 @@ export const brands: Brand[] = [
             name: "Online-testable pilot-operated valve",
           },
           {
-            image: "/images/farris/pilot-assisted-pair.jpg",
+            image: "/images/farris/pilot-assisted-pair.png",
             name: "Pilot-assisted relief valve pair",
           },
         ],
@@ -177,7 +177,7 @@ export const brands: Brand[] = [
             name: "iNSURE® wireless relief-valve monitoring",
           },
           {
-            image: "/images/farris/insure-monitoring-compact.jpg",
+            image: "/images/farris/insure-monitoring-compact.png",
             name: "Compact outlet-mounted iNSURE® module",
           },
         ],
@@ -208,7 +208,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/direct-spring-closeup.jpg",
+        src: "/images/farris/direct-spring-closeup.png",
         caption: "Direct spring-operated safety relief valve",
         category: "Direct & Spring-Operated",
         detail: {
@@ -224,7 +224,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/direct-spring-lever.jpg",
+        src: "/images/farris/direct-spring-lever.png",
         caption: "Direct spring-operated safety relief valve",
         category: "Direct & Spring-Operated",
         detail: {
@@ -240,7 +240,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/direct-spring-flanged-lever.jpg",
+        src: "/images/farris/direct-spring-flanged-lever.png",
         caption: "Direct spring-operated safety relief valve",
         category: "Direct & Spring-Operated",
         detail: {
@@ -272,7 +272,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/spring-operated-lever.jpg",
+        src: "/images/farris/spring-operated-lever.png",
         caption: "Spring-operated safety relief valve",
         category: "Direct & Spring-Operated",
         detail: {
@@ -388,7 +388,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/insure-monitoring-compact.jpg",
+        src: "/images/farris/insure-monitoring-compact.png",
         caption: "iNSURE® wireless relief valve monitoring",
         category: "Monitoring & Aftermarket",
         detail: {
@@ -438,7 +438,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/valve-range-grouped.jpg",
+        src: "/images/farris/valve-range-grouped.png",
         caption: "Safety relief valve product range",
         category: "Product Range",
         detail: {
@@ -454,7 +454,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/valve-pair.jpg",
+        src: "/images/farris/valve-pair.png",
         caption: "Safety relief valve range",
         category: "Product Range",
         detail: {
@@ -470,7 +470,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/pilot-assisted-pair.jpg",
+        src: "/images/farris/pilot-assisted-pair.png",
         caption: "Safety relief valve product range",
         category: "Product Range",
         detail: {
@@ -504,7 +504,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/farris/cross-section-detail.jpg",
+        src: "/images/farris/cross-section-detail.png",
         caption: "Safety relief valve — internal cross-section",
         category: "Internal Construction",
         detail: {
@@ -522,7 +522,7 @@ export const brands: Brand[] = [
 
       // Actuated valves
       {
-        src: "/images/farris/actuated-control-valve.jpg",
+        src: "/images/farris/actuated-control-valve.png",
         caption: "Actuated control / relief valve",
         category: "Actuated Valves",
         detail: {
@@ -648,7 +648,7 @@ export const brands: Brand[] = [
             name: "PRO-50 instrument supply regulator",
           },
           {
-            image: "/images/dynaflo/t950xp-transducer.jpg",
+            image: "/images/dynaflo/t950xp-transducer.png",
             name: "Control Air T950XP I/P transducer",
           },
         ],
@@ -891,7 +891,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/dynaflo/t950xp-transducer.jpg",
+        src: "/images/dynaflo/t950xp-transducer.png",
         caption: "Control Air T950XP I/P transducer",
         category: "Instrumentation",
         detail: {
@@ -941,11 +941,11 @@ export const brands: Brand[] = [
             name: "Pop-A-Plug P2 high-pressure tube plugs",
           },
           {
-            image: "/images/est/tube-stabilizer.jpg",
+            image: "/images/est/tube-stabilizer.png",
             name: "Pop-A-Plug tube stabilizers",
           },
           {
-            image: "/images/est/ram-package.jpg",
+            image: "/images/est/ram-package.png",
             name: "Pop-A-Plug hydraulic ram package",
           },
           {
@@ -953,7 +953,7 @@ export const brands: Brand[] = [
             name: "Smart Ram Plus installation system",
           },
           {
-            image: "/images/est/smart-ram-640t.jpg",
+            image: "/images/est/smart-ram-640t.png",
             name: "Smart Ram 640T installation tool",
           },
           {
@@ -961,11 +961,11 @@ export const brands: Brand[] = [
             name: "Manual installation tool",
           },
           {
-            image: "/images/est/removal-tool.jpg",
+            image: "/images/est/removal-tool.png",
             name: "Pop-A-Plug removal tool",
           },
           {
-            image: "/images/est/air-cooled-hx.jpg",
+            image: "/images/est/air-cooled-hx.png",
             name: "Air-cooled heat exchanger plugging",
           },
         ],
@@ -981,7 +981,7 @@ export const brands: Brand[] = [
             name: "GripTight MAX test plug",
           },
           {
-            image: "/images/est/griptight-pe.jpg",
+            image: "/images/est/griptight-pe.png",
             name: "GripTight PE test plug",
           },
           {
@@ -1001,7 +1001,7 @@ export const brands: Brand[] = [
             name: "Socket Weld SQS test plug",
           },
           {
-            image: "/images/est/griptight-reverse-pressure.jpg",
+            image: "/images/est/griptight-reverse-pressure.png",
             name: "GripTight reverse-pressure test plug",
           },
           {
@@ -1020,11 +1020,11 @@ export const brands: Brand[] = [
         description: "Testing guns for locating and identifying leaking tubes.",
         products: [
           {
-            image: "/images/est/g250-vacuum-tube-tester.jpg",
+            image: "/images/est/g250-vacuum-tube-tester.png",
             name: "G-250 vacuum tube tester",
           },
           {
-            image: "/images/est/g650-vacuum-joint-tester.jpg",
+            image: "/images/est/g650-vacuum-joint-tester.png",
             name: "G-650 vacuum joint tester",
           },
         ],
@@ -1083,7 +1083,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/tube-stabilizer.jpg",
+        src: "/images/est/tube-stabilizer.png",
         caption: "Pop-A-Plug tube stabilizers",
         category: "Heat Exchanger Tube Plugging",
         detail: {
@@ -1115,7 +1115,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/ram-package.jpg",
+        src: "/images/est/ram-package.png",
         caption: "Pop-A-Plug hydraulic ram package",
         category: "Heat Exchanger Tube Plugging",
         detail: {
@@ -1131,7 +1131,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/smart-ram-640t.jpg",
+        src: "/images/est/smart-ram-640t.png",
         caption: "Smart Ram 640T installation tool",
         category: "Heat Exchanger Tube Plugging",
         detail: {
@@ -1179,7 +1179,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/removal-tool.jpg",
+        src: "/images/est/removal-tool.png",
         caption: "Pop-A-Plug removal tool",
         category: "Heat Exchanger Tube Plugging",
         detail: {
@@ -1195,7 +1195,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/air-cooled-hx.jpg",
+        src: "/images/est/air-cooled-hx.png",
         caption: "Air-cooled heat exchanger plugging system",
         category: "Heat Exchanger Tube Plugging",
         detail: {
@@ -1213,7 +1213,7 @@ export const brands: Brand[] = [
 
       // Tube & joint leak testing
       {
-        src: "/images/est/g250-vacuum-tube-tester.jpg",
+        src: "/images/est/g250-vacuum-tube-tester.png",
         caption: "G-250 vacuum tube tester",
         category: "Tube & Joint Leak Testing",
         detail: {
@@ -1229,7 +1229,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/g650-vacuum-joint-tester.jpg",
+        src: "/images/est/g650-vacuum-joint-tester.png",
         caption: "G-650 vacuum joint tester",
         category: "Tube & Joint Leak Testing",
         detail: {
@@ -1279,7 +1279,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/griptight-pe.jpg",
+        src: "/images/est/griptight-pe.png",
         caption: "GripTight PE test plug",
         category: "Test & Isolation Plugs",
         detail: {
@@ -1343,7 +1343,7 @@ export const brands: Brand[] = [
         },
       },
       {
-        src: "/images/est/griptight-reverse-pressure.jpg",
+        src: "/images/est/griptight-reverse-pressure.png",
         caption: "GripTight reverse pressure test plug",
         category: "Test & Isolation Plugs",
         detail: {
