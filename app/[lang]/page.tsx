@@ -300,11 +300,15 @@ export default async function Home({
             <p className="mt-5 text-lg text-white/70 leading-relaxed max-w-lg">
               {hm.global.lede}
             </p>
-            <div className="mt-8 flex flex-wrap gap-2.5">
-              {brands.map((b) => (
+            <div
+              className="mt-8 flex flex-wrap gap-2.5"
+              style={{ "--chip-count": brands.length } as React.CSSProperties}
+            >
+              {brands.map((b, i) => (
                 <span
                   key={b.slug}
-                  className="glass-dark rounded-full px-3.5 py-2 text-[13px] font-semibold text-white/80"
+                  className="brand-chip glass-dark rounded-full px-3.5 py-2 text-[13px] font-semibold text-white/80"
+                  style={{ "--i": i } as React.CSSProperties}
                 >
                   {b.name}
                   <span className="text-white/40"> · {b.origin.split(" · ")[0]}</span>

@@ -5,10 +5,12 @@ import { useState } from "react";
 /**
  * EgyptReach — the location card's claim, made concrete: the country outline
  * draws itself in, the Nile follows, then named client sites resolve as
- * pins. Hover or focus a pin for its name (same `.glass-dark`-style tooltip
- * treatment as the RotatingEarth globe's brand pins). Pure SVG + a thin
- * client-state layer for the tooltip — the draw-in animations still key off
- * the `.in-view` class the surrounding <Reveal> applies.
+ * pins, each joined to the HQ by its own reach line — the same "hub with
+ * spokes to everyone" language as the RotatingEarth globe's supply arcs.
+ * Hover or focus a pin for its name (same `.glass-dark`-style tooltip
+ * treatment as the globe's brand pins). Pure SVG + a thin client-state layer
+ * for the tooltip — the draw-in animations still key off the `.in-view`
+ * class the surrounding <Reveal> applies.
  *
  * Geometry is a deliberate simplification of the real coastline — enough to
  * be unmistakably Egypt at this size — plotted from lon/lat as
@@ -22,9 +24,6 @@ type Pin = {
   sector: string;
   x: number;
   y: number;
-  /** Draws a reach line back to the HQ — reserved for the two areas the
-   *  card's copy names by name (Western Desert, Gulf of Suez). */
-  reach?: boolean;
 };
 
 const HQ = {
@@ -35,21 +34,20 @@ const HQ = {
 };
 
 const PINS: Pin[] = [
-  {
-    name: "Khalda Petroleum",
-    sector: "Upstream — Western Desert",
-    x: 72,
-    y: 98,
-    reach: true,
-  },
+  { name: "Khalda Petroleum", sector: "Upstream — Western Desert", x: 72, y: 98 },
   {
     name: "Belayim Petroleum (PETROBEL)",
     sector: "Upstream — Gulf of Suez",
     x: 182,
     y: 82,
-    reach: true,
   },
   { name: "ENPPI", sector: "Engineering & EPC — Cairo", x: 161, y: 44 },
+  {
+    name: "SUMED",
+    sector: "Pipeline Terminal — Ain Sokhna, Suez Gulf",
+    x: 168,
+    y: 58,
+  },
   {
     name: "Damietta LNG (DLNG)",
     sector: "LNG Export Terminal — Damietta",
@@ -57,7 +55,41 @@ const PINS: Pin[] = [
     y: 24,
   },
   { name: "Birla Carbon", sector: "Carbon Black Plant — Alexandria", x: 106, y: 25 },
+  {
+    name: "Abu Qir Fertilizers",
+    sector: "Fertilizers — Abu Qir, Alexandria",
+    x: 135,
+    y: 19,
+  },
+  {
+    name: "Assiut Oil Refining Company",
+    sector: "Refining — Assiut, Upper Egypt",
+    x: 143,
+    y: 108,
+  },
 ];
+
+/* A gentle quadratic bow from the HQ out to a pin — same "supply line" read
+   as the globe's great-circle arcs, generated instead of hand-drawn so every
+   pin gets one, not just the two the copy used to call out by name. The
+   control point is offset perpendicular to the straight line, biased to
+   bow toward the top of the map, which is what the two original hand-drawn
+   curves (to Khalda and Belayim) did. */
+const reachPath = (from: { x: number; y: number }, to: { x: number; y: number }) => {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const len = Math.hypot(dx, dy) || 1;
+  let px = -dy / len;
+  let py = dx / len;
+  if (py > 0) {
+    px = -px;
+    py = -py;
+  }
+  const bow = len * 0.12;
+  const cx = (from.x + to.x) / 2 + px * bow;
+  const cy = (from.y + to.y) / 2 + py * bow;
+  return `M${from.x} ${from.y} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${to.x} ${to.y}`;
+};
 
 /* viewBox is "-6 6 276 218" — convert a map-space point to a % position for
    the HTML tooltip layer that sits over the SVG. */
@@ -102,9 +134,15 @@ export default function EgyptReach({ className = "" }: { className?: string }) {
         <path className="eg-nile" d="M178 168 L172 136 L174 126 L144 106 L145 49" />
         <path className="eg-nile eg-nile-b" d="M145 49 L128 22 M145 49 L156 22" />
 
-        {/* Reach: HQ → Western Desert, HQ → Gulf of Suez */}
-        <path className="eg-reach" d="M145 50 Q104 56 72 98" />
-        <path className="eg-reach eg-reach-b" d="M145 50 Q173 55 182 82" />
+        {/* Reach: HQ → every client site, one line each */}
+        {PINS.map((pin, i) => (
+          <path
+            key={`reach-${pin.name}`}
+            className="eg-reach"
+            style={{ "--i": i } as React.CSSProperties}
+            d={reachPath(HQ, pin)}
+          />
+        ))}
 
         {/* Client site pins */}
         {PINS.map((pin, i) => (

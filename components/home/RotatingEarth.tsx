@@ -281,6 +281,43 @@ export default function RotatingEarth({
       document.addEventListener("mouseup", handleMouseUp);
     };
 
+    /* Touch equivalent of handleMouseDown — phones/tablets have no mouse, so
+       without this the globe was only draggable with a cursor. A single
+       finger rotates it exactly like a mouse drag would; `touch-action: none`
+       on the canvas (see JSX below) is what lets `preventDefault` here stop
+       the page from scrolling instead. */
+    const handleTouchStart = (event: TouchEvent) => {
+      if (event.touches.length !== 1) return;
+      autoRotate = false;
+      setTooltip(null);
+      const startX = event.touches[0].clientX;
+      const startY = event.touches[0].clientY;
+      const startRotation: [number, number] = [...rotation];
+
+      const handleTouchMove = (moveEvent: TouchEvent) => {
+        if (moveEvent.touches.length !== 1) return;
+        moveEvent.preventDefault();
+        const sensitivity = 0.5;
+        const touch = moveEvent.touches[0];
+        rotation[0] = startRotation[0] + (touch.clientX - startX) * sensitivity;
+        rotation[1] = Math.max(
+          -90,
+          Math.min(90, startRotation[1] - (touch.clientY - startY) * sensitivity)
+        );
+        projection.rotate(rotation);
+        render();
+      };
+      const handleTouchEnd = () => {
+        document.removeEventListener("touchmove", handleTouchMove);
+        document.removeEventListener("touchend", handleTouchEnd);
+        setTimeout(() => {
+          autoRotate = true;
+        }, 10);
+      };
+      document.addEventListener("touchmove", handleTouchMove, { passive: false });
+      document.addEventListener("touchend", handleTouchEnd);
+    };
+
     const toLocalPoint = (event: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       const scale = rect.width / containerWidth;
@@ -330,6 +367,7 @@ export default function RotatingEarth({
     canvas.addEventListener("mouseleave", handleLeave);
     canvas.addEventListener("click", handleClick);
     canvas.addEventListener("wheel", handleWheel, { passive: false });
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
 
     (async () => {
       try {
@@ -359,6 +397,7 @@ export default function RotatingEarth({
       canvas.removeEventListener("mouseleave", handleLeave);
       canvas.removeEventListener("click", handleClick);
       canvas.removeEventListener("wheel", handleWheel);
+      canvas.removeEventListener("touchstart", handleTouchStart);
     };
   }, [width, height, lang, router]);
 
@@ -377,7 +416,7 @@ export default function RotatingEarth({
       <canvas
         ref={canvasRef}
         className="cursor-grab rounded-full active:cursor-grabbing"
-        style={{ maxWidth: "100%", height: "auto" }}
+        style={{ maxWidth: "100%", height: "auto", touchAction: "none" }}
       />
       {tooltip && (
         <div

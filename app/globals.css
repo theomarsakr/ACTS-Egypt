@@ -551,6 +551,39 @@ html[lang="ar"] .ltr-inline {
   }
 }
 
+/* Brand chips in the GLOBAL REACH section: on desktop, hover does the job of
+   drawing attention to one at a time. Touch has no hover, so below `lg` a
+   slow spotlight chases through them instead — one lights up, fades off, the
+   next takes its turn — while the section is in view. `--chip-count` (set
+   from brands.length) and `--i` (each chip's index) come from the JSX so the
+   loop always makes one full pass regardless of how many chips there are. */
+@media (max-width: 1023.98px) {
+  .reveal.in-view .brand-chip {
+    animation: chip-spotlight calc(var(--chip-count, 1) * 1.4s) ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 1.4s);
+  }
+}
+@keyframes chip-spotlight {
+  0%,
+  3% {
+    background-color: rgba(240, 196, 25, 0.24);
+    border-color: rgba(240, 196, 25, 0.6);
+    box-shadow: 0 0 24px -2px rgba(240, 196, 25, 0.55);
+  }
+  12%,
+  88% {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: none;
+  }
+  97%,
+  100% {
+    background-color: rgba(240, 196, 25, 0.24);
+    border-color: rgba(240, 196, 25, 0.6);
+    box-shadow: 0 0 24px -2px rgba(240, 196, 25, 0.55);
+  }
+}
+
 /* Brass-lit icon plate shared by the icon cards. */
 .tile-icon {
   display: flex;
@@ -634,20 +667,21 @@ html[lang="ar"] .ltr-inline {
 .reveal.in-view .eg-map .eg-nile-b {
   animation-delay: 1.5s;
 }
-/* Reach lines from the HQ out to the named extremes */
+/* Reach lines from the HQ out to every client site. `stroke-dasharray` is
+   sized to outrun the longest plausible line rather than matched per-path —
+   the draw-in still finishes well within the 0.9s animation, just front-
+   loaded a little for the shorter lines. */
 .eg-map .eg-reach {
   fill: none;
   stroke: rgba(138, 106, 48, 0.55);
   stroke-width: 1.1;
   stroke-linecap: round;
-  stroke-dasharray: 120;
-  stroke-dashoffset: 120;
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
 }
 .reveal.in-view .eg-map .eg-reach {
-  animation: eg-draw 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.9s forwards;
-}
-.reveal.in-view .eg-map .eg-reach-b {
-  animation-delay: 2.2s;
+  animation: eg-draw 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(1.9s + var(--i, 0) * 0.15s);
 }
 .eg-map .eg-site {
   opacity: 0;
@@ -656,7 +690,7 @@ html[lang="ar"] .ltr-inline {
 }
 .reveal.in-view .eg-map .eg-site {
   animation: fade-in 0.5s ease forwards;
-  animation-delay: calc(2.5s + var(--i) * 0.3s);
+  animation-delay: calc(2.5s + var(--i) * 0.2s);
 }
 .eg-map .eg-site-ring {
   fill: none;
@@ -741,6 +775,9 @@ html[lang="ar"] .ltr-inline {
   .eg-map .eg-site {
     opacity: 1;
     transform: none;
+    animation: none !important;
+  }
+  .brand-chip {
     animation: none !important;
   }
   .stat-rule {
