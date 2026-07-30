@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
+  Briefcase,
   Drill,
   Fuel,
   HardHat,
@@ -17,6 +18,7 @@ import {
   Lock,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import Counter from "@/components/Counter";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
@@ -82,7 +84,7 @@ export default function ProjectsPage() {
   return (
     <>
       {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy">
+      <section id="overview" className="scroll-mt-28 relative overflow-hidden bg-navy">
         <div className="absolute inset-0" aria-hidden>
           <Image
             src="/images/refinery-blue.jpg"
@@ -138,7 +140,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Client portfolio */}
-      <section className="py-16">
+      <section id="portfolio" className="scroll-mt-28 py-16">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
@@ -203,7 +205,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Where we add value */}
-      <section className="py-16 bg-gray-50 border-y border-gray-200">
+      <section id="value" className="scroll-mt-28 py-16 bg-gray-50 border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -241,7 +243,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* What clients trust us for */}
-      <section className="py-16">
+      <section id="trust" className="scroll-mt-28 py-16">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -272,7 +274,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Confidentiality */}
-      <section className="py-16 bg-gray-50 border-t border-gray-200">
+      <section id="confidentiality" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-2xl border border-brand/30 bg-brand-light/60 p-7 md:p-9">
@@ -349,6 +351,16 @@ export default function ProjectsPage() {
           </Reveal>
         </div>
       </section>
+
+      <SiteDock
+        sections={[
+          { id: "overview", label: "Overview", icon: <Briefcase className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "portfolio", label: "Client portfolio", icon: <Drill className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "value", label: "Where we add value", icon: <Workflow className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "trust", label: "Why clients trust us", icon: <ShieldCheck className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "confidentiality", label: "Confidentiality", icon: <Lock className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }

@@ -124,6 +124,9 @@ export const en = {
     },
     global: {
       eyebrow: "Global manufacturing, local execution",
+      /** Short nav-menu form of the section name (dock/anchor labels) — the
+          eyebrow above is marketing copy, too long for a tooltip. */
+      navLabel: "Global reach",
       title: "World-class engineering, delivered and supported from Egypt",
       lede: "Every valve and tool we supply traces back to a Curtiss-Wright manufacturing site in North America — backed on the ground in Giza by engineers who size, stock, and service it.",
     },

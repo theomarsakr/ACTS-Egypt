@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ClipboardCheck, ListChecks } from "lucide-react";
 import RFQForm from "@/components/RFQForm";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import { getBrand } from "@/lib/data";
 import { getDict, type Locale } from "@/lib/i18n";
@@ -63,7 +65,7 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
         </div>
       </section>
 
-      <section className="py-16">
+      <section id="form" className="scroll-mt-28 py-16">
         <div className="max-w-2xl mx-auto px-6">
           <Reveal>
             <RFQForm initialBrand={brand?.name} initialEmail={email} t={dict.rfq} />
@@ -71,7 +73,7 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
         </div>
       </section>
 
-      <section className="pb-16">
+      <section id="next-steps" className="scroll-mt-28 pb-16">
         <div className="max-w-2xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-8">
@@ -92,6 +94,14 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
           </div>
         </div>
       </section>
+
+      <SiteDock
+        lang={lang}
+        sections={[
+          { id: "form", label: dict.rfq.title, icon: <ClipboardCheck className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "next-steps", label: q.nextTitle, icon: <ListChecks className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }

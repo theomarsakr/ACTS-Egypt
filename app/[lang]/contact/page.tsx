@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
@@ -63,7 +64,7 @@ export default async function ContactPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="py-16">
+      <section id="office" className="scroll-mt-28 py-16">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-4">
@@ -176,7 +177,7 @@ export default async function ContactPage({ params }: PageProps) {
       </section>
 
       {/* Reach the right team */}
-      <section className="py-16 bg-gray-50 border-t border-gray-200">
+      <section id="departments" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -243,7 +244,7 @@ export default async function ContactPage({ params }: PageProps) {
       </section>
 
       {/* Let's connect */}
-      <section className="py-16">
+      <section id="connect" className="scroll-mt-28 py-16">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-10">
@@ -307,6 +308,15 @@ export default async function ContactPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      <SiteDock
+        lang={lang}
+        sections={[
+          { id: "office", label: c.headquarters, icon: <MapPin className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "departments", label: c.deptChip, icon: <Phone className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "connect", label: c.connectTitle, icon: <Mail className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }

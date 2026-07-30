@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, CheckCircle2, Gauge, Settings2, Thermometer, Briefcase } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Compass,
+  Gauge,
+  Settings2,
+  Thermometer,
+  Briefcase,
+} from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import { ShineBorder } from "@/components/ui/ShineBorder";
@@ -169,7 +178,7 @@ export default function ProductsPage() {
   return (
     <>
       {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy">
+      <section id="overview" className="scroll-mt-28 relative overflow-hidden bg-navy">
         <div className="absolute inset-0" aria-hidden>
           <Image
             src="/images/gas-plant.jpg"
@@ -204,7 +213,7 @@ export default function ProductsPage() {
       </section>
 
       {/* Pillars */}
-      <section className="py-16">
+      <section id="explore-products" className="scroll-mt-28 py-16">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <Tabs
@@ -331,7 +340,7 @@ export default function ProductsPage() {
       </section>
 
       {/* Integrated approach */}
-      <section className="py-16 bg-gray-50 border-t border-gray-200">
+      <section id="approach" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -405,6 +414,14 @@ export default function ProductsPage() {
           </Reveal>
         </div>
       </section>
+
+      <SiteDock
+        sections={[
+          { id: "overview", label: "Overview", icon: <Compass className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "explore-products", label: "Explore products", icon: <Settings2 className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "approach", label: "Our approach", icon: <CheckCircle2 className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }

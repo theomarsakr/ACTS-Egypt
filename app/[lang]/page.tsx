@@ -3,21 +3,26 @@ import Image from "next/image";
 import {
   ArrowRight,
   ArrowUpRight,
+  Briefcase,
+  Camera,
   ExternalLink,
   Gauge,
+  Globe,
   LineChart,
   Mail,
   MapPin,
+  Package,
   Phone,
   ShieldCheck,
   Wrench,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import Hero from "@/components/home/Hero";
 import FieldProof from "@/components/home/FieldProof";
 import FieldGallery from "@/components/home/FieldGallery";
 import AutoRotateImage from "@/components/home/AutoRotateImage";
-import RotatingEarth from "@/components/home/RotatingEarth";
+import RotatingEarth from "@/components/home/RotatingEarthLazy";
 import Parallax from "@/components/home/Parallax";
 import ScrollRail from "@/components/home/ScrollRail";
 import EgyptReach from "@/components/home/EgyptReach";
@@ -123,7 +128,7 @@ export default async function Home({
       </section>
 
       {/* ============ WHAT WE DO ============ */}
-      <section className="py-20 md:py-28">
+      <section id="what-we-do" className="scroll-mt-28 py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="max-w-2xl">
@@ -158,7 +163,7 @@ export default async function Home({
       </section>
 
       {/* ============ BRANDS ============ */}
-      <section className="py-20 md:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
+      <section id="brands" className="scroll-mt-28 py-20 md:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
@@ -285,7 +290,7 @@ export default async function Home({
       </section>
 
       {/* ============ GLOBAL REACH ============ */}
-      <section className="relative overflow-hidden bg-ink text-white py-20 md:py-28">
+      <section id="global-reach" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <div
           className="mesh mesh-brass w-96 h-96 -top-40 -left-24 opacity-50"
@@ -330,7 +335,7 @@ export default async function Home({
       {/* `overflow-x-clip`, never `overflow-hidden`: hidden would make this
           section the scroll container for the sticky rail inside it, and the
           rail would silently stop sticking. `clip` isn't a scroll container. */}
-      <section className="why-section relative overflow-x-clip py-24 md:py-32">
+      <section id="why-acts" className="why-section scroll-mt-28 relative overflow-x-clip py-24 md:py-32">
         <div className="why-backdrop" aria-hidden />
         <div className="relative max-w-7xl mx-auto px-6">
           <ContainerScroll label={hm.why.eyebrow}>
@@ -632,7 +637,7 @@ export default async function Home({
           with the engagements that back them up, in the same visual language
           as the hero. The translucent carousel card lets the band's blueprint
           grid run through it, so the section reads as one continuous surface. */}
-      <section className="relative overflow-hidden bg-ink text-white py-20 md:py-28">
+      <section id="proven" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <div
           className="mesh mesh-steel w-[30rem] h-[30rem] -top-44 -right-28 opacity-60"
@@ -672,7 +677,7 @@ export default async function Home({
       {lang !== "ar" && <TestimonialCarousel />}
 
       {/* ============ COMPANY GALLERY ============ */}
-      <section className="pb-20 md:pb-28 pt-20 md:pt-28">
+      <section id="gallery" className="scroll-mt-28 pb-20 md:pb-28 pt-20 md:pt-28">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
@@ -774,6 +779,19 @@ export default async function Home({
           </Reveal>
         </div>
       </section>
+
+      {/* Quick-navigation dock — jumps between this page's own sections. */}
+      <SiteDock
+        lang={lang}
+        sections={[
+          { id: "what-we-do", label: hm.whatWeDo.eyebrow, icon: <Gauge className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "brands", label: hm.brands.eyebrow, icon: <Package className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "global-reach", label: hm.global.navLabel, icon: <Globe className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "why-acts", label: hm.why.eyebrow, icon: <ShieldCheck className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "proven", label: hm.proven.eyebrow, icon: <Briefcase className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "gallery", label: hm.gallery.chip, icon: <Camera className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }

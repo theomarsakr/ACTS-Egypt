@@ -6,6 +6,7 @@ import {
   MapPin,
   Building2,
   GraduationCap,
+  History,
   TrendingUp,
   RefreshCw,
   Rocket,
@@ -15,10 +16,12 @@ import {
   Wrench,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import Counter from "@/components/Counter";
 import TimelineTrack from "@/components/TimelineTrack";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
+import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { timeline, mission, values, offices } from "@/lib/data";
 
 const timelineIcons = [Building2, MapPin, GraduationCap, TrendingUp, RefreshCw, Rocket];
@@ -77,42 +80,31 @@ const howWeOperate = [
 export default function AboutPage() {
   return (
     <>
-      {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy">
-        <div className="absolute inset-0" aria-hidden>
-          <Image
-            src="/images/refinery-blue.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-50"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/80 to-navy/40" />
+      {/* Page hero — a small "postcard" of the plant that grows to fill the
+          screen as the visitor scrolls, then hands off into the rest of the
+          page. Must stay the very first thing on the page: see the component
+          doc comment for why. */}
+      <ScrollExpandMedia
+        mediaType="image"
+        mediaSrc="/images/petrochemical-plant.jpg"
+        mediaAlt="Petrochemical processing facility ACTS supplies valves and flow-control equipment to"
+        bgImageSrc="/images/refinery-blue.jpg"
+        eyebrow="About ACTS"
+        title="Nearly Two Decades"
+      >
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-lg md:text-xl text-white/80 leading-relaxed">
+            Advanced Company for Trading Services (ACTS) was founded in 2006
+            in Sixth of October City, Giza, and incorporated as a Limited
+            Liability Company in 2016. In 2025, ACTS relocated its
+            headquarters to Arkan Plaza, Sheikh Zayed City, Giza, Egypt. For
+            nearly two decades, we have served the Egyptian market, earning
+            the trust of leading operators across Oil &amp; Gas,
+            Petrochemicals, Power Generation, Water Treatment, and
+            Fertilizers.
+          </p>
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
-          <Reveal>
-            <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-              About ACTS
-            </div>
-            <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white max-w-3xl">
-              Nearly two decades of industrial trust
-            </h1>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              Advanced Company for Trading Services (ACTS) was founded in 2006
-              in Sixth of October City, Giza, and incorporated as a Limited
-              Liability Company in 2016. In 2025, ACTS relocated its
-              headquarters to Arkan Plaza, Sheikh Zayed City, Giza, Egypt. For
-              nearly two decades, we have served the Egyptian market, earning
-              the trust of leading operators across Oil &amp; Gas,
-              Petrochemicals, Power Generation, Water Treatment, and
-              Fertilizers.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      </ScrollExpandMedia>
 
       {/* Stat bar */}
       <section className="relative z-10 -mt-10 pb-4">
@@ -143,7 +135,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20">
+      <section id="timeline" className="scroll-mt-28 py-20">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal>
             <div className="text-center">
@@ -198,7 +190,7 @@ export default function AboutPage() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="py-4 pb-16">
+      <section id="mission" className="scroll-mt-28 py-4 pb-16">
         <div className="max-w-4xl mx-auto px-6 grid sm:grid-cols-2 gap-6">
           <Reveal>
             <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
@@ -227,7 +219,7 @@ export default function AboutPage() {
       </section>
 
       {/* Goals — navy band */}
-      <section className="bg-navy text-white py-20">
+      <section id="goals" className="scroll-mt-28 bg-navy text-white py-20">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -294,7 +286,7 @@ export default function AboutPage() {
       </section>
 
       {/* What we specialize in */}
-      <section className="py-20 bg-gray-50 border-y border-gray-200">
+      <section id="specializations" className="scroll-mt-28 py-20 bg-gray-50 border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="max-w-2xl">
@@ -350,7 +342,7 @@ export default function AboutPage() {
       </section>
 
       {/* How we operate */}
-      <section className="py-20">
+      <section id="how-we-operate" className="scroll-mt-28 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -386,7 +378,7 @@ export default function AboutPage() {
       </section>
 
       {/* Headquarters */}
-      <section className="py-20">
+      <section id="offices" className="scroll-mt-28 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -457,6 +449,17 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <SiteDock
+        sections={[
+          { id: "timeline", label: "Our journey", icon: <History className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "mission", label: "Vision & mission", icon: <Lightbulb className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "goals", label: "Our goals", icon: <TrendingUp className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "specializations", label: "Specializations", icon: <Wrench className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "how-we-operate", label: "How we operate", icon: <Headset className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "offices", label: "Our offices", icon: <MapPin className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }

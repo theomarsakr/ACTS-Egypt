@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Library } from "lucide-react";
+import { Clock, Library, Settings2, ShieldCheck, Thermometer } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import BrandResourceCard from "@/components/brands/BrandResourceCard";
 import DocumentLibrary from "@/components/brands/DocumentLibrary";
@@ -82,34 +83,36 @@ export default function BrandsPage() {
             // every frame is the product centered on an identical white canvas.
             const folder = brandSlugToFolder[b.slug];
             return (
-              <Reveal key={b.slug}>
-                <BrandResourceCard
-                  brand={{
-                    slug: b.slug,
-                    no: b.no,
-                    name: b.name,
-                    category: b.category,
-                    origin: b.origin,
-                    description: b.description,
-                    sectors: b.sectors,
-                    image: b.image,
-                    imageAlt: b.imageAlt,
-                    productLinesCount: b.productLines.length,
-                  }}
-                  images={folder ? brandCardImages[folder] : undefined}
-                  startDelayMs={i * 2200}
-                  featured={docs?.featured ?? []}
-                  total={docs?.total ?? 0}
-                  anchor={docs?.anchor ?? "document-library"}
-                />
-              </Reveal>
+              <div key={b.slug} id={b.slug} className="scroll-mt-28">
+                <Reveal>
+                  <BrandResourceCard
+                    brand={{
+                      slug: b.slug,
+                      no: b.no,
+                      name: b.name,
+                      category: b.category,
+                      origin: b.origin,
+                      description: b.description,
+                      sectors: b.sectors,
+                      image: b.image,
+                      imageAlt: b.imageAlt,
+                      productLinesCount: b.productLines.length,
+                    }}
+                    images={folder ? brandCardImages[folder] : undefined}
+                    startDelayMs={i * 2200}
+                    featured={docs?.featured ?? []}
+                    total={docs?.total ?? 0}
+                    anchor={docs?.anchor ?? "document-library"}
+                  />
+                </Reveal>
+              </div>
             );
           })}
         </div>
       </section>
 
       {/* Past project experience */}
-      <section className="py-16 bg-gray-50 border-t border-gray-200">
+      <section id="past-experience" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -171,6 +174,16 @@ export default function BrandsPage() {
           </Reveal>
         </div>
       </section>
+
+      <SiteDock
+        sections={[
+          { id: "farris-engineering", label: "Farris Engineering", icon: <ShieldCheck className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "dyna-flo", label: "Dyna-Flo", icon: <Settings2 className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "est", label: "EST", icon: <Thermometer className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "past-experience", label: "Past experience", icon: <Clock className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "document-library", label: "Document library", icon: <Library className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }

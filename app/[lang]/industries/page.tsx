@@ -4,6 +4,8 @@ import Image from "next/image";
 import {
   ArrowRight,
   CheckCircle2,
+  ClipboardList,
+  Compass,
   Flame,
   FlaskConical,
   Zap,
@@ -12,6 +14,7 @@ import {
   Factory,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SiteDock from "@/components/SiteDock";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
@@ -37,7 +40,7 @@ export default function IndustriesPage() {
   return (
     <>
       {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy">
+      <section id="overview" className="scroll-mt-28 relative overflow-hidden bg-navy">
         <div className="absolute inset-0" aria-hidden>
           <Image
             src="/images/power-station.jpg"
@@ -72,7 +75,7 @@ export default function IndustriesPage() {
       </section>
 
       {/* Industry tabs */}
-      <section className="py-16">
+      <section id="explore-industries" className="scroll-mt-28 py-16">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <Tabs
@@ -170,7 +173,7 @@ export default function IndustriesPage() {
       </section>
 
       {/* Summary table */}
-      <section className="py-16 bg-gray-50 border-t border-gray-200">
+      <section id="at-a-glance" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
@@ -232,6 +235,14 @@ export default function IndustriesPage() {
           </Reveal>
         </div>
       </section>
+
+      <SiteDock
+        sections={[
+          { id: "overview", label: "Overview", icon: <Compass className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "explore-industries", label: "Explore industries", icon: <Factory className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "at-a-glance", label: "At a glance", icon: <ClipboardList className="h-full w-full" strokeWidth={2.25} /> },
+        ]}
+      />
     </>
   );
 }
