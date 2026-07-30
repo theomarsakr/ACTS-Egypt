@@ -45,8 +45,8 @@ const PINS: Pin[] = [
   {
     name: "SUMED",
     sector: "Pipeline Terminal — Ain Sokhna, Suez Gulf",
-    x: 168,
-    y: 58,
+    x: 172,
+    y: 66,
   },
   {
     name: "Damietta LNG (DLNG)",
@@ -66,6 +66,18 @@ const PINS: Pin[] = [
     sector: "Refining — Assiut, Upper Egypt",
     x: 143,
     y: 108,
+  },
+  {
+    name: "Qarun Petroleum",
+    sector: "Upstream — Qarun Basin, Fayoum",
+    x: 120,
+    y: 74,
+  },
+  {
+    name: "GUPCO",
+    sector: "Upstream — Ras Gharib, Gulf of Suez",
+    x: 196,
+    y: 104,
   },
 ];
 
