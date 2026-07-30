@@ -4,9 +4,16 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 /**
  * ContainerScroll — a device-style bezel (dark frame + three-dot chrome bar)
- * that tilts back and settles flat as it scrolls into view. The "screen" is a
- * fixed-height, plain `overflow-y: auto` box — a real scrollbar, no JS driving
- * scroll position, no pinning the frame to the page. Simple on purpose.
+ * that tilts back and settles flat as it scrolls into view. The "screen"
+ * flows at its natural height — no fixed height, no `overflow-y: auto` box
+ * of its own. It used to be a small fixed-height scroller (its own real
+ * scrollbar, independent of the page), but that meant the section had two
+ * competing scroll contexts: the page, and this box. Wheel/trackpad input
+ * would land on whichever one the cursor happened to be over, and — because
+ * a nested scroll's `scroll` event never bubbles — anything on the page keyed
+ * off `window` scroll (the parallax cards, the progress rail) couldn't see
+ * it move. One scroll context, not two: this frame is just a wrapper now,
+ * sized to whatever's inside it.
  *
  * The entrance tilt is a plain CSS transition keyed off an `.in-view` class
  * (the same IntersectionObserver pattern as <Reveal>), not a framer-motion
@@ -49,35 +56,36 @@ export function ContainerScroll({
   return (
     <div
       ref={ref}
-      className={`device-frame relative mx-auto w-full rounded-[26px] border border-white/10 bg-linear-to-b from-navy-800 via-navy to-ink p-2 md:rounded-4xl md:p-3 ${className}`}
+      className={`device-frame relative mx-auto w-full rounded-[26px] p-2 md:rounded-4xl md:p-3 ${className}`}
     >
       {/* Specular hairline along the bezel's top edge — the detail that
           sells the frame as a physical object rather than a border. */}
       <span
-        className="pointer-events-none absolute inset-x-10 top-0 h-px bg-linear-to-r from-transparent via-amber/40 to-transparent"
+        className="pointer-events-none absolute inset-x-10 top-0 h-px bg-linear-to-r from-transparent via-amber/50 to-transparent"
         aria-hidden
       />
 
-      {/* Chrome bar */}
+      {/* Chrome bar — instrument-panel lights, not a browser mockup: one
+          lit amber ("powered on"), two dormant. */}
       <div className="flex items-center gap-1.5 px-3 pt-2 pb-2.5 md:px-4">
-        <span className="h-2.5 w-2.5 rounded-full bg-white/12" />
-        <span className="h-2.5 w-2.5 rounded-full bg-white/12" />
-        <span className="h-2.5 w-2.5 rounded-full bg-white/12" />
+        <span className="device-light device-light--live h-2.5 w-2.5" aria-hidden />
+        <span className="device-light h-2.5 w-2.5" aria-hidden />
+        <span className="device-light h-2.5 w-2.5" aria-hidden />
         {label && (
-          <span className="ms-auto truncate text-[10.5px] font-bold tracking-[0.18em] text-white/35 uppercase">
+          <span className="glass-dark ms-auto truncate rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.18em] text-white/45 uppercase">
             {label}
           </span>
         )}
       </div>
 
-      {/* The "screen" — fixed height, a plain native scroll. Edge fades hint
-          there's more to see; no JS ever touches this element's scrollTop. */}
-      <div className="relative overflow-hidden rounded-[18px] md:rounded-2xl">
-        <div className="screen-canvas h-120 overflow-x-hidden overflow-y-auto p-4 sm:h-136 sm:p-6 md:h-152 md:p-9 lg:p-11">
-          {children}
-        </div>
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-linear-to-b from-[#f5f7fb] to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-linear-to-t from-[#f5f7fb] to-transparent" />
+      {/* The "screen" — natural height, part of the page's own scroll. Its
+          own border-radius rounds its background directly (rather than an
+          `overflow: hidden` wrapper clipping a square-cornered child): any
+          `overflow` other than `visible` on an ancestor pins `position:
+          sticky` descendants to that ancestor's box instead of the page,
+          even when — like here — the ancestor never actually scrolls. */}
+      <div className="device-screen screen-canvas relative rounded-[18px] p-4 sm:p-6 md:rounded-2xl md:p-9 lg:p-11">
+        {children}
       </div>
     </div>
   );

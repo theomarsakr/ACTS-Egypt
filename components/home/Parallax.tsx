@@ -50,11 +50,19 @@ export default function Parallax({
     };
 
     update();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    /* Capture phase, not bubble: this card can sit inside ContainerScroll's
+       "screen" — a nested `overflow-y: auto` panel — and the `scroll` event
+       never bubbles. A bubble-phase window listener only ever sees the outer
+       page scrolling, so scrolling that inner panel left the transform stuck
+       at a stale value until some later, unrelated window scroll/resize
+       (re)computed it — reading as the card randomly jumping to the "wrong"
+       spot. Capture-phase listeners on window see scroll events from any
+       descendant, nested panel included. */
+    window.addEventListener("scroll", onScroll, { passive: true, capture: true });
     window.addEventListener("resize", onScroll);
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll, true);
       window.removeEventListener("resize", onScroll);
       el.style.transform = "";
     };

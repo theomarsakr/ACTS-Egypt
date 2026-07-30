@@ -124,7 +124,9 @@ export default function RotatingEarth({
     const containerHeight = Math.min(height, containerWidth);
     const radius = Math.min(containerWidth, containerHeight) / 2.4;
 
-    const dpr = window.devicePixelRatio || 1;
+    // Capped at 2x — an uncapped DPR on a 3x/4x phone would triple the canvas'
+    // pixel area (and every arc/fill call in `render`) for no visible gain.
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = containerWidth * dpr;
     canvas.height = containerHeight * dpr;
     canvas.style.width = `${containerWidth}px`;
@@ -246,12 +248,25 @@ export default function RotatingEarth({
 
     let autoRotate = true;
     const rotationSpeed = 0.5;
-    const rotationTimer = d3.timer(() => {
-      if (!autoRotate) return;
-      rotation[0] += rotationSpeed;
-      projection.rotate(rotation);
-      render();
-    });
+    /* The auto-rotation loop (and the data fetch that feeds it) only runs
+       while this canvas is actually on screen and the tab is visible — this
+       section sits well below the fold, so without gating it the globe would
+       redraw thousands of dots on every animation frame for the entire time
+       the tab is open, whether or not anyone has scrolled anywhere near it. */
+    let rotationTimer: d3.Timer | null = null;
+    const startRotationTimer = () => {
+      if (rotationTimer) return;
+      rotationTimer = d3.timer(() => {
+        if (!autoRotate) return;
+        rotation[0] += rotationSpeed;
+        projection.rotate(rotation);
+        render();
+      });
+    };
+    const stopRotationTimer = () => {
+      rotationTimer?.stop();
+      rotationTimer = null;
+    };
 
     const handleMouseDown = (event: MouseEvent) => {
       autoRotate = false;
@@ -369,29 +384,66 @@ export default function RotatingEarth({
     canvas.addEventListener("wheel", handleWheel, { passive: false });
     canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
 
-    (async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json"
-        );
-        if (!response.ok) throw new Error("Failed to load land data");
-        landFeatures = (await response.json()) as LandCollection;
-        landFeatures.features.forEach((feature) => {
-          allDots.push(...generateDotsInFeature(feature));
-        });
-        render();
-        setIsLoading(false);
-      } catch {
-        setError("Failed to load globe data");
-        setIsLoading(false);
-      }
-    })();
+    // Fetched once, the first time the globe becomes visible — not on mount —
+    // so a visitor who never scrolls this far never pays for the request or
+    // for the point-in-polygon scan that turns it into dots.
+    let landDataRequested = false;
+    const loadLandData = () => {
+      if (landDataRequested) return;
+      landDataRequested = true;
+      (async () => {
+        try {
+          setIsLoading(true);
+          const response = await fetch(
+            "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json"
+          );
+          if (!response.ok) throw new Error("Failed to load land data");
+          landFeatures = (await response.json()) as LandCollection;
+          landFeatures.features.forEach((feature) => {
+            allDots.push(...generateDotsInFeature(feature));
+          });
+          render();
+          setIsLoading(false);
+        } catch {
+          setError("Failed to load globe data");
+          setIsLoading(false);
+        }
+      })();
+    };
+
+    const play = () => {
+      loadLandData();
+      startRotationTimer();
+    };
+    const pause = () => {
+      stopRotationTimer();
+    };
+
+    // Same "pause off-screen or on a hidden tab" lifecycle as the hero's
+    // interactive canvas background.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && document.visibilityState === "visible") {
+          play();
+        } else {
+          pause();
+        }
+      },
+      { threshold: 0 }
+    );
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") play();
+      else pause();
+    };
+    io.observe(canvas);
+    document.addEventListener("visibilitychange", onVisibility);
 
     render();
 
     return () => {
-      rotationTimer.stop();
+      stopRotationTimer();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       canvas.removeEventListener("mousedown", handleMouseDown);
       canvas.removeEventListener("mousemove", handleHover);
       canvas.removeEventListener("mouseleave", handleLeave);

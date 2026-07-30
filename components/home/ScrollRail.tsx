@@ -37,11 +37,14 @@ export default function ScrollRail({ className = "" }: { className?: string }) {
     };
 
     update();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    // Capture phase: this rail's section sits inside ContainerScroll's
+    // nested `overflow-y: auto` "screen" panel, and `scroll` doesn't bubble —
+    // see the matching comment in Parallax.tsx for the full explanation.
+    window.addEventListener("scroll", onScroll, { passive: true, capture: true });
     window.addEventListener("resize", onScroll);
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll, true);
       window.removeEventListener("resize", onScroll);
     };
   }, []);
