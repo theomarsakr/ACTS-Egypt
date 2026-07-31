@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
-  CheckCircle2,
   ClipboardList,
   Compass,
   Flame,
@@ -12,6 +11,26 @@ import {
   Droplets,
   Sprout,
   Factory,
+  Drill,
+  Route,
+  Layers,
+  TestTubes,
+  TestTube,
+  Link2,
+  Gauge,
+  Wind,
+  RefreshCw,
+  Settings2,
+  Waves,
+  Network,
+  Recycle,
+  Thermometer,
+  Mountain,
+  Package,
+  Boxes,
+  Wrench,
+  ShieldCheck,
+  type LucideIcon,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import SiteDock from "@/components/SiteDock";
@@ -64,16 +83,26 @@ function RelatedProductChips({ industry }: { industry: (typeof industries)[numbe
 
 /** One process-area deep dive: the engineering problem, how ACTS solves it,
  *  why that's the right call, and the exact product line(s) behind the
- *  claim — see ApplicationArea in lib/data.ts. */
+ *  claim — see ApplicationArea in lib/data.ts. Same card-premium/glow-hover/
+ *  SpotlightCard idiom as the homepage's "What we do" tiles, so this reads
+ *  as the same design system rather than a one-off. */
 function ApplicationCard({
   app,
 }: {
   app: (typeof industries)[number]["applications"][number];
 }) {
+  const Icon = applicationIcons[app.area] ?? Wrench;
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/30 md:p-7">
-      <h4 className="text-[17px] font-bold text-navy">{app.area}</h4>
-      <p className="mt-1 text-[13px] text-gray-500">{app.scope}</p>
+    <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-6 md:p-7">
+      <div className="flex items-start gap-4">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+          <Icon size={20} />
+        </div>
+        <div className="min-w-0">
+          <h4 className="text-[17px] font-bold text-navy">{app.area}</h4>
+          <p className="mt-0.5 text-[13px] text-gray-500">{app.scope}</p>
+        </div>
+      </div>
 
       <dl className="mt-5 space-y-4">
         <div>
@@ -106,14 +135,14 @@ function ApplicationCard({
               key={`${ref.brandSlug}-${ref.lineTag}`}
               href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
               title={`${brand.name} — ${line.name}: ${line.description}`}
-              className="inline-flex items-center rounded-full border border-brand/35 bg-brand-light/50 px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+              className="inline-flex items-center rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
             >
               {ref.lineTag}
             </Link>
           );
         })}
       </div>
-    </div>
+    </SpotlightCard>
   );
 }
 
@@ -124,6 +153,46 @@ const industryIcons: Record<string, typeof Flame> = {
   "water-treatment": Droplets,
   fertilizers: Sprout,
   "general-industrial": Factory,
+};
+
+/** One icon per process area (keyed by ApplicationArea["area"], unique across
+ *  all 25 entries) — a real visual anchor per card instead of 25 identically
+ *  shaped cards distinguished only by their headline. */
+const applicationIcons: Record<string, LucideIcon> = {
+  Upstream: Drill,
+  Midstream: Route,
+  Refining: Layers,
+  Petrochemical: FlaskConical,
+  "Olefins production": Flame,
+  "Aromatics production": TestTubes,
+  Polymers: Link2,
+  "Steam generation": Gauge,
+  "Gas turbines": Wind,
+  "Combined cycle": RefreshCw,
+  "Cooling systems": Droplets,
+  "Balance of plant": Settings2,
+  Desalination: Waves,
+  "Municipal water": Network,
+  "Industrial wastewater": Recycle,
+  "Cooling water systems": Thermometer,
+  "Ammonia synthesis": FlaskConical,
+  "Urea production": TestTube,
+  "Phosphate processing": Mountain,
+  "Blending and bagging": Package,
+  "Cement production": Boxes,
+  "Steel processing": Flame,
+  "Glass manufacturing": Thermometer,
+  "Pulp & paper": Layers,
+  Mining: Drill,
+};
+
+/** One icon per brand for the compact "how we support" tiles — reflects
+ *  which manufacturer/capability, not decoration. Falls back to ShieldCheck
+ *  for the handful of ACTS's-own-service bullets with no brandSlug. */
+const supportIcons: Record<string, LucideIcon> = {
+  "farris-engineering": Gauge,
+  "dyna-flo": Wrench,
+  est: Thermometer,
 };
 
 export default function IndustriesPage() {
@@ -205,84 +274,43 @@ export default function IndustriesPage() {
                             {ind.intro}
                           </p>
 
-                          <div className="mt-6">
+                          {/* Compact capability summary — the TL;DR "Key
+                              applications" spells out in full below. Icon per
+                              brand (not a repeated checkmark) and a 2-up tile
+                              grid, deliberately lighter-weight than the
+                              chapter below it. */}
+                          <div className="mt-8">
                             <div className="text-sm font-bold text-navy uppercase tracking-wide">
                               How we support this sector
                             </div>
-                            <ul className="mt-3 space-y-2">
-                              {ind.howWeSupport.map((h) => {
+                            <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
+                              {ind.howWeSupport.map((h, i) => {
                                 const brand = h.brandSlug ? getBrand(h.brandSlug) : undefined;
+                                const Icon = h.brandSlug
+                                  ? (supportIcons[h.brandSlug] ?? ShieldCheck)
+                                  : ShieldCheck;
                                 return (
-                                  <li
-                                    key={h.text}
-                                    className="flex gap-2.5 text-[15px] text-gray-600 leading-relaxed"
-                                  >
-                                    <CheckCircle2
-                                      size={17}
-                                      className="text-brand shrink-0 mt-0.5"
-                                    />
-                                    <span>
-                                      {h.text}
-                                      {brand && (
-                                        <Link
-                                          href={`/brands/${brand.slug}#products`}
-                                          className="ms-2 inline-flex items-center gap-1 align-middle rounded-full bg-brand-light px-2.5 py-1 text-[12px] font-bold text-brand transition-colors hover:bg-brand hover:text-white"
-                                        >
-                                          {brand.name}
-                                          <ArrowRight size={11} className="rtl:rotate-180" />
-                                        </Link>
-                                      )}
-                                    </span>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-
-                          {/* Every line here is a link to that exact product-line
-                              card on the brand page, which opens on arrival —
-                              so "Series 3800" goes to Series 3800's products,
-                              not just to Farris. */}
-                          <div className="mt-6 rounded-lg border border-brand/30 bg-brand-light px-4 py-4">
-                            <div className="text-[11px] font-bold uppercase tracking-wide text-navy">
-                              Relevant product lines
-                            </div>
-                            <p className="mt-1 text-[12px] text-gray-500">
-                              Select a line to see its products and datasheets.
-                            </p>
-                            <div className="mt-3.5 space-y-3">
-                              {ind.productLines.map((pl) => {
-                                const brand = getBrand(pl.brandSlug);
-                                if (!brand) return null;
-                                return (
-                                  <div key={pl.brandSlug}>
-                                    <Link
-                                      href={`/brands/${brand.slug}#products`}
-                                      className="group inline-flex items-center gap-1 text-[12.5px] font-bold text-navy transition-colors hover:text-brand"
-                                    >
-                                      {brand.name}
-                                      <ArrowRight
-                                        size={11}
-                                        className="text-brand transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
-                                      />
-                                    </Link>
-                                    <div className="mt-1.5 flex flex-wrap gap-1.5">
-                                      {pl.lineTags.map((tag) => {
-                                        const pLine = getProductLine(pl.brandSlug, tag);
-                                        if (!pLine) return null;
-                                        return (
+                                  <Reveal key={h.text} delay={i * 60}>
+                                    <div className="flex h-full gap-3 rounded-xl border border-gray-200 bg-white p-3.5 transition-all hover:border-brand/30 hover:shadow-sm">
+                                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand">
+                                        <Icon size={15} />
+                                      </div>
+                                      <div className="min-w-0">
+                                        <p className="text-[13.5px] leading-relaxed text-gray-600">
+                                          {h.text}
+                                        </p>
+                                        {brand && (
                                           <Link
-                                            key={tag}
-                                            href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
-                                            title={`${pLine.name} — ${pLine.description}`}
-                                            className="inline-flex items-center rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+                                            href={`/brands/${brand.slug}#products`}
+                                            className="mt-1.5 inline-flex items-center gap-1 text-[12px] font-bold text-brand transition-colors hover:text-brand-dark"
                                           >
-                                            {tag}
+                                            {brand.name}
+                                            <ArrowRight size={10} className="rtl:rotate-180" />
                                           </Link>
-                                        );
-                                      })}
+                                        )}
+                                      </div>
                                     </div>
-                                  </div>
+                                  </Reveal>
                                 );
                               })}
                             </div>
@@ -292,7 +320,9 @@ export default function IndustriesPage() {
 
                       {/* Full-width, below the image/intro column rather than
                           squeezed into its 3/5-width — a challenge/solution/
-                          advantage breakdown per process area needs the room. */}
+                          advantage breakdown per process area needs the room.
+                          This is the chapter; the capability strip above and
+                          the index below deliberately read lighter than it. */}
                       <div className="border-t border-gray-100 bg-gray-50/60 p-8 md:p-10">
                         <div className="eyebrow text-brand">Key applications</div>
                         <h3 className="mt-3 text-xl md:text-2xl font-extrabold tracking-tight text-navy">
@@ -305,9 +335,63 @@ export default function IndustriesPage() {
                           claim.
                         </p>
                         <div className="mt-7 grid gap-4 md:grid-cols-2">
-                          {ind.applications.map((app) => (
-                            <ApplicationCard key={app.area} app={app} />
+                          {ind.applications.map((app, i) => (
+                            <Reveal key={app.area} delay={i * 80}>
+                              <ApplicationCard app={app} />
+                            </Reveal>
                           ))}
+                        </div>
+                      </div>
+
+                      {/* Closing recap: every line named above, indexed by
+                          brand — deliberately the same light weight as "How
+                          we support," bookending the Key Applications chapter
+                          rather than repeating its treatment. */}
+                      <div className="border-t border-gray-100 p-8 md:p-10">
+                        <div className="text-sm font-bold text-navy uppercase tracking-wide">
+                          Full product index
+                        </div>
+                        <p className="mt-1 max-w-xl text-[13px] text-gray-500">
+                          Every line named above, indexed by brand — jump
+                          straight to its products and datasheets.
+                        </p>
+                        <div className="mt-5 grid gap-4 md:grid-cols-3">
+                          {ind.productLines.map((pl, i) => {
+                            const brand = getBrand(pl.brandSlug);
+                            if (!brand) return null;
+                            return (
+                              <Reveal key={pl.brandSlug} delay={i * 80}>
+                                <div className="h-full rounded-2xl border border-gray-200 bg-white p-5">
+                                  <Link
+                                    href={`/brands/${brand.slug}#products`}
+                                    className="group inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
+                                  >
+                                    {brand.name}
+                                    <ArrowRight
+                                      size={13}
+                                      className="text-brand transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
+                                    />
+                                  </Link>
+                                  <div className="mt-3 flex flex-wrap gap-1.5">
+                                    {pl.lineTags.map((tag) => {
+                                      const pLine = getProductLine(pl.brandSlug, tag);
+                                      if (!pLine) return null;
+                                      return (
+                                        <Link
+                                          key={tag}
+                                          href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
+                                          title={`${pLine.name} — ${pLine.description}`}
+                                          className="inline-flex items-center rounded-full border border-brand/35 bg-brand-light/40 px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+                                        >
+                                          {tag}
+                                        </Link>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              </Reveal>
+                            );
+                          })}
                         </div>
                       </div>
                     </SpotlightCard>
