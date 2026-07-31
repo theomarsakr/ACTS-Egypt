@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { createPortal } from "react-dom";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+
+const MINIMIZED_KEY = "acts-dock-minimized";
 
 type DockProps = {
   children: ReactNode;
@@ -35,6 +38,13 @@ type DockIconProps = { className?: string; children: ReactNode };
  * unified here so every page's floating dock reads as the same component,
  * not two different navigation patterns living side by side.
  *
+ * A small handle above the pill lets the reader collapse it out of the way
+ * (e.g. while reading a tall page) and bring it back later. The choice is
+ * remembered in localStorage rather than per-mount state: SiteDock fully
+ * remounts on every route change (each page passes its own `sections`), so
+ * in-memory state alone would silently re-expand it on the very next
+ * navigation — which defeats the point of dismissing it.
+ *
  * Portals to `document.body`: every page on this site renders inside
  * `app/[lang]/template.tsx`'s `.animate-page-in` wrapper for the route
  * transition, and once a CSS transition/animation has touched an element's
@@ -47,7 +57,28 @@ type DockIconProps = { className?: string; children: ReactNode };
  */
 function Dock({ children, className, wrapperClassName, label = "Quick navigation" }: DockProps) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [minimized, setMinimized] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      if (localStorage.getItem(MINIMIZED_KEY) === "1") setMinimized(true);
+    } catch {
+      /* storage blocked — default to expanded */
+    }
+  }, []);
+
+  function toggleMinimized() {
+    setMinimized((was) => {
+      const next = !was;
+      try {
+        localStorage.setItem(MINIMIZED_KEY, next ? "1" : "0");
+      } catch {
+        /* ignore — the toggle still works for this visit */
+      }
+      return next;
+    });
+  }
 
   const navRef = useRef<HTMLElement>(null);
   const [indicator, setIndicator] = useState({ width: 0, left: 0 });
@@ -83,29 +114,55 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
   return createPortal(
     <div
       className={cn(
-        "fixed inset-x-0 bottom-4 z-40 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] sm:bottom-6",
+        "fixed inset-x-0 bottom-4 z-40 flex flex-col items-center px-4 pb-[env(safe-area-inset-bottom)] sm:bottom-6",
         wrapperClassName
       )}
     >
-      <nav
-        ref={navRef}
-        aria-label={label}
-        className={cn(
-          "relative mx-auto flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          className
-        )}
+      <button
+        type="button"
+        onClick={toggleMinimized}
+        aria-expanded={!minimized}
+        aria-label={minimized ? "Show quick navigation" : "Minimize quick navigation"}
+        title={minimized ? "Show quick navigation" : "Minimize quick navigation"}
+        className="relative z-10 mb-1.5 flex h-7 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-400 shadow-md backdrop-blur-xl transition-colors hover:text-navy"
       >
-        {indicator.width > 0 && (
+        <ChevronDown
+          size={14}
+          className={cn("transition-transform duration-300", minimized && "rotate-180")}
+        />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {!minimized && (
           <motion.div
-            initial={false}
-            animate={indicator}
-            transition={{ type: "spring", stiffness: 400, damping: 32 }}
-            className="absolute inset-y-1.5 rounded-full bg-brand-light/70"
-            aria-hidden
-          />
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full overflow-hidden"
+          >
+            <nav
+              ref={navRef}
+              aria-label={label}
+              className={cn(
+                "relative mx-auto flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                className
+              )}
+            >
+              {indicator.width > 0 && (
+                <motion.div
+                  initial={false}
+                  animate={indicator}
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  className="absolute inset-y-1.5 rounded-full bg-brand-light/70"
+                  aria-hidden
+                />
+              )}
+              {children}
+            </nav>
+          </motion.div>
         )}
-        {children}
-      </nav>
+      </AnimatePresence>
     </div>,
     document.body
   );
