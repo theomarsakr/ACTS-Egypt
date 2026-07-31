@@ -108,7 +108,13 @@ export default function IntroOverlay() {
           and the tagline settle in. The extra left padding offsets the trailing
           letter-spacing so it stays optically centered. */}
       <div className="relative z-10 px-6 text-center">
+        {/* `role="img"` is what makes the label count. The letters below are
+            each `aria-hidden` (they are animation targets, not content), so
+            this wrapper is the only thing left to name the wordmark — and
+            `aria-label` is prohibited on a plain div with no role, meaning it
+            was being dropped outright and the mark announced as nothing. */}
         <div
+          role="img"
           aria-label="ACTS"
           className="pl-[0.3em] text-6xl font-extrabold tracking-[0.3em] text-white md:text-8xl"
           style={{ textShadow: "0 2px 42px rgba(0,0,0,0.55)" }}
