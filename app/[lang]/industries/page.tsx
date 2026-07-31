@@ -19,7 +19,7 @@ import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
-import { industries, industriesSummary } from "@/lib/data";
+import { industries, industriesSummary, getBrand } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Industries we serve",
@@ -140,26 +140,60 @@ export default function IndustriesPage() {
                               How we support this sector
                             </div>
                             <ul className="mt-3 space-y-2">
-                              {ind.howWeSupport.map((h) => (
-                                <li
-                                  key={h}
-                                  className="flex gap-2.5 text-[15px] text-gray-600 leading-relaxed"
-                                >
-                                  <CheckCircle2
-                                    size={17}
-                                    className="text-brand shrink-0 mt-0.5"
-                                  />
-                                  {h}
-                                </li>
-                              ))}
+                              {ind.howWeSupport.map((h) => {
+                                const brand = h.brandSlug ? getBrand(h.brandSlug) : undefined;
+                                return (
+                                  <li
+                                    key={h.text}
+                                    className="flex gap-2.5 text-[15px] text-gray-600 leading-relaxed"
+                                  >
+                                    <CheckCircle2
+                                      size={17}
+                                      className="text-brand shrink-0 mt-0.5"
+                                    />
+                                    <span>
+                                      {h.text}
+                                      {brand && (
+                                        <Link
+                                          href={`/brands/${brand.slug}#products`}
+                                          className="ms-2 inline-flex items-center gap-1 align-middle rounded-full bg-brand-light px-2.5 py-1 text-[12px] font-bold text-brand transition-colors hover:bg-brand hover:text-white"
+                                        >
+                                          {brand.name}
+                                          <ArrowRight size={11} className="rtl:rotate-180" />
+                                        </Link>
+                                      )}
+                                    </span>
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
 
-                          <div className="mt-6 text-[13px] text-gray-600 border rounded-lg px-4 py-3 bg-brand-light border-brand/30">
-                            <span className="font-bold text-navy">
-                              Relevant product lines:{" "}
-                            </span>
-                            {ind.productLines}
+                          <div className="mt-6 rounded-lg border border-brand/30 bg-brand-light px-4 py-4">
+                            <div className="text-[11px] font-bold uppercase tracking-wide text-navy">
+                              Relevant product lines
+                            </div>
+                            <div className="mt-3 space-y-2">
+                              {ind.productLines.map((pl) => {
+                                const brand = getBrand(pl.brandSlug);
+                                if (!brand) return null;
+                                return (
+                                  <div
+                                    key={pl.brandSlug}
+                                    className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[13px] text-gray-600"
+                                  >
+                                    <Link
+                                      href={`/brands/${brand.slug}#products`}
+                                      className="inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
+                                    >
+                                      {brand.name}
+                                      <ArrowRight size={11} className="rtl:rotate-180" />
+                                    </Link>
+                                    <span>{pl.lines.join(", ")}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       </div>

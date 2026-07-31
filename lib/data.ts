@@ -1577,14 +1577,34 @@ export const officeHours = [
   { day: "Friday – Saturday", hours: "Closed" },
 ];
 
+/** One "how we support this sector" capability, optionally credited to the
+ *  brand whose product line delivers it — rendered as a link through to
+ *  that brand's page so the claim is backed by an actual product to browse.
+ *  Left unset for ACTS's own services (consultancy, sizing support, etc.)
+ *  that aren't tied to a single manufacturer. */
+export type IndustrySupportItem = {
+  text: string;
+  /** A Brand["slug"] (e.g. "farris-engineering"). */
+  brandSlug?: string;
+};
+
+/** The specific series/product-line names a brand offers into this
+ *  industry — grouped per brand so the brand name can link once and the
+ *  series list reads underneath it, rather than one flat string. */
+export type IndustryProductLines = {
+  /** A Brand["slug"] (e.g. "farris-engineering"). */
+  brandSlug: string;
+  lines: string[];
+};
+
 export type Industry = {
   slug: string;
   name: string;
   tagline: string;
   intro: string;
   applications: string[];
-  howWeSupport: string[];
-  productLines: string;
+  howWeSupport: IndustrySupportItem[];
+  productLines: IndustryProductLines[];
   image: string;
   imageAlt: string;
 };
@@ -1603,14 +1623,29 @@ export const industries: Industry[] = [
       "Petrochemical: reactor feed control, steam cracking, polymerization, and specialty chemical production",
     ],
     howWeSupport: [
-      "Safety relief valves for overpressure protection (Farris Engineering), sized for two-phase flow, thermal expansion, and fire-case scenarios",
-      "Precision control valves for severe-service applications (Dyna-Flo), including high-pressure drop, erosive media, and high-temperature conditions",
-      "Heat exchanger maintenance and retubing (EST) to restore thermal efficiency and extend asset life during turnarounds",
-      "Pressure testing and pipeline isolation (EST GripTight®) for commissioning, maintenance, and integrity verification",
-      "API 526/527 compliance verification and re-certification support",
+      {
+        text: "Safety relief valves for overpressure protection, sized for two-phase flow, thermal expansion, and fire-case scenarios",
+        brandSlug: "farris-engineering",
+      },
+      {
+        text: "Precision control valves for severe-service applications, including high-pressure drop, erosive media, and high-temperature conditions",
+        brandSlug: "dyna-flo",
+      },
+      {
+        text: "Heat exchanger maintenance and retubing to restore thermal efficiency and extend asset life during turnarounds",
+        brandSlug: "est",
+      },
+      {
+        text: "Pressure testing and pipeline isolation for commissioning, maintenance, and integrity verification",
+        brandSlug: "est",
+      },
+      { text: "API 526/527 compliance verification and re-certification support" },
     ],
-    productLines:
-      "Farris Series 1890, 2600, 3800 • Dyna-Flo Series 360, 390, DF2000, Series 570 • EST Pop-A-Plug®, GripTight®",
+    productLines: [
+      { brandSlug: "farris-engineering", lines: ["Series 1890", "Series 2600", "Series 3800"] },
+      { brandSlug: "dyna-flo", lines: ["Series 360", "Series 390", "DF2000", "Series 570"] },
+      { brandSlug: "est", lines: ["Pop-A-Plug®", "GripTight®"] },
+    ],
     image: "/images/offshore-rig.jpg",
     imageAlt: "Offshore jack-up drilling rig with gas flare",
   },
@@ -1626,14 +1661,26 @@ export const industries: Industry[] = [
       "Polymers (polyethylene, polypropylene, PVC): reactor feed control, extruder pressure regulation",
     ],
     howWeSupport: [
-      "Control valves with anti-cavitation and noise-attenuation trims for high delta-P services",
-      "Safety relief valves for critical process protection, including pilot-operated designs for large-capacity gas service",
-      "Heat exchanger tube inspection (IRIS/Eddy Current) and maintenance to prevent unplanned downtime",
-      "Valve condition monitoring and diagnostics for predictive maintenance programs",
-      "Sizing, selection, and engineering support for new projects and plant expansions",
+      {
+        text: "Control valves with anti-cavitation and noise-attenuation trims for high delta-P services",
+        brandSlug: "dyna-flo",
+      },
+      {
+        text: "Safety relief valves for critical process protection, including pilot-operated designs for large-capacity gas service",
+        brandSlug: "farris-engineering",
+      },
+      {
+        text: "Heat exchanger tube inspection (IRIS/Eddy Current) and maintenance to prevent unplanned downtime",
+        brandSlug: "est",
+      },
+      { text: "Valve condition monitoring and diagnostics for predictive maintenance programs" },
+      { text: "Sizing, selection, and engineering support for new projects and plant expansions" },
     ],
-    productLines:
-      "Farris Series 2600, 2700, 3800 • Dyna-Flo Series 350, 370, 380, DF2000 • EST Pop-A-Plug®, Hydra-Loc®, GripTight®",
+    productLines: [
+      { brandSlug: "farris-engineering", lines: ["Series 2600", "Series 2700", "Series 3800"] },
+      { brandSlug: "dyna-flo", lines: ["Series 350", "Series 370", "Series 380", "DF2000"] },
+      { brandSlug: "est", lines: ["Pop-A-Plug®", "Hydra-Loc®", "GripTight®"] },
+    ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
   },
@@ -1651,14 +1698,29 @@ export const industries: Industry[] = [
       "Balance of plant: compressed air systems, auxiliary steam, and fuel handling",
     ],
     howWeSupport: [
-      "Safety relief valves for boiler drum protection, steam line protection, and turbine bypass systems",
-      "Control valves for feedwater regulation, desuperheating, and fuel gas control",
-      "Heat exchanger and condenser tube maintenance, including cleaning, plugging, and retubing (EST)",
-      "Pipeline and pressure vessel pressure testing (GripTight®) for hydrostatic testing",
-      "Retrofit and modernization recommendations to improve plant efficiency",
+      {
+        text: "Safety relief valves for boiler drum protection, steam line protection, and turbine bypass systems",
+        brandSlug: "farris-engineering",
+      },
+      {
+        text: "Control valves for feedwater regulation, desuperheating, and fuel gas control",
+        brandSlug: "dyna-flo",
+      },
+      {
+        text: "Heat exchanger and condenser tube maintenance, including cleaning, plugging, and retubing",
+        brandSlug: "est",
+      },
+      {
+        text: "Pipeline and pressure vessel pressure testing for hydrostatic testing",
+        brandSlug: "est",
+      },
+      { text: "Retrofit and modernization recommendations to improve plant efficiency" },
     ],
-    productLines:
-      "Farris Series 1890, 6400/6600, 3800 • Dyna-Flo Series 360, 390, DF2000 • EST Pop-A-Plug®, Hydra-Loc®, GripTight®",
+    productLines: [
+      { brandSlug: "farris-engineering", lines: ["Series 1890", "Series 6400/6600", "Series 3800"] },
+      { brandSlug: "dyna-flo", lines: ["Series 360", "Series 390", "DF2000"] },
+      { brandSlug: "est", lines: ["Pop-A-Plug®", "Hydra-Loc®", "GripTight®"] },
+    ],
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",
   },
@@ -1675,14 +1737,26 @@ export const industries: Industry[] = [
       "Cooling water systems: heat exchanger protection, biocides dosing, and condenser tube maintenance",
     ],
     howWeSupport: [
-      "Isolation valves (ball, butterfly) for on/off and flow isolation services",
-      "Pressure regulators and instrumentation for chemical dosing systems",
-      "Heat exchanger maintenance (EST) for plate-and-frame and shell-and-tube exchangers used in cooling and heating circuits",
-      "Backflow prevention and check valves for pipeline protection",
-      "Sizing and selection support for corrosive and erosive media",
+      {
+        text: "Isolation valves (ball, butterfly) for on/off and flow isolation services",
+        brandSlug: "dyna-flo",
+      },
+      {
+        text: "Pressure regulators and instrumentation for chemical dosing systems",
+        brandSlug: "dyna-flo",
+      },
+      {
+        text: "Heat exchanger maintenance for plate-and-frame and shell-and-tube exchangers used in cooling and heating circuits",
+        brandSlug: "est",
+      },
+      { text: "Backflow prevention and check valves for pipeline protection" },
+      { text: "Sizing and selection support for corrosive and erosive media" },
     ],
-    productLines:
-      "Dyna-Flo Series 570 (segmented ball), Model 590 (full-ball) • Farris Series 1890 • EST Pop-A-Plug®",
+    productLines: [
+      { brandSlug: "dyna-flo", lines: ["Series 570 (segmented ball)", "Model 590 (full-ball)"] },
+      { brandSlug: "farris-engineering", lines: ["Series 1890"] },
+      { brandSlug: "est", lines: ["Pop-A-Plug®"] },
+    ],
     image: "/images/refinery-blue.jpg",
     imageAlt: "Oil refinery at blue hour",
   },
@@ -1699,14 +1773,29 @@ export const industries: Industry[] = [
       "Blending and bagging: material handling, dust collection, and bagging equipment control",
     ],
     howWeSupport: [
-      "Pilot-operated safety relief valves for high-capacity synthesis loop protection",
-      "Severe-service control valves for erosive slurry and corrosive acid service",
-      "Heat exchanger maintenance, including carbamate condenser inspection and retubing (EST)",
-      "Tube plugging (Pop-A-Plug®) for quick repairs without plant shutdown",
-      "Consultancy services for plant optimization and reliability improvement",
+      {
+        text: "Pilot-operated safety relief valves for high-capacity synthesis loop protection",
+        brandSlug: "farris-engineering",
+      },
+      {
+        text: "Severe-service control valves for erosive slurry and corrosive acid service",
+        brandSlug: "dyna-flo",
+      },
+      {
+        text: "Heat exchanger maintenance, including carbamate condenser inspection and retubing",
+        brandSlug: "est",
+      },
+      {
+        text: "Tube plugging for quick repairs without plant shutdown",
+        brandSlug: "est",
+      },
+      { text: "Consultancy services for plant optimization and reliability improvement" },
     ],
-    productLines:
-      "Farris Series 3800, 2600 • Dyna-Flo Series 370, DF2000, Series 570 • EST Pop-A-Plug®, GripTight®",
+    productLines: [
+      { brandSlug: "farris-engineering", lines: ["Series 3800", "Series 2600"] },
+      { brandSlug: "dyna-flo", lines: ["Series 370", "DF2000", "Series 570"] },
+      { brandSlug: "est", lines: ["Pop-A-Plug®", "GripTight®"] },
+    ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
   },
@@ -1724,14 +1813,26 @@ export const industries: Industry[] = [
       "Mining: slurry handling, dewatering, and process water management",
     ],
     howWeSupport: [
-      "General-purpose control and isolation valves for water, air, steam, and chemicals",
-      "Safety relief valves for compressor systems, pressure vessels, and hydraulic units",
-      "Actuators and positioners for automated process control",
-      "Technical advisory and product selection support for plant engineers",
-      "Spare parts and aftermarket support for critical equipment",
+      {
+        text: "General-purpose control and isolation valves for water, air, steam, and chemicals",
+        brandSlug: "dyna-flo",
+      },
+      {
+        text: "Safety relief valves for compressor systems, pressure vessels, and hydraulic units",
+        brandSlug: "farris-engineering",
+      },
+      {
+        text: "Actuators and positioners for automated process control",
+        brandSlug: "dyna-flo",
+      },
+      { text: "Technical advisory and product selection support for plant engineers" },
+      { text: "Spare parts and aftermarket support for critical equipment" },
     ],
-    productLines:
-      "Farris Series 1890, 2850 • Dyna-Flo Series 360, 570, Model 590 • EST Pop-A-Plug®",
+    productLines: [
+      { brandSlug: "farris-engineering", lines: ["Series 1890", "Series 2850"] },
+      { brandSlug: "dyna-flo", lines: ["Series 360", "Series 570", "Model 590"] },
+      { brandSlug: "est", lines: ["Pop-A-Plug®"] },
+    ],
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",
   },
