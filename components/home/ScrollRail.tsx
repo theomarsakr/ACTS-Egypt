@@ -9,11 +9,25 @@ import { useEffect, useRef } from "react";
  * the only cue for how much is left. Below `lg:` the column isn't sticky (a
  * single stacked layout doesn't need it to stay put), but the rail still
  * renders and fills the same way — the section's own scroll math it reads
- * off (`section.getBoundingClientRect()`) isn't tied to that layout, so
- * there's no reason the animation itself should be desktop-only too.
+ * off isn't tied to that layout, so there's no reason the animation itself
+ * should be desktop-only too.
  *
  * Finds its own section rather than taking a ref, so it can be dropped into
  * server-rendered markup with no wiring.
+ *
+ * The progress math reads the section's live rect every frame. That does force
+ * a layout, and caching the geometry instead is tempting — but the measurement
+ * is not stable enough to cache: this rail's section contains `.device-frame`,
+ * which sits tilted (`rotateX(9deg) scale(0.96)`) until its entrance settles.
+ * A transform changes the *visual* rect the math reads while leaving the border
+ * box alone, so a ResizeObserver never fires and cached values silently drift —
+ * in practice the fill stuck at 0 through the first quarter of the section and
+ * then lurched to catch up. Live rect, correct rail.
+ *
+ * What is safe to skip is work while nobody can see it. An IntersectionObserver
+ * attaches the scroll listener only while the section is on screen, so the rest
+ * of the page scrolls with this handler entirely detached, and identical values
+ * are never written back to the DOM.
  */
 export default function ScrollRail({ className = "" }: { className?: string }) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -25,6 +39,7 @@ export default function ScrollRail({ className = "" }: { className?: string }) {
     if (!section || !fill) return;
 
     let frame = 0;
+    let last = -1;
     const update = () => {
       const rect = section.getBoundingClientRect();
       const travel = rect.height - window.innerHeight;
@@ -34,22 +49,43 @@ export default function ScrollRail({ className = "" }: { className?: string }) {
           : rect.top < 0
             ? 1
             : 0;
-      fill.style.transform = `scaleY(${progress.toFixed(3)})`;
+      // Skip the write when nothing moved enough to see: a redundant style
+      // mutation still invalidates and re-composites the layer for nothing.
+      const next = Math.round(progress * 1000) / 1000;
+      if (next === last) return;
+      last = next;
+      fill.style.transform = `scaleY(${next})`;
     };
     const onScroll = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(update);
     };
 
+    let listening = false;
+    const listen = (on: boolean) => {
+      if (on === listening) return;
+      listening = on;
+      if (on) {
+        // Capture phase: `scroll` doesn't bubble, so a capture-phase listener
+        // on window is what lets this keep working if the section ever sits
+        // inside a nested scroller again — see Parallax.tsx for the history.
+        window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+        onScroll();
+      } else {
+        window.removeEventListener("scroll", onScroll, true);
+      }
+    };
+
     update();
-    // Capture phase: this rail's section sits inside ContainerScroll's
-    // nested `overflow-y: auto` "screen" panel, and `scroll` doesn't bubble —
-    // see the matching comment in Parallax.tsx for the full explanation.
-    window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+
+    const io = new IntersectionObserver(([entry]) => listen(entry.isIntersecting));
+    io.observe(section);
     window.addEventListener("resize", onScroll);
+
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll, true);
+      io.disconnect();
+      listen(false);
       window.removeEventListener("resize", onScroll);
     };
   }, []);

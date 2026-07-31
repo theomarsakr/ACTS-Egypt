@@ -261,6 +261,7 @@ html[lang="ar"] .ltr-inline {
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: #fff;
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
 .btn-ghost-dark:hover {
@@ -329,11 +330,56 @@ html[lang="ar"] .ltr-inline {
   }
 }
 
+/* Below `lg` the blobs hold still and blur less. There are eight of these on the
+   homepage and they animate on an infinite loop regardless of whether their band
+   is on screen — and because the animated property is `scale`, a 90px gaussian
+   over a ~320px blob has to be re-rasterised every single frame, eight times
+   over, for the whole life of the page. That is a standing tax on every scroll
+   in every section, which is why it showed up as jank in WHY ACTS even though
+   only one blob lives there. Held still, the blur rasterises once and is reused;
+   at 60px it also fits a smaller surface. The wash reads the same — it is a
+   soft-focus background glow, and nobody tracks a 26-second drift on a phone. */
+@media (max-width: 1023.98px) {
+  .mesh {
+    filter: blur(60px);
+    will-change: auto;
+  }
+  .mesh-steel,
+  .mesh-brass {
+    animation: none;
+  }
+}
+
 /* Glass chip on dark surfaces */
 .glass-dark {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+}
+
+/* Real glass, but only where it can be afforded. These two classes are spread
+   across chips, badges and buttons — 34 backdrop-filtered elements on the
+   homepage — and each one makes the browser re-read and re-blur whatever sits
+   behind it whenever that content moves, which during a scroll means every
+   frame, for all 34. Below `lg` they trade the blur for a slightly denser fill.
+   Both sit on dark, largely flat bands, where a 12px blur of a near-solid
+   backdrop is close to invisible anyway; what actually reads as glass is the
+   translucency and the hairline border, and those both stay. */
+/* Both properties, and the prefixed one is not optional: iOS Safari honours
+   `-webkit-backdrop-filter`, so turning off only the unprefixed property would
+   leave the blur running on the exact browser this is meant to unburden. */
+@media (max-width: 1023.98px) {
+  .glass-dark {
+    background: rgba(255, 255, 255, 0.09);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .btn-ghost-dark {
+    background: rgba(255, 255, 255, 0.11);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /* Cinematic depth for dark bands: a hairline of light along the top edge and a
@@ -543,6 +589,66 @@ html[lang="ar"] .ltr-inline {
   box-shadow:
     inset 0 2px 10px rgba(0, 0, 0, 0.16),
     inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+/* ---- WHY ACTS on touch-sized screens: the same composition, minus the parts
+   that cost a repaint per frame. -------------------------------------------
+
+   This section is ~4.5 viewports tall, so anything here that forces work on
+   every frame is paid over a long, deliberate scroll — which is precisely the
+   moment the section is asking to be read. Each rule below removes per-frame
+   cost while leaving the layout and the reading order untouched. ---------- */
+@media (max-width: 1023.98px) {
+  /* The bento's shared vanishing point. Once the cards have revealed their
+     transforms are `none`, but `perspective` keeps a 3D rendering context
+     alive over the full height of the grid for the life of the page, which
+     forces its subtree onto its own rasterisation path. The cards still rise
+     and fade in — they just do it flat, which at this width is all that ever
+     read anyway: the tilt is only legible across a wide multi-column grid. */
+  .why-bento {
+    perspective: none;
+  }
+  .why-bento .reveal {
+    transform: translateY(46px);
+  }
+
+  /* Five stacked shadow layers, the widest an 80px blur spread over 149px of
+     offset, on a frame that is as tall as the section. Two layers carry the
+     same lift at a fraction of the fill rate. */
+  .device-frame {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 10px 24px rgba(0, 0, 0, 0.28),
+      0 30px 60px -30px rgba(0, 0, 0, 0.45);
+  }
+
+  /* An inset shadow painted over the full area of a 3781px-tall element. The
+     hairline alone still separates screen from bezel. */
+  .device-screen::after {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Both are infinite loops on decorative chrome: a 6s specular sweep across
+     the manufacturer badge and a 3.2s pulse on the status light. Neither is
+     what anyone is scrolling this section to see, and both keep their layers
+     repainting the entire time it is on screen. */
+  .sheen::after {
+    content: none;
+  }
+  .device-light--live {
+    animation: none;
+  }
+
+  /* Hover-only, and there is no hover here. `isolation: isolate` forces a
+     stacking context on every card regardless, and the ::before keeps a
+     full-card gradient layer alive underneath the content to be revealed by a
+     pointer that never arrives. */
+  .spotlight-card {
+    isolation: auto;
+  }
+  .spotlight-card::before {
+    content: none;
+  }
 }
 
 /* Numerals wipe up from behind a mask, digit by digit. */
@@ -935,6 +1041,20 @@ html[lang="ar"] .ltr-inline {
 }
 
 /* ---- Scroll-reveal (toggled by <Reveal>) ---- */
+/* Two details here are load-bearing for scroll performance, because this class
+   is on ~32 elements on the homepage alone:
+
+   1. `will-change` is declared ONLY in the pre-reveal state and released again
+      by `.in-view`. Declared on the base rule it never lapses, so every reveal
+      on the page holds a promoted compositor layer forever — 32 permanently
+      retained layers is enough to stall scrolling outright on a phone GPU.
+   2. `.in-view` settles at `filter: none`, not `filter: blur(0)`. A zero-radius
+      blur is still a filter: the element keeps a filter render surface for the
+      life of the page, so it is re-composited on every frame it moves. `none`
+      drops the surface entirely. Interpolating a filter list *to* `none` is
+      well-defined (it animates as if to `blur(0)`), so the fade still reads
+      identically — same trick `.device-frame` uses to land on `transform: none`
+      rather than an inline identity transform. */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -949,7 +1069,23 @@ html[lang="ar"] .ltr-inline {
 .reveal.in-view {
   opacity: 1;
   transform: none;
-  filter: blur(0);
+  filter: none;
+  will-change: auto;
+}
+
+/* Touch-sized screens skip the entrance blur altogether. A blurred layer has to
+   be rasterised at full size before it can be composited, and doing that for a
+   staggered grid of cards is the single most expensive part of the reveal —
+   on a phone it costs far more than the 700ms of softness is worth. The fade
+   and the rise carry the same motion on their own, and both are compositor-only. */
+@media (max-width: 1023.98px) {
+  .reveal {
+    filter: none;
+    transition:
+      opacity 0.7s ease,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
 }
 
 /* Scale-in variant: for imagery that should settle into place rather than slide up */
@@ -1192,6 +1328,19 @@ html[lang="ar"] .ltr-inline {
   }
 }
 
+/* The beam is a desktop-only flourish. Animating a registered custom property
+   inside a `conic-gradient` is not a compositor animation: the gradient has to
+   be re-generated and the `mask-composite` ring re-cut on the CPU every frame,
+   across the element's whole area — and this sits on the largest card in WHY
+   ACTS. It runs forever, so on a phone it burns a fixed slice of every frame
+   budget whether or not anyone is looking at it. The card keeps its static
+   border; only the travelling arc goes. */
+@media (max-width: 1023.98px) {
+  .border-beam::after {
+    content: none;
+  }
+}
+
 /* Shimmering gradient rim (Magic UI "shine border" genre, tuned brass→amber). A
    masked ::before paints only the border ring, and a drifting radial gradient
    sweeps a soft highlight around it. Fed by --shine-* vars from <ShineBorder>. */
@@ -1297,6 +1446,18 @@ html[lang="ar"] .ltr-inline {
     transparent var(--shimmer-spread)
   );
   animation: spin-around calc(var(--shimmer-speed, 3s) * 2) infinite linear;
+}
+
+/* The glint keeps turning on touch screens — it is on the primary CTA and it
+   should — but without the 2px softening pass. The rotation itself is a
+   compositor transform and costs essentially nothing; the blur is what makes
+   it expensive, because a filtered layer has to be re-rasterised every frame
+   rather than just re-composited, forever, on a button that is on screen for
+   most of the page. The conic gradient's own falloff keeps the edge soft. */
+@media (max-width: 1023.98px) {
+  .shimmer-btn__spark {
+    filter: none;
+  }
 }
 .shimmer-btn__label {
   position: relative;

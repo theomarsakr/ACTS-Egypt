@@ -354,7 +354,22 @@ export default async function Home({
                 phone-sized equivalent of the same "argument holds still,
                 evidence moves" idea. lg: strips all of that back to the
                 exact original — transparent, unstyled, untouched. */}
-            <div className="sticky top-20 z-10 self-start rounded-2xl border border-white/60 bg-white/85 px-5 py-6 shadow-lg shadow-navy/10 backdrop-blur-xl lg:top-28 lg:z-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:shadow-none lg:backdrop-blur-none">
+            {/* No `backdrop-blur` on the mobile panel, deliberately. A blur
+                behind a *sticky* element is the most expensive thing on a
+                scrolling page: the element stays put while the content behind
+                it moves, so the browser has to re-read the backdrop and re-blur
+                it on every single frame of the scroll — exactly the gesture
+                this panel exists to accompany.
+
+                The fill has to be fully opaque once the blur is gone, though.
+                The frosted version could get away with 85% because the blur
+                smeared whatever passed underneath into an unreadable wash; a
+                merely-translucent fill does not, and the first thing to travel
+                under this panel is the near-black anchor card, whose white
+                headline shows straight through even at 95%. Solid white on the
+                screen's pale canvas reads as a raised card — the same language
+                as the proof tiles it sits above — and costs nothing to paint. */}
+            <div className="sticky top-20 z-10 self-start rounded-2xl border border-gray-200 bg-white px-5 py-6 shadow-lg shadow-navy/10 lg:top-28 lg:z-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:shadow-none">
               <Reveal>
                 <div className="eyebrow text-brand">{hm.why.eyebrow}</div>
                 <h2 className="mt-4 text-4xl leading-[1.06] font-extrabold tracking-tight text-balance text-navy md:text-5xl xl:text-[3.3rem]">
