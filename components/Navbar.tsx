@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
@@ -31,6 +32,7 @@ export default function Navbar({
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   // Active-state checks compare the canonical (locale-stripped) path so the
   // same link highlights on both /contact and /ar/contact.
@@ -45,6 +47,8 @@ export default function Navbar({
     { href: "/projects", label: t.projects },
     { href: "/contact", label: t.contact },
   ];
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     function onScroll() {
@@ -68,6 +72,20 @@ export default function Navbar({
   function scheduleCloseProducts() {
     closeTimer.current = setTimeout(() => setProductsOpen(false), 150);
   }
+
+  // The mobile menu is a fixed full-screen panel (see below) rather than an
+  // in-flow dropdown, so it fully covers the page behind it — including the
+  // floating SiteDock — instead of leaving a sliver of hero/dock visible
+  // under a short dropdown. Lock background scroll to match: without this,
+  // touch-dragging on the panel's own content still scrolls the page underneath.
+  useEffect(() => {
+    if (!open) return;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50">
@@ -227,15 +245,22 @@ export default function Navbar({
           </div>
         </div>
 
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-xl overflow-hidden"
-            >
+        {/* Portaled to document.body: `nav` above carries `backdrop-blur-2xl`
+            (a `backdrop-filter`), which — like `transform`/`filter` — makes it
+            a containing block for `position: fixed` descendants. Left nested
+            here, this panel's `bottom-0` would resolve against the navbar's
+            own ~68px box instead of the viewport (same trap <Dock> already
+            works around by portaling). */}
+        {mounted && createPortal(
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="md:hidden fixed inset-x-0 top-17 bottom-0 z-50 overflow-y-auto border-t border-gray-100 bg-white"
+              >
               <div className="px-6 py-3 flex flex-col">
                 <motion.div variants={menuItem} initial="hidden" animate="show" custom={0}>
                   <Link
@@ -338,9 +363,11 @@ export default function Navbar({
                   </Link>
                 </motion.div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
       </nav>
     </header>
   );

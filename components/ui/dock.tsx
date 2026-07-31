@@ -32,6 +32,9 @@ const DEFAULT_PANEL_HEIGHT = 64;
 type DockProps = {
   children: React.ReactNode;
   className?: string;
+  /** Extra classes for the fixed positioning wrapper (e.g. `max-md:hidden`
+      to suppress the dock on small screens for a specific page). */
+  wrapperClassName?: string;
   label?: string;
   distance?: number;
   panelHeight?: number;
@@ -105,6 +108,7 @@ function useDock() {
 function Dock({
   children,
   className,
+  wrapperClassName,
   label = "Quick navigation",
   spring = { mass: 0.1, stiffness: 150, damping: 12 },
   magnification = DEFAULT_MAGNIFICATION,
@@ -127,7 +131,7 @@ function Dock({
   if (!mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-x-0 bottom-4 z-40 flex justify-center px-4 sm:bottom-6">
+    <div className={cn("fixed inset-x-0 bottom-4 z-40 flex justify-center px-4 sm:bottom-6", wrapperClassName)}>
       <motion.div
         style={{
           height,

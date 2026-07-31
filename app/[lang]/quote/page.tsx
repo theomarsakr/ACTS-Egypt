@@ -97,6 +97,7 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
 
       <SiteDock
         lang={lang}
+        hideOnMobile
         sections={[
           { id: "form", label: dict.rfq.title, icon: <ClipboardCheck className="h-full w-full" strokeWidth={2.25} /> },
           { id: "next-steps", label: q.nextTitle, icon: <ListChecks className="h-full w-full" strokeWidth={2.25} /> },

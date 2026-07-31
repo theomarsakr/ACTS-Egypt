@@ -118,6 +118,10 @@ export default function EgyptReach({ className = "" }: { className?: string }) {
     onMouseLeave: () => setActive(null),
     onFocus: () => setActive(pin),
     onBlur: () => setActive(null),
+    // Hover/focus don't fire reliably from a touch tap (no cursor, and iOS
+    // Safari doesn't auto-focus non-form elements on tap) — a click handler
+    // covers touch too, toggling so a second tap on the same pin dismisses it.
+    onClick: () => setActive((prev) => (prev?.name === pin.name ? null : pin)),
   });
 
   return (

@@ -6,8 +6,12 @@ import { serviceNeeds, brandOptions, contact } from "@/lib/data";
 import { fill } from "@/lib/i18n/routing";
 import type { Dict } from "@/lib/i18n/en";
 
+// Base size is 16px (`text-base`), not the 15px this reads everywhere else on
+// desktop: any input font under 16px makes Safari auto-zoom the viewport on
+// focus, an iOS-only side effect that never fires on desktop. `md:text-[15px]`
+// restores the original desktop size exactly.
 const fieldClass =
-  "w-full bg-white border border-gray-300 rounded-lg text-gray-900 text-[15px] px-4 py-3 outline-none transition-shadow placeholder:text-gray-500 focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "w-full bg-white border border-gray-300 rounded-lg text-gray-900 text-base md:text-[15px] px-4 py-3 outline-none transition-shadow placeholder:text-gray-500 focus:border-brand focus:ring-2 focus:ring-brand/20";
 const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
 
 const stepIcons = [UserRound, ClipboardList, Send];

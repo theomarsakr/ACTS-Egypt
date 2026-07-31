@@ -59,7 +59,7 @@ function TestimonialCarousel() {
             {/* Navigation - Left Arrow */}
             <button
               onClick={prev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 md:-translate-x-20 z-20 p-2 hover:opacity-70 transition-opacity"
+              className="absolute left-0 top-1/2 -translate-y-1/2 md:-translate-x-20 z-20 p-2 hover:opacity-70 transition-opacity"
               aria-label="Previous testimonial"
             >
               <ChevronLeft size={28} className="text-gray-700 md:text-gray-400" />
@@ -163,7 +163,7 @@ function TestimonialCarousel() {
             {/* Navigation - Right Arrow */}
             <button
               onClick={next}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 md:translate-x-20 z-20 p-2 hover:opacity-70 transition-opacity"
+              className="absolute right-0 top-1/2 -translate-y-1/2 md:translate-x-20 z-20 p-2 hover:opacity-70 transition-opacity"
               aria-label="Next testimonial"
             >
               <ChevronRight size={28} className="text-gray-700 md:text-gray-400" />

@@ -122,7 +122,7 @@ export default function ResourceCenter({
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search catalogs, manuals, bulletins, procedures, doc codes…"
               aria-label="Search engineering resources"
-              className="w-full rounded-xl border border-gray-300 bg-gray-50 pl-11 pr-4 py-3 text-[15px] text-navy placeholder:text-gray-400 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition"
+              className="w-full rounded-xl border border-gray-300 bg-gray-50 pl-11 pr-4 py-3 text-base md:text-[15px] text-navy placeholder:text-gray-400 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition"
             />
           </div>
 
@@ -280,7 +280,7 @@ function Select({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         aria-label={`Filter by ${label}`}
-        className="appearance-none rounded-xl border border-gray-300 bg-gray-50 pl-[4.5rem] pr-9 py-3 text-[14px] font-semibold text-navy outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition cursor-pointer max-w-[15rem]"
+        className="appearance-none rounded-xl border border-gray-300 bg-gray-50 pl-[4.5rem] pr-9 py-3 text-base md:text-[14px] font-semibold text-navy outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition cursor-pointer max-w-[15rem]"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>
