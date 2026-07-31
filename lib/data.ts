@@ -1398,6 +1398,29 @@ export function getBrand(slug: string): Brand | undefined {
   return brands.find((b) => b.slug === slug);
 }
 
+/** Stable in-page anchor for one product line on its brand page, derived from
+ *  the line's `tag` so the id never has to be hand-maintained alongside it.
+ *  Used both by the brand page (which renders the id) and by any page linking
+ *  in — see the Industries page's "relevant product lines". */
+export function productLineAnchorId(line: ProductLine): string {
+  const source = line.tag ?? line.name;
+  return `line-${source
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")}`;
+}
+
+/** Resolves a brand slug + product-line tag to the line itself. Returns
+ *  undefined for an unknown pair rather than throwing, so a stale reference
+ *  degrades to "no link" instead of breaking the page — `npm run check:links`
+ *  (scripts/check-product-links.mjs) fails the build on any such reference. */
+export function getProductLine(
+  brandSlug: string,
+  tag: string
+): ProductLine | undefined {
+  return getBrand(brandSlug)?.productLines.find((p) => p.tag === tag);
+}
+
 // Groups gallery items by category, preserving first-seen category order.
 export function groupGalleryByCategory(items: GalleryItem[]) {
   const groups = new Map<string, GalleryItem[]>();
@@ -1588,13 +1611,19 @@ export type IndustrySupportItem = {
   brandSlug?: string;
 };
 
-/** The specific series/product-line names a brand offers into this
- *  industry — grouped per brand so the brand name can link once and the
- *  series list reads underneath it, rather than one flat string. */
+/** The specific product lines a brand offers into this industry, grouped per
+ *  brand so the brand links once and its lines list underneath it.
+ *
+ *  Lines are referenced by their `ProductLine["tag"]` rather than retyped as
+ *  free text: the tag is the line's identity on the brand page, so every
+ *  reference here resolves to a real, linkable card (and one line covering
+ *  several series — e.g. Dyna-Flo's "360 / 390 / 350 / 370 / 380 / DF2000" —
+ *  is named once instead of duplicated per series). */
 export type IndustryProductLines = {
   /** A Brand["slug"] (e.g. "farris-engineering"). */
   brandSlug: string;
-  lines: string[];
+  /** `ProductLine["tag"]` values on that brand, exactly as written there. */
+  lineTags: string[];
 };
 
 export type Industry = {
@@ -1642,9 +1671,15 @@ export const industries: Industry[] = [
       { text: "API 526/527 compliance verification and re-certification support" },
     ],
     productLines: [
-      { brandSlug: "farris-engineering", lines: ["Series 1890", "Series 2600", "Series 3800"] },
-      { brandSlug: "dyna-flo", lines: ["Series 360", "Series 390", "DF2000", "Series 570"] },
-      { brandSlug: "est", lines: ["Pop-A-Plug®", "GripTight®"] },
+      {
+        brandSlug: "farris-engineering",
+        lineTags: ["SERIES 1890", "SERIES 2600 / 2700", "SERIES 3800"],
+      },
+      {
+        brandSlug: "dyna-flo",
+        lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000", "SERIES 570 / 590"],
+      },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "GRIPTIGHT®"] },
     ],
     image: "/images/offshore-rig.jpg",
     imageAlt: "Offshore jack-up drilling rig with gas flare",
@@ -1677,9 +1712,12 @@ export const industries: Industry[] = [
       { text: "Sizing, selection, and engineering support for new projects and plant expansions" },
     ],
     productLines: [
-      { brandSlug: "farris-engineering", lines: ["Series 2600", "Series 2700", "Series 3800"] },
-      { brandSlug: "dyna-flo", lines: ["Series 350", "Series 370", "Series 380", "DF2000"] },
-      { brandSlug: "est", lines: ["Pop-A-Plug®", "Hydra-Loc®", "GripTight®"] },
+      {
+        brandSlug: "farris-engineering",
+        lineTags: ["SERIES 2600 / 2700", "SERIES 3800"],
+      },
+      { brandSlug: "dyna-flo", lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000"] },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®"] },
     ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
@@ -1717,9 +1755,12 @@ export const industries: Industry[] = [
       { text: "Retrofit and modernization recommendations to improve plant efficiency" },
     ],
     productLines: [
-      { brandSlug: "farris-engineering", lines: ["Series 1890", "Series 6400/6600", "Series 3800"] },
-      { brandSlug: "dyna-flo", lines: ["Series 360", "Series 390", "DF2000"] },
-      { brandSlug: "est", lines: ["Pop-A-Plug®", "Hydra-Loc®", "GripTight®"] },
+      {
+        brandSlug: "farris-engineering",
+        lineTags: ["SERIES 1890", "SERIES 6400 / 6600", "SERIES 3800"],
+      },
+      { brandSlug: "dyna-flo", lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000"] },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®"] },
     ],
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",
@@ -1753,9 +1794,12 @@ export const industries: Industry[] = [
       { text: "Sizing and selection support for corrosive and erosive media" },
     ],
     productLines: [
-      { brandSlug: "dyna-flo", lines: ["Series 570 (segmented ball)", "Model 590 (full-ball)"] },
-      { brandSlug: "farris-engineering", lines: ["Series 1890"] },
-      { brandSlug: "est", lines: ["Pop-A-Plug®"] },
+      {
+        brandSlug: "dyna-flo",
+        lineTags: ["SERIES 570 / 590", "PRO-50 · 4000 · 5000 · T950XP · PS2/760"],
+      },
+      { brandSlug: "farris-engineering", lineTags: ["SERIES 1890"] },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®"] },
     ],
     image: "/images/refinery-blue.jpg",
     imageAlt: "Oil refinery at blue hour",
@@ -1792,9 +1836,15 @@ export const industries: Industry[] = [
       { text: "Consultancy services for plant optimization and reliability improvement" },
     ],
     productLines: [
-      { brandSlug: "farris-engineering", lines: ["Series 3800", "Series 2600"] },
-      { brandSlug: "dyna-flo", lines: ["Series 370", "DF2000", "Series 570"] },
-      { brandSlug: "est", lines: ["Pop-A-Plug®", "GripTight®"] },
+      {
+        brandSlug: "farris-engineering",
+        lineTags: ["SERIES 3800", "SERIES 2600 / 2700"],
+      },
+      {
+        brandSlug: "dyna-flo",
+        lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000", "SERIES 570 / 590"],
+      },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "GRIPTIGHT®"] },
     ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
@@ -1829,9 +1879,19 @@ export const industries: Industry[] = [
       { text: "Spare parts and aftermarket support for critical equipment" },
     ],
     productLines: [
-      { brandSlug: "farris-engineering", lines: ["Series 1890", "Series 2850"] },
-      { brandSlug: "dyna-flo", lines: ["Series 360", "Series 570", "Model 590"] },
-      { brandSlug: "est", lines: ["Pop-A-Plug®"] },
+      {
+        brandSlug: "farris-engineering",
+        lineTags: ["SERIES 1890", "SERIES 2850"],
+      },
+      {
+        brandSlug: "dyna-flo",
+        lineTags: [
+          "360 / 390 / 350 / 370 / 380 / DF2000",
+          "SERIES 570 / 590",
+          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+        ],
+      },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®"] },
     ],
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",

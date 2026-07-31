@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { ChevronDown, Images, Layers } from "lucide-react";
 import SpotlightCard from "@/components/ui/SpotlightCard";
@@ -19,10 +19,15 @@ import type { ProductLine } from "@/lib/data";
  */
 export default function ProductLineCard({
   line,
+  anchorId,
   galleryHref = {},
   hubHref = {},
 }: {
   line: ProductLine;
+  /** In-page anchor for this line (from `productLineAnchorId`), so other pages
+   *  — the Industries page's "relevant product lines" — can deep-link straight
+   *  to it. Arriving on that hash scrolls here and opens the card. */
+  anchorId?: string;
   /** Product image src → gallery anchor (e.g. "#gallery-sliding-stem"). When a
    *  product has an entry, its photo links down to that card in the gallery. */
   galleryHref?: Record<string, string>;
@@ -37,6 +42,20 @@ export default function ProductLineCard({
   const count = products.length;
   const hasProducts = count > 0;
 
+  // A deep link to this line should land on it already open — arriving at a
+  // collapsed card would hide the very products the link promised. Runs on
+  // mount (link followed from another page) and on hashchange (a second link
+  // followed while already here, which doesn't remount).
+  useEffect(() => {
+    if (!anchorId || !hasProducts) return;
+    const openIfTargeted = () => {
+      if (window.location.hash === `#${anchorId}`) setOpen(true);
+    };
+    openIfTargeted();
+    window.addEventListener("hashchange", openIfTargeted);
+    return () => window.removeEventListener("hashchange", openIfTargeted);
+  }, [anchorId, hasProducts]);
+
   const summary = (
     <>
       {line.tag && (
@@ -50,7 +69,10 @@ export default function ProductLineCard({
   );
 
   return (
-    <SpotlightCard className="accent-bar card-lift flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:border-brand/50">
+    <SpotlightCard
+      id={anchorId}
+      className="line-anchor accent-bar card-lift flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:border-brand/50"
+    >
       {hasProducts ? (
         <button
           type="button"

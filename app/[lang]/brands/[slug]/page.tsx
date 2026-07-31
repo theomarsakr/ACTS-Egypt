@@ -19,7 +19,12 @@ import ProductFlipCard from "@/components/ProductFlipCard";
 import CountUp from "@/components/CountUp";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
-import { brands, getBrand, groupGalleryByCategory } from "@/lib/data";
+import {
+  brands,
+  getBrand,
+  groupGalleryByCategory,
+  productLineAnchorId,
+} from "@/lib/data";
 import {
   HUB_BRANDS,
   getBrandHubData,
@@ -363,7 +368,12 @@ export default async function BrandPage({ params }: Props) {
           >
             {brand.productLines.map((p, i) => (
               <Reveal key={p.name} delay={i * 70}>
-                <ProductLineCard line={p} galleryHref={galleryHref} hubHref={hubHref} />
+                <ProductLineCard
+                  line={p}
+                  anchorId={productLineAnchorId(p)}
+                  galleryHref={galleryHref}
+                  hubHref={hubHref}
+                />
               </Reveal>
             ))}
           </div>

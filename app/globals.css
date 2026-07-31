@@ -1013,6 +1013,23 @@ html[lang="ar"] .ltr-inline {
   }
 }
 
+/* Deep-link target: the Industries page links each "relevant product line"
+   straight to that line's card on the brand page. Same brass flash as the
+   gallery anchor above, so arriving from either place reads identically.
+   Offset clears the sticky header plus the section's own heading. */
+.line-anchor {
+  scroll-margin-top: 10rem;
+}
+.line-anchor:target {
+  animation: gallery-target 2.8s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .line-anchor:target {
+    animation: none;
+    box-shadow: 0 0 0 3px var(--color-amber);
+  }
+}
+
 /* Animated underline for nav links */
 .nav-underline {
   position: relative;

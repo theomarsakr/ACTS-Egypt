@@ -19,7 +19,13 @@ import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
-import { industries, industriesSummary, getBrand } from "@/lib/data";
+import {
+  industries,
+  industriesSummary,
+  getBrand,
+  getProductLine,
+  productLineAnchorId,
+} from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Industries we serve",
@@ -169,27 +175,49 @@ export default function IndustriesPage() {
                             </ul>
                           </div>
 
+                          {/* Every line here is a link to that exact product-line
+                              card on the brand page, which opens on arrival —
+                              so "Series 3800" goes to Series 3800's products,
+                              not just to Farris. */}
                           <div className="mt-6 rounded-lg border border-brand/30 bg-brand-light px-4 py-4">
                             <div className="text-[11px] font-bold uppercase tracking-wide text-navy">
                               Relevant product lines
                             </div>
-                            <div className="mt-3 space-y-2">
+                            <p className="mt-1 text-[12px] text-gray-500">
+                              Select a line to see its products and datasheets.
+                            </p>
+                            <div className="mt-3.5 space-y-3">
                               {ind.productLines.map((pl) => {
                                 const brand = getBrand(pl.brandSlug);
                                 if (!brand) return null;
                                 return (
-                                  <div
-                                    key={pl.brandSlug}
-                                    className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[13px] text-gray-600"
-                                  >
+                                  <div key={pl.brandSlug}>
                                     <Link
                                       href={`/brands/${brand.slug}#products`}
-                                      className="inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
+                                      className="group inline-flex items-center gap-1 text-[12.5px] font-bold text-navy transition-colors hover:text-brand"
                                     >
                                       {brand.name}
-                                      <ArrowRight size={11} className="rtl:rotate-180" />
+                                      <ArrowRight
+                                        size={11}
+                                        className="text-brand transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
+                                      />
                                     </Link>
-                                    <span>{pl.lines.join(", ")}</span>
+                                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                                      {pl.lineTags.map((tag) => {
+                                        const pLine = getProductLine(pl.brandSlug, tag);
+                                        if (!pLine) return null;
+                                        return (
+                                          <Link
+                                            key={tag}
+                                            href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
+                                            title={`${pLine.name} — ${pLine.description}`}
+                                            className="inline-flex items-center rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+                                          >
+                                            {tag}
+                                          </Link>
+                                        );
+                                      })}
+                                    </div>
                                   </div>
                                 );
                               })}

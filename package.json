@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "check:links": "node scripts/check-product-links.mjs",
     "test:smoke": "playwright test"
   },
   "dependencies": {
