@@ -62,14 +62,14 @@ function RelatedProductChips({ industry }: { industry: (typeof industries)[numbe
       {industry.productLines.flatMap((pl) => {
         const brand = getBrand(pl.brandSlug);
         if (!brand) return [];
-        return pl.lineTags.map((tag) => {
+        return pl.lines.map(({ tag, note }) => {
           const line = getProductLine(pl.brandSlug, tag);
           if (!line) return null;
           return (
             <Link
               key={`${pl.brandSlug}-${tag}`}
               href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
-              title={`${brand.name} — ${line.name}`}
+              title={`${brand.name} — ${line.name}: ${note}`}
               className="inline-flex items-center rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
             >
               {tag}
@@ -343,55 +343,62 @@ export default function IndustriesPage() {
                         </div>
                       </div>
 
-                      {/* Closing recap: every line named above, indexed by
-                          brand — deliberately the same light weight as "How
-                          we support," bookending the Key Applications chapter
-                          rather than repeating its treatment. */}
+                      {/* Closing recap: every line named above, but now
+                          answering what the chip grid never did — what this
+                          specific line does *in this industry*, not just
+                          that it exists. Same SpecSheet "datasheet" primitive
+                          as "At a glance" below, so it reads as reference
+                          material, not a repeat of the Key Applications
+                          narrative above it. Deliberately the same light
+                          label weight as "How we support," bookending the
+                          chapter rather than competing with it. */}
                       <div className="border-t border-gray-100 p-8 md:p-10">
                         <div className="text-sm font-bold text-navy uppercase tracking-wide">
                           Full product index
                         </div>
                         <p className="mt-1 max-w-xl text-[13px] text-gray-500">
-                          Every line named above, indexed by brand — jump
-                          straight to its products and datasheets.
+                          Every line named above — what it specifically does
+                          in {ind.name}, and where to see it.
                         </p>
-                        <div className="mt-5 grid gap-4 md:grid-cols-3">
-                          {ind.productLines.map((pl, i) => {
-                            const brand = getBrand(pl.brandSlug);
-                            if (!brand) return null;
-                            return (
-                              <Reveal key={pl.brandSlug} delay={i * 80}>
-                                <div className="h-full rounded-2xl border border-gray-200 bg-white p-5">
-                                  <Link
-                                    href={`/brands/${brand.slug}#products`}
-                                    className="group inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
-                                  >
-                                    {brand.name}
-                                    <ArrowRight
-                                      size={13}
-                                      className="text-brand transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
-                                    />
-                                  </Link>
-                                  <div className="mt-3 flex flex-wrap gap-1.5">
-                                    {pl.lineTags.map((tag) => {
-                                      const pLine = getProductLine(pl.brandSlug, tag);
-                                      if (!pLine) return null;
-                                      return (
-                                        <Link
-                                          key={tag}
-                                          href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
-                                          title={`${pLine.name} — ${pLine.description}`}
-                                          className="inline-flex items-center rounded-full border border-brand/35 bg-brand-light/40 px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
-                                        >
-                                          {tag}
-                                        </Link>
-                                      );
-                                    })}
-                                  </div>
-                                </div>
-                              </Reveal>
-                            );
-                          })}
+                        <div className="mt-5">
+                          <SpecSheet
+                            records={ind.productLines.flatMap((pl) => {
+                              const brand = getBrand(pl.brandSlug);
+                              if (!brand) return [];
+                              return pl.lines.flatMap(({ tag, note }) => {
+                                const pLine = getProductLine(pl.brandSlug, tag);
+                                if (!pLine) return [];
+                                return [
+                                  {
+                                    title: tag,
+                                    tag: brand.name,
+                                    fields: [
+                                      {
+                                        label: `Role in ${ind.name}`,
+                                        value: note,
+                                        wide: true,
+                                      },
+                                      {
+                                        label: "Product",
+                                        value: (
+                                          <Link
+                                            href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
+                                            className="group inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
+                                          >
+                                            {pLine.name}
+                                            <ArrowRight
+                                              size={12}
+                                              className="transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
+                                            />
+                                          </Link>
+                                        ),
+                                      },
+                                    ],
+                                  },
+                                ];
+                              });
+                            })}
+                          />
                         </div>
                       </div>
                     </SpotlightCard>

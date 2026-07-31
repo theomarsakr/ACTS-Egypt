@@ -1658,8 +1658,11 @@ export type ApplicationArea = {
 export type IndustryProductLines = {
   /** A Brand["slug"] (e.g. "farris-engineering"). */
   brandSlug: string;
-  /** `ProductLine["tag"]` values on that brand, exactly as written there. */
-  lineTags: string[];
+  /** Every line this brand offers into the industry, each carrying its own
+   *  role note — not just "this line exists," but what it specifically does
+   *  *in this industry*. The generic ProductLine.description already covers
+   *  what the line is; this covers why it's named here. */
+  lines: { tag: string; note: string }[];
 };
 
 export type Industry = {
@@ -1771,28 +1774,78 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: [
-          "SERIES 1890",
-          "SERIES 2600 / 2700",
-          "SERIES 2850",
-          "SERIES 3800",
-          "SERIES 6400 / 6600",
-          "SIZEMASTER™ · INSURE® · FAST NETWORK",
+        lines: [
+          {
+            tag: "SERIES 1890",
+            note: "The everyday relief valve across the value chain — separators, gathering lines, and utility systems where a proven, ASME Section VIII-rated direct-spring design is all the duty calls for.",
+          },
+          {
+            tag: "SERIES 2600 / 2700",
+            note: "Flanged relief protection for storage tanks and pipeline sections, dropping straight into existing ASME/NB-certified pipeline spec with no special adaptation.",
+          },
+          {
+            tag: "SERIES 2850",
+            note: "A compact threaded option for smaller-bore relief duty on wellsite and gathering-system piping, where a full flanged body isn't justified.",
+          },
+          {
+            tag: "SERIES 3800",
+            note: "The pilot-operated line for refinery columns and high-capacity gas relief, where large capacity and a tight operating margin matter more than simplicity.",
+          },
+          {
+            tag: "SERIES 6400 / 6600",
+            note: "Boiler safety valves for the package boilers refineries and gas plants run for process steam — a dedicated steam design, not a general valve pressed into steam service.",
+          },
+          {
+            tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
+            note: "Sizing software and iNSURE® wireless monitoring keep every relief valve across a facility correctly sized and its condition visible between turnarounds.",
+          },
         ],
       },
       {
         brandSlug: "dyna-flo",
-        lineTags: [
-          "360 / 390 / 350 / 370 / 380 / DF2000",
-          "SERIES 570 / 590",
-          "DF100 / DF234 / DF270",
-          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
-          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        lines: [
+          {
+            tag: "360 / 390 / 350 / 370 / 380 / DF2000",
+            note: "Sliding-stem control across wellhead chokes, gas-compression trains, and refinery process units — the workhorse control valve for this entire industry.",
+          },
+          {
+            tag: "SERIES 570 / 590",
+            note: "Rotary ball and segmented valves for pump-station throttling and pipeline block-valve duty, giving high flow capacity with tight shutoff in one compact body.",
+          },
+          {
+            tag: "DF100 / DF234 / DF270",
+            note: "Compact integral valve-and-actuator units built for upstream dump-valve service, where separator and slug-catcher discharge needs a fast, self-contained response.",
+          },
+          {
+            tag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+            note: "Fail-safe pneumatic actuation for every control and shutdown valve across the facility, driving to a known safe position the instant instrument air is lost.",
+          },
+          {
+            tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+            note: "The instrumentation layer behind every control loop — pressure and level controllers, positioners, and I/P transducers keeping valves on setpoint.",
+          },
         ],
       },
       {
         brandSlug: "est",
-        lineTags: ["POP-A-PLUG®", "GRIPTIGHT®", "G-SERIES", "HYDRA-LOC®"],
+        lines: [
+          {
+            tag: "POP-A-PLUG®",
+            note: "Weld-free tube plugging that keeps refinery and gas-plant heat exchangers sealed between turnarounds, without a shutdown to fix a single leaking tube.",
+          },
+          {
+            tag: "GRIPTIGHT®",
+            note: "Hydrostatic test and isolation plugs for commissioning new pipeline sections and pressure-testing vessels without welding in temporary test spools.",
+          },
+          {
+            tag: "G-SERIES",
+            note: "Vacuum tube and joint testers that locate a leaking heat-exchanger tube before it's found the hard way, during scheduled inspection rather than an unplanned trip.",
+          },
+          {
+            tag: "HYDRA-LOC®",
+            note: "Hydraulic tube sleeving that recovers a corroded or eroded exchanger tube's actual service life instead of forcing a full retube.",
+          },
+        ],
       },
     ],
     image: "/images/offshore-rig.jpg",
@@ -1866,18 +1919,67 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 2600 / 2700", "SERIES 2850", "SERIES 3800", "SIZEMASTER™ · INSURE® · FAST NETWORK"],
+        lines: [
+          {
+            tag: "SERIES 2600 / 2700",
+            note: "Flanged relief protection for reactor and column overpressure scenarios, ASME/NB-certified for the air, steam, and water utility systems every petrochemical plant runs alongside its core process.",
+          },
+          {
+            tag: "SERIES 2850",
+            note: "A compact spring-loaded option for smaller relief duty on utility and auxiliary process lines throughout the plant.",
+          },
+          {
+            tag: "SERIES 3800",
+            note: "Pilot-operated relief for large-capacity gas service on cracking furnaces and quench systems, where a furnace trip can release a genuinely large vapor volume in seconds.",
+          },
+          {
+            tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
+            note: "Sizing software that gets a relief valve's capacity right the first time on a new reactor train or plant expansion, instead of a field retrofit later.",
+          },
+        ],
       },
       {
         brandSlug: "dyna-flo",
-        lineTags: [
-          "360 / 390 / 350 / 370 / 380 / DF2000",
-          "SERIES 570 / 590",
-          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
-          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        lines: [
+          {
+            tag: "360 / 390 / 350 / 370 / 380 / DF2000",
+            note: "Sliding-stem control valves regulating reactor feed and cracking-furnace fuel/steam ratios, where drift of even a few minutes changes product yield.",
+          },
+          {
+            tag: "SERIES 570 / 590",
+            note: "Rotary valves for extraction and distillation column throttling and isolation, in trim built for corrosive solvent and hydrotreating service.",
+          },
+          {
+            tag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+            note: "Spring-return pneumatic actuators that drive reactor and cracking-furnace control valves to a fail-safe position the moment air supply is lost — non-negotiable on a continuous chemical process.",
+          },
+          {
+            tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+            note: "Instrumentation and positioners holding fine control on reactor feed and extruder pressure loops, where polymer consistency depends on stable, repeatable positioning.",
+          },
         ],
       },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®", "G-SERIES"] },
+      {
+        brandSlug: "est",
+        lines: [
+          {
+            tag: "POP-A-PLUG®",
+            note: "Seals leaking heat-exchanger tubes across the plant's reactor coolers and utility exchangers without a process shutdown.",
+          },
+          {
+            tag: "HYDRA-LOC®",
+            note: "Sleeving that repairs corrosion damage from aggressive extraction and distillation solvents at the tube level, recovering service life without a full retube.",
+          },
+          {
+            tag: "GRIPTIGHT®",
+            note: "Test plugs that pressure-verify new or repaired piping without welding in temporary spools — a meaningful advantage on lines that have carried corrosive or hazardous media.",
+          },
+          {
+            tag: "G-SERIES",
+            note: "Vacuum tube testers for the inspection work that finds a failing exchanger tube before a hydrotreating or distillation upset does.",
+          },
+        ],
+      },
     ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
@@ -1987,13 +2089,63 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 1890", "SERIES 2600 / 2700", "SERIES 3800", "SERIES 6400 / 6600", "SIZEMASTER™ · INSURE® · FAST NETWORK"],
+        lines: [
+          {
+            tag: "SERIES 1890",
+            note: "General relief duty across balance-of-plant systems — compressed air, auxiliary steam, fuel handling — sized for whichever utility circuit needs it.",
+          },
+          {
+            tag: "SERIES 2600 / 2700",
+            note: "Flanged relief for feedwater and auxiliary steam systems, ASME/NB-certified for the air, steam, and water service a power block runs at scale.",
+          },
+          {
+            tag: "SERIES 3800",
+            note: "Pilot-operated valves for turbine bypass systems, where a large, precisely controlled relief capacity keeps the turbine protected during startup and load-rejection events.",
+          },
+          {
+            tag: "SERIES 6400 / 6600",
+            note: "Dedicated steam safety valves for boiler drums and superheaters — the exact scenario every other plant safeguard exists to prevent, engineered around steam's compressibility at the set pressure that matters.",
+          },
+          {
+            tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
+            note: "Sizing and iNSURE® monitoring that keeps every safety valve on the boiler and steam system correctly rated and its condition visible without an inspection shutdown.",
+          },
+        ],
       },
       {
         brandSlug: "dyna-flo",
-        lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000", "PRO-50 · 4000 · 5000 · T950XP · PS2/760"],
+        lines: [
+          {
+            tag: "360 / 390 / 350 / 370 / 380 / DF2000",
+            note: "Sliding-stem control valves for feedwater regulation, desuperheating spray, and HRSG duct-burner control — cycling constantly as load tracks a turbine's changing output.",
+          },
+          {
+            tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+            note: "Digital positioners and pressure controllers giving HRSG and feedwater loops the on-board diagnostics that flag a sticking valve before it causes a trip.",
+          },
+        ],
       },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®", "G-SERIES"] },
+      {
+        brandSlug: "est",
+        lines: [
+          {
+            tag: "POP-A-PLUG®",
+            note: "Seals a leaking condenser tube in minutes without draining the waterbox — the unit stays online instead of waiting for the next planned outage.",
+          },
+          {
+            tag: "HYDRA-LOC®",
+            note: "Sleeving that restores a fouled or eroded condenser tube's service life without a full retube during a turnaround.",
+          },
+          {
+            tag: "GRIPTIGHT®",
+            note: "Hydrostatic test plugs for pipeline and pressure-vessel commissioning and post-repair verification across the steam and cooling-water systems.",
+          },
+          {
+            tag: "G-SERIES",
+            note: "Vacuum testers that locate a leaking condenser tube during scheduled inspection, before it costs turbine vacuum and heat-rate efficiency.",
+          },
+        ],
+      },
     ],
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",
@@ -2085,10 +2237,39 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "dyna-flo",
-        lineTags: ["SERIES 570 / 590", "PRO-50 · 4000 · 5000 · T950XP · PS2/760"],
+        lines: [
+          {
+            tag: "SERIES 570 / 590",
+            note: "Segmented and full-ball rotary valves for pretreatment and brine-line throttling and isolation, in corrosion-resistant trim built for saline and chemically dosed streams.",
+          },
+          {
+            tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+            note: "Instrumentation regulating chemical-dosing skids with the accuracy a treatment process's compliance limits demand.",
+          },
+        ],
       },
-      { brandSlug: "farris-engineering", lineTags: ["SERIES 1890", "SERIES 2600 / 2700"] },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®"] },
+      {
+        brandSlug: "farris-engineering",
+        lines: [
+          {
+            tag: "SERIES 1890",
+            note: "General overpressure protection for treatment-plant pressure vessels and filtration skids — a direct-spring design needing no external power, which matters on a plant built to run unattended.",
+          },
+          {
+            tag: "SERIES 2600 / 2700",
+            note: "Flanged relief rated for water service specifically, protecting distribution and intake pressure systems at the flow rates a municipal or industrial network runs.",
+          },
+        ],
+      },
+      {
+        brandSlug: "est",
+        lines: [
+          {
+            tag: "POP-A-PLUG®",
+            note: "Seals a fouled or leaking heat-exchanger tube in the cooling-water circuit without draining the system.",
+          },
+        ],
+      },
     ],
     image: "/images/refinery-blue.jpg",
     imageAlt: "Oil refinery at blue hour",
@@ -2183,18 +2364,67 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 2600 / 2700", "SERIES 2850", "SERIES 3800", "SERIES 6400 / 6600", "SIZEMASTER™ · INSURE® · FAST NETWORK"],
+        lines: [
+          {
+            tag: "SERIES 2600 / 2700",
+            note: "Flanged relief for ammonia and urea plant utility systems, ASME/NB-certified for the air, steam, and water circuits running alongside the core synthesis process.",
+          },
+          {
+            tag: "SERIES 2850",
+            note: "A compact option for vapor and liquid relief duty in ammonia-adjacent piping, where a full flanged body isn't the right fit.",
+          },
+          {
+            tag: "SERIES 3800",
+            note: "Pilot-operated valves protecting the ammonia synthesis loop, where operating pressure runs close to the relief set point and nuisance simmering would cost real efficiency.",
+          },
+          {
+            tag: "SERIES 6400 / 6600",
+            note: "Steam safety valves for the waste-heat boilers ammonia plants run extensively as part of the reforming process.",
+          },
+          {
+            tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
+            note: "Sizing and documentation for synthesis-loop relief valves, where getting the capacity right the first time matters at this pressure.",
+          },
+        ],
       },
       {
         brandSlug: "dyna-flo",
-        lineTags: [
-          "360 / 390 / 350 / 370 / 380 / DF2000",
-          "SERIES 570 / 590",
-          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
-          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        lines: [
+          {
+            tag: "360 / 390 / 350 / 370 / 380 / DF2000",
+            note: "Severe-service control valves for corrosive carbamate and urea-melt lines, and erosive phosphate slurry, in trim built for both.",
+          },
+          {
+            tag: "SERIES 570 / 590",
+            note: "Rotary valves for acidulation and filtration isolation in phosphate processing, where standard trim wears through fast.",
+          },
+          {
+            tag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+            note: "Fail-safe actuation across the synthesis loop's control valves, defaulting to a known safe position if instrument air is lost on a high-pressure ammonia system.",
+          },
+          {
+            tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+            note: "Instrumentation for material handling and dust-collection control points in blending and bagging, right-sized rather than over-specified for the duty.",
+          },
         ],
       },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "GRIPTIGHT®", "HYDRA-LOC®"] },
+      {
+        brandSlug: "est",
+        lines: [
+          {
+            tag: "POP-A-PLUG®",
+            note: "Weld-free tube plugging for quick repairs during a turnaround, without the plant shutdown a leaking exchanger tube would otherwise force.",
+          },
+          {
+            tag: "GRIPTIGHT®",
+            note: "Test plugs that verify acidulation and filtration piping integrity without welding in temporary spools on corrosive-service lines.",
+          },
+          {
+            tag: "HYDRA-LOC®",
+            note: "Sleeving built for carbamate condensers specifically — one of the most aggressively corrosive services in industrial chemistry — recovering a tube's service life without a full retube.",
+          },
+        ],
+      },
     ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
@@ -2298,18 +2528,47 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 1890", "SERIES 2850"],
+        lines: [
+          {
+            tag: "SERIES 1890",
+            note: "General-purpose relief protection for compressor systems, pressure vessels, and hydraulic units across cement, steel, glass, and pulp & paper plants alike.",
+          },
+          {
+            tag: "SERIES 2850",
+            note: "A compact spring-loaded option for smaller relief duty where a full-size valve isn't warranted — air, steam, vapor, or liquid service.",
+          },
+        ],
       },
       {
         brandSlug: "dyna-flo",
-        lineTags: [
-          "360 / 390 / 350 / 370 / 380 / DF2000",
-          "SERIES 570 / 590",
-          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
-          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        lines: [
+          {
+            tag: "360 / 390 / 350 / 370 / 380 / DF2000",
+            note: "Sliding-stem control across kiln burners, furnace combustion air, and general process regulation — the standard control valve for facilities that aren't running severe-service chemistry.",
+          },
+          {
+            tag: "SERIES 570 / 590",
+            note: "Rotary valves for abrasive slurry service in mining and steel-mill cooling water, wearing more predictably under erosive duty than a sliding-stem valve's throttling edge.",
+          },
+          {
+            tag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+            note: "Pneumatic actuators sized for the higher torque dust-laden dampers and isolation valves need after sitting unmoved between production campaigns.",
+          },
+          {
+            tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+            note: "Instrumentation dosing pulp & paper chemicals and controlling general process points with the accuracy automated production demands.",
+          },
         ],
       },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®"] },
+      {
+        brandSlug: "est",
+        lines: [
+          {
+            tag: "POP-A-PLUG®",
+            note: "Tube plugging for the steam-side heat exchangers pulp & paper dryer systems and general industrial utilities depend on.",
+          },
+        ],
+      },
     ],
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",

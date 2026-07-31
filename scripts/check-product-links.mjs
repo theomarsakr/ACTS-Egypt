@@ -4,8 +4,9 @@
 
    Two places on the Industries page reference product lines by tag rather
    than a plain string (see lib/data.ts):
-     - IndustryProductLines (the "relevant product lines" / "At a glance"
-       chips) — one brandSlug with an array of lineTags.
+     - IndustryProductLines (the "relevant product lines" / "At a glance" /
+       "Full product index" sections) — one brandSlug with an array of
+       { tag, note } entries, note being the line's role in that industry.
      - ApplicationArea["products"] (the Key Applications challenge/solution/
        advantage cards) — a list of single {brandSlug, lineTag} refs, each
        area required to have at least one.
@@ -83,10 +84,13 @@ for (const [slug, tags] of brandLineTags) {
 
 const industriesBlock = block("industries");
 
-// 2. Every IndustryProductLines.lineTags entry must name a real line.
+// 2. Every IndustryProductLines.lines[].tag must name a real line, and every
+//    entry must carry a non-empty note (the whole point of this shape: a
+//    bare tag with no "what does this do here" note is the exact gap this
+//    section exists to close).
 let checked = 0;
 for (const group of industriesBlock.matchAll(
-  /brandSlug: "([^"]+)",\s*\n?\s*lineTags: \[([\s\S]*?)\]/g
+  /brandSlug: "([^"]+)",\s*\n?\s*lines: \[([\s\S]*?)\n {8}\],/g
 )) {
   const [, slug, body] = group;
   const known = brandLineTags.get(slug);
@@ -94,19 +98,24 @@ for (const group of industriesBlock.matchAll(
     errors.push(`Unknown brandSlug "${slug}" referenced in industries.`);
     continue;
   }
-  for (const tagMatch of body.matchAll(/"((?:[^"\\]|\\.)*)"/g)) {
-    const tag = tagMatch[1];
+  for (const entryMatch of body.matchAll(
+    /tag: "((?:[^"\\]|\\.)*)",\s*\n?\s*note: "((?:[^"\\]|\\.)*)"/g
+  )) {
+    const [, tag, note] = entryMatch;
     checked++;
     if (!known.includes(tag)) {
       errors.push(
         `${slug}: no product line tagged "${tag}".\n    Available: ${known.map((t) => `"${t}"`).join(", ")}`
       );
     }
+    if (!note.trim()) {
+      errors.push(`${slug}: "${tag}" has an empty note.`);
+    }
   }
 }
 
 if (checked === 0) {
-  console.error("✗ Found no industry lineTags references — the data shape changed.");
+  console.error("✗ Found no industry productLines[].lines references — the data shape changed.");
   process.exit(1);
 }
 
