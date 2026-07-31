@@ -89,8 +89,15 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 z-50">
+      {/* Every breakpoint below is xl (1280px), not the usual md — the full
+          link row (logo + 6 links + language switcher + CTA) genuinely needs
+          that much width. Below it, down to md, the row wraps onto a second
+          line inside its fixed-height h-17 bar instead of growing to fit,
+          which reads as broken, not responsive. The hamburger menu covers
+          that whole range instead, all the way from phone widths up to
+          where the full row actually fits. */}
       {/* Utility bar */}
-      <div className="bg-ink text-white/80 text-[13px] hidden md:block">
+      <div className="bg-ink text-white/80 text-[13px] hidden xl:block">
         <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <a
@@ -137,7 +144,7 @@ export default function Navbar({
               />
             </Link>
 
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden xl:flex items-center gap-6">
               <Link
                 href={localeHref(lang, "/")}
                 className={`nav-underline text-[15px] font-semibold transition-colors ${
@@ -231,7 +238,7 @@ export default function Navbar({
               </Link>
             </div>
 
-            <div className="md:hidden flex items-center gap-2">
+            <div className="xl:hidden flex items-center gap-2">
               <LanguageSwitcher lang={lang} />
               <button
                 className="text-navy p-2"
@@ -259,7 +266,7 @@ export default function Navbar({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="md:hidden fixed inset-x-0 top-17 bottom-0 z-50 overflow-y-auto border-t border-gray-100 bg-white"
+                className="xl:hidden fixed inset-x-0 top-17 bottom-0 z-50 overflow-y-auto border-t border-gray-100 bg-white"
               >
               <div className="px-6 py-3 flex flex-col">
                 <motion.div variants={menuItem} initial="hidden" animate="show" custom={0}>
