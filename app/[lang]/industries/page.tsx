@@ -33,6 +33,35 @@ export const metadata: Metadata = {
     "ACTS delivers engineered solutions, critical equipment, and technical support across Egypt's most demanding industrial sectors: Oil & Gas, Petrochemical, Power Generation, Water Treatment, Fertilizers, and General Industrial.",
 };
 
+/** Every product line an industry lists, as compact linked chips — used by
+ *  the "At a glance" table below. A flatter, brand-unlabeled rendering than
+ *  the tab detail view's grouped boxes, sized for a single table cell; both
+ *  read off the same industries[].productLines, so they can't drift apart. */
+function RelatedProductChips({ industry }: { industry: (typeof industries)[number] }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {industry.productLines.flatMap((pl) => {
+        const brand = getBrand(pl.brandSlug);
+        if (!brand) return [];
+        return pl.lineTags.map((tag) => {
+          const line = getProductLine(pl.brandSlug, tag);
+          if (!line) return null;
+          return (
+            <Link
+              key={`${pl.brandSlug}-${tag}`}
+              href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
+              title={`${brand.name} — ${line.name}`}
+              className="inline-flex items-center rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+            >
+              {tag}
+            </Link>
+          );
+        });
+      })}
+    </div>
+  );
+}
+
 const industryIcons: Record<string, typeof Flame> = {
   "oil-gas": Flame,
   petrochemical: FlaskConical,
@@ -246,13 +275,25 @@ export default function IndustriesPage() {
           </Reveal>
           <div className="mt-10">
             <SpecSheet
-              records={industriesSummary.map((row) => ({
-                title: row.industry,
-                fields: [
-                  { label: "Key challenges", value: row.challenges },
-                  { label: "Our solutions", value: row.solutions },
-                ],
-              }))}
+              records={industriesSummary.map((row) => {
+                const industry = industries.find((i) => i.name === row.industry);
+                return {
+                  title: row.industry,
+                  fields: [
+                    { label: "Key challenges", value: row.challenges },
+                    { label: "Our solutions", value: row.solutions },
+                    ...(industry
+                      ? [
+                          {
+                            label: "Related products",
+                            value: <RelatedProductChips industry={industry} />,
+                            wide: true,
+                          },
+                        ]
+                      : []),
+                  ],
+                };
+              })}
             />
           </div>
         </div>

@@ -3,7 +3,14 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
-export type SpecField = { label: string; value: ReactNode };
+export type SpecField = {
+  label: string;
+  value: ReactNode;
+  /** Spans both columns of the 2-up field grid at `sm:`+, instead of sharing
+   *  a row — for a field whose value needs room to wrap (a chip list) rather
+   *  than being squeezed into a half-width column. */
+  wide?: boolean;
+};
 export type SpecRecord = {
   /** Bold record title — e.g. a valve category or a department name. */
   title: string;
@@ -78,7 +85,7 @@ export default function SpecSheet({ records }: { records: SpecRecord[] }) {
             </h4>
             <dl className="mt-3 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {rec.fields.map((f) => (
-                <div key={f.label} className="min-w-0">
+                <div key={f.label} className={`min-w-0 ${f.wide ? "sm:col-span-2" : ""}`}>
                   <dt className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-500">
                     {f.label}
                   </dt>
