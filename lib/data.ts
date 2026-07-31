@@ -1611,6 +1611,42 @@ export type IndustrySupportItem = {
   brandSlug?: string;
 };
 
+/** A single product-line reference: a brand plus one of its `ProductLine["tag"]`
+ *  values. Resolves through `getProductLine()` to a real line and links to
+ *  its card on the brand page — see IndustryProductLines for why lines are
+ *  addressed by tag rather than retyped as free text. */
+export type ProductRef = {
+  /** A Brand["slug"] (e.g. "farris-engineering"). */
+  brandSlug: string;
+  /** A ProductLine["tag"] on that brand, exactly as written there. */
+  lineTag: string;
+};
+
+/** One process area within an industry — e.g. "Upstream" within Oil & Gas —
+ *  broken out as its own engineering case rather than a one-line bullet:
+ *  the problem this area presents, the specific ACTS product/mechanism that
+ *  addresses it, why that approach is the right one (not just "we have a
+ *  valve for that"), and the product line(s) that back the claim. */
+export type ApplicationArea = {
+  /** Short area name, e.g. "Upstream". Doubles as the card heading. */
+  area: string;
+  /** The original one-line scope (e.g. "wellhead flow control, separation
+   *  vessels..."), kept as a quick-scan lede above the detail below. */
+  scope: string;
+  /** The engineering problem this area presents — why it's hard, not just
+   *  what it is. */
+  challenge: string;
+  /** How ACTS's product(s) address it — the mechanism, named specifically
+   *  enough to tie to the linked product line(s) below. */
+  solution: string;
+  /** Why this is the right choice — the differentiator, not a restatement
+   *  of the solution. */
+  advantage: string;
+  /** Always non-empty: every application area links to at least one real
+   *  product line, enforced by check:links. */
+  products: ProductRef[];
+};
+
 /** The specific product lines a brand offers into this industry, grouped per
  *  brand so the brand links once and its lines list underneath it.
  *
@@ -1631,7 +1667,7 @@ export type Industry = {
   name: string;
   tagline: string;
   intro: string;
-  applications: string[];
+  applications: ApplicationArea[];
   howWeSupport: IndustrySupportItem[];
   productLines: IndustryProductLines[];
   image: string;
@@ -1646,10 +1682,69 @@ export const industries: Industry[] = [
     intro:
       "The Oil & Gas sector demands absolute reliability, safety, and compliance. From wellhead to refinery, we provide critical equipment that protects personnel, assets, and the environment.",
     applications: [
-      "Upstream: wellhead flow control, separation vessels, gas compression, and pipeline protection",
-      "Midstream: pipeline regulation, pump station control, and storage terminal overpressure protection",
-      "Refining: process unit isolation, fractionation column control, fired heater protection, and catalyst handling",
-      "Petrochemical: reactor feed control, steam cracking, polymerization, and specialty chemical production",
+      {
+        area: "Upstream",
+        scope:
+          "wellhead flow control, separation vessels, gas compression, and pipeline protection",
+        challenge:
+          "Wellhead and separator pressures swing hard and fast as a well is choked, tested, or shut in — equipment sized only for steady-state conditions can be overwhelmed in seconds during an upset.",
+        solution:
+          "Farris Series 1890 direct-spring relief valves protect separators and gathering lines at their exact set pressure with no external power required, while Dyna-Flo's sliding-stem control valves hold flow steady through choke manifolds and gas-compression trains.",
+        advantage:
+          "A direct-spring valve responds in milliseconds with nothing to fail — no signal, no actuator, no power supply — which is exactly what a remote wellhead with no control room needs.",
+        products: [
+          { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
+          { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
+        ],
+      },
+      {
+        area: "Midstream",
+        scope:
+          "pipeline regulation, pump station control, and storage terminal overpressure protection",
+        challenge:
+          "A pipeline or storage terminal spans huge distances while holding pressure inside a tight band the entire way — a single overpressure event at a pump station or tank farm risks a spill, not just downtime.",
+        solution:
+          "Dyna-Flo rotary valves throttle and isolate flow at pump stations and block-valve sites, while Farris Series 2600/2700 flanged relief valves protect storage tanks and pipeline sections rated for air, steam, and water service.",
+        advantage:
+          "ASME/NB-certified, flanged construction drops straight into existing pipeline spec with no special adaptation, and rotary trim gives high flow capacity with tight shutoff in one compact body.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+          { brandSlug: "farris-engineering", lineTag: "SERIES 2600 / 2700" },
+        ],
+      },
+      {
+        area: "Refining",
+        scope:
+          "process unit isolation, fractionation column control, fired heater protection, and catalyst handling",
+        challenge:
+          "A refinery runs dozens of interconnected units around the clock; a relief or isolation failure on one column or fired heater can cascade into a unit-wide shutdown, or worse.",
+        solution:
+          "Farris Series 3800 pilot-operated valves protect fractionation columns and fired heaters where large relief capacity and tight operating margins matter, backed by iNSURE® wireless monitoring so engineers can check valve condition without shutting the unit down to inspect it.",
+        advantage:
+          "Pilot-operated design gives a higher opening ratio than a direct-spring valve of the same size — the column can run closer to its relief set point without nuisance lifting, meaning tighter, more efficient operation.",
+        products: [
+          { brandSlug: "farris-engineering", lineTag: "SERIES 3800" },
+          { brandSlug: "farris-engineering", lineTag: "SIZEMASTER™ · INSURE® · FAST NETWORK" },
+        ],
+      },
+      {
+        area: "Petrochemical",
+        scope:
+          "reactor feed control, steam cracking, polymerization, and specialty chemical production",
+        challenge:
+          "Reactor feed and cracking-furnace control both demand precise, repeatable positioning under high pressure drop and often erosive or fouling media — a valve that sticks or wears prematurely here stops production.",
+        solution:
+          "Dyna-Flo's DFC/DFO and DFR pneumatic actuators pair with severe-service trim to hold accurate position under high delta-P, while EST's Pop-A-Plug keeps the reactor's heat exchangers sealed between turnarounds.",
+        advantage:
+          "A spring-and-diaphragm actuator fails to a known, safe position the instant instrument air is lost — the reactor defaults to safe, not to wherever the valve happened to be.",
+        products: [
+          {
+            brandSlug: "dyna-flo",
+            lineTag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          },
+          { brandSlug: "est", lineTag: "POP-A-PLUG®" },
+        ],
+      },
     ],
     howWeSupport: [
       {
@@ -1710,9 +1805,47 @@ export const industries: Industry[] = [
     intro:
       "Petrochemical facilities operate under extreme conditions: high pressures, high temperatures, corrosive media, and continuous operation. Our solutions are engineered to withstand these environments and keep the process stable and safe.",
     applications: [
-      "Olefins production (ethylene, propylene): cracking furnace control, quench tower protection",
-      "Aromatics production: extraction, distillation, hydrotreating",
-      "Polymers (polyethylene, polypropylene, PVC): reactor feed control, extruder pressure regulation",
+      {
+        area: "Olefins production",
+        scope: "ethylene, propylene — cracking furnace control, quench tower protection",
+        challenge:
+          "Cracking furnaces run at extreme temperature with feed and dilution-steam ratios that have to track tightly — drift for even a few minutes changes product yield and can coke the tubes.",
+        solution:
+          "Dyna-Flo sliding-stem control valves regulate furnace feed and dilution steam with trim built for the pressure drop across quench and transfer-line systems, while Farris Series 3800 pilot-operated valves protect the quench tower and downstream vessels against the large vapor volumes a furnace trip releases.",
+        advantage:
+          "Pilot-operated relief sized for large-capacity gas service keeps the quench system protected even in a full furnace-trip scenario, not just routine upsets.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
+          { brandSlug: "farris-engineering", lineTag: "SERIES 3800" },
+        ],
+      },
+      {
+        area: "Aromatics production",
+        scope: "extraction, distillation, hydrotreating",
+        challenge:
+          "Extraction and distillation columns run continuously with corrosive solvents and hydrotreating streams that attack standard valve trim and heat-exchanger tubes over time.",
+        solution:
+          "Dyna-Flo rotary valves in severe-service trim resist erosive and corrosive media in the extraction and distillation columns, while EST's G-Series tube testers and Hydra-Loc sleeving keep the associated heat exchangers leak-tight between inspection intervals.",
+        advantage:
+          "Hydraulic tube sleeving conforms to the tube's actual corrosion or erosion contour rather than applying a generic patch, recovering service life without a full retube.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+          { brandSlug: "est", lineTag: "G-SERIES" },
+          { brandSlug: "est", lineTag: "HYDRA-LOC®" },
+        ],
+      },
+      {
+        area: "Polymers",
+        scope:
+          "polyethylene, polypropylene, PVC — reactor feed control, extruder pressure regulation",
+        challenge:
+          "Reactor feed and extruder pressure both need fine, stable control — polymer consistency depends on it — while the media itself is often abrasive or prone to fouling valve trim.",
+        solution:
+          "Dyna-Flo's integral actuator valves give a compact, fast-responding dump-valve solution for reactor feed and discharge, engineered for tight shutoff on space-constrained skids.",
+        advantage:
+          "An integral valve-and-actuator assembly means one less flange, one less potential leak path, and a faster response than a separately mounted actuator — exactly what a fast reactor cycle needs.",
+        products: [{ brandSlug: "dyna-flo", lineTag: "DF100 / DF234 / DF270" }],
+      },
     ],
     howWeSupport: [
       {
@@ -1756,11 +1889,81 @@ export const industries: Industry[] = [
     intro:
       "Power generation plants require equipment that delivers precise control, absolute safety, and long-term reliability.",
     applications: [
-      "Steam generation: boiler feedwater control, steam pressure regulation, and safety relief for drums and superheaters",
-      "Gas turbines: fuel gas control, inlet air filtration, and emergency shutdown systems",
-      "Combined cycle: HRSG control, duct burner regulation, and condensate management",
-      "Cooling systems: circulating water control, condenser tube maintenance, and cooling tower isolation",
-      "Balance of plant: compressed air systems, auxiliary steam, and fuel handling",
+      {
+        area: "Steam generation",
+        scope:
+          "boiler feedwater control, steam pressure regulation, and safety relief for drums and superheaters",
+        challenge:
+          "A boiler drum and superheater sit at the sharpest end of the plant's safety case — an overpressure event here is the scenario every other safeguard exists to prevent, and it has to be caught in the first second, not the tenth.",
+        solution:
+          "Farris Series 6400/6600 flanged steam safety valves protect boiler drums and superheaters to their exact ASME set pressure, Series 1890 covers auxiliary steam, and Dyna-Flo control valves hold feedwater and desuperheating spray on target.",
+        advantage:
+          "These are steam-specific safety-valve designs, not general-purpose relief valves adapted for steam — the seat, disc, and spring are engineered around steam's compressibility and flashing behavior at the set pressure that actually matters.",
+        products: [
+          { brandSlug: "farris-engineering", lineTag: "SERIES 6400 / 6600" },
+          { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
+          { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
+        ],
+      },
+      {
+        area: "Gas turbines",
+        scope: "fuel gas control, inlet air filtration, and emergency shutdown systems",
+        challenge:
+          "Fuel gas skids need control valves that respond fast and fail safe — a turbine trip sequence gives the shutdown valve a fraction of a second to close, every time, with zero tolerance for a sticky actuator.",
+        solution:
+          "Dyna-Flo's fail-closed (DFC) and fail-open (DFO) large-diaphragm actuators drive fuel-gas isolation and control valves to a guaranteed fail-safe position on loss of signal or air supply.",
+        advantage:
+          "A spring-return actuator needs no solenoid, battery, or working control signal to reach its safe position — the spring alone gets it there, which is the entire point of an emergency shutdown valve.",
+        products: [
+          {
+            brandSlug: "dyna-flo",
+            lineTag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          },
+        ],
+      },
+      {
+        area: "Combined cycle",
+        scope: "HRSG control, duct burner regulation, and condensate management",
+        challenge:
+          "A heat recovery steam generator (HRSG) has to track a gas turbine's constantly changing exhaust temperature and flow, so its control valves cycle far more often than a conventional boiler's ever would.",
+        solution:
+          "Dyna-Flo instrumentation — 4000 Series pressure controllers and PS2 digital positioners — keeps HRSG and duct-burner control valves tracking setpoint through continuous load changes, with HART-ready positioners for remote diagnostics.",
+        advantage:
+          "A digital positioner with on-board diagnostics flags a sticking valve or actuator problem before it causes a trip, not after — the difference between a scheduled adjustment and an unplanned outage.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760" },
+        ],
+      },
+      {
+        area: "Cooling systems",
+        scope:
+          "circulating water control, condenser tube maintenance, and cooling tower isolation",
+        challenge:
+          "Condenser tubes see constant flow and biological fouling; a leaking tube dilutes vacuum and cuts turbine efficiency long before it's bad enough to force a shutdown to fix.",
+        solution:
+          "EST Pop-A-Plug seals a leaking condenser tube in minutes without draining or opening the waterbox, and Dyna-Flo rotary valves isolate cooling-tower and circulating-water lines for maintenance.",
+        advantage:
+          "A hydraulically installed mechanical plug is a same-shift fix — the unit stays online at full or near-full load instead of waiting for the next planned outage to pull the tube bundle.",
+        products: [
+          { brandSlug: "est", lineTag: "POP-A-PLUG®" },
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+        ],
+      },
+      {
+        area: "Balance of plant",
+        scope: "compressed air systems, auxiliary steam, and fuel handling",
+        challenge:
+          "Balance-of-plant systems are numerous and varied — compressed air, auxiliary steam, fuel handling — and each needs relief and control equipment correctly sized, not a one-size-fits-all valve pulled off a shelf.",
+        solution:
+          "Farris Series 1890 and 2850 cover the general air, steam, and liquid relief duty across these systems, sized with Farris' own SIZEMASTER™ software instead of rule-of-thumb selection.",
+        advantage:
+          "Purpose-sized relief avoids both failure modes of a guessed valve — undersized, which doesn't protect, or oversized, which chatters and wears out early. SIZEMASTER™ removes the guesswork.",
+        products: [
+          { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
+          { brandSlug: "farris-engineering", lineTag: "SERIES 2850" },
+          { brandSlug: "farris-engineering", lineTag: "SIZEMASTER™ · INSURE® · FAST NETWORK" },
+        ],
+      },
     ],
     howWeSupport: [
       {
@@ -1802,10 +2005,63 @@ export const industries: Industry[] = [
     intro:
       "Water treatment facilities require corrosion-resistant materials, precise flow control, and reliable isolation equipment.",
     applications: [
-      "Desalination (SWRO/MSF/MED): pretreatment control, high-pressure brine handling, and chemical dosing",
-      "Municipal water: intake control, filtration, disinfection, and distribution network isolation",
-      "Industrial wastewater: neutralization, clarification, sludge handling, and effluent discharge",
-      "Cooling water systems: heat exchanger protection, biocides dosing, and condenser tube maintenance",
+      {
+        area: "Desalination",
+        scope:
+          "SWRO/MSF/MED — pretreatment control, high-pressure brine handling, and chemical dosing",
+        challenge:
+          "Reverse-osmosis trains run at genuinely high pressure with a brine stream that's both saline and, at the pretreatment stage, dosed with corrosive chemicals — trim and seats wear fast if the valve isn't built for it.",
+        solution:
+          "Dyna-Flo's segmented and full-ball rotary valves throttle and isolate pretreatment and brine lines with corrosion-resistant trim, while PRO-50 and 4000 Series instrumentation regulates the chemical-dosing skids.",
+        advantage:
+          "A segmented ball design gives tight shutoff and high rangeability in one body — one valve does both throttling and positive isolation, instead of needing separate control and block valves.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+          { brandSlug: "dyna-flo", lineTag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760" },
+        ],
+      },
+      {
+        area: "Municipal water",
+        scope: "intake control, filtration, disinfection, and distribution network isolation",
+        challenge:
+          "A municipal network has to keep flowing continuously to the city it serves — an isolation valve that won't seat, or a control valve that hunts instead of holding position, shows up directly as a service complaint.",
+        solution:
+          "Farris Series 1890 protects treatment-plant pressure vessels and filtration skids against overpressure, while Dyna-Flo rotary and sliding-stem valves handle intake and distribution control.",
+        advantage:
+          "Direct-spring relief needs no external power or air supply — for a treatment plant built to run unattended for long stretches, that's one less system that can fail silently.",
+        products: [
+          { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
+          { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
+        ],
+      },
+      {
+        area: "Industrial wastewater",
+        scope: "neutralization, clarification, sludge handling, and effluent discharge",
+        challenge:
+          "Neutralization and sludge streams are abrasive, corrosive, or both — standard trim erodes quickly, and a valve failure here risks an out-of-spec discharge.",
+        solution:
+          "Dyna-Flo Series 570/590 rotary valves, available in corrosion-resistant trim, handle neutralization and sludge isolation, while EST's Pop-A-Plug keeps any shell-and-tube exchangers in the treatment train sealed.",
+        advantage:
+          "Rotary ball/segmented trim wears more evenly under abrasive slurry than a sliding-stem globe valve's throttling edge, extending service life on exactly the streams that chew through standard valves fastest.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+          { brandSlug: "est", lineTag: "POP-A-PLUG®" },
+        ],
+      },
+      {
+        area: "Cooling water systems",
+        scope: "heat exchanger protection, biocides dosing, and condenser tube maintenance",
+        challenge:
+          "Cooling water fouls and scales heat exchangers over time, cutting thermal performance long before a leak is even detectable — by the time it's obvious, efficiency has already been lost for weeks.",
+        solution:
+          "EST Pop-A-Plug seals a fouled or leaking tube without a full retube, and Dyna-Flo instrumentation doses biocide accurately to slow fouling in the first place.",
+        advantage:
+          "Catching and plugging a single failing tube costs a fraction of an unplanned exchanger retube, and it's done without draining the system.",
+        products: [
+          { brandSlug: "est", lineTag: "POP-A-PLUG®" },
+          { brandSlug: "dyna-flo", lineTag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760" },
+        ],
+      },
     ],
     howWeSupport: [
       {
@@ -1844,10 +2100,66 @@ export const industries: Industry[] = [
     intro:
       "Fertilizer production involves high-pressure synthesis loops, corrosive media, and high-temperature processes, so equipment needs a long service life and minimal downtime.",
     applications: [
-      "Ammonia synthesis: high-pressure steam reforming, shift conversion, CO₂ removal, and synthesis loop control",
-      "Urea production: carbamate formation, urea finishing, and prilling/granulation",
-      "Phosphate processing: acidulation, filtration, and granulation",
-      "Blending and bagging: material handling, dust collection, and bagging equipment control",
+      {
+        area: "Ammonia synthesis",
+        scope:
+          "high-pressure steam reforming, shift conversion, CO₂ removal, and synthesis loop control",
+        challenge:
+          "An ammonia synthesis loop runs at some of the highest pressures in the entire fertilizer complex, with hydrogen-rich, corrosive process gas — a relief valve here has to handle a genuinely large release without becoming the failure point itself.",
+        solution:
+          "Farris Series 3800 pilot-operated valves protect the synthesis loop with the high operating ratio and large relief capacity high-pressure ammonia service demands, sized and documented through SIZEMASTER™.",
+        advantage:
+          "Pilot-operated valves can be set much closer to operating pressure than a direct-spring design without nuisance simmering — critical when the loop's efficiency depends on running as close to its pressure limit as safely possible.",
+        products: [
+          { brandSlug: "farris-engineering", lineTag: "SERIES 3800" },
+          { brandSlug: "farris-engineering", lineTag: "SIZEMASTER™ · INSURE® · FAST NETWORK" },
+        ],
+      },
+      {
+        area: "Urea production",
+        scope: "carbamate formation, urea finishing, and prilling/granulation",
+        challenge:
+          "Carbamate is one of the most aggressively corrosive process streams in industrial chemistry — it attacks standard valve and heat-exchanger materials fast enough that carbamate condenser failures are a routine turnaround finding, not a rare event.",
+        solution:
+          "EST's Hydra-Loc tube sleeving and Pop-A-Plug tube plugging restore carbamate condensers to service without a full retube, and Dyna-Flo severe-service control valves regulate the corrosive carbamate and urea-melt lines.",
+        advantage:
+          "Sleeving repairs the actual corroded section rather than replacing the whole bundle — the difference between a turnaround line item and a capital project.",
+        products: [
+          { brandSlug: "est", lineTag: "HYDRA-LOC®" },
+          { brandSlug: "est", lineTag: "POP-A-PLUG®" },
+          { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
+        ],
+      },
+      {
+        area: "Phosphate processing",
+        scope: "acidulation, filtration, and granulation",
+        challenge:
+          "Phosphoric acid acidulation is one of the most corrosive services in the plant — standard valve trim and gaskets fail quickly, and a leak here is both a safety and an environmental exposure.",
+        solution:
+          "Dyna-Flo control valves in acid-resistant trim regulate acidulation and filtration flows, while EST GripTight test plugs verify piping integrity during turnarounds without welding in temporary test spools.",
+        advantage:
+          "A GripTight test plug pressure-tests a line and comes back out — no welding a test spool in, cutting it back out, and re-inspecting the weld, which is faster and removes a hot-work step from a corrosive-service line.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
+          { brandSlug: "est", lineTag: "GRIPTIGHT®" },
+        ],
+      },
+      {
+        area: "Blending and bagging",
+        scope: "material handling, dust collection, and bagging equipment control",
+        challenge:
+          "Blending and bagging lines run pneumatic and hydraulic actuation across many individual control points — keeping all of them correctly instrumented and responsive is a scale problem more than a severe-service one.",
+        solution:
+          "Dyna-Flo's standard actuator and instrumentation range covers material-handling and dust-collection control points without over-specifying premium severe-service trim where it isn't needed.",
+        advantage:
+          "Right-sizing the equipment to the actual duty keeps the cost of instrumenting dozens of control points proportional to the risk they actually carry.",
+        products: [
+          {
+            brandSlug: "dyna-flo",
+            lineTag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          },
+        ],
+      },
     ],
     howWeSupport: [
       {
@@ -1894,11 +2206,78 @@ export const industries: Industry[] = [
     intro:
       "Beyond heavy process industries, we serve a wide range of general industrial applications: reliable equipment and technical support for manufacturing facilities of all types.",
     applications: [
-      "Cement production: preheater control, kiln burner regulation, and dust collection isolation",
-      "Steel processing: furnace control, cooling water regulation, and hydraulic systems",
-      "Glass manufacturing: combustion control, batch handling, and forming machine regulation",
-      "Pulp & paper: chemical dosing, stock preparation, and dryer system control",
-      "Mining: slurry handling, dewatering, and process water management",
+      {
+        area: "Cement production",
+        scope: "preheater control, kiln burner regulation, and dust collection isolation",
+        challenge:
+          "A cement kiln runs at extreme temperature with abrasive dust everywhere in the gas path — valves and actuators here fail from erosion and heat, not just pressure.",
+        solution:
+          "Dyna-Flo control valves regulate preheater and kiln-burner fuel/air, with pneumatic actuators sized for the higher torque dust-laden dampers and isolation valves need.",
+        advantage:
+          "A properly sized pneumatic actuator carries enough reserve torque to keep breaking free a valve that's sat dusty and unmoved between campaigns — a common cause of stuck isolation valves in cement plants.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
+          {
+            brandSlug: "dyna-flo",
+            lineTag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          },
+        ],
+      },
+      {
+        area: "Steel processing",
+        scope: "furnace control, cooling water regulation, and hydraulic systems",
+        challenge:
+          "Steel furnace cooling and hydraulic systems combine high temperature with high hydraulic pressure — a relief or control failure risks both equipment damage and a safety incident on the mill floor.",
+        solution:
+          "Farris Series 1890 and 2850 relief valves protect furnace cooling circuits and hydraulic accumulators, while Dyna-Flo rotary valves regulate cooling-water flow to the furnace jacket.",
+        advantage:
+          "General-purpose spring-loaded relief across air, steam, vapor, and liquid service means one valve family covers the mixed-service reality of a steel mill's utility systems, simplifying spares and maintenance.",
+        products: [
+          { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
+          { brandSlug: "farris-engineering", lineTag: "SERIES 2850" },
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+        ],
+      },
+      {
+        area: "Glass manufacturing",
+        scope: "combustion control, batch handling, and forming machine regulation",
+        challenge:
+          "Glass-furnace combustion has to hold an exact temperature profile — drift changes glass quality directly, and the furnace can't simply be shut down and restarted to correct it without a costly thermal cycle.",
+        solution:
+          "Dyna-Flo sliding-stem control valves regulate combustion air and fuel with the fine, repeatable positioning a glass furnace's temperature profile depends on.",
+        advantage:
+          "A sliding-stem valve's linear characteristic gives more predictable control at partial loads than a rotary valve would — exactly the low-drift behavior a continuous glass furnace needs.",
+        products: [{ brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" }],
+      },
+      {
+        area: "Pulp & paper",
+        scope: "chemical dosing, stock preparation, and dryer system control",
+        challenge:
+          "Pulping chemicals are corrosive and stock-preparation lines carry abrasive fiber slurry — two very different failure modes the same plant has to guard against with the right valve for each.",
+        solution:
+          "Dyna-Flo instrumentation doses chemicals accurately, its rotary valves handle abrasive stock-prep slurry service, and EST Pop-A-Plug maintains the dryer system's steam-side heat exchangers.",
+        advantage:
+          "Splitting dosing control from slurry handling rather than using one valve type for both means each duty gets trim actually suited to it, instead of a compromise.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760" },
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+          { brandSlug: "est", lineTag: "POP-A-PLUG®" },
+        ],
+      },
+      {
+        area: "Mining",
+        scope: "slurry handling, dewatering, and process water management",
+        challenge:
+          "Mineral slurry is about as abrasive a service as industrial valves ever see — standard trim can wear through in months where a cleaner service would last years.",
+        solution:
+          "Dyna-Flo rotary ball and segmented valves, in hardened trim, handle slurry isolation and dewatering duty, while Farris relief valves protect the process water and hydraulic systems around them.",
+        advantage:
+          "Rotary trim wears more predictably under abrasive slurry than a sliding-stem valve's throttling edge, so replacement intervals are plannable instead of a surprise failure.",
+        products: [
+          { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
+          { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
+        ],
+      },
     ],
     howWeSupport: [
       {

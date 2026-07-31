@@ -62,6 +62,61 @@ function RelatedProductChips({ industry }: { industry: (typeof industries)[numbe
   );
 }
 
+/** One process-area deep dive: the engineering problem, how ACTS solves it,
+ *  why that's the right call, and the exact product line(s) behind the
+ *  claim — see ApplicationArea in lib/data.ts. */
+function ApplicationCard({
+  app,
+}: {
+  app: (typeof industries)[number]["applications"][number];
+}) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/30 md:p-7">
+      <h4 className="text-[17px] font-bold text-navy">{app.area}</h4>
+      <p className="mt-1 text-[13px] text-gray-500">{app.scope}</p>
+
+      <dl className="mt-5 space-y-4">
+        <div>
+          <dt className="text-[11px] font-bold uppercase tracking-wide text-gray-500">
+            The challenge
+          </dt>
+          <dd className="mt-1 text-[14px] leading-relaxed text-gray-600">{app.challenge}</dd>
+        </div>
+        <div>
+          <dt className="text-[11px] font-bold uppercase tracking-wide text-brand">
+            Our solution
+          </dt>
+          <dd className="mt-1 text-[14px] leading-relaxed text-gray-600">{app.solution}</dd>
+        </div>
+        <div>
+          <dt className="text-[11px] font-bold uppercase tracking-wide text-gray-500">
+            Why it works
+          </dt>
+          <dd className="mt-1 text-[14px] leading-relaxed text-gray-600">{app.advantage}</dd>
+        </div>
+      </dl>
+
+      <div className="mt-5 flex flex-wrap gap-1.5 border-t border-gray-100 pt-4">
+        {app.products.map((ref) => {
+          const brand = getBrand(ref.brandSlug);
+          const line = brand ? getProductLine(ref.brandSlug, ref.lineTag) : undefined;
+          if (!brand || !line) return null;
+          return (
+            <Link
+              key={`${ref.brandSlug}-${ref.lineTag}`}
+              href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
+              title={`${brand.name} — ${line.name}: ${line.description}`}
+              className="inline-flex items-center rounded-full border border-brand/35 bg-brand-light/50 px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+            >
+              {ref.lineTag}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 const industryIcons: Record<string, typeof Flame> = {
   "oil-gas": Flame,
   petrochemical: FlaskConical,
@@ -152,26 +207,6 @@ export default function IndustriesPage() {
 
                           <div className="mt-6">
                             <div className="text-sm font-bold text-navy uppercase tracking-wide">
-                              Key applications
-                            </div>
-                            <ul className="mt-3 space-y-2">
-                              {ind.applications.map((a) => (
-                                <li
-                                  key={a}
-                                  className="flex gap-2.5 text-[15px] text-gray-600 leading-relaxed"
-                                >
-                                  <CheckCircle2
-                                    size={17}
-                                    className="text-brand shrink-0 mt-0.5"
-                                  />
-                                  {a}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-
-                          <div className="mt-6">
-                            <div className="text-sm font-bold text-navy uppercase tracking-wide">
                               How we support this sector
                             </div>
                             <ul className="mt-3 space-y-2">
@@ -252,6 +287,27 @@ export default function IndustriesPage() {
                               })}
                             </div>
                           </div>
+                        </div>
+                      </div>
+
+                      {/* Full-width, below the image/intro column rather than
+                          squeezed into its 3/5-width — a challenge/solution/
+                          advantage breakdown per process area needs the room. */}
+                      <div className="border-t border-gray-100 bg-gray-50/60 p-8 md:p-10">
+                        <div className="eyebrow text-brand">Key applications</div>
+                        <h3 className="mt-3 text-xl md:text-2xl font-extrabold tracking-tight text-navy">
+                          Where {ind.name} work actually happens
+                        </h3>
+                        <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-gray-600">
+                          Process area by process area: the engineering
+                          challenge, how we solve it, why that approach is the
+                          right one, and the exact product line behind the
+                          claim.
+                        </p>
+                        <div className="mt-7 grid gap-4 md:grid-cols-2">
+                          {ind.applications.map((app) => (
+                            <ApplicationCard key={app.area} app={app} />
+                          ))}
                         </div>
                       </div>
                     </SpotlightCard>

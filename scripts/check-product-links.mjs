@@ -2,13 +2,18 @@
    real product line on the brand it names.  Run from the repo root:
        node scripts/check-product-links.mjs
 
-   The Industries page links each "relevant product line" straight to that
-   line's card on the brand page, addressing it by the line's `tag` (see
-   IndustryProductLines in lib/data.ts).  A tag renamed on the brand side —
-   or a typo here — would silently render as a missing chip rather than a
-   visible error, so this fails loudly instead.  Also guards the anchor ids
-   those links point at: two lines on one brand slugifying to the same id
-   would make one of them unreachable. */
+   Two places on the Industries page reference product lines by tag rather
+   than a plain string (see lib/data.ts):
+     - IndustryProductLines (the "relevant product lines" / "At a glance"
+       chips) — one brandSlug with an array of lineTags.
+     - ApplicationArea["products"] (the Key Applications challenge/solution/
+       advantage cards) — a list of single {brandSlug, lineTag} refs, each
+       area required to have at least one.
+   A tag renamed on the brand side — or a typo in either place — would
+   silently render as a missing chip/card rather than a visible error, so
+   this fails loudly instead.  Also guards the anchor ids those links point
+   at: two lines on one brand slugifying to the same id would make one of
+   them unreachable. */
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -76,8 +81,9 @@ for (const [slug, tags] of brandLineTags) {
   }
 }
 
-// 2. Every industry lineTags entry must name a real line on that brand.
 const industriesBlock = block("industries");
+
+// 2. Every IndustryProductLines.lineTags entry must name a real line.
 let checked = 0;
 for (const group of industriesBlock.matchAll(
   /brandSlug: "([^"]+)",\s*\n?\s*lineTags: \[([\s\S]*?)\]/g
@@ -104,6 +110,40 @@ if (checked === 0) {
   process.exit(1);
 }
 
+// 3. Every ApplicationArea must have >=1 product, and each {brandSlug,
+//    lineTag} ref it carries must name a real line. Areas are chunked by
+//    their `area: "..."` marker up to the next one (or the end of the
+//    applications array, marked by the following `howWeSupport:`).
+const areaMatches = [...industriesBlock.matchAll(/\barea: "([^"]+)"/g)];
+if (areaMatches.length === 0) {
+  console.error("✗ Found no ApplicationArea entries — the data shape changed.");
+  process.exit(1);
+}
+let appRefsChecked = 0;
+for (let i = 0; i < areaMatches.length; i++) {
+  const name = areaMatches[i][1];
+  const start = areaMatches[i].index;
+  const nextAreaStart = areaMatches[i + 1]?.index;
+  const boundary = nextAreaStart ?? industriesBlock.indexOf("howWeSupport:", start);
+  const chunk = industriesBlock.slice(start, boundary === -1 ? undefined : boundary);
+
+  const refs = [...chunk.matchAll(/brandSlug:\s*"([^"]+)",\s*lineTag:\s*"([^"]+)"/g)];
+  if (refs.length === 0) {
+    errors.push(`Application area "${name}" has no linked products.`);
+  }
+  for (const [, slug, tag] of refs) {
+    appRefsChecked++;
+    const known = brandLineTags.get(slug);
+    if (!known) {
+      errors.push(`Application area "${name}": unknown brandSlug "${slug}".`);
+    } else if (!known.includes(tag)) {
+      errors.push(
+        `Application area "${name}": no product line tagged "${tag}" on ${slug}.\n    Available: ${known.map((t) => `"${t}"`).join(", ")}`
+      );
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`✗ ${errors.length} broken product-line link(s):\n`);
   for (const e of errors) console.error(`  - ${e}`);
@@ -112,5 +152,7 @@ if (errors.length) {
 
 const lineCount = [...brandLineTags.values()].reduce((n, t) => n + t.length, 0);
 console.log(
-  `✓ ${checked} industry product-line links resolve across ${brandLineTags.size} brands (${lineCount} lines, all anchor ids unique).`
+  `✓ ${checked} "relevant product line" links + ${appRefsChecked} application-area product links ` +
+    `(${areaMatches.length} areas, all non-empty) resolve across ${brandLineTags.size} brands ` +
+    `(${lineCount} lines, all anchor ids unique).`
 );
