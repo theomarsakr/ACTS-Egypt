@@ -66,7 +66,7 @@ export default function DocCard({
           href={doc.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="group/btn inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-navy px-3 py-2 text-[13px] font-bold text-white transition-all hover:bg-navy-700 hover:-translate-y-0.5"
+          className="group/btn inline-flex flex-1 items-center justify-center pointer-coarse:min-h-11 gap-1.5 rounded-lg bg-navy px-3 py-2 text-[13px] font-bold text-white transition-all hover:bg-navy-700 hover:-translate-y-0.5"
         >
           <ExternalLink size={14} /> View PDF
         </a>
@@ -74,7 +74,7 @@ export default function DocCard({
           href={doc.href}
           download
           aria-label={`Download ${doc.title}`}
-          className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-2 text-[13px] font-bold text-navy transition-all hover:border-brand hover:text-brand hover:-translate-y-0.5"
+          className="inline-flex items-center justify-center pointer-coarse:min-h-11 gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-2 text-[13px] font-bold text-navy transition-all hover:border-brand hover:text-brand hover:-translate-y-0.5"
         >
           <Download size={14} /> Download
         </a>

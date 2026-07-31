@@ -173,7 +173,7 @@ export default function BrandResourceCard({
               type="button"
               onClick={() => setFlipped(false)}
               aria-label="Flip card back"
-              className="shrink-0 inline-flex items-center gap-1.5 text-[13px] font-semibold text-white/70 hover:text-white border border-white/20 hover:border-white/40 rounded-lg px-3 py-1.5 transition-colors cursor-pointer"
+              className="shrink-0 inline-flex items-center pointer-coarse:min-h-11 gap-1.5 text-[13px] font-semibold text-white/70 hover:text-white border border-white/20 hover:border-white/40 rounded-lg px-3 py-1.5 transition-colors cursor-pointer"
             >
               <RotateCw size={13} /> Back
             </button>

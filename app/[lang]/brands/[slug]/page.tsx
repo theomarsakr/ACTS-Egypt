@@ -283,7 +283,7 @@ export default async function BrandPage({ params }: Props) {
         />
         <div className="dark-vignette" aria-hidden />
 
-        <div className="relative w-full max-w-6xl mx-auto px-6 py-20 md:py-28">
+        <div className="relative w-full max-w-6xl mx-auto px-6 py-20 md:py-24 lg:py-28">
           <Reveal>
             <Link
               href="/brands"

@@ -106,11 +106,19 @@ function TestimonialCarousel() {
                 </h3>
 
                 {/* Title & Company */}
+                {/* White at an alpha, not a gray-N token: this card is the
+                    site's only dark surface carrying that ramp, and the ramp is
+                    tuned for contrast against white (see the @theme note in
+                    globals.css). On #171717 the tokens ran the wrong way —
+                    gray-500 sat at 3.0:1, below AA — and any future adjustment
+                    to the light-surface ramp would silently move this text too.
+                    7.0:1 and 6.1:1 here, and they now track the card's own
+                    background instead of the page's. */}
                 <div className="mb-6">
-                  <p className="text-gray-400 text-sm md:text-base">
+                  <p className="text-white/60 text-sm md:text-base">
                     {testimonial.title}
                   </p>
-                  <p className="text-gray-500 text-sm">{testimonial.company}</p>
+                  <p className="text-white/55 text-sm">{testimonial.company}</p>
                 </div>
 
                 {/* Quote */}
@@ -122,7 +130,7 @@ function TestimonialCarousel() {
                 <div className="flex items-center gap-3">
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    className="w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                     aria-label="GitHub"
                   >
                     <svg className="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
@@ -131,7 +139,7 @@ function TestimonialCarousel() {
                   </a>
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    className="w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                     aria-label="Twitter"
                   >
                     <svg className="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
@@ -140,7 +148,7 @@ function TestimonialCarousel() {
                   </a>
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    className="w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                     aria-label="YouTube"
                   >
                     <svg className="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
@@ -149,7 +157,7 @@ function TestimonialCarousel() {
                   </a>
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    className="w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                     aria-label="LinkedIn"
                   >
                     <svg className="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24">

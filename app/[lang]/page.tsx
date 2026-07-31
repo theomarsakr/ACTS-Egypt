@@ -128,7 +128,7 @@ export default async function Home({
       </section>
 
       {/* ============ WHAT WE DO ============ */}
-      <section id="what-we-do" className="scroll-mt-28 py-20 md:py-28">
+      <section id="what-we-do" className="scroll-mt-28 py-20 md:py-24 lg:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="max-w-2xl">
@@ -163,7 +163,7 @@ export default async function Home({
       </section>
 
       {/* ============ BRANDS ============ */}
-      <section id="brands" className="scroll-mt-28 py-20 md:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
+      <section id="brands" className="scroll-mt-28 py-20 md:py-24 lg:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
@@ -182,7 +182,14 @@ export default async function Home({
               </Link>
             </div>
           </Reveal>
-          <div className="mt-12 grid md:grid-cols-3 gap-6">
+          {/* Stages 1 → 2 → 3 up, like WHAT WE DO above it. Going straight to
+              three columns at `md:` put three 224px cards on an iPad portrait
+              screen: with the card's own p-7 that leaves 168px of content, so
+              "Dyna-Flo Control Valve Services" broke over three lines and the
+              footer row wrapped "View products" and "Curtiss-Wright" onto two
+              lines each. The 2-up stage gives them 348px at 768 and the third
+              column arrives at `lg:`, where there is room for it (307px). */}
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {brands.map((b, i) => {
               // Auto-rotating gallery of normalized card tiles (lead cut-out
               // first) — every frame is the product centered on an identical
@@ -205,7 +212,7 @@ export default async function Home({
                     <AutoRotateImage
                       images={galleryImages}
                       alt={`${b.name} product`}
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
                       imgClassName={`object-cover ${hoverZoom}`}
                       intervalMs={8000}
                       startDelayMs={i * 2200}
@@ -290,7 +297,7 @@ export default async function Home({
       </section>
 
       {/* ============ GLOBAL REACH ============ */}
-      <section id="global-reach" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-28">
+      <section id="global-reach" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <div
           className="mesh mesh-brass w-96 h-96 -top-40 -left-24 opacity-50"
@@ -335,7 +342,7 @@ export default async function Home({
       {/* `overflow-x-clip`, never `overflow-hidden`: hidden would make this
           section the scroll container for the sticky rail inside it, and the
           rail would silently stop sticking. `clip` isn't a scroll container. */}
-      <section id="why-acts" className="why-section scroll-mt-28 relative overflow-x-clip py-24 md:py-32">
+      <section id="why-acts" className="why-section scroll-mt-28 relative overflow-x-clip py-24 md:py-28 lg:py-32">
         <div className="why-backdrop" aria-hidden />
         <div className="relative max-w-7xl mx-auto px-6">
           <ContainerScroll label={hm.why.eyebrow}>
@@ -572,7 +579,7 @@ export default async function Home({
                         key={ind.slug}
                         href={`/industries#${ind.slug}`}
                         style={{ "--i": i } as React.CSSProperties}
-                        className="chip-in inline-flex items-center rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[13.5px] font-semibold text-gray-600 transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:bg-brand-light hover:text-brand"
+                        className="chip-in inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-4 rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[13.5px] font-semibold text-gray-600 transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:bg-brand-light hover:text-brand"
                       >
                         {dict.industryNames[ind.slug] ?? ind.name}
                       </Link>
@@ -665,7 +672,7 @@ export default async function Home({
           with the engagements that back them up, in the same visual language
           as the hero. The translucent carousel card lets the band's blueprint
           grid run through it, so the section reads as one continuous surface. */}
-      <section id="proven" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-28">
+      <section id="proven" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <div
           className="mesh mesh-steel w-[30rem] h-[30rem] -top-44 -right-28 opacity-60"
@@ -705,7 +712,7 @@ export default async function Home({
       {lang !== "ar" && <TestimonialCarousel />}
 
       {/* ============ COMPANY GALLERY ============ */}
-      <section id="gallery" className="scroll-mt-28 pb-20 md:pb-28 pt-20 md:pt-28">
+      <section id="gallery" className="scroll-mt-28 pb-20 md:pb-24 lg:pb-28 pt-20 md:pt-24 lg:pt-28">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
@@ -759,7 +766,7 @@ export default async function Home({
           <div className="mesh mesh-steel w-96 h-96 -top-48 -right-24 opacity-60" />
           <div className="dark-vignette" />
         </div>
-        <div className="relative max-w-4xl mx-auto px-6 py-24 md:py-32 text-center">
+        <div className="relative max-w-4xl mx-auto px-6 py-24 md:py-28 lg:py-32 text-center">
           <Reveal>
             <div className="eyebrow text-amber justify-center [&::before]:hidden">
               <span className="w-6.5 h-0.5 rounded bg-current opacity-85" />

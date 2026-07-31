@@ -97,7 +97,7 @@ export default function ProductHub({
               type="button"
               onClick={() => setGroup(g.id)}
               aria-pressed={active}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13.5px] font-semibold transition-colors cursor-pointer ${
+              className={`inline-flex items-center pointer-coarse:min-h-11 gap-2 rounded-full px-4 py-2 text-[13.5px] font-semibold transition-colors cursor-pointer ${
                 active
                   ? "bg-navy text-white"
                   : "bg-gray-100 text-navy/70 hover:bg-gray-200"
@@ -296,7 +296,7 @@ function ProductPanel({
           <div
             role="tablist"
             aria-label={`${p.name} details`}
-            className="flex gap-1 overflow-x-auto border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="scroll-fade-x flex gap-1 overflow-x-auto border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {tabs.map((t) => {
               const active = tab === t.id;
@@ -307,7 +307,7 @@ function ProductPanel({
                   role="tab"
                   aria-selected={active}
                   onClick={() => setTab(t.id)}
-                  className={`relative flex shrink-0 items-center gap-1.5 px-3.5 py-2.5 text-[13.5px] font-bold whitespace-nowrap transition-colors cursor-pointer ${
+                  className={`relative flex shrink-0 pointer-coarse:min-h-11 items-center gap-1.5 px-3.5 py-2.5 text-[13.5px] font-bold whitespace-nowrap transition-colors cursor-pointer ${
                     active ? "text-navy" : "text-gray-400 hover:text-navy"
                   }`}
                 >
@@ -353,7 +353,7 @@ function ProductPanel({
                     key={r.id}
                     type="button"
                     onClick={() => onOpenRelated(r.id)}
-                    className="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-navy transition-all hover:border-brand hover:bg-brand-light/50 cursor-pointer"
+                    className="group inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-4 gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-navy transition-all hover:border-brand hover:bg-brand-light/50 cursor-pointer"
                   >
                     {r.name}
                     <ArrowUpRight

@@ -126,10 +126,16 @@ export default function EgyptReach({ className = "" }: { className?: string }) {
 
   return (
     <div className={`eg-map-wrap relative ${className}`}>
+      {/* `group`, not `img`. `role="img"` declares the subtree a single
+          indivisible graphic, so a screen reader stops descending — but every
+          pin below is a real `role="button"` with its own tabIndex, which the
+          reader would then never reach, and which axe flags as a serious
+          `nested-interactive` violation. `group` keeps the accessible name on
+          the map as a whole while letting the pins inside stay reachable. */}
       <svg
         viewBox="-6 6 276 218"
         className="eg-map"
-        role="img"
+        role="group"
         aria-label="Map of Egypt showing ACTS headquarters and client sites"
       >
         <defs>

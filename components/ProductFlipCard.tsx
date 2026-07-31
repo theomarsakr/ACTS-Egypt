@@ -91,14 +91,14 @@ export default function ProductFlipCard({
                   href={pdfHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand px-2 py-2 text-[12px] font-bold text-white transition-all hover:bg-brand-dark hover:-translate-y-0.5"
+                  className="flex-1 inline-flex items-center justify-center pointer-coarse:min-h-11 gap-1.5 rounded-lg bg-brand px-2 py-2 text-[12px] font-bold text-white transition-all hover:bg-brand-dark hover:-translate-y-0.5"
                 >
                   <ExternalLink size={13} /> {pdfLabel}
                 </a>
                 {docHref && (
                   <a
                     href={docHref}
-                    className="group/link flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-navy px-2 py-2 text-[12px] font-bold text-white transition-all hover:bg-navy-700 hover:-translate-y-0.5"
+                    className="group/link flex-1 inline-flex items-center justify-center pointer-coarse:min-h-11 gap-1.5 rounded-lg bg-navy px-2 py-2 text-[12px] font-bold text-white transition-all hover:bg-navy-700 hover:-translate-y-0.5"
                   >
                     Details
                     <ArrowRight

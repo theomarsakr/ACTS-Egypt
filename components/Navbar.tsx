@@ -241,7 +241,10 @@ export default function Navbar({
             <div className="xl:hidden flex items-center gap-2">
               <LanguageSwitcher lang={lang} />
               <button
-                className="text-navy p-2"
+                // p-2 puts a 24px icon in a 40px box — under the 44px touch
+                // floor, and this button is the only way to reach the nav at
+                // every width below xl, tablets included.
+                className="text-navy p-2 pointer-coarse:p-2.5"
                 onClick={() => setOpen(!open)}
                 aria-label={t.toggleMenu}
                 aria-expanded={open}

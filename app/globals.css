@@ -39,6 +39,23 @@
      legible, on-brand slate values (5.6:1–7.5:1 on every surface we use). */
   --color-gray-500: #5b6472;
   --color-gray-600: #4b5563;
+  /* gray-400 was left on the stock v4 value (#99a1af) and is the same bug one
+     rung lighter: it carries document counts, "Related:" labels, spec-row
+     metadata and every input placeholder on the brand pages, at 2.6:1 on white
+     — the single largest source of contrast failures on the site (400+ nodes
+     on /brands alone). Pinned to v3's gray-500, which clears 4.5:1 on all four
+     surfaces this text ever sits on (white 4.83, gray-50 4.63, #f6f8fb 4.54,
+     #f5f7fb 4.51) while staying visibly lighter than the pinned gray-500 above,
+     so the 400 → 500 → 600 hierarchy still reads.
+
+     Note this whole ramp is tuned for dark-on-light and gets *worse* as it
+     darkens on a dark surface. That is fine because every remaining use sits on
+     a light one — the `active ? text-white/60 : text-gray-400` ternaries in the
+     brand hub pick the white branch on dark, and <TestimonialCarousel>'s
+     neutral-900 card was the one genuine exception, since moved onto white-at-
+     an-alpha. Anything new on a dark background wants text-white/NN, not this
+     ramp. */
+  --color-gray-400: #6b7280;
 
   --animate-marquee: marquee 45s linear infinite;
   --animate-page-in: page-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -126,6 +143,83 @@ p {
     background: rgba(138, 106, 48, 0.6);
     background-clip: padding-box;
   }
+}
+
+/* ---- Touch targets ----------------------------------------------------
+   Tablets are the first width where this site is both touch-driven AND laid
+   out like the desktop, so controls sized for a cursor (a 28px chip, a 6px
+   carousel dot) are suddenly being tapped with a finger. Everything below is
+   scoped to `pointer: coarse` so it lands on tablets and phones and leaves
+   every mouse-driven width — including the 1024–1279px "small laptop" band
+   that shares tablet's breakpoints — pixel-identical.
+
+   Two tools, and which one applies depends on the control's neighbours:
+
+   `.tap-target` grows only the *hit* area, via a centred invisible overlay,
+   leaving the control's painted size untouched. Right for isolated controls
+   (the dock's minimize handle, carousel dots) where the overlay can spill
+   past the visual edge without landing on anything else.
+
+   For controls packed into a row — chips, filter pills — an overlay would
+   spill onto its neighbour and steal its taps, so those grow their real
+   padding instead (`pointer-coarse:` utilities at the call site) and let the
+   flex-wrap row reflow around them. */
+@media (pointer: coarse) {
+  .tap-target {
+    position: relative;
+  }
+  .tap-target::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    min-width: 44px;
+    min-height: 44px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ---- Horizontal scroller affordance -----------------------------------
+   The tab strips and thumbnail rails all hide their scrollbar
+   (`[scrollbar-width:none]`) so the chrome doesn't intrude. On a mouse at
+   desktop widths their content usually fits, so nothing is lost — but from
+   ~768px the strip gets cut mid-word ("Water Treatmen|") with no scrollbar,
+   no fade, and nothing at all to say the remaining tabs exist.
+
+   The fade has to appear only when there is genuinely something to scroll
+   to, or it would dim the last tab at widths where everything already fits.
+   That's what the `background-attachment: local/scroll` pairing does, with
+   no JS and no resize listener: the two white "cover" layers are pinned to
+   the *content* (local), so they slide out of the way as you scroll, while
+   the two gradient layers are pinned to the *element* (scroll) and stay put.
+   At rest the cover sits exactly on top of the gradient and hides it; once
+   the content scrolls, the cover moves off and the gradient shows through.
+   Fully self-sizing — it never needs to know the content width.
+
+   Consumers must set `--scroll-fade-bg` if they don't sit on white. */
+.scroll-fade-x {
+  --scroll-fade-bg: #ffffff;
+  background-image:
+    /* cover, pinned to content */
+    linear-gradient(to right, var(--scroll-fade-bg), transparent),
+    linear-gradient(to left, var(--scroll-fade-bg), transparent),
+    /* fade, pinned to the box */
+    linear-gradient(to right, rgba(10, 22, 40, 0.16), transparent),
+    linear-gradient(to left, rgba(10, 22, 40, 0.16), transparent);
+  background-position:
+    left center,
+    right center,
+    left center,
+    right center;
+  background-repeat: no-repeat;
+  background-size:
+    44px 100%,
+    44px 100%,
+    34px 100%,
+    34px 100%;
+  background-attachment: local, local, scroll, scroll;
 }
 
 /* Display face on headings + kickers; body copy stays Inter. */
