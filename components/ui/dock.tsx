@@ -145,7 +145,14 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
               ref={navRef}
               aria-label={label}
               className={cn(
-                "relative mx-auto flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                // w-fit: nav sits inside the AnimatePresence motion.div below,
+                // which needs w-full for its own height:0->auto collapse
+                // animation to measure correctly. That makes nav a block-level
+                // box in plain flow rather than a sized flex item, so without
+                // w-fit it stretches to fill that full-width parent instead of
+                // shrinking to its content — leaving mx-auto with no leftover
+                // space to center against, and the pill visibly pinned left.
+                "relative mx-auto flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
                 className
               )}
             >
