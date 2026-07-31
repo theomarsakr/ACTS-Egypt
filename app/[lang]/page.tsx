@@ -368,7 +368,7 @@ export default async function Home({
                     <ArrowRight size={16} className={arrowNudge} />
                   </Link>
                 </div>
-                <ScrollRail className="mt-12 hidden lg:block" />
+                <ScrollRail className="mt-12" />
               </Reveal>
             </div>
 

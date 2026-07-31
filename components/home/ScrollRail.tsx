@@ -4,8 +4,13 @@ import { useEffect, useRef } from "react";
 
 /**
  * ScrollRail — a hairline that fills with brass as the reader moves through the
- * section it sits in. Pairs with a sticky column: while the headline holds
- * still and the cards move past it, this is the only cue for how much is left.
+ * section it sits in. On the desktop two-column layout it pairs with a sticky
+ * rail: while the headline holds still and the cards move past it, this is
+ * the only cue for how much is left. Below `lg:` the column isn't sticky (a
+ * single stacked layout doesn't need it to stay put), but the rail still
+ * renders and fills the same way — the section's own scroll math it reads
+ * off (`section.getBoundingClientRect()`) isn't tied to that layout, so
+ * there's no reason the animation itself should be desktop-only too.
  *
  * Finds its own section rather than taking a ref, so it can be dropped into
  * server-rendered markup with no wiring.
