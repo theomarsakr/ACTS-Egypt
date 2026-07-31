@@ -1670,16 +1670,35 @@ export const industries: Industry[] = [
       },
       { text: "API 526/527 compliance verification and re-certification support" },
     ],
+    // Oil & Gas spans every stage each brand builds for — upstream through
+    // refining — so unlike the narrower sectors below, its line-up is close
+    // to each brand's full catalog rather than a curated subset.
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 1890", "SERIES 2600 / 2700", "SERIES 3800"],
+        lineTags: [
+          "SERIES 1890",
+          "SERIES 2600 / 2700",
+          "SERIES 2850",
+          "SERIES 3800",
+          "SERIES 6400 / 6600",
+          "SIZEMASTER™ · INSURE® · FAST NETWORK",
+        ],
       },
       {
         brandSlug: "dyna-flo",
-        lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000", "SERIES 570 / 590"],
+        lineTags: [
+          "360 / 390 / 350 / 370 / 380 / DF2000",
+          "SERIES 570 / 590",
+          "DF100 / DF234 / DF270",
+          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        ],
       },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "GRIPTIGHT®"] },
+      {
+        brandSlug: "est",
+        lineTags: ["POP-A-PLUG®", "GRIPTIGHT®", "G-SERIES", "HYDRA-LOC®"],
+      },
     ],
     image: "/images/offshore-rig.jpg",
     imageAlt: "Offshore jack-up drilling rig with gas flare",
@@ -1714,10 +1733,18 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 2600 / 2700", "SERIES 3800"],
+        lineTags: ["SERIES 2600 / 2700", "SERIES 2850", "SERIES 3800", "SIZEMASTER™ · INSURE® · FAST NETWORK"],
       },
-      { brandSlug: "dyna-flo", lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000"] },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®"] },
+      {
+        brandSlug: "dyna-flo",
+        lineTags: [
+          "360 / 390 / 350 / 370 / 380 / DF2000",
+          "SERIES 570 / 590",
+          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        ],
+      },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®", "G-SERIES"] },
     ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
@@ -1757,10 +1784,13 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 1890", "SERIES 6400 / 6600", "SERIES 3800"],
+        lineTags: ["SERIES 1890", "SERIES 2600 / 2700", "SERIES 3800", "SERIES 6400 / 6600", "SIZEMASTER™ · INSURE® · FAST NETWORK"],
       },
-      { brandSlug: "dyna-flo", lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000"] },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®"] },
+      {
+        brandSlug: "dyna-flo",
+        lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000", "PRO-50 · 4000 · 5000 · T950XP · PS2/760"],
+      },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "HYDRA-LOC®", "GRIPTIGHT®", "G-SERIES"] },
     ],
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",
@@ -1793,12 +1823,15 @@ export const industries: Industry[] = [
       { text: "Backflow prevention and check valves for pipeline protection" },
       { text: "Sizing and selection support for corrosive and erosive media" },
     ],
+    // Deliberately the shortest list on this page: water treatment doesn't
+    // call for the high-pressure pilot-operated or boiler-safety lines above,
+    // so only what genuinely fits a treatment plant's duty is listed here.
     productLines: [
       {
         brandSlug: "dyna-flo",
         lineTags: ["SERIES 570 / 590", "PRO-50 · 4000 · 5000 · T950XP · PS2/760"],
       },
-      { brandSlug: "farris-engineering", lineTags: ["SERIES 1890"] },
+      { brandSlug: "farris-engineering", lineTags: ["SERIES 1890", "SERIES 2600 / 2700"] },
       { brandSlug: "est", lineTags: ["POP-A-PLUG®"] },
     ],
     image: "/images/refinery-blue.jpg",
@@ -1838,13 +1871,18 @@ export const industries: Industry[] = [
     productLines: [
       {
         brandSlug: "farris-engineering",
-        lineTags: ["SERIES 3800", "SERIES 2600 / 2700"],
+        lineTags: ["SERIES 2600 / 2700", "SERIES 2850", "SERIES 3800", "SERIES 6400 / 6600", "SIZEMASTER™ · INSURE® · FAST NETWORK"],
       },
       {
         brandSlug: "dyna-flo",
-        lineTags: ["360 / 390 / 350 / 370 / 380 / DF2000", "SERIES 570 / 590"],
+        lineTags: [
+          "360 / 390 / 350 / 370 / 380 / DF2000",
+          "SERIES 570 / 590",
+          "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
+        ],
       },
-      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "GRIPTIGHT®"] },
+      { brandSlug: "est", lineTags: ["POP-A-PLUG®", "GRIPTIGHT®", "HYDRA-LOC®"] },
     ],
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
@@ -1889,6 +1927,7 @@ export const industries: Industry[] = [
           "360 / 390 / 350 / 370 / 380 / DF2000",
           "SERIES 570 / 590",
           "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
+          "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
         ],
       },
       { brandSlug: "est", lineTags: ["POP-A-PLUG®"] },
