@@ -341,7 +341,20 @@ export default async function Home({
           <ContainerScroll label={hm.why.eyebrow}>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.6fr)] lg:gap-16">
             {/* ---------- Sticky narrative rail ---------- */}
-            <div className="lg:sticky lg:top-28 lg:self-start">
+            {/* Sticky below lg too, not just at it. The desktop trick relies
+                on a short rail sharing a grid ROW with the tall cards column,
+                which gives the rail's cell extra vertical room to stick
+                within; a single stacked column has no such shared row — rail
+                and cards are just two separate, similarly-short rows, so
+                sticky alone would unstick almost immediately. Below lg the
+                rail instead gets its own glass panel (same bg/blur language
+                as the header and floating dock) and floats near the top of
+                the viewport while the proof cards scroll past underneath it —
+                a sticky *header*, not a sticky *column*, which is the natural
+                phone-sized equivalent of the same "argument holds still,
+                evidence moves" idea. lg: strips all of that back to the
+                exact original — transparent, unstyled, untouched. */}
+            <div className="sticky top-20 z-10 self-start rounded-2xl border border-white/60 bg-white/85 px-5 py-6 shadow-lg shadow-navy/10 backdrop-blur-xl lg:top-28 lg:z-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:shadow-none lg:backdrop-blur-none">
               <Reveal>
                 <div className="eyebrow text-brand">{hm.why.eyebrow}</div>
                 <h2 className="mt-4 text-4xl leading-[1.06] font-extrabold tracking-tight text-balance text-navy md:text-5xl xl:text-[3.3rem]">
