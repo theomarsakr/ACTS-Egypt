@@ -23,7 +23,13 @@ export default function Tabs({ items }: { items: TabItem[] }) {
       <div
         role="tablist"
         aria-label="Categories"
-        className="flex gap-1.5 overflow-x-auto pb-1 border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        // scroll-fade-x: this strip carries 6–8 industry/product tabs and
+        // starts overflowing around 900px, so on a tablet it gets cut
+        // mid-word with the scrollbar hidden and nothing to show there are
+        // more. The fade is self-detecting — it only appears on the side
+        // that actually has content off-screen (see globals.css), so at
+        // desktop widths where every tab fits, nothing changes.
+        className="scroll-fade-x flex gap-1.5 overflow-x-auto pb-1 border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {items.map((it, i) => {
           const isActive = active === i;

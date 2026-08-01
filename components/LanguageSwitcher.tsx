@@ -59,7 +59,7 @@ export default function LanguageSwitcher({ lang }: { lang: Locale }) {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="listbox"
-        className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white/70 px-3 py-2 text-[13.5px] font-semibold text-gray-600 transition-colors hover:border-brand/40 hover:text-brand"
+        className="inline-flex pointer-coarse:min-h-11 items-center gap-1.5 rounded-full border border-gray-200 bg-white/70 px-3 py-2 text-[13.5px] font-semibold text-gray-600 transition-colors hover:border-brand/40 hover:text-brand"
       >
         <Globe size={15} />
         {current.short}
@@ -89,7 +89,7 @@ export default function LanguageSwitcher({ lang }: { lang: Locale }) {
                   onClick={() => select(l.code)}
                   // Each label renders in its own script and direction.
                   dir={l.code === "ar" ? "rtl" : "ltr"}
-                  className={`flex w-full items-center justify-between px-4 py-2.5 text-[14px] transition-colors hover:bg-gray-50 ${
+                  className={`flex w-full pointer-coarse:min-h-11 items-center justify-between px-4 py-2.5 text-[14px] transition-colors hover:bg-gray-50 ${
                     l.code === lang
                       ? "font-bold text-navy"
                       : "font-medium text-gray-600"

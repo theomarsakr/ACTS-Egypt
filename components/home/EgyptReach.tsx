@@ -126,10 +126,16 @@ export default function EgyptReach({ className = "" }: { className?: string }) {
 
   return (
     <div className={`eg-map-wrap relative ${className}`}>
+      {/* `group`, not `img`. `role="img"` declares the subtree a single
+          indivisible graphic, so a screen reader stops descending — but every
+          pin below is a real `role="button"` with its own tabIndex, which the
+          reader would then never reach, and which axe flags as a serious
+          `nested-interactive` violation. `group` keeps the accessible name on
+          the map as a whole while letting the pins inside stay reachable. */}
       <svg
         viewBox="-6 6 276 218"
         className="eg-map"
-        role="img"
+        role="group"
         aria-label="Map of Egypt showing ACTS headquarters and client sites"
       >
         <defs>
@@ -172,7 +178,22 @@ export default function EgyptReach({ className = "" }: { className?: string }) {
             {...pinHandlers(pin)}
           >
             {/* Larger, invisible hit area — the visible ring is a touch small
-                for a comfortable hover/tap target on its own. */}
+                for a comfortable hover/tap target on its own.
+
+                r=11 and no larger, deliberately: this is the one place on the
+                site that cannot reach the 44px touch floor. Ten sites plotted
+                on a map of Egypt land 22px apart centre-to-centre at 390px
+                (measured on the closest pair, Cairo/Giza), so the hit boxes
+                already touch. Growing them would not make a pin easier to
+                hit — it would make each pin swallow the taps meant for its
+                neighbour, which is worse than a small target: a wrong answer
+                instead of a missed one.
+
+                It is a supplementary view rather than the only route to this
+                information — the same clients appear as a logo row in this
+                section and as full-size links on /projects — and each pin
+                carries its own aria-label and is keyboard reachable. Fix the
+                density before touching the radius. */}
             <circle cx={pin.x} cy={pin.y} r={11} fill="transparent" />
             <circle className="eg-site-ring" cx={pin.x} cy={pin.y} r="6.5" />
             <circle className="eg-site-core" cx={pin.x} cy={pin.y} r="2.8" />

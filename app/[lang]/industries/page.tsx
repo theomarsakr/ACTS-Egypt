@@ -70,7 +70,7 @@ function RelatedProductChips({ industry }: { industry: (typeof industries)[numbe
               key={`${pl.brandSlug}-${tag}`}
               href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
               title={`${brand.name} — ${line.name}: ${note}`}
-              className="inline-flex items-center rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+              className="inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-3.5 rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
             >
               {tag}
             </Link>
@@ -135,7 +135,7 @@ function ApplicationCard({
               key={`${ref.brandSlug}-${ref.lineTag}`}
               href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
               title={`${brand.name} — ${line.name}: ${line.description}`}
-              className="inline-flex items-center rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
+              className="inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-3.5 rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
             >
               {ref.lineTag}
             </Link>
@@ -302,7 +302,7 @@ export default function IndustriesPage() {
                                         {brand && (
                                           <Link
                                             href={`/brands/${brand.slug}#products`}
-                                            className="mt-1.5 inline-flex items-center gap-1 text-[12px] font-bold text-brand transition-colors hover:text-brand-dark"
+                                            className="tap-target mt-1.5 inline-flex items-center gap-1 text-[12px] font-bold text-brand transition-colors hover:text-brand-dark"
                                           >
                                             {brand.name}
                                             <ArrowRight size={10} className="rtl:rotate-180" />
@@ -383,7 +383,7 @@ export default function IndustriesPage() {
                                         value: (
                                           <Link
                                             href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
-                                            className="group inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
+                                            className="tap-target group inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
                                           >
                                             {pLine.name}
                                             <ArrowRight

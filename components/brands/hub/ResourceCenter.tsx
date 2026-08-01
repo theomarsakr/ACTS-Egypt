@@ -159,7 +159,7 @@ export default function ResourceCenter({
                   : new Set(categories.map((c) => c.slug))
               )
             }
-            className="font-semibold text-navy/70 hover:text-navy cursor-pointer"
+            className="tap-target font-semibold text-navy/70 hover:text-navy cursor-pointer"
           >
             {manualOpen.size === categories.length ? "Collapse all" : "Expand all"}
           </button>

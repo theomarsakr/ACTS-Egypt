@@ -143,7 +143,7 @@ export default function FieldGallery({
                 setFilter(g);
                 setActive([-1, 0]);
               }}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-[13.5px] font-semibold transition-colors ${
+              className={`inline-flex items-center pointer-coarse:min-h-11 gap-1.5 rounded-full border px-4 py-2 text-[13.5px] font-semibold transition-colors ${
                 selected
                   ? "border-navy bg-navy text-white"
                   : "border-gray-200 bg-white text-gray-600 hover:border-brand/40 hover:bg-brand-light hover:text-brand"

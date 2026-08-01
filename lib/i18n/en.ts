@@ -270,6 +270,9 @@ export const en = {
     headquarters: "Headquarters",
     openInMaps: "Open in Maps",
     mapTitle: "ACTS headquarters, Arkan Plaza, Sheikh Zayed City, Giza",
+    mapAddress: "Arkan Plaza, Sheikh Zayed City, Giza, Egypt",
+    mapLoad: "Load map",
+    mapHint: "Loads Google Maps",
     deptChip: "Reach the right team",
     deptTitle: "Departments & direct lines",
     departmentNames: {

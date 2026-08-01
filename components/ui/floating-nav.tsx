@@ -127,9 +127,12 @@ export default function FloatingNav({
       aria-label="Page sections"
       className="fixed bottom-4 sm:bottom-5 left-1/2 z-40 -translate-x-1/2 px-3 pb-[env(safe-area-inset-bottom)]"
     >
+      {/* No backdrop-blur — this is `fixed`, pinned through the whole scroll,
+          same as <Dock> and <Navbar>'s nav. Bumped to bg-white/95 (from /90)
+          to cover the small amount of softening the blur used to add. */}
       <div
         ref={containerRef}
-        className="relative flex items-center rounded-full border border-gray-200 bg-white/90 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl"
+        className="relative flex items-center rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15"
       >
         {sections.map((s, index) => {
           const isActive = active === s.id;
@@ -144,7 +147,13 @@ export default function FloatingNav({
               onClick={(e) => handleClick(e, s.id)}
               aria-current={isActive ? "true" : undefined}
               title={s.title ?? s.label}
-              className={`relative z-10 flex flex-col items-center justify-center rounded-full px-3.5 py-1.5 sm:px-4 transition-colors duration-200 ${
+              // min-h-11 for the same reason <Dock> carries it: below `sm:`
+              // this collapses to icon-only and the item is 31px tall. From
+              // `sm:` up the label brings it to 50px on its own, so this is
+              // inert there. (Unlike the homepage dock, the labels here do
+              // not need pushing to `lg:` — six short labels measure 444px,
+              // which fits every width down to 640.)
+              className={`relative z-10 flex min-h-11 flex-col items-center justify-center rounded-full px-3.5 py-1.5 sm:px-4 transition-colors duration-200 ${
                 isActive ? "text-brand" : "text-gray-500 hover:text-navy"
               }`}
             >

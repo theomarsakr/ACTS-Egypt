@@ -258,7 +258,11 @@ function FilterPill({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full px-4 py-1.5 text-[13px] font-semibold transition-colors cursor-pointer ${
+      // Every part of the touch bump is coarse-scoped, the display switch
+      // included: applying `inline-flex` unconditionally would change this
+      // button's computed display on desktop too (same box, but a needless
+      // difference in a "don't touch desktop" change).
+      className={`pointer-coarse:inline-flex pointer-coarse:items-center pointer-coarse:min-h-11 rounded-full px-4 py-1.5 text-[13px] font-semibold transition-colors cursor-pointer ${
         active
           ? "bg-navy text-white"
           : "bg-gray-100 text-navy/70 hover:bg-gray-200"

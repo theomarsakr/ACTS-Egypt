@@ -21,8 +21,8 @@ type DockItemProps = {
   className?: string;
   children: ReactNode;
   href: string;
-  /** Accessible name — also the tooltip on touch devices where the label is
-      hidden below `sm:`. */
+  /** Accessible name — also the tooltip at widths where the visible label is
+      hidden (below `lg:`; see <DockLabel>). */
   label: string;
   /** Marks this as the page section currently in view — tints the item and
       slides the pill indicator behind it. */
@@ -124,7 +124,14 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
         aria-expanded={!minimized}
         aria-label={minimized ? "Show quick navigation" : "Minimize quick navigation"}
         title={minimized ? "Show quick navigation" : "Minimize quick navigation"}
-        className="relative z-10 mb-1.5 flex h-7 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-400 shadow-md backdrop-blur-xl transition-colors hover:text-navy"
+        // tap-target: the handle is deliberately a small 44×28 tab, so on
+        // touch it gets the missing 16px of height as invisible hit area
+        // rather than being drawn bigger (see globals.css).
+        // No backdrop-blur: this is `position: fixed`, pinned on screen for
+        // the life of the scroll — see the note on <Navbar>'s nav for why
+        // that combination can silently stop painting mid-scroll. bg-white/95
+        // alone reads close to identical without the risk.
+        className="tap-target relative z-10 mb-1.5 flex h-7 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-400 shadow-md transition-colors hover:text-navy"
       >
         <ChevronDown
           size={14}
@@ -152,7 +159,12 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
                 // w-fit it stretches to fill that full-width parent instead of
                 // shrinking to its content — leaving mx-auto with no leftover
                 // space to center against, and the pill visibly pinned left.
-                "relative mx-auto flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                // No backdrop-blur — same reasoning as the minimize handle
+                // above: `fixed`, pinned through the whole scroll, so it's in
+                // the one class of element that can go blank mid-scroll if it
+                // carries one (confirmed on <Navbar>'s nav, same portal
+                // pattern as this dock).
+                "relative mx-auto flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
                 className
               )}
             >
@@ -184,7 +196,11 @@ function DockItem({ children, className, href, label, active }: DockItemProps) {
       title={label}
       data-dock-active={active ? "true" : undefined}
       className={cn(
-        "relative z-10 flex shrink-0 flex-col items-center justify-center gap-0.5 rounded-full px-3.5 py-2 text-center transition-colors duration-200 sm:px-4",
+        // min-h-11 is the 44px touch floor for the icon-only layout below
+        // `lg:`, where the item is otherwise 36px tall (20px icon + py-2).
+        // Inert once labels come in — that layout is already 52px — so the
+        // labelled desktop dock is unaffected.
+        "relative z-10 flex min-h-11 shrink-0 flex-col items-center justify-center gap-0.5 rounded-full px-3.5 py-2 text-center transition-colors duration-200 sm:px-4",
         active ? "text-brand" : "text-gray-500 hover:text-navy",
         className
       )}
@@ -197,13 +213,28 @@ function DockItem({ children, className, href, label, active }: DockItemProps) {
 function DockLabel({ children, className }: DockLabelProps) {
   return (
     <>
-      <span className={cn("hidden text-[11px] font-semibold whitespace-nowrap sm:block", className)}>
+      {/* `lg:` (1024px), not `sm:` (640px) — same reasoning as the header's
+          `xl:` link row: the breakpoint has to be where the content actually
+          fits, not where a label would first be nice to have.
+
+          Measured on the homepage's six-section dock: with labels the nav is
+          826px wide, and the wrapper's px-4 means it needs an 858px viewport.
+          Turning them on at `sm:` therefore clipped the dock across the whole
+          640–858px range — 92px cut at 768 (iPad portrait), 40px at 820 (iPad
+          Air) — and because this scroller hides its scrollbar, nothing on
+          screen said so. What got cut was the last item: the "Request a quote"
+          CTA, i.e. the one destination the dock exists to guarantee.
+
+          Icon-only below `lg:` fits in ~380px with room to spare, at any
+          section count and in either locale (Arabic labels are wider still).
+          The label is not lost — it stays the Link's aria-label and title. */}
+      <span className={cn("hidden text-[11px] font-semibold whitespace-nowrap lg:block", className)}>
         {children}
       </span>
-      {/* Icon-only below `sm:` — the accessible name still comes from the
-          parent Link's aria-label, this is just belt-and-suspenders for any
-          AT that prefers visible text nodes over aria-label. */}
-      <span className="sr-only sm:hidden">{children}</span>
+      {/* The accessible name still comes from the parent Link's aria-label;
+          this is belt-and-suspenders for any AT that prefers visible text
+          nodes over aria-label. */}
+      <span className="sr-only lg:hidden">{children}</span>
     </>
   );
 }

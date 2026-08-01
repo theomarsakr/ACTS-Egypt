@@ -119,19 +119,50 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Main nav — glass that deepens on scroll */}
+      {/* Main nav. Solid, not glass — was `backdrop-blur-2xl` over `bg-white/70`
+          (`/85` once scrolled).
+
+          This is a hardening measure, not a confirmed fix for the reported
+          overlap — be precise about that distinction if it comes up again.
+          What's true: `position: sticky` + `backdrop-filter` genuinely can
+          desync from the content scrolling under it, reproduced here with a
+          scripted instant jump of the scroll position — `getBoundingClientRect`
+          kept reporting this nav at `top: 0` while the paint didn't follow,
+          landing on a blank frame repeatedly. What's NOT established: that this
+          is what the user actually saw. The same instant-jump script produced
+          an identical blank frame on a *solid* `bg-white` nav with no
+          `backdrop-filter` at all, and — decisively — 15/15 clean runs with no
+          blank frame either way once the scroll was driven realistically
+          (many small `requestAnimationFrame` steps, the way a touch flick or
+          this site's own `scroll-behavior: smooth` actually moves the page).
+          So the blank-frame repro is real but keyed to an artificial scroll
+          pattern no real interaction produces, not to `backdrop-filter`
+          specifically — meaning the original report's cause is still open.
+          Kept the change anyway: a solid nav cannot go blank the way a
+          blurred one theoretically could, it costs nothing, and it's the
+          right default for chrome that's on screen for the entire visit.
+          Same reasoning applied to <Dock> and <FloatingNav>, the only other
+          `fixed`/`sticky` chrome on the site; left alone everywhere else
+          (dropdowns, lightboxes, hover tooltips), since those aren't pinned
+          on screen against a continuously moving background the way
+          persistent nav chrome is. */}
       <nav
-        className={`backdrop-blur-2xl transition-all duration-300 ${
+        className={`transition-all duration-300 ${
           scrolled
-            ? "bg-white/85 shadow-lg shadow-navy/8 border-b border-gray-200/60"
-            : "bg-white/70 border-b border-gray-200/80"
+            ? "bg-white shadow-lg shadow-navy/8 border-b border-gray-200/60"
+            : "bg-white/95 border-b border-gray-200/80"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="h-17 flex items-center justify-between">
+            {/* tap-target: the wordmark is 124×36 painted, and "home" is the
+                one destination present on every page at every width, so it is
+                worth the 8px of invisible height on touch. Isolated in the bar
+                — nothing else is within 44px of it — so the overlay can spill
+                without stealing from a neighbour. */}
             <Link
               href={localeHref(lang, "/")}
-              className="flex items-center"
+              className="tap-target flex items-center"
               onClick={() => setOpen(false)}
             >
               <Image
@@ -241,7 +272,10 @@ export default function Navbar({
             <div className="xl:hidden flex items-center gap-2">
               <LanguageSwitcher lang={lang} />
               <button
-                className="text-navy p-2"
+                // p-2 puts a 24px icon in a 40px box — under the 44px touch
+                // floor, and this button is the only way to reach the nav at
+                // every width below xl, tablets included.
+                className="text-navy p-2 pointer-coarse:p-2.5"
                 onClick={() => setOpen(!open)}
                 aria-label={t.toggleMenu}
                 aria-expanded={open}

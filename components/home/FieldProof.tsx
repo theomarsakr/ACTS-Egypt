@@ -102,7 +102,7 @@ export default function FieldProof({
               {labels.confidential}{" "}
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-1 font-semibold text-white/75 hover:text-amber transition-colors"
+                className="tap-target inline-flex items-center gap-1 font-semibold text-white/75 hover:text-amber transition-colors"
               >
                 {labels.seeWho} <ArrowRight size={14} className="rtl:rotate-180" />
               </Link>
@@ -113,13 +113,18 @@ export default function FieldProof({
 
       {/* Controls */}
       <div className="mt-5 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        {/* The dots are 10×6px of paint. `tap-target` gives each one a 44px-tall
+            invisible hit area on touch, and the wider coarse-pointer gap pushes
+            their centres 26px apart so those areas stay distinguishable — a
+            10px dot on an 18px pitch fails even WCAG 2.5.8's 24px spacing
+            exception. Painted size is unchanged at every width. */}
+        <div className="flex items-center gap-2 pointer-coarse:gap-4">
           {items.map((it, i) => (
             <button
               key={it.slug}
               aria-label={`Show: ${it.title}`}
               onClick={() => setIndex([i, i > index ? 1 : -1])}
-              className={`h-1.5 rounded-full transition-all duration-400 ${
+              className={`tap-target h-1.5 rounded-full transition-all duration-400 ${
                 i === index
                   ? `w-7 ${dark ? "bg-amber" : "bg-brand"}`
                   : `w-2.5 ${
@@ -140,7 +145,7 @@ export default function FieldProof({
               key={label}
               onClick={() => go(delta)}
               aria-label={label}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:-translate-y-0.5 ${
+              className={`w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full flex items-center justify-center transition-all hover:-translate-y-0.5 ${
                 dark
                   ? "glass-dark border border-white/15 text-white/80 hover:border-amber/50 hover:text-amber"
                   : "border border-gray-200 bg-white text-navy shadow-sm hover:border-brand/50 hover:text-brand"

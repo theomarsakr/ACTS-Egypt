@@ -6,11 +6,14 @@ import { useEffect, useRef } from "react";
  * ScrollRail — a hairline that fills with brass as the reader moves through the
  * section it sits in. On the desktop two-column layout it pairs with a sticky
  * rail: while the headline holds still and the cards move past it, this is
- * the only cue for how much is left. Below `lg:` the column isn't sticky (a
- * single stacked layout doesn't need it to stay put), but the rail still
- * renders and fills the same way — the section's own scroll math it reads
- * off isn't tied to that layout, so there's no reason the animation itself
- * should be desktop-only too.
+ * the only cue for how much is left.
+ *
+ * That pairing is the whole point, so the one caller hides it below `lg:`,
+ * where the layout stacks and the column stops being sticky. The math here is
+ * layout-agnostic and would keep working — but a progress indicator you can
+ * only see for the first 5% of the thing it measures isn't reporting progress,
+ * and it costs 160px of column to say so. Nothing in this component assumes
+ * either layout; the decision lives at the call site.
  *
  * Finds its own section rather than taking a ref, so it can be dropped into
  * server-rendered markup with no wiring.

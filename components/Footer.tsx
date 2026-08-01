@@ -110,7 +110,7 @@ export default function Footer({
                   rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   aria-label={c.label}
                   title={c.label}
-                  className="w-10 h-10 rounded-xl glass-dark flex items-center justify-center text-white/70 transition-all hover:text-amber hover:border-amber/40 hover:-translate-y-0.5"
+                  className="w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-xl glass-dark flex items-center justify-center text-white/70 transition-all hover:text-amber hover:border-amber/40 hover:-translate-y-0.5"
                 >
                   <c.icon size={17} />
                 </a>
@@ -126,7 +126,7 @@ export default function Footer({
               <Link
                 key={l.href}
                 href={localeHref(lang, l.href)}
-                className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
+                className="block text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3 hover:text-white transition-colors"
               >
                 {l.label}
               </Link>
@@ -141,7 +141,7 @@ export default function Footer({
               <Link
                 key={b.slug}
                 href={`/brands/${b.slug}`}
-                className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
+                className="block text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3 hover:text-white transition-colors"
               >
                 {b.name}
               </Link>
@@ -153,7 +153,7 @@ export default function Footer({
               <Link
                 key={ind.slug}
                 href="/industries"
-                className="block text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
+                className="block text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3 hover:text-white transition-colors"
               >
                 {industryNames[ind.slug] ?? ind.name}
               </Link>
@@ -166,18 +166,20 @@ export default function Footer({
             </div>
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
-              className="flex items-center gap-2.5 text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
+              className="flex items-center gap-2.5 text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3 hover:text-white transition-colors"
             >
               <Phone size={15} className="text-amber shrink-0" />{" "}
               <span className="ltr-inline">{contact.phone}</span>
             </a>
             <a
               href={`mailto:${contact.salesEmail}`}
-              className="flex items-center gap-2.5 text-[14.5px] text-white/70 py-1.5 hover:text-white transition-colors"
+              className="flex items-center gap-2.5 text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3 hover:text-white transition-colors"
             >
               <Mail size={15} className="text-amber shrink-0" /> {contact.salesEmail}
             </a>
-            <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5">
+            {/* Not interactive, but matches the tapped rows' coarse-pointer
+                rhythm so the column doesn't go uneven on touch. */}
+            <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3">
               <MapPin size={15} className="text-amber shrink-0 mt-1" />
               <span>
                 {office.name}
@@ -185,7 +187,9 @@ export default function Footer({
                 {office.address}
               </span>
             </div>
-            <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5">
+            {/* Not interactive, but matches the tapped rows' coarse-pointer
+                rhythm so the column doesn't go uneven on touch. */}
+            <div className="flex items-start gap-2.5 text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3">
               <Clock size={15} className="text-amber shrink-0 mt-1" />
               <span>
                 {hours.day}
