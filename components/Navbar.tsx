@@ -88,7 +88,17 @@ export default function Navbar({
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50">
+    // [transform:translateZ(0)]: promotes the sticky header to its own
+    // standing compositor layer instead of one the browser allocates and
+    // repaints on demand. Paired with the `overscroll-behavior` rule in
+    // globals.css against the same reported symptom — a sliver of scrolled
+    // content briefly visible above this header on real tablet browsers,
+    // never reproducible in this repo's headless tooling because it rides on
+    // native address-bar/overscroll animation frames a synthetic viewport
+    // resize doesn't produce. A pinned layer is cheaper for the browser to
+    // reposition during that animation than one it has to re-promote each
+    // time, which is the standard mitigation for this class of glitch.
+    <header className="sticky top-0 z-50 [transform:translateZ(0)]">
       {/* Every breakpoint below is xl (1280px), not the usual md — the full
           link row (logo + 6 links + language switcher + CTA) genuinely needs
           that much width. Below it, down to md, the row wraps onto a second
