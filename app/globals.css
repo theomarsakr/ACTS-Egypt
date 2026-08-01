@@ -101,18 +101,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* Kills the elastic rubber-band bounce at the top/bottom of the page. That
-     bounce is a documented trigger for a sticky-header glitch on real mobile
-     browsers: the header (`<header class="sticky top-0 z-50">` in Navbar)
-     briefly loses sync with the page during the bounce-back animation,
-     letting a sliver of whatever's scrolled underneath show above it for a
-     frame or two — reported on tablet-width devices, never on desktop, which
-     matches overscroll being a touch-scroll behavior. Headless Chromium
-     doesn't model the native address-bar/overscroll animation this rides on,
-     so it isn't reproducible in this repo's own tooling; `overscroll-behavior`
-     removes the animation outright rather than racing to keep the header
-     synced with it. */
-  overscroll-behavior-y: none;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -127,7 +115,6 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
 }
 
 /* Longer prose reads calmer with pretty wrapping (no orphans / rivers). */

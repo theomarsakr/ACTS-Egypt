@@ -88,17 +88,7 @@ export default function Navbar({
   }, [open]);
 
   return (
-    // [transform:translateZ(0)]: promotes the sticky header to its own
-    // standing compositor layer instead of one the browser allocates and
-    // repaints on demand. Paired with the `overscroll-behavior` rule in
-    // globals.css against the same reported symptom — a sliver of scrolled
-    // content briefly visible above this header on real tablet browsers,
-    // never reproducible in this repo's headless tooling because it rides on
-    // native address-bar/overscroll animation frames a synthetic viewport
-    // resize doesn't produce. A pinned layer is cheaper for the browser to
-    // reposition during that animation than one it has to re-promote each
-    // time, which is the standard mitigation for this class of glitch.
-    <header className="sticky top-0 z-50 [transform:translateZ(0)]">
+    <header className="sticky top-0 z-50">
       {/* Every breakpoint below is xl (1280px), not the usual md — the full
           link row (logo + 6 links + language switcher + CTA) genuinely needs
           that much width. Below it, down to md, the row wraps onto a second
@@ -129,12 +119,38 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Main nav — glass that deepens on scroll */}
+      {/* Main nav. Solid, not glass — was `backdrop-blur-2xl` over `bg-white/70`
+          (`/85` once scrolled).
+
+          This is a hardening measure, not a confirmed fix for the reported
+          overlap — be precise about that distinction if it comes up again.
+          What's true: `position: sticky` + `backdrop-filter` genuinely can
+          desync from the content scrolling under it, reproduced here with a
+          scripted instant jump of the scroll position — `getBoundingClientRect`
+          kept reporting this nav at `top: 0` while the paint didn't follow,
+          landing on a blank frame repeatedly. What's NOT established: that this
+          is what the user actually saw. The same instant-jump script produced
+          an identical blank frame on a *solid* `bg-white` nav with no
+          `backdrop-filter` at all, and — decisively — 15/15 clean runs with no
+          blank frame either way once the scroll was driven realistically
+          (many small `requestAnimationFrame` steps, the way a touch flick or
+          this site's own `scroll-behavior: smooth` actually moves the page).
+          So the blank-frame repro is real but keyed to an artificial scroll
+          pattern no real interaction produces, not to `backdrop-filter`
+          specifically — meaning the original report's cause is still open.
+          Kept the change anyway: a solid nav cannot go blank the way a
+          blurred one theoretically could, it costs nothing, and it's the
+          right default for chrome that's on screen for the entire visit.
+          Same reasoning applied to <Dock> and <FloatingNav>, the only other
+          `fixed`/`sticky` chrome on the site; left alone everywhere else
+          (dropdowns, lightboxes, hover tooltips), since those aren't pinned
+          on screen against a continuously moving background the way
+          persistent nav chrome is. */}
       <nav
-        className={`backdrop-blur-2xl transition-all duration-300 ${
+        className={`transition-all duration-300 ${
           scrolled
-            ? "bg-white/85 shadow-lg shadow-navy/8 border-b border-gray-200/60"
-            : "bg-white/70 border-b border-gray-200/80"
+            ? "bg-white shadow-lg shadow-navy/8 border-b border-gray-200/60"
+            : "bg-white/95 border-b border-gray-200/80"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6">

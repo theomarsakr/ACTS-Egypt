@@ -127,9 +127,12 @@ export default function FloatingNav({
       aria-label="Page sections"
       className="fixed bottom-4 sm:bottom-5 left-1/2 z-40 -translate-x-1/2 px-3 pb-[env(safe-area-inset-bottom)]"
     >
+      {/* No backdrop-blur — this is `fixed`, pinned through the whole scroll,
+          same as <Dock> and <Navbar>'s nav. Bumped to bg-white/95 (from /90)
+          to cover the small amount of softening the blur used to add. */}
       <div
         ref={containerRef}
-        className="relative flex items-center rounded-full border border-gray-200 bg-white/90 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl"
+        className="relative flex items-center rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15"
       >
         {sections.map((s, index) => {
           const isActive = active === s.id;

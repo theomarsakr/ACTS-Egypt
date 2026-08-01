@@ -127,7 +127,11 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
         // tap-target: the handle is deliberately a small 44×28 tab, so on
         // touch it gets the missing 16px of height as invisible hit area
         // rather than being drawn bigger (see globals.css).
-        className="tap-target relative z-10 mb-1.5 flex h-7 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-400 shadow-md backdrop-blur-xl transition-colors hover:text-navy"
+        // No backdrop-blur: this is `position: fixed`, pinned on screen for
+        // the life of the scroll — see the note on <Navbar>'s nav for why
+        // that combination can silently stop painting mid-scroll. bg-white/95
+        // alone reads close to identical without the risk.
+        className="tap-target relative z-10 mb-1.5 flex h-7 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-400 shadow-md transition-colors hover:text-navy"
       >
         <ChevronDown
           size={14}
@@ -155,7 +159,12 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
                 // w-fit it stretches to fill that full-width parent instead of
                 // shrinking to its content — leaving mx-auto with no leftover
                 // space to center against, and the pill visibly pinned left.
-                "relative mx-auto flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                // No backdrop-blur — same reasoning as the minimize handle
+                // above: `fixed`, pinned through the whole scroll, so it's in
+                // the one class of element that can go blank mid-scroll if it
+                // carries one (confirmed on <Navbar>'s nav, same portal
+                // pattern as this dock).
+                "relative mx-auto flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
                 className
               )}
             >
