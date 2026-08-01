@@ -302,7 +302,7 @@ export default function IndustriesPage() {
                                         {brand && (
                                           <Link
                                             href={`/brands/${brand.slug}#products`}
-                                            className="mt-1.5 inline-flex items-center gap-1 text-[12px] font-bold text-brand transition-colors hover:text-brand-dark"
+                                            className="tap-target mt-1.5 inline-flex items-center gap-1 text-[12px] font-bold text-brand transition-colors hover:text-brand-dark"
                                           >
                                             {brand.name}
                                             <ArrowRight size={10} className="rtl:rotate-180" />
@@ -383,7 +383,7 @@ export default function IndustriesPage() {
                                         value: (
                                           <Link
                                             href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
-                                            className="group inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
+                                            className="tap-target group inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
                                           >
                                             {pLine.name}
                                             <ArrowRight

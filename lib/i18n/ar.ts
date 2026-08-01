@@ -269,6 +269,9 @@ export const ar: Dict = {
     headquarters: "المقر الرئيسي",
     openInMaps: "افتح في الخرائط",
     mapTitle: "مقر ACTS الرئيسي، أركان بلازا، مدينة الشيخ زايد، الجيزة",
+    mapAddress: "أركان بلازا، مدينة الشيخ زايد، الجيزة، مصر",
+    mapLoad: "تحميل الخريطة",
+    mapHint: "يتم تحميل خرائط جوجل",
     deptChip: "تواصل مع الفريق المناسب",
     deptTitle: "الأقسام وخطوط الاتصال المباشرة",
     departmentNames: {

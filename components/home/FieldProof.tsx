@@ -102,7 +102,7 @@ export default function FieldProof({
               {labels.confidential}{" "}
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-1 font-semibold text-white/75 hover:text-amber transition-colors"
+                className="tap-target inline-flex items-center gap-1 font-semibold text-white/75 hover:text-amber transition-colors"
               >
                 {labels.seeWho} <ArrowRight size={14} className="rtl:rotate-180" />
               </Link>

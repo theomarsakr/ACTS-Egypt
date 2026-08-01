@@ -7,6 +7,7 @@ import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
+import MapEmbed from "@/components/MapEmbed";
 import { contact, team, departments } from "@/lib/data";
 import { getDict, localeHref, type Locale } from "@/lib/i18n";
 
@@ -154,7 +155,7 @@ export default async function ContactPage({ params }: PageProps) {
                     href="https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-brand hover:text-brand-dark transition-colors"
+                    className="tap-target group inline-flex items-center gap-1.5 text-[13px] font-semibold text-brand hover:text-brand-dark transition-colors"
                   >
                     {c.openInMaps}
                     <ArrowRight
@@ -163,12 +164,12 @@ export default async function ContactPage({ params }: PageProps) {
                     />
                   </a>
                 </div>
-                <iframe
-                  title={c.mapTitle}
+                <MapEmbed
                   src="https://maps.google.com/maps?q=Arkan%20Plaza%2C%20Sheikh%20Zayed%20City%2C%20Giza%2C%20Egypt&z=13&output=embed"
-                  className="w-full flex-1 min-h-88 block grayscale-[0.25] transition-[filter] duration-500 hover:grayscale-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
+                  title={c.mapTitle}
+                  address={c.mapAddress}
+                  loadLabel={c.mapLoad}
+                  hint={c.mapHint}
                 />
               </div>
             </Reveal>
@@ -194,12 +195,23 @@ export default async function ContactPage({ params }: PageProps) {
               records={departments.map((d) => ({
                 title: c.departmentNames[d.name] ?? d.name,
                 fields: [
+                  // These are the page's whole job: on a phone, tapping a
+                  // number IS the conversion. They were the smallest targets
+                  // on the site — a 14.5px line box, 17px tall — so `tel:`
+                  // links you are meant to tap with a thumb were half the
+                  // 44px floor everything else on the site now meets.
+                  //
+                  // `tap-target` rather than real padding: each of these sits
+                  // alone in its own <dd>, and the nearest other link is the
+                  // next field's value ~50px away centre-to-centre, so a 44px
+                  // overlay clears its neighbour with room to spare and the
+                  // datasheet's tight field rhythm is preserved exactly.
                   {
                     label: c.specLabels.phone,
                     value: (
                       <a
                         href={`tel:${d.phone.replace(/\s/g, "")}`}
-                        className="hover:text-brand transition-colors"
+                        className="tap-target hover:text-brand transition-colors"
                       >
                         <span className="ltr-inline">{d.phone}</span>
                       </a>
@@ -210,7 +222,7 @@ export default async function ContactPage({ params }: PageProps) {
                     value: (
                       <a
                         href={`tel:${d.mobile.replace(/\s/g, "")}`}
-                        className="hover:text-brand transition-colors"
+                        className="tap-target hover:text-brand transition-colors"
                       >
                         <span className="ltr-inline">{d.mobile}</span>
                       </a>
@@ -223,12 +235,17 @@ export default async function ContactPage({ params }: PageProps) {
                   {
                     label: c.specLabels.email,
                     value: (
+                      // The exception to the rule above: these stack 2px
+                      // apart, so overlays would sit on top of each other and
+                      // each address would swallow taps meant for the one
+                      // below. Packed rows grow their real box instead — the
+                      // same call the chips and filter pills make.
                       <span className="flex flex-col gap-0.5">
                         {d.emails.map((e) => (
                           <a
                             key={e}
                             href={`mailto:${e}`}
-                            className="hover:text-brand transition-colors break-all"
+                            className="flex min-h-6 items-center pointer-coarse:min-h-11 hover:text-brand transition-colors break-all"
                           >
                             {e}
                           </a>

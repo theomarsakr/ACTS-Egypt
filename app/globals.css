@@ -383,59 +383,89 @@ html[lang="ar"] .ltr-inline {
   background-size: 52px 52px;
 }
 
-/* Drifting gradient-mesh blobs (pair per dark band, steel + brass) */
+/* Drifting gradient-mesh blobs (pair per dark band, steel + brass)
+
+   No `filter: blur()`. These used to carry `blur(90px)` (60px below lg), and
+   on the homepage's nine blobs that was the single most expensive thing on the
+   site: desktop sat at ~117ms per frame *while idle at the top of the page*,
+   with zero long tasks — pure compositing, paid forever, on every route that
+   has a dark band.
+
+   Measured, one lever at a time, at 1440 idle:
+     baseline .............. p50 117ms
+     animation: none ....... p50 117ms   (not the animation)
+     translate, no scale ... p50 117ms   (not the scale)
+     blur 90px -> 40px ..... p50  83ms
+     filter: none .......... p50  50ms   <- the whole cost is the blur
+     display: none ......... p50  50ms   <- and removing it entirely gains nothing more
+
+   An earlier pass read this as the *scale* re-rasterising the gaussian each
+   frame and froze the animation below lg to stop it. That diagnosis was wrong:
+   holding the blob still doesn't help, because a 90px gaussian over a ~480px
+   element rasterises to roughly a 900px square of surface whether or not it
+   ever moves, nine times over, and the compositor keeps every one of those
+   layers alive.
+
+   The blur was near-redundant anyway. It sat on top of a *radial gradient*,
+   which is already perfectly smooth — blurring it mostly just spends fill rate
+   to soften an edge that was never hard. So the falloff moves into the gradient
+   itself as extra colour stops, which the GPU renders as part of the normal
+   paint at no measurable cost. Same soft-focus wash, ~2.3x the frame budget
+   back, at every width. */
 .mesh {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(90px);
   pointer-events: none;
   will-change: transform;
 }
 .mesh-steel {
   background: radial-gradient(
     circle at center,
-    rgba(62, 111, 163, 0.5),
-    transparent 65%
+    rgba(62, 111, 163, 0.4) 0%,
+    rgba(62, 111, 163, 0.28) 30%,
+    rgba(62, 111, 163, 0.12) 55%,
+    transparent 78%
   );
   animation: mesh-drift-a 26s ease-in-out infinite alternate;
 }
 .mesh-brass {
   background: radial-gradient(
     circle at center,
-    rgba(163, 125, 58, 0.4),
-    transparent 65%
+    rgba(163, 125, 58, 0.32) 0%,
+    rgba(163, 125, 58, 0.22) 30%,
+    rgba(163, 125, 58, 0.1) 55%,
+    transparent 78%
   );
   animation: mesh-drift-b 32s ease-in-out infinite alternate;
 }
+/* Translate only. A scale on a promoted layer still re-rasterises the gradient
+   at the new size every frame; a translate is handled by the compositor alone.
+   Over a 26-second drift the missing 18% of scale is not something anyone can
+   see, and it is the difference between a free animation and a paid one. */
 @keyframes mesh-drift-a {
   from {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(-70px, 50px, 0) scale(1.18);
+    transform: translate3d(-70px, 50px, 0);
   }
 }
 @keyframes mesh-drift-b {
   from {
-    transform: translate3d(0, 0, 0) scale(1.1);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(60px, -40px, 0) scale(0.95);
+    transform: translate3d(60px, -40px, 0);
   }
 }
 
-/* Below `lg` the blobs hold still and blur less. There are eight of these on the
-   homepage and they animate on an infinite loop regardless of whether their band
-   is on screen — and because the animated property is `scale`, a 90px gaussian
-   over a ~320px blob has to be re-rasterised every single frame, eight times
-   over, for the whole life of the page. That is a standing tax on every scroll
-   in every section, which is why it showed up as jank in WHY ACTS even though
-   only one blob lives there. Held still, the blur rasterises once and is reused;
-   at 60px it also fits a smaller surface. The wash reads the same — it is a
-   soft-focus background glow, and nobody tracks a 26-second drift on a phone. */
+/* Below `lg` the blobs also hold still. The drift is a slow ambient detail on a
+   wide dark band; on a phone the band is a third of the width, the blob is
+   mostly off-canvas, and nobody tracks a 26-second cycle on a screen they are
+   swiping through. Dropping the animation there also drops nine composited
+   layers' worth of GPU memory on exactly the devices with least of it. */
 @media (max-width: 1023.98px) {
   .mesh {
-    filter: blur(60px);
     will-change: auto;
   }
   .mesh-steel,

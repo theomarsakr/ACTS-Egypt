@@ -287,7 +287,7 @@ export default async function BrandPage({ params }: Props) {
           <Reveal>
             <Link
               href="/brands"
-              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-white/70 hover:text-white transition-colors"
+              className="tap-target group inline-flex items-center gap-1.5 text-sm font-semibold text-white/70 hover:text-white transition-colors"
             >
               <ArrowLeft
                 size={15}
@@ -511,7 +511,7 @@ export default async function BrandPage({ params }: Props) {
                             href={tool.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-brand hover:text-brand-dark transition-colors"
+                            className="tap-target mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-brand hover:text-brand-dark transition-colors"
                           >
                             {tool.cta}
                             <ArrowUpRight size={15} />
@@ -519,7 +519,7 @@ export default async function BrandPage({ params }: Props) {
                         ) : (
                           <Link
                             href={tool.href}
-                            className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-brand hover:text-brand-dark transition-colors"
+                            className="tap-target mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-brand hover:text-brand-dark transition-colors"
                           >
                             {tool.cta}
                             <ArrowRight size={15} />

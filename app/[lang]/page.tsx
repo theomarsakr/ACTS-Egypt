@@ -30,7 +30,8 @@ import { ContainerScroll } from "@/components/ui/ContainerScroll";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import ShimmerButton from "@/components/ui/ShimmerButton";
-import TestimonialCarousel from "@/components/TestimonialCarousel";
+// Re-enable together with the render site further down (search CLIENT TESTIMONIALS).
+// import TestimonialCarousel from "@/components/TestimonialCarousel";
 import {
   brands,
   pastManufacturers,
@@ -234,7 +235,10 @@ export default async function Home({
                     )}
                   </Link>
                   <div className="p-7 flex flex-col flex-1">
-                    <Link href={`/brands/${b.slug}`}>
+                    {/* The card's own p-7 keeps the 8px of overlay this adds
+                        clear of the image link above it, and the line below is
+                        a plain category label, not a target. */}
+                    <Link href={`/brands/${b.slug}`} className="tap-target block">
                       <h3 className="text-xl font-extrabold text-navy transition-colors group-hover:text-brand">
                         {b.name}
                       </h3>
@@ -262,10 +266,15 @@ export default async function Home({
                         </div>
                       </div>
                     )}
+                    {/* Both are ~110-130px wide and only 20-23px tall, and they
+                        share a single row, so the tap-target overlays can only
+                        grow downward/upward — there is no vertical neighbour to
+                        take taps from, and horizontally each is already well
+                        past 44px. Painted row is unchanged. */}
                     <div className="mt-5 flex items-center justify-between gap-3">
                       <Link
                         href={`/brands/${b.slug}`}
-                        className="inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
+                        className="tap-target inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
                       >
                         {hm.brands.viewProducts}
                         <ArrowRight size={16} className={arrowNudge} />
@@ -274,7 +283,7 @@ export default async function Home({
                         href={b.externalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-gray-500 transition-colors hover:text-brand"
+                        className="tap-target inline-flex items-center gap-1 text-[13px] font-semibold text-gray-500 transition-colors hover:text-brand"
                       >
                         Curtiss-Wright
                         <ExternalLink size={13} />
@@ -347,36 +356,31 @@ export default async function Home({
         <div className="relative max-w-7xl mx-auto px-6">
           <ContainerScroll label={hm.why.eyebrow}>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.6fr)] lg:gap-16">
-            {/* ---------- Sticky narrative rail ---------- */}
-            {/* Sticky below lg too, not just at it. The desktop trick relies
-                on a short rail sharing a grid ROW with the tall cards column,
-                which gives the rail's cell extra vertical room to stick
-                within; a single stacked column has no such shared row — rail
-                and cards are just two separate, similarly-short rows, so
-                sticky alone would unstick almost immediately. Below lg the
-                rail instead gets its own glass panel (same bg/blur language
-                as the header and floating dock) and floats near the top of
-                the viewport while the proof cards scroll past underneath it —
-                a sticky *header*, not a sticky *column*, which is the natural
-                phone-sized equivalent of the same "argument holds still,
-                evidence moves" idea. lg: strips all of that back to the
-                exact original — transparent, unstyled, untouched. */}
-            {/* No `backdrop-blur` on the mobile panel, deliberately. A blur
-                behind a *sticky* element is the most expensive thing on a
-                scrolling page: the element stays put while the content behind
-                it moves, so the browser has to re-read the backdrop and re-blur
-                it on every single frame of the scroll — exactly the gesture
-                this panel exists to accompany.
+            {/* ---------- Narrative rail ---------- */}
+            {/* Sticky only at `lg:`, where there are two columns for it to be
+                sticky *within*. It was previously sticky below lg as well,
+                dressed as a white panel — a sticky *header* rather than a
+                sticky *column*, on the theory that it was the phone-sized
+                equivalent of "argument holds still, evidence moves".
 
-                The fill has to be fully opaque once the blur is gone, though.
-                The frosted version could get away with 85% because the blur
-                smeared whatever passed underneath into an unreadable wash; a
-                merely-translucent fill does not, and the first thing to travel
-                under this panel is the near-black anchor card, whose white
-                headline shows straight through even at 95%. Solid white on the
-                screen's pale canvas reads as a raised card — the same language
-                as the proof tiles it sits above — and costs nothing to paint. */}
-            <div className="sticky top-20 z-10 self-start rounded-2xl border border-gray-200 bg-white px-5 py-6 shadow-lg shadow-navy/10 lg:top-28 lg:z-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:shadow-none">
+                That only works if the argument is short, and this one is not.
+                The block is the eyebrow, a three-line display headline, a
+                four-line lede and two CTAs: 665px on a 390px-wide phone, 556px
+                at 768. Pinned at top-20 on an 844px viewport it left ~99px of
+                clearance, and the sticky header on top of that. So the entire
+                evidence column — the anchor card and six proof tiles, some
+                3,300px of it — travelled through a roughly one-line-tall slot
+                behind an opaque panel. The one thing the section exists to show
+                was the one thing you could not read.
+
+                There is no version of this that fits: a sticky element has to
+                be a small fraction of the viewport, and nothing short of
+                cutting the copy gets this under ~200px. Stacked flow is the
+                honest phone layout — read the argument once, then scroll the
+                evidence at full width — and it is what the two-column
+                composition degrades to anyway. `lg:` is byte-identical to
+                before. */}
+            <div className="self-start lg:sticky lg:top-28">
               <Reveal>
                 <div className="eyebrow text-brand">{hm.why.eyebrow}</div>
                 <h2 className="mt-4 text-4xl leading-[1.06] font-extrabold tracking-tight text-balance text-navy md:text-5xl xl:text-[3.3rem]">
@@ -397,13 +401,20 @@ export default async function Home({
                   </Magnetic>
                   <Link
                     href="/brands"
-                    className="group inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
+                    className="tap-target group inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
                   >
                     {hm.why.exclusive.link}
                     <ArrowRight size={16} className={arrowNudge} />
                   </Link>
                 </div>
-                <ScrollRail className="mt-12" />
+                {/* Desktop only. The rail reports how far through the section
+                    you are, which is worth 160px of column exactly as long as
+                    it stays on screen long enough to be watched filling —
+                    i.e. while the rail beside it is sticky. In the stacked
+                    layout below `lg:` it sits at the seam between argument and
+                    evidence, shows ~5% fill, and is gone within one swipe: 160px
+                    of blank column for an indicator nobody sees finish. */}
+                <ScrollRail className="mt-12 hidden lg:block" />
               </Reveal>
             </div>
 
@@ -587,7 +598,7 @@ export default async function Home({
                   </div>
                   <Link
                     href="/industries"
-                    className="group mt-auto inline-flex w-fit items-center gap-1.5 pt-6 text-[14px] font-bold text-navy transition-colors hover:text-brand"
+                    className="tap-target group mt-auto inline-flex w-fit items-center gap-1.5 pt-6 text-[14px] font-bold text-navy transition-colors hover:text-brand"
                   >
                     {hm.why.industriesTile.cta}
                     <ArrowRight size={15} className={arrowNudge} />
@@ -646,7 +657,7 @@ export default async function Home({
                       </div>
                       <Link
                         href={localeHref(lang, "/contact")}
-                        className="group mt-6 inline-flex w-fit items-center gap-1.5 text-[14px] font-bold text-navy transition-colors hover:text-brand"
+                        className="tap-target group mt-6 inline-flex w-fit items-center gap-1.5 text-[14px] font-bold text-navy transition-colors hover:text-brand"
                       >
                         {hm.why.locationTile.cta}
                         <ArrowRight size={15} className={arrowNudge} />
@@ -708,8 +719,18 @@ export default async function Home({
       </section>
 
       {/* ============ CLIENT TESTIMONIALS ============ */}
-      {/* Placeholder content — English only until real quotes are supplied. */}
-      {lang !== "ar" && <TestimonialCarousel />}
+      {/* Off until real quotes exist. The component still holds its two seed
+          records verbatim — "[CLIENT NAME]", "[Job Title]", "[Add client
+          testimonial quote here…]" — and those were rendering into the served
+          HTML of the English homepage, brackets and all, along with a "[Client
+          Photo]" avatar and four social links pointing at `href="#"`.
+
+          A section that is visibly unfinished costs more trust than the missing
+          section does, so it stays out of the page rather than shipping as
+          scaffolding. Flip this back on — and swap the seed records in
+          <TestimonialCarousel> for real ones, including the social URLs — the
+          moment there are quotes to run. */}
+      {/* {lang !== "ar" && <TestimonialCarousel />} */}
 
       {/* ============ COMPANY GALLERY ============ */}
       <section id="gallery" className="scroll-mt-28 pb-20 md:pb-24 lg:pb-28 pt-20 md:pt-24 lg:pt-28">
@@ -797,16 +818,20 @@ export default async function Home({
               </Link>
             </div>
             <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-x-8 gap-y-2 text-[14.5px] text-white/50">
+              {/* Real height rather than a tap-target overlay: below `sm:`
+                  this row is `flex-col` with `gap-y-2`, so the two links sit
+                  8px apart and 44px overlays would each reach a third of the
+                  way into the other. Packed stack — grow the box. */}
               <a
                 href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                className="hover:text-white transition-colors"
+                className="inline-flex min-h-11 items-center hover:text-white transition-colors"
               >
                 <span className="ltr-inline">{contact.phone}</span>
               </a>
               <span className="hidden sm:block w-px h-4 bg-white/15" />
               <a
                 href={`mailto:${contact.salesEmail}`}
-                className="hover:text-white transition-colors"
+                className="inline-flex min-h-11 items-center hover:text-white transition-colors"
               >
                 {contact.salesEmail}
               </a>

@@ -112,7 +112,7 @@ export default function ProductFlipCard({
               docHref && (
                 <a
                   href={docHref}
-                  className="group/link inline-flex items-center justify-center gap-1.5 rounded-lg bg-navy px-3 py-2 text-[12.5px] font-bold text-white transition-all hover:bg-navy-700 hover:-translate-y-0.5"
+                  className="group/link inline-flex items-center justify-center pointer-coarse:min-h-11 gap-1.5 rounded-lg bg-navy px-3 py-2 text-[12.5px] font-bold text-white transition-all hover:bg-navy-700 hover:-translate-y-0.5"
                 >
                   {docLabel}
                   <ArrowRight
@@ -125,7 +125,7 @@ export default function ProductFlipCard({
             <button
               type="button"
               onClick={() => setFlipped(false)}
-              className="inline-flex items-center justify-center gap-1.5 text-[12px] font-semibold text-navy/60 hover:text-navy transition-colors cursor-pointer"
+              className="tap-target inline-flex items-center justify-center gap-1.5 text-[12px] font-semibold text-navy/60 hover:text-navy transition-colors cursor-pointer"
             >
               <RotateCw size={12} /> Flip back
             </button>

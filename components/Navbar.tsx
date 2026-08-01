@@ -129,9 +129,14 @@ export default function Navbar({
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="h-17 flex items-center justify-between">
+            {/* tap-target: the wordmark is 124×36 painted, and "home" is the
+                one destination present on every page at every width, so it is
+                worth the 8px of invisible height on touch. Isolated in the bar
+                — nothing else is within 44px of it — so the overlay can spill
+                without stealing from a neighbour. */}
             <Link
               href={localeHref(lang, "/")}
-              className="flex items-center"
+              className="tap-target flex items-center"
               onClick={() => setOpen(false)}
             >
               <Image
