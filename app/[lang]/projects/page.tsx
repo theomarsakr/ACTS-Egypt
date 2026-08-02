@@ -156,7 +156,7 @@ export default function ProjectsPage() {
                 const Icon = categoryIcons[group.slug] ?? Drill;
                 return {
                   id: group.slug,
-                  label: group.category.split("—")[0].trim(),
+                  label: group.short,
                   icon: <Icon size={15} />,
                   content: (
                     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">

@@ -135,7 +135,7 @@ export const brands: Brand[] = [
         products: [
           {
             image: "/images/farris/pilot-operated.jpg",
-            name: "Pilot-operated valve — stainless pilot assembly",
+            name: "Pilot-operated valve with stainless pilot assembly",
           },
           {
             image: "/images/farris/pilot-operated-dual-gauge.jpg",
@@ -162,7 +162,7 @@ export const brands: Brand[] = [
           },
           {
             image: "/Data/Farris-Valves/images/6400_1.jpg",
-            name: "6400 Series — internal cross-section",
+            name: "6400 Series internal cross-section",
           },
         ],
       },
@@ -198,7 +198,7 @@ export const brands: Brand[] = [
         detail: {
           tag: "SERIES 1890",
           description:
-            "Farris' workhorse direct spring-operated relief valve, opening automatically once inlet pressure exceeds the spring set point — no external power or signal required.",
+            "Farris' workhorse direct spring-operated relief valve, opening automatically once inlet pressure exceeds the spring set point, with no external power or signal required.",
           specs: [
             "ASME Section VIII certified",
             "Rated to 800 psig",
@@ -297,7 +297,7 @@ export const brands: Brand[] = [
             "A direct spring-loaded relief valve that reaches full lift at set pressure, with external blowdown adjustment and a manual lifting lever for in-service testing.",
           specs: [
             "ASME Section VIII certified",
-            "Direct spring-loaded — full lift at set",
+            "Direct spring-loaded, full lift at set",
             "Soft seat design",
             "External blowdown control",
           ],
@@ -323,12 +323,12 @@ export const brands: Brand[] = [
       // Pilot-operated valves
       {
         src: "/images/farris/pilot-operated.jpg",
-        caption: "Pilot-operated valve — stainless pilot assembly",
+        caption: "Pilot-operated valve with stainless pilot assembly",
         category: "Pilot-Operated",
         detail: {
           tag: "SERIES 3800",
           description:
-            "A pilot-operated valve uses process pressure itself, through a small external pilot, to hold the main valve closed until set pressure is reached — enabling higher operating ratios and modulating relief.",
+            "A pilot-operated valve uses process pressure itself, through a small external pilot, to hold the main valve closed until set pressure is reached, enabling higher operating ratios and modulating relief.",
           specs: [
             "Snap-acting or modulating pilot",
             "Semi- or full-port nozzle",
@@ -407,7 +407,7 @@ export const brands: Brand[] = [
       // Product range overviews
       {
         src: "/images/farris/body-options.jpg",
-        caption: "Safety relief valve range — body options",
+        caption: "Safety relief valve range: body options",
         category: "Product Range",
         detail: {
           tag: "SERIES 2600 / 2700",
@@ -489,7 +489,7 @@ export const brands: Brand[] = [
       // Internal construction
       {
         src: "/images/farris/cross-section.jpg",
-        caption: "Safety relief valve — internal cross-section",
+        caption: "Safety relief valve internal cross-section",
         category: "Internal Construction",
         detail: {
           tag: "INTERNAL CONSTRUCTION",
@@ -505,7 +505,7 @@ export const brands: Brand[] = [
       },
       {
         src: "/images/farris/cross-section-detail.png",
-        caption: "Safety relief valve — internal cross-section",
+        caption: "Safety relief valve internal cross-section",
         category: "Internal Construction",
         detail: {
           tag: "INTERNAL CONSTRUCTION",
@@ -560,7 +560,7 @@ export const brands: Brand[] = [
       {
         tag: "360 / 390 / 350 / 370 / 380 / DF2000",
         name: "Linear sliding-stem valves",
-        description: "1\"–16\", pressure classes 150–2500.",
+        description: "1\" to 16\", pressure classes 150 to 2500.",
         products: [
           {
             image: "/images/dynaflo/sliding-stem.jpg",
@@ -671,7 +671,7 @@ export const brands: Brand[] = [
           description:
             "Direct-acting globe-style control valve that throttles flow through the linear motion of a sliding-stem plug, paired with a spring-and-diaphragm actuator for precise, stable process control.",
           specs: [
-            "1\"–16\", ASME Class 150–2500",
+            "1\" to 16\", ASME Class 150 to 2500",
             "Cage-guided balanced or unbalanced trim",
             "Anti-cavitation & low-noise trim options",
             "Spring-diaphragm or piston actuation",
@@ -687,7 +687,7 @@ export const brands: Brand[] = [
           description:
             "High-capacity rotary control valve with a segmented or full ball for throttling and on/off service, delivering high flow with tight shutoff and a compact face-to-face footprint.",
           specs: [
-            "1\"–24\", ASME Class 150–900",
+            "1\" to 24\", ASME Class 150 to 900",
             "Segmented (570) or full-ball (590) designs",
             "High Cv, wide rangeability",
             "Throttling or on/off service",
@@ -703,7 +703,7 @@ export const brands: Brand[] = [
           description:
             "Heavy-duty eccentric plug rotary valve with a self-aligning plug and straight-through flow path, combined with a low-profile spring-and-diaphragm actuator for tight shutoff at higher flow capacities in severe service.",
           specs: [
-            "1\"–6\" (DN 25–150), Class 150–600",
+            "1\" to 6\" (DN 25 to 150), Class 150 to 600",
             "ANSI/FCI Class IV or VI shutoff",
             "WCC / CF3M body, quarter-turn",
             "Low-emission packing & NACE options",
@@ -719,7 +719,7 @@ export const brands: Brand[] = [
           description:
             "Compact integral valve-and-actuator unit engineered for dump-valve and tight-shutoff applications where space is limited, combining the control element and actuator in a single assembly.",
           specs: [
-            "1\" & 2\", ASME Class 150–1500",
+            "1\" & 2\", ASME Class 150 to 1500",
             "Integral actuator, compact footprint",
             "Ideal for dump-valve service",
             "Fast, repeatable response",
@@ -735,10 +735,10 @@ export const brands: Brand[] = [
         detail: {
           tag: "DFC / DFO",
           description:
-            "Large-diaphragm spring-and-diaphragm actuators for low-pressure pneumatic operation. The spring drives the valve to a fail-safe position on loss of air supply — DFC fails closed, DFO fails open.",
+            "Large-diaphragm spring-and-diaphragm actuators for low-pressure pneumatic operation. The spring drives the valve to a fail-safe position on loss of air supply: DFC fails closed, DFO fails open.",
           specs: [
-            "Signal 3–15 or 6–30 PSIG",
-            "Nominal effective area 46–220 in²",
+            "Signal 3 to 15 or 6 to 30 PSIG",
+            "Nominal effective area 46 to 220 in²",
             "-40°F to 180°F service",
             "Handwheel & travel-stop options",
           ],
@@ -749,11 +749,11 @@ export const brands: Brand[] = [
         caption: "DFR rotary spring & diaphragm actuator",
         category: "Pneumatic Actuators",
         detail: {
-          tag: "DFR · SIZES 026–220",
+          tag: "DFR · SIZES 026 to 220",
           description:
             "Large-diaphragm rotary actuator for low-pressure operation, using a spring for fail-safe positioning to automate quarter-turn valves for throttling or on/off control of liquids and gases.",
           specs: [
-            "Signal 0–18 or 0–33 PSIG",
+            "Signal 0 to 18 or 0 to 33 PSIG",
             "Valve shaft 1/2\" to 2\"",
             "Field-reversible action",
             "-40°F to 180°F service",
@@ -786,7 +786,7 @@ export const brands: Brand[] = [
             "High-torque double-acting pneumatic piston actuator for quarter-turn valves, providing throttling or on/off control with a volume tank to hold the fail-safe position.",
           specs: [
             "Torque up to ~65,000 lbf-in",
-            "90° rotation, shaft 1/2\"–2-1/2\"",
+            "90° rotation, shaft 1/2\" to 2-1/2\"",
             "Min cylinder pressure 20 PSIG",
             "-40°F to 180°F service",
           ],
@@ -819,7 +819,7 @@ export const brands: Brand[] = [
           description:
             "Field-mounted pneumatic pressure controller offering proportional-only or proportional-plus-reset control, with field-reversible direct/reverse action and emission-compliant, NACE-ready construction.",
           specs: [
-            "Output 3–15 or 6–30 PSIG",
+            "Output 3 to 15 or 6 to 30 PSIG",
             "Repeatability 0.5% of range",
             "Field-reversible direct/reverse",
             "Meets EPA emission standards",
@@ -851,7 +851,7 @@ export const brands: Brand[] = [
           description:
             "Digital electro-pneumatic valve positioner with on-board programming and a built-in LCD, HART-ready with optional Profibus and Foundation Fieldbus communication for linear or rotary valves.",
           specs: [
-            "Input 4–20 mA, HART ready",
+            "Input 4 to 20 mA, HART ready",
             "On-board LCD & auto-setup",
             "Linear or rotary mounting",
             "-40°F to 176°F service",
@@ -865,10 +865,10 @@ export const brands: Brand[] = [
         detail: {
           tag: "MODEL 760",
           description:
-            "Rugged pneumatic valve positioner for linear or rotary control valves, with optional 4–20 mA feedback, internal limit switches, a high-flow Cv module and position-indicator windows.",
+            "Rugged pneumatic valve positioner for linear or rotary control valves, with optional 4 to 20 mA feedback, internal limit switches, a high-flow Cv module and position-indicator windows.",
           specs: [
-            "Input 3–15 / 6–30 PSIG or 4–20 mA",
-            "Travel 1/2\"–6\" or 90° rotary",
+            "Input 3 to 15 / 6 to 30 PSIG or 4 to 20 mA",
+            "Travel 1/2\" to 6\" or 90° rotary",
             "Optional feedback & limit switches",
             "-40°F to 185°F service",
           ],
@@ -884,7 +884,7 @@ export const brands: Brand[] = [
             "Compact, lightweight supply regulator delivering clean, stable pressure to pneumatic and electro-pneumatic instrumentation, engineered for the accuracy and repeatability that digital instruments demand.",
           specs: [
             "Inlet up to 250 PSIG",
-            "Outlet 0–35 / 0–60 / 0–125 PSIG",
+            "Outlet 0 to 35 / 0 to 60 / 0 to 125 PSIG",
             "NACE (MR0175) & non-relieving options",
             "-40°F to 300°F service",
           ],
@@ -897,10 +897,10 @@ export const brands: Brand[] = [
         detail: {
           tag: "T950XP I/P",
           description:
-            "High-performance current-to-pressure (I/P) transducer for hazardous environments, converting a 4–20 mA electrical input into a stable pneumatic output to drive control valve actuators.",
+            "High-performance current-to-pressure (I/P) transducer for hazardous environments, converting a 4 to 20 mA electrical input into a stable pneumatic output to drive control valve actuators.",
           specs: [
-            "Input 4–20 mA",
-            "Output 0–18 / 0–20 / 0–33 / 0–35 PSIG",
+            "Input 4 to 20 mA",
+            "Output 0 to 18 / 0 to 20 / 0 to 33 / 0 to 35 PSIG",
             "FM / CSA / Natural Gas approved",
             "-40°F to 158°F service",
           ],
@@ -1060,7 +1060,7 @@ export const brands: Brand[] = [
             "Hydraulically installed mechanical tube plug that seals leaking heat exchanger and condenser tubes with a helium-leak-tight metal-to-metal seal, with no welding or explosives.",
           specs: [
             "Rated to 1,000 PsiG (68.9 BarG)",
-            "Tube ID 0.472\"–2.067\"",
+            "Tube ID 0.472\" to 2.067\"",
             "Metal-to-metal helium-tight seal",
             "ASME PCC-2 recommended method",
           ],
@@ -1076,7 +1076,7 @@ export const brands: Brand[] = [
             "High-pressure mechanical tube plug giving a permanent, weld-free seal for leaking heat exchanger tubes; a metallurgy-matched ring-and-pin design resists ejection and thermal-cycling leaks.",
           specs: [
             "Rated to 7,000 PsiG (483 BarG)",
-            "Tube ID 0.400\"–1.460\"",
+            "Tube ID 0.400\" to 1.460\"",
             "Helium leak-tight, no welding",
             "ISO 9001 manufactured",
           ],
@@ -1173,7 +1173,7 @@ export const brands: Brand[] = [
           specs: [
             "No air or electricity needed",
             "Accepts all MIT pull rods",
-            "Tube ID 0.400\"–1.160\"",
+            "Tube ID 0.400\" to 1.160\"",
             "Zinc-plated carbon steel",
           ],
         },
@@ -1189,7 +1189,7 @@ export const brands: Brand[] = [
           specs: [
             "Removes CPI/Perma & P2 plugs",
             "Integral slide hammer",
-            "Plug sizes 0.400\"–1.180\"",
+            "Plug sizes 0.400\" to 1.180\"",
             "Extensions available to 6 ft",
           ],
         },
@@ -1221,9 +1221,9 @@ export const brands: Brand[] = [
           description:
             "Lightweight aluminum tool that quickly seals off and evacuates individual heat exchanger tubes to locate pinhole leaks; a loss of vacuum indicates a leaking tube.",
           specs: [
-            "Tube range 0.28\"–1.45\"",
+            "Tube range 0.28\" to 1.45\"",
             "Weighs under 2.1 lbs (1.1 kg)",
-            "Uses 40–125 PsiG plant air",
+            "Uses 40 to 125 PsiG plant air",
             "Analog or digital gauge",
           ],
         },
@@ -1237,9 +1237,9 @@ export const brands: Brand[] = [
           description:
             "Seals the tube ID and tubesheet face, then evacuates the joint to quickly identify leaking tube-to-tubesheet joints, ideal for manufacturers and retubing operations.",
           specs: [
-            "Tube OD 3/8\"–1¼\" (G-650A to 2½\")",
+            "Tube OD 3/8\" to 1¼\" (G-650A to 2½\")",
             "Weighs under 2.7 lbs (1.2 kg)",
-            "Uses 40–125 PsiG plant air",
+            "Uses 40 to 125 PsiG plant air",
             "Interchangeable manifolds",
           ],
         },
@@ -1256,7 +1256,7 @@ export const brands: Brand[] = [
             "High-pressure test plug with a patented dual-serrated gripper and hardened shaft, grippers and cone, effective for hardened and high-alloy pipe up to HRC 32.",
           specs: [
             "Test pressure to 15,000 PsiG (1,034 BarG)",
-            "Size 3/8\"–48\" NPS (DN10–DN1200)",
+            "Size 3/8\" to 48\" NPS (DN10 to DN1200)",
             "Hardened, reusable design",
             "Hydrostatic or pneumatic testing",
           ],
@@ -1272,7 +1272,7 @@ export const brands: Brand[] = [
             "Orientation-free test plug for long-radius elbows, using patented dual-serrated GripTight MAX grippers and a self-aligning gripper and seal for pipe spools ending in elbows.",
           specs: [
             "Test pressure to 3,350 PsiG (231 BarG)",
-            "Size 2\"–48\" NPS (DN50–DN1200)",
+            "Size 2\" to 48\" NPS (DN50 to DN1200)",
             "Orientation-independent install",
             "Fits most long-radius elbows",
           ],
@@ -1304,7 +1304,7 @@ export const brands: Brand[] = [
             "A 4-in-1 tool that acts as a purge dam, weld fixture, test plug and weld-isolation plug, letting you monitor upstream, purge, weld and hydro-test a flange joint with one tool.",
           specs: [
             "Test pressure to 2,250 PsiG (155 BarG)",
-            "Size 3/4\"–24\" NPS (DN20–DN600)",
+            "Size 3/4\" to 24\" NPS (DN20 to DN600)",
             "Ported shaft for upstream monitoring",
             "Isolates only the weld area",
           ],
@@ -1320,7 +1320,7 @@ export const brands: Brand[] = [
             "Seals on the pipe outside diameter to test open or plain-end pipe and tube; a patented self-gripping, self-sealing dual-seal design gives fast, safe hydrotesting.",
           specs: [
             "Test pressure to 5,000 PsiG (345 BarG)",
-            "Size 1/4\"–4\" (DN8–DN100)",
+            "Size 1/4\" to 4\" (DN8 to DN100)",
             "Seals on the pipe OD",
             "One plug fits a range of schedules",
           ],
@@ -1336,7 +1336,7 @@ export const brands: Brand[] = [
             "Twin-cone test plug that seals 3,000 lb socket-weld fittings and couplings, eliminating the need to weld in pipe stubs, pups or end caps for pressure testing.",
           specs: [
             "Test pressure to 5,000 PsiG (345 BarG)",
-            "Size 1/2\"–2\" NPS (DN15–DN50)",
+            "Size 1/2\" to 2\" NPS (DN15 to DN50)",
             "Twin-cone uniform gripper expansion",
             "Replaceable grippers & seals",
           ],
@@ -1352,7 +1352,7 @@ export const brands: Brand[] = [
             "Subjects a flange-to-pipe weld to full radial, hoop and axial stresses during hydrostatic testing, equivalent to blinding and pressurizing the entire piping system.",
           specs: [
             "Test pressure to 2,250 PsiG (155 BarG)",
-            "Size 2\"–48\" NPS (DN50–DN1200)",
+            "Size 2\" to 48\" NPS (DN50 to DN1200)",
             "ASME PCC-2 Type I device",
             "Optional plug-movement indicator",
           ],
@@ -1368,7 +1368,7 @@ export const brands: Brand[] = [
             "Dual-port isolation plug that creates a positive-pressure barrier between two seals, safely isolating hot work from residual upstream gases while monitoring for explosive vapors.",
           specs: [
             "Between-seals to 2,250 PsiG (155 BarG)",
-            "Size 3/4\"–48\" NPS (DN20–DN1200)",
+            "Size 3/4\" to 48\" NPS (DN20 to DN1200)",
             "ASME PCC-2 Type IV device",
             "Monitors vapors during hot work",
           ],
@@ -1384,7 +1384,7 @@ export const brands: Brand[] = [
             "Double block-and-bleed isolation and test plug that isolates and monitors potentially explosive vapors during hot work using minimal water, testable with a simple hand pump.",
           specs: [
             "Between-seals to 2,250 PsiG (155 BarG)",
-            "Size 3/4\"–48\" NPS (DN20–DN1200)",
+            "Size 3/4\" to 48\" NPS (DN20 to DN1200)",
             "ASME PCC-2 Type IV device",
             "Multi-schedule, minimal-media testing",
           ],
@@ -1460,26 +1460,26 @@ export const clients: Client[] = [
 export const timeline = [
   {
     year: "2006",
-    unit: "Giza",
-    body: "ACTS is founded in Sixth of October City, Giza, under Commercial Registration No. 58261.",
+    unit: "Farris agency",
+    body: "ACTS is founded in Sixth of October City, Giza, under Commercial Registration No. 58261, and is appointed sole agent in Egypt for Farris Engineering.",
     now: false,
   },
   {
-    year: "—",
+    year: "Expansion",
     unit: "Nasr City",
-    body: "Operations expand with a new branch in Nasr City, Cairo, broadening national reach and technical support.",
+    body: "A second branch opens in Nasr City, Cairo, extending our reach across Greater Cairo.",
     now: false,
   },
   {
-    year: "2010",
-    unit: "Consultancy",
-    body: "Consultancy services launch: feasibility studies, technical training, and business advisory.",
+    year: "Post-2011",
+    unit: "Rebuild",
+    body: "ACTS rebuilds and grows through the economic disruption that followed the Egyptian revolution, delivering valve installations across major facilities and emerging with a stronger, more resilient customer base.",
     now: false,
   },
   {
     year: "2016",
     unit: "$4M / year",
-    body: "ACTS reincorporates as a Limited Liability Company (Reg. No. 94859); annual sales reach USD 4 million.",
+    body: "ACTS reincorporates as a Limited Liability Company (Reg. No. 94859) and restructures the business for scale, reaching USD 4 million in annual sales.",
     now: false,
   },
   {
@@ -1489,9 +1489,21 @@ export const timeline = [
     now: false,
   },
   {
+    year: "2022",
+    unit: "Dyna-Flo agency",
+    body: "ACTS is appointed sole agent in Egypt for Dyna-Flo Control Valve Services, expanding our capabilities into control valves, actuators, and instrumentation.",
+    now: false,
+  },
+  {
     year: "2025",
     unit: "Arkan Plaza",
-    body: "Headquarters relocate to Arkan Plaza, Sheikh Zayed City, Giza.",
+    body: "Headquarters relocate to Arkan Plaza, Sheikh Zayed City, a larger and more accessible base reflecting our continued growth.",
+    now: false,
+  },
+  {
+    year: "2026",
+    unit: "EST agency",
+    body: "ACTS is appointed sole agent in Egypt for EST, extending our scope into heat exchanger repair, tube plugging, and pressure testing, and completing the current three-brand portfolio.",
     now: true,
   },
 ];
@@ -1499,31 +1511,27 @@ export const timeline = [
 export const mission = [
   {
     num: "01",
-    title: "Customer satisfaction",
-    description: "Set the industry benchmark for customer satisfaction.",
+    title: "The first call",
+    description:
+      "Be the partner customers call first, because we answer fast and get the application right the first time.",
   },
   {
     num: "02",
-    title: "Competitive position",
+    title: "Embedded partner",
     description:
-      "Secure a strong, competitive position across the markets we serve.",
+      "Grow from trusted supplier to embedded technical partner on our customers' critical projects.",
   },
   {
     num: "03",
-    title: "Partner value",
+    title: "Standards into savings",
     description:
-      "Partner with our principals to deliver optimal value-for-cost solutions.",
+      "Translate the engineering standards of Farris, Dyna-Flo, and EST into real cost and reliability gains for Egyptian operators.",
   },
   {
     num: "04",
-    title: "Sustainable practices",
-    description: "Champion responsible, sustainable business practices.",
-  },
-  {
-    num: "05",
-    title: "Build trust",
+    title: "Smarter plants",
     description:
-      "Build trust within the communities and industries we serve.",
+      "Bring predictive maintenance, digital diagnostics, and connected instrumentation into more of our customers' plants.",
   },
 ];
 
@@ -1546,12 +1554,38 @@ export const values = [
   {
     name: "Innovation",
     description:
-      "Staying current on modern control, monitoring, and diagnostic technologies.",
+      "Actively tracking predictive maintenance, digital diagnostics, and connected instrumentation to bring forward to our customers.",
   },
   {
     name: "Efficiency",
     description:
       "Streamlined quotation-to-delivery workflow, minimizing delays on critical parts.",
+  },
+];
+
+/** Where ACTS is taking its offer next. Deliberately written as direction of
+ *  travel rather than as shipping capability: these are commitments the sales
+ *  team can stand behind today, not products with a price list. */
+export const forwardDirection = [
+  {
+    title: "Smart instrumentation & digital positioners",
+    description:
+      "Expanding our offering of HART-ready, digitally diagnosable positioners and transducers that give operators real-time visibility into valve health.",
+  },
+  {
+    title: "Predictive maintenance & condition monitoring",
+    description:
+      "Moving from reactive repairs to data-driven maintenance planning, so customers can anticipate failures before they cause downtime.",
+  },
+  {
+    title: "Remote diagnostics & IIoT integration",
+    description:
+      "Supporting the shift toward Industrial Internet of Things connectivity, so critical valves and instrumentation can be monitored and managed as part of a connected plant.",
+  },
+  {
+    title: "Digital asset documentation",
+    description:
+      "Building toward digital record-keeping for valve history, testing, and re-certification, making compliance and audits faster and more transparent.",
   },
 ];
 
@@ -1596,8 +1630,8 @@ export const departments = [
 ];
 
 export const officeHours = [
-  { day: "Sunday – Thursday", hours: "9:00 AM – 5:00 PM (Cairo Time)" },
-  { day: "Friday – Saturday", hours: "Closed" },
+  { day: "Sunday to Thursday", hours: "9:00 AM to 5:00 PM (Cairo Time)" },
+  { day: "Friday and Saturday", hours: "Closed" },
 ];
 
 /** One "how we support this sector" capability, optionally credited to the
@@ -1690,11 +1724,11 @@ export const industries: Industry[] = [
         scope:
           "wellhead flow control, separation vessels, gas compression, and pipeline protection",
         challenge:
-          "Wellhead and separator pressures swing hard and fast as a well is choked, tested, or shut in — equipment sized only for steady-state conditions can be overwhelmed in seconds during an upset.",
+          "Wellhead and separator pressures swing hard and fast as a well is choked, tested, or shut in, and equipment sized only for steady-state conditions can be overwhelmed in seconds during an upset.",
         solution:
           "Farris Series 1890 direct-spring relief valves protect separators and gathering lines at their exact set pressure with no external power required, while Dyna-Flo's sliding-stem control valves hold flow steady through choke manifolds and gas-compression trains.",
         advantage:
-          "A direct-spring valve responds in milliseconds with nothing to fail — no signal, no actuator, no power supply — which is exactly what a remote wellhead with no control room needs.",
+          "A direct-spring valve responds in milliseconds with nothing to fail: no signal, no actuator, no power supply. That is exactly what a remote wellhead with no control room needs.",
         products: [
           { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
           { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
@@ -1705,7 +1739,7 @@ export const industries: Industry[] = [
         scope:
           "pipeline regulation, pump station control, and storage terminal overpressure protection",
         challenge:
-          "A pipeline or storage terminal spans huge distances while holding pressure inside a tight band the entire way — a single overpressure event at a pump station or tank farm risks a spill, not just downtime.",
+          "A pipeline or storage terminal spans huge distances while holding pressure inside a tight band the entire way, so a single overpressure event at a pump station or tank farm risks a spill, not just downtime.",
         solution:
           "Dyna-Flo rotary valves throttle and isolate flow at pump stations and block-valve sites, while Farris Series 2600/2700 flanged relief valves protect storage tanks and pipeline sections rated for air, steam, and water service.",
         advantage:
@@ -1724,7 +1758,7 @@ export const industries: Industry[] = [
         solution:
           "Farris Series 3800 pilot-operated valves protect fractionation columns and fired heaters where large relief capacity and tight operating margins matter, backed by iNSURE® wireless monitoring so engineers can check valve condition without shutting the unit down to inspect it.",
         advantage:
-          "Pilot-operated design gives a higher opening ratio than a direct-spring valve of the same size — the column can run closer to its relief set point without nuisance lifting, meaning tighter, more efficient operation.",
+          "Pilot-operated design gives a higher opening ratio than a direct-spring valve of the same size, so the column can run closer to its relief set point without nuisance lifting, meaning tighter, more efficient operation.",
         products: [
           { brandSlug: "farris-engineering", lineTag: "SERIES 3800" },
           { brandSlug: "farris-engineering", lineTag: "SIZEMASTER™ · INSURE® · FAST NETWORK" },
@@ -1735,11 +1769,11 @@ export const industries: Industry[] = [
         scope:
           "reactor feed control, steam cracking, polymerization, and specialty chemical production",
         challenge:
-          "Reactor feed and cracking-furnace control both demand precise, repeatable positioning under high pressure drop and often erosive or fouling media — a valve that sticks or wears prematurely here stops production.",
+          "Reactor feed and cracking-furnace control both demand precise, repeatable positioning under high pressure drop and often erosive or fouling media. A valve that sticks or wears prematurely here stops production.",
         solution:
           "Dyna-Flo's DFC/DFO and DFR pneumatic actuators pair with severe-service trim to hold accurate position under high delta-P, while EST's Pop-A-Plug keeps the reactor's heat exchangers sealed between turnarounds.",
         advantage:
-          "A spring-and-diaphragm actuator fails to a known, safe position the instant instrument air is lost — the reactor defaults to safe, not to wherever the valve happened to be.",
+          "A spring-and-diaphragm actuator fails to a known, safe position the instant instrument air is lost, so the reactor defaults to safe, not to wherever the valve happened to be.",
         products: [
           {
             brandSlug: "dyna-flo",
@@ -1777,7 +1811,7 @@ export const industries: Industry[] = [
         lines: [
           {
             tag: "SERIES 1890",
-            note: "The everyday relief valve across the value chain — separators, gathering lines, and utility systems where a proven, ASME Section VIII-rated direct-spring design is all the duty calls for.",
+            note: "The everyday relief valve across the value chain: separators, gathering lines, and utility systems where a proven, ASME Section VIII-rated direct-spring design is all the duty calls for.",
           },
           {
             tag: "SERIES 2600 / 2700",
@@ -1793,7 +1827,7 @@ export const industries: Industry[] = [
           },
           {
             tag: "SERIES 6400 / 6600",
-            note: "Boiler safety valves for the package boilers refineries and gas plants run for process steam — a dedicated steam design, not a general valve pressed into steam service.",
+            note: "Boiler safety valves for the package boilers refineries and gas plants run for process steam. A dedicated steam design, not a general valve pressed into steam service.",
           },
           {
             tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
@@ -1806,7 +1840,7 @@ export const industries: Industry[] = [
         lines: [
           {
             tag: "360 / 390 / 350 / 370 / 380 / DF2000",
-            note: "Sliding-stem control across wellhead chokes, gas-compression trains, and refinery process units — the workhorse control valve for this entire industry.",
+            note: "Sliding-stem control across wellhead chokes, gas-compression trains, and refinery process units. The workhorse control valve for this entire industry.",
           },
           {
             tag: "SERIES 570 / 590",
@@ -1822,7 +1856,7 @@ export const industries: Industry[] = [
           },
           {
             tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
-            note: "The instrumentation layer behind every control loop — pressure and level controllers, positioners, and I/P transducers keeping valves on setpoint.",
+            note: "The instrumentation layer behind every control loop: pressure and level controllers, positioners, and I/P transducers keeping valves on setpoint.",
           },
         ],
       },
@@ -1860,9 +1894,9 @@ export const industries: Industry[] = [
     applications: [
       {
         area: "Olefins production",
-        scope: "ethylene, propylene — cracking furnace control, quench tower protection",
+        scope: "ethylene and propylene: cracking furnace control, quench tower protection",
         challenge:
-          "Cracking furnaces run at extreme temperature with feed and dilution-steam ratios that have to track tightly — drift for even a few minutes changes product yield and can coke the tubes.",
+          "Cracking furnaces run at extreme temperature with feed and dilution-steam ratios that have to track tightly. Drift for even a few minutes changes product yield and can coke the tubes.",
         solution:
           "Dyna-Flo sliding-stem control valves regulate furnace feed and dilution steam with trim built for the pressure drop across quench and transfer-line systems, while Farris Series 3800 pilot-operated valves protect the quench tower and downstream vessels against the large vapor volumes a furnace trip releases.",
         advantage:
@@ -1890,13 +1924,13 @@ export const industries: Industry[] = [
       {
         area: "Polymers",
         scope:
-          "polyethylene, polypropylene, PVC — reactor feed control, extruder pressure regulation",
+          "polyethylene, polypropylene, and PVC: reactor feed control, extruder pressure regulation",
         challenge:
-          "Reactor feed and extruder pressure both need fine, stable control — polymer consistency depends on it — while the media itself is often abrasive or prone to fouling valve trim.",
+          "Reactor feed and extruder pressure both need fine, stable control, because polymer consistency depends on it, while the media itself is often abrasive or prone to fouling valve trim.",
         solution:
           "Dyna-Flo's integral actuator valves give a compact, fast-responding dump-valve solution for reactor feed and discharge, engineered for tight shutoff on space-constrained skids.",
         advantage:
-          "An integral valve-and-actuator assembly means one less flange, one less potential leak path, and a faster response than a separately mounted actuator — exactly what a fast reactor cycle needs.",
+          "An integral valve-and-actuator assembly means one less flange, one less potential leak path, and a faster response than a separately mounted actuator, exactly what a fast reactor cycle needs.",
         products: [{ brandSlug: "dyna-flo", lineTag: "DF100 / DF234 / DF270" }],
       },
     ],
@@ -1951,7 +1985,7 @@ export const industries: Industry[] = [
           },
           {
             tag: "DFC / DFO / DFLP / DFN / DFR / DFRP / D-FORCE",
-            note: "Spring-return pneumatic actuators that drive reactor and cracking-furnace control valves to a fail-safe position the moment air supply is lost — non-negotiable on a continuous chemical process.",
+            note: "Spring-return pneumatic actuators that drive reactor and cracking-furnace control valves to a fail-safe position the moment air supply is lost. Non-negotiable on a continuous chemical process.",
           },
           {
             tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
@@ -1972,7 +2006,7 @@ export const industries: Industry[] = [
           },
           {
             tag: "GRIPTIGHT®",
-            note: "Test plugs that pressure-verify new or repaired piping without welding in temporary spools — a meaningful advantage on lines that have carried corrosive or hazardous media.",
+            note: "Test plugs that pressure-verify new or repaired piping without welding in temporary spools, a meaningful advantage on lines that have carried corrosive or hazardous media.",
           },
           {
             tag: "G-SERIES",
@@ -1996,11 +2030,11 @@ export const industries: Industry[] = [
         scope:
           "boiler feedwater control, steam pressure regulation, and safety relief for drums and superheaters",
         challenge:
-          "A boiler drum and superheater sit at the sharpest end of the plant's safety case — an overpressure event here is the scenario every other safeguard exists to prevent, and it has to be caught in the first second, not the tenth.",
+          "A boiler drum and superheater sit at the sharpest end of the plant's safety case. An overpressure event here is the scenario every other safeguard exists to prevent, and it has to be caught in the first second, not the tenth.",
         solution:
           "Farris Series 6400/6600 flanged steam safety valves protect boiler drums and superheaters to their exact ASME set pressure, Series 1890 covers auxiliary steam, and Dyna-Flo control valves hold feedwater and desuperheating spray on target.",
         advantage:
-          "These are steam-specific safety-valve designs, not general-purpose relief valves adapted for steam — the seat, disc, and spring are engineered around steam's compressibility and flashing behavior at the set pressure that actually matters.",
+          "These are steam-specific safety-valve designs, not general-purpose relief valves adapted for steam. The seat, disc, and spring are engineered around steam's compressibility and flashing behavior at the set pressure that actually matters.",
         products: [
           { brandSlug: "farris-engineering", lineTag: "SERIES 6400 / 6600" },
           { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
@@ -2011,11 +2045,11 @@ export const industries: Industry[] = [
         area: "Gas turbines",
         scope: "fuel gas control, inlet air filtration, and emergency shutdown systems",
         challenge:
-          "Fuel gas skids need control valves that respond fast and fail safe — a turbine trip sequence gives the shutdown valve a fraction of a second to close, every time, with zero tolerance for a sticky actuator.",
+          "Fuel gas skids need control valves that respond fast and fail safe. A turbine trip sequence gives the shutdown valve a fraction of a second to close, every time, with zero tolerance for a sticky actuator.",
         solution:
           "Dyna-Flo's fail-closed (DFC) and fail-open (DFO) large-diaphragm actuators drive fuel-gas isolation and control valves to a guaranteed fail-safe position on loss of signal or air supply.",
         advantage:
-          "A spring-return actuator needs no solenoid, battery, or working control signal to reach its safe position — the spring alone gets it there, which is the entire point of an emergency shutdown valve.",
+          "A spring-return actuator needs no solenoid, battery, or working control signal to reach its safe position. The spring alone gets it there, which is the entire point of an emergency shutdown valve.",
         products: [
           {
             brandSlug: "dyna-flo",
@@ -2029,9 +2063,9 @@ export const industries: Industry[] = [
         challenge:
           "A heat recovery steam generator (HRSG) has to track a gas turbine's constantly changing exhaust temperature and flow, so its control valves cycle far more often than a conventional boiler's ever would.",
         solution:
-          "Dyna-Flo instrumentation — 4000 Series pressure controllers and PS2 digital positioners — keeps HRSG and duct-burner control valves tracking setpoint through continuous load changes, with HART-ready positioners for remote diagnostics.",
+          "Dyna-Flo instrumentation, from 4000 Series pressure controllers to PS2 digital positioners, keeps HRSG and duct-burner control valves tracking setpoint through continuous load changes, with HART-ready positioners for remote diagnostics.",
         advantage:
-          "A digital positioner with on-board diagnostics flags a sticking valve or actuator problem before it causes a trip, not after — the difference between a scheduled adjustment and an unplanned outage.",
+          "A digital positioner with on-board diagnostics flags a sticking valve or actuator problem before it causes a trip, not after. That is the difference between a scheduled adjustment and an unplanned outage.",
         products: [
           { brandSlug: "dyna-flo", lineTag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760" },
         ],
@@ -2045,7 +2079,7 @@ export const industries: Industry[] = [
         solution:
           "EST Pop-A-Plug seals a leaking condenser tube in minutes without draining or opening the waterbox, and Dyna-Flo rotary valves isolate cooling-tower and circulating-water lines for maintenance.",
         advantage:
-          "A hydraulically installed mechanical plug is a same-shift fix — the unit stays online at full or near-full load instead of waiting for the next planned outage to pull the tube bundle.",
+          "A hydraulically installed mechanical plug is a same-shift fix, so the unit stays online at full or near-full load instead of waiting for the next planned outage to pull the tube bundle.",
         products: [
           { brandSlug: "est", lineTag: "POP-A-PLUG®" },
           { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
@@ -2055,11 +2089,11 @@ export const industries: Industry[] = [
         area: "Balance of plant",
         scope: "compressed air systems, auxiliary steam, and fuel handling",
         challenge:
-          "Balance-of-plant systems are numerous and varied — compressed air, auxiliary steam, fuel handling — and each needs relief and control equipment correctly sized, not a one-size-fits-all valve pulled off a shelf.",
+          "Balance-of-plant systems are numerous and varied, covering compressed air, auxiliary steam, and fuel handling, and each needs relief and control equipment correctly sized, not a one-size-fits-all valve pulled off a shelf.",
         solution:
           "Farris Series 1890 and 2850 cover the general air, steam, and liquid relief duty across these systems, sized with Farris' own SIZEMASTER™ software instead of rule-of-thumb selection.",
         advantage:
-          "Purpose-sized relief avoids both failure modes of a guessed valve — undersized, which doesn't protect, or oversized, which chatters and wears out early. SIZEMASTER™ removes the guesswork.",
+          "Purpose-sized relief avoids both failure modes of a guessed valve: undersized, which doesn't protect, or oversized, which chatters and wears out early. SIZEMASTER™ removes the guesswork.",
         products: [
           { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
           { brandSlug: "farris-engineering", lineTag: "SERIES 2850" },
@@ -2092,7 +2126,7 @@ export const industries: Industry[] = [
         lines: [
           {
             tag: "SERIES 1890",
-            note: "General relief duty across balance-of-plant systems — compressed air, auxiliary steam, fuel handling — sized for whichever utility circuit needs it.",
+            note: "General relief duty across balance-of-plant systems such as compressed air, auxiliary steam, and fuel handling, sized for whichever utility circuit needs it.",
           },
           {
             tag: "SERIES 2600 / 2700",
@@ -2104,7 +2138,7 @@ export const industries: Industry[] = [
           },
           {
             tag: "SERIES 6400 / 6600",
-            note: "Dedicated steam safety valves for boiler drums and superheaters — the exact scenario every other plant safeguard exists to prevent, engineered around steam's compressibility at the set pressure that matters.",
+            note: "Dedicated steam safety valves for boiler drums and superheaters, the exact scenario every other plant safeguard exists to prevent, engineered around steam's compressibility at the set pressure that matters.",
           },
           {
             tag: "SIZEMASTER™ · INSURE® · FAST NETWORK",
@@ -2117,7 +2151,7 @@ export const industries: Industry[] = [
         lines: [
           {
             tag: "360 / 390 / 350 / 370 / 380 / DF2000",
-            note: "Sliding-stem control valves for feedwater regulation, desuperheating spray, and HRSG duct-burner control — cycling constantly as load tracks a turbine's changing output.",
+            note: "Sliding-stem control valves for feedwater regulation, desuperheating spray, and HRSG duct-burner control, cycling constantly as load tracks a turbine's changing output.",
           },
           {
             tag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760",
@@ -2130,7 +2164,7 @@ export const industries: Industry[] = [
         lines: [
           {
             tag: "POP-A-PLUG®",
-            note: "Seals a leaking condenser tube in minutes without draining the waterbox — the unit stays online instead of waiting for the next planned outage.",
+            note: "Seals a leaking condenser tube in minutes without draining the waterbox, so the unit stays online instead of waiting for the next planned outage.",
           },
           {
             tag: "HYDRA-LOC®",
@@ -2160,13 +2194,13 @@ export const industries: Industry[] = [
       {
         area: "Desalination",
         scope:
-          "SWRO/MSF/MED — pretreatment control, high-pressure brine handling, and chemical dosing",
+          "SWRO/MSF/MED: pretreatment control, high-pressure brine handling, and chemical dosing",
         challenge:
-          "Reverse-osmosis trains run at genuinely high pressure with a brine stream that's both saline and, at the pretreatment stage, dosed with corrosive chemicals — trim and seats wear fast if the valve isn't built for it.",
+          "Reverse-osmosis trains run at genuinely high pressure with a brine stream that's both saline and, at the pretreatment stage, dosed with corrosive chemicals. Trim and seats wear fast if the valve isn't built for it.",
         solution:
           "Dyna-Flo's segmented and full-ball rotary valves throttle and isolate pretreatment and brine lines with corrosion-resistant trim, while PRO-50 and 4000 Series instrumentation regulates the chemical-dosing skids.",
         advantage:
-          "A segmented ball design gives tight shutoff and high rangeability in one body — one valve does both throttling and positive isolation, instead of needing separate control and block valves.",
+          "A segmented ball design gives tight shutoff and high rangeability in one body, so one valve does both throttling and positive isolation instead of needing separate control and block valves.",
         products: [
           { brandSlug: "dyna-flo", lineTag: "SERIES 570 / 590" },
           { brandSlug: "dyna-flo", lineTag: "PRO-50 · 4000 · 5000 · T950XP · PS2/760" },
@@ -2176,11 +2210,11 @@ export const industries: Industry[] = [
         area: "Municipal water",
         scope: "intake control, filtration, disinfection, and distribution network isolation",
         challenge:
-          "A municipal network has to keep flowing continuously to the city it serves — an isolation valve that won't seat, or a control valve that hunts instead of holding position, shows up directly as a service complaint.",
+          "A municipal network has to keep flowing continuously to the city it serves. An isolation valve that won't seat, or a control valve that hunts instead of holding position, shows up directly as a service complaint.",
         solution:
           "Farris Series 1890 protects treatment-plant pressure vessels and filtration skids against overpressure, while Dyna-Flo rotary and sliding-stem valves handle intake and distribution control.",
         advantage:
-          "Direct-spring relief needs no external power or air supply — for a treatment plant built to run unattended for long stretches, that's one less system that can fail silently.",
+          "Direct-spring relief needs no external power or air supply. For a treatment plant built to run unattended for long stretches, that's one less system that can fail silently.",
         products: [
           { brandSlug: "farris-engineering", lineTag: "SERIES 1890" },
           { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
@@ -2190,7 +2224,7 @@ export const industries: Industry[] = [
         area: "Industrial wastewater",
         scope: "neutralization, clarification, sludge handling, and effluent discharge",
         challenge:
-          "Neutralization and sludge streams are abrasive, corrosive, or both — standard trim erodes quickly, and a valve failure here risks an out-of-spec discharge.",
+          "Neutralization and sludge streams are abrasive, corrosive, or both. Standard trim erodes quickly, and a valve failure here risks an out-of-spec discharge.",
         solution:
           "Dyna-Flo Series 570/590 rotary valves, available in corrosion-resistant trim, handle neutralization and sludge isolation, while EST's Pop-A-Plug keeps any shell-and-tube exchangers in the treatment train sealed.",
         advantage:
@@ -2204,7 +2238,7 @@ export const industries: Industry[] = [
         area: "Cooling water systems",
         scope: "heat exchanger protection, biocides dosing, and condenser tube maintenance",
         challenge:
-          "Cooling water fouls and scales heat exchangers over time, cutting thermal performance long before a leak is even detectable — by the time it's obvious, efficiency has already been lost for weeks.",
+          "Cooling water fouls and scales heat exchangers over time, cutting thermal performance long before a leak is even detectable. By the time it's obvious, efficiency has already been lost for weeks.",
         solution:
           "EST Pop-A-Plug seals a fouled or leaking tube without a full retube, and Dyna-Flo instrumentation doses biocide accurately to slow fouling in the first place.",
         advantage:
@@ -2253,7 +2287,7 @@ export const industries: Industry[] = [
         lines: [
           {
             tag: "SERIES 1890",
-            note: "General overpressure protection for treatment-plant pressure vessels and filtration skids — a direct-spring design needing no external power, which matters on a plant built to run unattended.",
+            note: "General overpressure protection for treatment-plant pressure vessels and filtration skids, using a direct-spring design that needs no external power, which matters on a plant built to run unattended.",
           },
           {
             tag: "SERIES 2600 / 2700",
@@ -2286,11 +2320,11 @@ export const industries: Industry[] = [
         scope:
           "high-pressure steam reforming, shift conversion, CO₂ removal, and synthesis loop control",
         challenge:
-          "An ammonia synthesis loop runs at some of the highest pressures in the entire fertilizer complex, with hydrogen-rich, corrosive process gas — a relief valve here has to handle a genuinely large release without becoming the failure point itself.",
+          "An ammonia synthesis loop runs at some of the highest pressures in the entire fertilizer complex, with hydrogen-rich, corrosive process gas. A relief valve here has to handle a genuinely large release without becoming the failure point itself.",
         solution:
           "Farris Series 3800 pilot-operated valves protect the synthesis loop with the high operating ratio and large relief capacity high-pressure ammonia service demands, sized and documented through SIZEMASTER™.",
         advantage:
-          "Pilot-operated valves can be set much closer to operating pressure than a direct-spring design without nuisance simmering — critical when the loop's efficiency depends on running as close to its pressure limit as safely possible.",
+          "Pilot-operated valves can be set much closer to operating pressure than a direct-spring design without nuisance simmering, which is critical when the loop's efficiency depends on running as close to its pressure limit as safely possible.",
         products: [
           { brandSlug: "farris-engineering", lineTag: "SERIES 3800" },
           { brandSlug: "farris-engineering", lineTag: "SIZEMASTER™ · INSURE® · FAST NETWORK" },
@@ -2300,11 +2334,11 @@ export const industries: Industry[] = [
         area: "Urea production",
         scope: "carbamate formation, urea finishing, and prilling/granulation",
         challenge:
-          "Carbamate is one of the most aggressively corrosive process streams in industrial chemistry — it attacks standard valve and heat-exchanger materials fast enough that carbamate condenser failures are a routine turnaround finding, not a rare event.",
+          "Carbamate is one of the most aggressively corrosive process streams in industrial chemistry. It attacks standard valve and heat-exchanger materials fast enough that carbamate condenser failures are a routine turnaround finding, not a rare event.",
         solution:
           "EST's Hydra-Loc tube sleeving and Pop-A-Plug tube plugging restore carbamate condensers to service without a full retube, and Dyna-Flo severe-service control valves regulate the corrosive carbamate and urea-melt lines.",
         advantage:
-          "Sleeving repairs the actual corroded section rather than replacing the whole bundle — the difference between a turnaround line item and a capital project.",
+          "Sleeving repairs the actual corroded section rather than replacing the whole bundle, which is the difference between a turnaround line item and a capital project.",
         products: [
           { brandSlug: "est", lineTag: "HYDRA-LOC®" },
           { brandSlug: "est", lineTag: "POP-A-PLUG®" },
@@ -2315,11 +2349,11 @@ export const industries: Industry[] = [
         area: "Phosphate processing",
         scope: "acidulation, filtration, and granulation",
         challenge:
-          "Phosphoric acid acidulation is one of the most corrosive services in the plant — standard valve trim and gaskets fail quickly, and a leak here is both a safety and an environmental exposure.",
+          "Phosphoric acid acidulation is one of the most corrosive services in the plant. Standard valve trim and gaskets fail quickly, and a leak here is both a safety and an environmental exposure.",
         solution:
           "Dyna-Flo control valves in acid-resistant trim regulate acidulation and filtration flows, while EST GripTight test plugs verify piping integrity during turnarounds without welding in temporary test spools.",
         advantage:
-          "A GripTight test plug pressure-tests a line and comes back out — no welding a test spool in, cutting it back out, and re-inspecting the weld, which is faster and removes a hot-work step from a corrosive-service line.",
+          "A GripTight test plug pressure-tests a line and then comes back out, with no welding a test spool in, cutting it back out, and re-inspecting the weld. That is faster and removes a hot-work step from a corrosive-service line.",
         products: [
           { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
           { brandSlug: "est", lineTag: "GRIPTIGHT®" },
@@ -2329,7 +2363,7 @@ export const industries: Industry[] = [
         area: "Blending and bagging",
         scope: "material handling, dust collection, and bagging equipment control",
         challenge:
-          "Blending and bagging lines run pneumatic and hydraulic actuation across many individual control points — keeping all of them correctly instrumented and responsive is a scale problem more than a severe-service one.",
+          "Blending and bagging lines run pneumatic and hydraulic actuation across many individual control points. Keeping all of them correctly instrumented and responsive is a scale problem more than a severe-service one.",
         solution:
           "Dyna-Flo's standard actuator and instrumentation range covers material-handling and dust-collection control points without over-specifying premium severe-service trim where it isn't needed.",
         advantage:
@@ -2421,7 +2455,7 @@ export const industries: Industry[] = [
           },
           {
             tag: "HYDRA-LOC®",
-            note: "Sleeving built for carbamate condensers specifically — one of the most aggressively corrosive services in industrial chemistry — recovering a tube's service life without a full retube.",
+            note: "Sleeving built specifically for carbamate condensers, one of the most aggressively corrosive services in industrial chemistry, recovering a tube's service life without a full retube.",
           },
         ],
       },
@@ -2440,11 +2474,11 @@ export const industries: Industry[] = [
         area: "Cement production",
         scope: "preheater control, kiln burner regulation, and dust collection isolation",
         challenge:
-          "A cement kiln runs at extreme temperature with abrasive dust everywhere in the gas path — valves and actuators here fail from erosion and heat, not just pressure.",
+          "A cement kiln runs at extreme temperature with abrasive dust everywhere in the gas path. Valves and actuators here fail from erosion and heat, not just pressure.",
         solution:
           "Dyna-Flo control valves regulate preheater and kiln-burner fuel/air, with pneumatic actuators sized for the higher torque dust-laden dampers and isolation valves need.",
         advantage:
-          "A properly sized pneumatic actuator carries enough reserve torque to keep breaking free a valve that's sat dusty and unmoved between campaigns — a common cause of stuck isolation valves in cement plants.",
+          "A properly sized pneumatic actuator carries enough reserve torque to keep breaking free a valve that's sat dusty and unmoved between campaigns, a common cause of stuck isolation valves in cement plants.",
         products: [
           { brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" },
           {
@@ -2457,7 +2491,7 @@ export const industries: Industry[] = [
         area: "Steel processing",
         scope: "furnace control, cooling water regulation, and hydraulic systems",
         challenge:
-          "Steel furnace cooling and hydraulic systems combine high temperature with high hydraulic pressure — a relief or control failure risks both equipment damage and a safety incident on the mill floor.",
+          "Steel furnace cooling and hydraulic systems combine high temperature with high hydraulic pressure. A relief or control failure risks both equipment damage and a safety incident on the mill floor.",
         solution:
           "Farris Series 1890 and 2850 relief valves protect furnace cooling circuits and hydraulic accumulators, while Dyna-Flo rotary valves regulate cooling-water flow to the furnace jacket.",
         advantage:
@@ -2472,18 +2506,18 @@ export const industries: Industry[] = [
         area: "Glass manufacturing",
         scope: "combustion control, batch handling, and forming machine regulation",
         challenge:
-          "Glass-furnace combustion has to hold an exact temperature profile — drift changes glass quality directly, and the furnace can't simply be shut down and restarted to correct it without a costly thermal cycle.",
+          "Glass-furnace combustion has to hold an exact temperature profile. Drift changes glass quality directly, and the furnace can't simply be shut down and restarted to correct it without a costly thermal cycle.",
         solution:
           "Dyna-Flo sliding-stem control valves regulate combustion air and fuel with the fine, repeatable positioning a glass furnace's temperature profile depends on.",
         advantage:
-          "A sliding-stem valve's linear characteristic gives more predictable control at partial loads than a rotary valve would — exactly the low-drift behavior a continuous glass furnace needs.",
+          "A sliding-stem valve's linear characteristic gives more predictable control at partial loads than a rotary valve would, exactly the low-drift behavior a continuous glass furnace needs.",
         products: [{ brandSlug: "dyna-flo", lineTag: "360 / 390 / 350 / 370 / 380 / DF2000" }],
       },
       {
         area: "Pulp & paper",
         scope: "chemical dosing, stock preparation, and dryer system control",
         challenge:
-          "Pulping chemicals are corrosive and stock-preparation lines carry abrasive fiber slurry — two very different failure modes the same plant has to guard against with the right valve for each.",
+          "Pulping chemicals are corrosive and stock-preparation lines carry abrasive fiber slurry: two very different failure modes the same plant has to guard against with the right valve for each.",
         solution:
           "Dyna-Flo instrumentation doses chemicals accurately, its rotary valves handle abrasive stock-prep slurry service, and EST Pop-A-Plug maintains the dryer system's steam-side heat exchangers.",
         advantage:
@@ -2498,7 +2532,7 @@ export const industries: Industry[] = [
         area: "Mining",
         scope: "slurry handling, dewatering, and process water management",
         challenge:
-          "Mineral slurry is about as abrasive a service as industrial valves ever see — standard trim can wear through in months where a cleaner service would last years.",
+          "Mineral slurry is about as abrasive a service as industrial valves ever see. Standard trim can wear through in months where a cleaner service would last years.",
         solution:
           "Dyna-Flo rotary ball and segmented valves, in hardened trim, handle slurry isolation and dewatering duty, while Farris relief valves protect the process water and hydraulic systems around them.",
         advantage:
@@ -2535,7 +2569,7 @@ export const industries: Industry[] = [
           },
           {
             tag: "SERIES 2850",
-            note: "A compact spring-loaded option for smaller relief duty where a full-size valve isn't warranted — air, steam, vapor, or liquid service.",
+            note: "A compact spring-loaded option for smaller relief duty where a full-size valve isn't warranted, in air, steam, vapor, or liquid service.",
           },
         ],
       },
@@ -2544,7 +2578,7 @@ export const industries: Industry[] = [
         lines: [
           {
             tag: "360 / 390 / 350 / 370 / 380 / DF2000",
-            note: "Sliding-stem control across kiln burners, furnace combustion air, and general process regulation — the standard control valve for facilities that aren't running severe-service chemistry.",
+            note: "Sliding-stem control across kiln burners, furnace combustion air, and general process regulation. The standard control valve for facilities that aren't running severe-service chemistry.",
           },
           {
             tag: "SERIES 570 / 590",
@@ -2614,7 +2648,12 @@ export const industriesSummary = [
 
 export type ProjectClientGroup = {
   slug: string;
+  /** Full heading shown above the group's client cards. */
   category: string;
+  /** Short form for the tab strip. Held as its own field rather than derived
+   *  from `category` by splitting on punctuation, so rewording a heading can
+   *  never silently change (or blank out) the tab label. */
+  short: string;
   image: string;
   imageAlt: string;
   entries: { name: string; sector: string }[];
@@ -2623,41 +2662,45 @@ export type ProjectClientGroup = {
 export const projectClients: ProjectClientGroup[] = [
   {
     slug: "upstream",
-    category: "Oil & Gas — Upstream & Exploration",
+    category: "Oil & Gas: Upstream & Exploration",
+    short: "Upstream",
     image: "/images/upstream-drilling-rig.jpg",
     imageAlt: "Land drilling rig at an upstream oil field",
     entries: [
-      { name: "Khalda Petroleum Company", sector: "Upstream — Western Desert Operations" },
-      { name: "Belayim Petroleum Company (Petrobel)", sector: "Upstream — Gulf of Suez & Sinai" },
-      { name: "GUPCO Petroleum Company", sector: "Upstream — Gulf of Suez" },
-      { name: "Badr El Din Petroleum Company", sector: "Upstream — Western Desert" },
-      { name: "South Dabaah Petroleum Co. (DAPETCO)", sector: "Upstream — Western Desert" },
-      { name: "Nasr Petroleum Company", sector: "Upstream & Refining" },
-      { name: "Scimitar Production Egypt Ltd", sector: "Upstream — International Operator" },
+      { name: "Khalda Petroleum Company", sector: "Upstream, Western Desert operations" },
+      { name: "Belayim Petroleum Company (Petrobel)", sector: "Upstream, Gulf of Suez & Sinai" },
+      { name: "GUPCO Petroleum Company", sector: "Upstream, Gulf of Suez" },
+      { name: "Badr El Din Petroleum Company", sector: "Upstream, Western Desert" },
+      { name: "South Dabaah Petroleum Co. (DAPETCO)", sector: "Upstream, Western Desert" },
+      { name: "Nasr Petroleum Company", sector: "Upstream & refining" },
+      { name: "Scimitar Production Egypt Ltd", sector: "Upstream, international operator" },
     ],
   },
   {
     slug: "midstream",
-    category: "Oil & Gas — Midstream, Refining & LNG",
+    category: "Oil & Gas: Midstream, Refining & LNG",
+    short: "Midstream",
     image: "/images/refinery-blue.jpg",
     imageAlt: "Oil refinery at blue hour",
     entries: [
-      { name: "Cairo Oil Refining Company (CORC)", sector: "Refining — Cairo" },
-      { name: "Suez Oil Processing Company (SOPC)", sector: "Refining — Suez" },
-      { name: "Egyptian Natural Gas Holding Co. (EGAS)", sector: "Midstream — Gas Transmission" },
-      { name: "Arab Petroleum Pipelines Co. (SUMED)", sector: "Midstream — Pipeline Transportation" },
-      { name: "Egypt's Damietta LNG", sector: "LNG — Liquefaction & Export" },
+      { name: "Cairo Oil Refining Company (CORC)", sector: "Refining, Cairo" },
+      { name: "Suez Oil Processing Company (SOPC)", sector: "Refining, Suez" },
+      { name: "Egyptian Natural Gas Holding Co. (EGAS)", sector: "Midstream, gas transmission" },
+      { name: "Gasco", sector: "Midstream, gas processing & transmission" },
+      { name: "Arab Petroleum Pipelines Co. (SUMED)", sector: "Midstream, pipeline transportation" },
+      { name: "Damietta LNG (DLNG)", sector: "LNG, liquefaction & export" },
     ],
   },
   {
     slug: "epc",
     category: "EPC, Engineering & Project Management",
+    short: "EPC",
     image: "/images/power-station.jpg",
     imageAlt: "Power station at night",
     entries: [
       {
         name: "ENPPI (Engineering for the Petroleum and Process Industries)",
-        sector: "Engineering & EPC — Oil & Gas",
+        sector: "Engineering & EPC, oil & gas",
       },
       {
         name: "Petrojet (The Petroleum Projects & Technical Consultations Co.)",
@@ -2668,33 +2711,38 @@ export const projectClients: ProjectClientGroup[] = [
   {
     slug: "petrochemicals",
     category: "Petrochemicals & Chemicals",
+    short: "Petrochemicals",
     image: "/images/petrochemical-plant.jpg",
     imageAlt: "Petrochemical plant with process towers and steam plumes",
     entries: [
       {
         name: "The Egyptian Ethylene and Derivatives Company (ETHYDCO)",
-        sector: "Petrochemicals — Ethylene & Derivatives",
+        sector: "Petrochemicals, ethylene & derivatives",
       },
       {
         name: "Egyptian Propylene and Polypropylene Company",
-        sector: "Petrochemicals — Propylene & Polypropylene",
+        sector: "Petrochemicals, propylene & polypropylene",
       },
-      { name: "Echem — Egyptian Petrochemicals Holding Co.", sector: "Petrochemicals — Holding & Investments" },
-      { name: "Egyptian Methanex Methanol Company", sector: "Petrochemicals — Methanol Production" },
+      {
+        name: "Echem (Egyptian Petrochemicals Holding Co.)",
+        sector: "Petrochemicals, holding & investments",
+      },
+      { name: "Egyptian Methanex Methanol Company", sector: "Petrochemicals, methanol production" },
       {
         name: "Egypt Basic Industries Corporation (EBIC)",
-        sector: "Petrochemicals — Ammonia & Fertilizers (Fertiglobe)",
+        sector: "Petrochemicals, ammonia & fertilizers (Fertiglobe)",
       },
     ],
   },
   {
     slug: "fertilizers",
     category: "Fertilizers",
+    short: "Fertilizers",
     image: "/images/gas-plant.jpg",
     imageAlt: "Natural gas wellhead with valve handwheels",
     entries: [
-      { name: "Misr Fertilizers Production Company (MOPCO)", sector: "Fertilizers — Ammonia & Urea" },
-      { name: "Birla Carbon", sector: "Fertilizers & Carbon Black" },
+      { name: "Misr Fertilizers Production Company (MOPCO)", sector: "Fertilizers, ammonia & urea" },
+      { name: "Birla Carbon", sector: "Fertilizers & carbon black" },
     ],
   },
 ];

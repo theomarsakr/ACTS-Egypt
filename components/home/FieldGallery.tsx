@@ -173,7 +173,7 @@ export default function FieldGallery({
               aria-label={tfill(labels.openLabel, {
                 n: i + 1,
                 total: visible.length,
-                title: `${a.label} — ${a.sub}`,
+                title: `${a.label}: ${a.sub}`,
               })}
               className={`group relative block w-full overflow-hidden rounded-2xl text-left cursor-zoom-in ${a.aspect}`}
             >

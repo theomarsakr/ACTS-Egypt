@@ -23,7 +23,7 @@ const pillarIcons = [Gauge, Settings2, Thermometer, Briefcase];
 export const metadata: Metadata = {
   title: "Products & services",
   description:
-    "ACTS supplies, supports, and maintains critical process equipment across Egypt's Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: valves, actuators & instrumentation, heat exchanger & pressure testing equipment, and consultancy & aftermarket services.",
+    "ACTS supplies, supports, and maintains critical process equipment across Egypt's Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: valves, actuators & instrumentation, heat exchanger & pressure testing equipment, and technical advisory & aftermarket services.",
 };
 
 const pillars = [
@@ -136,22 +136,22 @@ const pillars = [
   },
 ];
 
-const consultancy = {
-  strategic: [
-    "Feasibility studies for new projects and expansions",
-    "Business development advisory for industrial clients",
-    "Market entry and procurement strategy",
-  ],
-  operations: [
-    "Process optimization and efficiency improvement",
-    "Procurement and outsourcing strategies to reduce costs",
-    "Supply chain risk assessment and mitigation",
+const advisory = {
+  technical: [
+    "Feasibility input on new projects and expansions",
+    "Product selection grounded in real application experience",
+    "Process improvement recommendations",
   ],
   aftermarket: [
     "Preventative maintenance planning and execution",
     "Valve reconditioning and overhaul (safety relief & control valves)",
     "Field troubleshooting and repair support",
-    "Dedicated overhaul and testing services (in development)",
+    "Re-certification and factory-authorized repair coordination",
+  ],
+  smart: [
+    "Condition monitoring on critical relief and control valves",
+    "Digital diagnostics from HART-ready smart positioners",
+    "Maintenance driven by data, not just by schedule",
   ],
 };
 
@@ -206,7 +206,8 @@ export default function ProductsPage() {
               Power Generation, Water Treatment, and Fertilizer industries.
               Our portfolio is organized into four integrated pillars that
               deliver complete solutions, from overpressure protection to
-              thermal asset management.
+              thermal asset management and the aftermarket support that keeps
+              both running.
             </p>
           </Reveal>
         </div>
@@ -281,13 +282,13 @@ export default function ProductsPage() {
                 (() => {
                   const Icon = pillarIcons[3];
                   const groups = [
-                    { title: "Strategic Consulting", items: consultancy.strategic },
-                    { title: "Operations Consulting", items: consultancy.operations },
-                    { title: "Aftermarket Services", items: consultancy.aftermarket },
+                    { title: "Technical Advisory", items: advisory.technical },
+                    { title: "Aftermarket Services", items: advisory.aftermarket },
+                    { title: "Smart Maintenance, Coming Online", items: advisory.smart },
                   ];
                   const item: TabItem = {
                     id: "04",
-                    label: "Consultancy & Aftermarket",
+                    label: "Advisory & Aftermarket",
                     icon: <Icon size={15} />,
                     content: (
                       <div>
@@ -300,14 +301,15 @@ export default function ProductsPage() {
                               Pillar 04
                             </div>
                             <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                              Consultancy &amp; Aftermarket Services
+                              Technical Advisory &amp; Aftermarket Services
                             </h2>
                           </div>
                         </div>
                         <p className="mt-4 text-[15px] text-gray-600 leading-relaxed max-w-3xl">
-                          We go beyond equipment supply to offer strategic
-                          advisory and lifecycle support that maximizes asset
-                          performance and operational efficiency.
+                          Beyond equipment supply, we support customers with
+                          engineering advice, maintenance that reduces
+                          downtime, and a move toward service driven by data
+                          rather than by the calendar.
                         </p>
                         <div className="mt-6 grid sm:grid-cols-3 gap-5">
                           {groups.map((g) => (

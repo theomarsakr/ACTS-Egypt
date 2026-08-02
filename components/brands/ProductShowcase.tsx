@@ -316,12 +316,12 @@ function buildEstContext(): THREE.Group {
 
 const CONFIGS: Record<string, ShowcaseConfig> = {
   "farris-engineering": {
-    eyebrow: "Interactive 360° — 2600 Series",
+    eyebrow: "Interactive 360°: 2600 Series",
     title: "The workhorse of the Farris line",
-    caption: "API 526 full-nozzle process relief valve — scroll to walk around it.",
+    caption: "API 526 full-nozzle process relief valve. Scroll to walk around it.",
     install: {
       label: "In service",
-      text: "Bolted straight onto the line's API 526 mating flange, with the discharge piped to a safe location — one 2600 protects the entire vessel the moment pressure exceeds its set point.",
+      text: "Bolted straight onto the line's API 526 mating flange, with the discharge piped to a safe location, one 2600 protects the entire vessel the moment pressure exceeds its set point.",
     },
     restAngle: -0.6,
     camA: [2.3, 1.7, 3.1],
@@ -331,21 +331,21 @@ const CONFIGS: Record<string, ShowcaseConfig> = {
     contextFrom: [0, -4.6, 0],
     groundDrop: 1.8,
     callouts: [
-      { anchor: [0.42, 0.1, 0], band: [0.02, 0.27], title: "Full-nozzle inlet", text: "API 526 envelope, 1\"×2\" to 20\"×24\" — drop-in interchangeable." },
-      { anchor: [0.62, 0.66, 0], band: [0.27, 0.52], title: "Integral cast flanges", text: "Flange classes 150#–2500#, carbon or stainless steel to Monel & Hastelloy C." },
-      { anchor: [0.26, 1.22, 0], band: [0.52, 0.77], title: "Enclosed spring bonnet", text: "Set pressures 15–6000 psig, service from −320 to 1500 °F." },
-      { anchor: [0, 1.32, 0.5], band: [0.77, 1.0], title: "Lifting lever", text: "Manual in-service testing — ASME/NB Section VIII & III certified." },
+      { anchor: [0.42, 0.1, 0], band: [0.02, 0.27], title: "Full-nozzle inlet", text: "API 526 envelope, 1\"×2\" to 20\"×24\", drop-in interchangeable." },
+      { anchor: [0.62, 0.66, 0], band: [0.27, 0.52], title: "Integral cast flanges", text: "Flange classes 150# to 2500#, carbon or stainless steel to Monel & Hastelloy C." },
+      { anchor: [0.26, 1.22, 0], band: [0.52, 0.77], title: "Enclosed spring bonnet", text: "Set pressures 15 to 6000 psig, service from −320 to 1500 °F." },
+      { anchor: [0, 1.32, 0.5], band: [0.77, 1.0], title: "Lifting lever", text: "Manual in-service testing, ASME/NB Section VIII & III certified." },
     ],
     build: buildFarrisValve,
     buildContext: buildFarrisContext,
   },
   "dyna-flo": {
-    eyebrow: "Interactive 360° — Sliding-Stem Series",
+    eyebrow: "Interactive 360°: Sliding-Stem Series",
     title: "Flow control, to the millimeter",
-    caption: "Cage-guided globe control valve with spring & diaphragm actuator — scroll to walk around it.",
+    caption: "Cage-guided globe control valve with spring & diaphragm actuator. Scroll to walk around it.",
     install: {
       label: "In the loop",
-      text: "Installed between mating flanges in the process line, the actuator strokes the plug against its seat to hold the loop's setpoint — modulating flow continuously, not just open/closed.",
+      text: "Installed between mating flanges in the process line, the actuator strokes the plug against its seat to hold the loop's setpoint, modulating flow continuously, not just open/closed.",
     },
     restAngle: -0.35,
     camA: [2.4, 1.8, 3.2],
@@ -355,21 +355,21 @@ const CONFIGS: Record<string, ShowcaseConfig> = {
     contextFrom: [0, -4.6, 0],
     groundDrop: 0.8,
     callouts: [
-      { anchor: [-0.62, 0.42, 0], band: [0.02, 0.27], title: "Globe body", text: "Series span 1\" to 16\" bodies, pressure classes 150–2500." },
+      { anchor: [-0.62, 0.42, 0], band: [0.02, 0.27], title: "Globe body", text: "Series span 1\" to 16\" bodies, pressure classes 150 to 2500." },
       { anchor: [0.28, 0.5, 0], band: [0.27, 0.52], title: "Cage-guided trim", text: "Up to 320 AxFlo multi-stage axial-flow anti-cavitation trim." },
       { anchor: [0.44, 1.75, 0], band: [0.52, 0.77], title: "Spring & diaphragm actuator", text: "Fail-closed (DFC) or fail-open (DFO) on loss of air." },
-      { anchor: [-0.38, 1.28, 0], band: [0.77, 1.0], title: "Digital positioner", text: "PS2 positioner drives linear plug travel from the 4–20 mA loop." },
+      { anchor: [-0.38, 1.28, 0], band: [0.77, 1.0], title: "Digital positioner", text: "PS2 positioner drives linear plug travel from the 4 to 20 mA loop." },
     ],
     build: buildDynaValve,
     buildContext: buildDynaContext,
   },
   est: {
-    eyebrow: "Interactive 360° — Pop-A-Plug® P2",
+    eyebrow: "Interactive 360°: Pop-A-Plug® P2",
     title: "The weld-free tube repair",
-    caption: "High-pressure mechanical tube plug — scroll to walk around it.",
+    caption: "High-pressure mechanical tube plug. Scroll to walk around it.",
     install: {
       label: "In the exchanger",
-      text: "From the channel side, the P2 docks into the leaking tube and its rings swage against the tube wall — a helium leak-tight seal in minutes, no welding, and the exchanger goes back online.",
+      text: "From the channel side, the P2 docks into the leaking tube and its rings swage against the tube wall, giving a helium leak-tight seal in minutes, no welding, and the exchanger goes back online.",
     },
     // Nose points away from camera so the tubesheet's channel-side face —
     // where the plug goes in — is what the pulled-back camera looks at.
@@ -382,8 +382,8 @@ const CONFIGS: Record<string, ShowcaseConfig> = {
     groundDrop: 1.1,
     callouts: [
       { anchor: [0, 0.97, 0], band: [0.02, 0.33], title: "Serrated sealing rings", text: "Permanent weld-free seal, rated 7,000 PsiG (483 BarG)." },
-      { anchor: [0.54, 0.8, 0], band: [0.33, 0.66], title: "Ring-and-pin design", text: "Metallurgy-matched to the tube — resists ejection and thermal cycling." },
-      { anchor: [-0.55, 0.8, 0], band: [0.66, 1.0], title: "Breakaway installation end", text: "Fits tube IDs 0.400\"–1.460\" — helium leak-tight, ISO 9001 manufactured." },
+      { anchor: [0.54, 0.8, 0], band: [0.33, 0.66], title: "Ring-and-pin design", text: "Metallurgy-matched to the tube, resisting ejection and thermal cycling." },
+      { anchor: [-0.55, 0.8, 0], band: [0.66, 1.0], title: "Breakaway installation end", text: "Fits tube IDs 0.400\" to 1.460\", helium leak-tight, ISO 9001 manufactured." },
     ],
     build: buildEstPlug,
     buildContext: buildEstContext,
@@ -608,7 +608,7 @@ export default function ProductShowcase({ slug }: { slug: string }) {
 
         {!reduced && (
           <p ref={hintRef} className="relative pb-6 text-[12.5px] font-medium text-gray-400">
-            Keep scrolling — it turns with the page ↓
+            Keep scrolling, it turns with the page ↓
           </p>
         )}
       </div>

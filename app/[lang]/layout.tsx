@@ -77,7 +77,7 @@ export async function generateMetadata({
       images: [
         {
           url: "/images/refinery-blue.jpg",
-          alt: "ACTS — industrial process equipment supplier in Egypt",
+          alt: "ACTS, industrial process equipment supplier in Egypt",
         },
       ],
     },

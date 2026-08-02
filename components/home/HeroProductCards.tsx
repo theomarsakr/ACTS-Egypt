@@ -196,7 +196,7 @@ function ProductCard({
             navigates to that brand's page. */}
         <Link
           href={`/brands/${card.slug}`}
-          aria-label={`${card.brand} — view brand page`}
+          aria-label={`${card.brand}, view brand page`}
           onMouseEnter={handleEnter}
           onMouseLeave={handleLeave}
           className="block overflow-hidden rounded-2xl bg-white shadow-2xl shadow-black/60 ring-1 ring-white/15 transition-shadow duration-300 hover:ring-amber/60 focus-visible:ring-2 focus-visible:ring-amber focus-visible:outline-none"

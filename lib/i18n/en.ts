@@ -4,7 +4,7 @@
 
 export const en = {
   meta: {
-    title: "ACTS Egypt — Valves, Flow Control & Process Equipment",
+    title: "ACTS Egypt | Valves, Flow Control & Process Equipment",
     description:
       "ACTS is Egypt's trusted partner for valves, flow control, and critical process equipment across Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright).",
   },
@@ -29,12 +29,12 @@ export const en = {
   footer: {
     rfqTitle: "Have a requirement on your desk?",
     rfqText:
-      "Leave your work email and finish the details on the quote form — our engineers typically respond within 24 hours.",
+      "Leave your work email and finish the details on the quote form. Our engineers typically respond within 24 hours.",
     emailLabel: "Work email",
     emailPlaceholder: "you@company.com",
     startQuote: "Start a quote",
     blurb:
-      "Advanced Company for Trading Services — Egypt's sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright) since 2006.",
+      "Advanced Company for Trading Services. Egypt's sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright) since 2006.",
     channels: {
       call: "Call ACTS",
       email: "Email sales",
@@ -63,9 +63,9 @@ export const en = {
   home: {
     hero: {
       badge: "Representing World-Class Engineering Solutions in Egypt.",
-      titleA: "Engineering trust into",
-      titleB: "every process",
-      lede: "Since 2006, ACTS has been Egypt's trusted partner for valves, flow control, and critical process services: the sole agent for Farris Engineering, Dyna-Flo, and EST, all divisions of Curtiss-Wright.",
+      titleA: "Engineering the future of",
+      titleB: "industrial reliability",
+      lede: "From safety-critical valves to smart, connected instrumentation, ACTS has spent nearly two decades engineering the reliability behind Egypt's Oil & Gas, Petrochemical, Power, and Fertilizer industries, as sole agent for Farris Engineering, Dyna-Flo Control Valve Services, and EST, all divisions of Curtiss-Wright.",
       ctaQuote: "Request a quote",
       ctaBrands: "Explore our brands",
       exclusiveNote: "exclusive to ACTS in Egypt",
@@ -88,11 +88,11 @@ export const en = {
         },
         {
           title: "Heat Exchanger & Pressure Testing",
-          text: "Tube plugging systems for leaking heat exchanger, condenser, and boiler tubes; hydrostatic test and isolation plugs; on-site field services.",
+          text: "Tube plugging systems for leaking heat exchanger, condenser, and boiler tubes; hydrostatic test and isolation plugs for pipes, pipelines, and pressure vessels; and on-site field services for inspection and repair.",
         },
         {
-          title: "Technical Consultancy",
-          text: "Strategic and operational advisory for industrial clients, including feasibility studies and process improvement.",
+          title: "Aftermarket & Maintenance Support",
+          text: "Reconditioning, re-certification, and factory-authorized repair support that cuts downtime and extends the service life of critical equipment.",
         },
       ],
     },
@@ -128,23 +128,23 @@ export const en = {
           eyebrow above is marketing copy, too long for a tooltip. */
       navLabel: "Global reach",
       title: "World-class engineering, delivered and supported from Egypt",
-      lede: "Every valve and tool we supply traces back to a Curtiss-Wright manufacturing site in North America — backed on the ground in Giza by engineers who size, stock, and service it.",
+      lede: "Every valve and tool we supply traces back to a Curtiss-Wright manufacturing site in North America, backed on the ground in Giza by engineers who size, stock, and service it.",
     },
     why: {
       eyebrow: "Why ACTS",
       title: "Built for procurement teams",
-      lede: "We know what engineering procurement needs from an industrial equipment supplier — we've been doing it for nearly two decades.",
+      lede: "We know what engineering procurement needs from an industrial equipment supplier. We've been doing it for nearly two decades.",
       exclusive: {
         eyebrow: "Exclusive agency",
         title: "The sole authorized source for three Curtiss-Wright divisions in Egypt",
-        text: "Factory-backed pricing, genuine parts, and direct access to manufacturer engineering — without intermediaries.",
+        text: "Factory-backed pricing, genuine parts, and direct access to manufacturer engineering, without intermediaries.",
         link: "Our brands",
       },
       fast: {
         big: "24",
         unit: "h",
         title: "Fast quotations",
-        text: "Send a requirement, get a serious answer — usually within one business day.",
+        text: "Send a requirement, get a serious answer, usually within one business day.",
       },
       engineers: {
         title: "Engineers, not order-takers",
@@ -166,7 +166,7 @@ export const en = {
       },
       locationTile: {
         title: "Giza headquarters, nationwide reach",
-        text: "Arkan Plaza, Sheikh Zayed City — supporting sites from the Western Desert to the Gulf of Suez.",
+        text: "Arkan Plaza, Sheikh Zayed City, supporting sites from the Western Desert to the Gulf of Suez.",
         cta: "Visit or contact us",
         mapHint: "Hover a pin to see who we work with",
       },
@@ -174,11 +174,11 @@ export const en = {
     proven: {
       eyebrow: "Proven in the field",
       title: "The work our clients rely on us for",
-      lede: "Project specifics stay confidential — these are the engagements Egypt's operators bring to ACTS, from named clients like ENPPI, Petrojet, and Khalda Petroleum.",
+      lede: "Project specifics stay confidential. These are the engagements Egypt's operators bring to ACTS, from named clients like ENPPI, Petrojet, and Khalda Petroleum.",
       confidential: "Client details confidential ·",
       seeWho: "See who we work with",
       sectors: {
-        upstream: "Oil & Gas — Upstream",
+        upstream: "Oil & Gas: Upstream",
         midstream: "Refining & Midstream",
         epc: "EPC & Engineering",
         petrochemicals: "Petrochemicals",
@@ -210,7 +210,7 @@ export const en = {
     gallery: {
       chip: "Company gallery",
       title: "Where our equipment works",
-      lede: "The sites we support and the equipment we keep running — from the Western Desert to the Gulf of Suez. Tap any photo to view it full-screen.",
+      lede: "The sites we support and the equipment we keep running, from the Western Desert to the Gulf of Suez. Tap any photo to view it full-screen.",
       projectsBtn: "Projects & clients",
       allPhotos: "All photos",
       learnMore: "Learn more",
@@ -239,7 +239,7 @@ export const en = {
     cta: {
       eyebrow: "Start a conversation",
       title: "Let's talk about your next project",
-      lede: "A project, an application question, or an urgent maintenance need — our engineers are ready.",
+      lede: "A project, an application question, or an urgent maintenance need. Our engineers are ready.",
       quote: "Request a quote",
       contactUs: "Contact us",
     },
@@ -263,8 +263,8 @@ export const en = {
     teamRoles: { "General Manager": "General Manager" } as Record<string, string>,
     officeHoursTitle: "Office hours",
     officeHours: [
-      { day: "Sunday – Thursday", hours: "9:00 AM – 5:00 PM (Cairo Time)" },
-      { day: "Friday – Saturday", hours: "Closed" },
+      { day: "Sunday to Thursday", hours: "9:00 AM to 5:00 PM (Cairo Time)" },
+      { day: "Friday and Saturday", hours: "Closed" },
     ],
     requestQuote: "Request a quote",
     headquarters: "Headquarters",

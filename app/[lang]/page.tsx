@@ -8,12 +8,12 @@ import {
   ExternalLink,
   Gauge,
   Globe,
-  LineChart,
   Mail,
   MapPin,
   Package,
   Phone,
   ShieldCheck,
+  Thermometer,
   Wrench,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -43,7 +43,8 @@ import {
 import { brandCardImages, brandSlugToFolder } from "@/lib/brandProductImages";
 import { fill, getDict, localeHref, type Locale } from "@/lib/i18n";
 
-const whatWeDoIcons = [Gauge, Wrench, LineChart];
+// Valves & instrumentation, heat exchanger & pressure testing, aftermarket.
+const whatWeDoIcons = [Gauge, Thermometer, Wrench];
 
 /* Gallery photos — labels/subtitles/groups come from the locale dictionary
    (aligned by index); the structural fields live here. */

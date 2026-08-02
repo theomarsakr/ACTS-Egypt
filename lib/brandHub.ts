@@ -81,7 +81,7 @@ const FARRIS: HubProduct[] = [
     family: "Process Pressure Relief Valve",
     group: "process",
     standard: "API 526",
-    tagline: "Flagship full-nozzle process PRV — the workhorse of the Farris line.",
+    tagline: "Flagship full-nozzle process PRV, the workhorse of the Farris line.",
     overview:
       "The 2600 Series is Farris' flagship API 526 direct spring-operated process relief valve, with an integral-cast flanged body and full nozzle design. The 2600L adds a multiple-service single-trim design so one valve covers gas, vapor, steam and liquid service.",
     features: [
@@ -92,7 +92,7 @@ const FARRIS: HubProduct[] = [
       "Balanced bellows option",
       "Open bonnet and lever assemblies option",
       "Adjustable blowdown",
-      "2600L — multiple service single trim design option",
+      "2600L multiple-service single-trim design option",
     ],
     benefits: [
       "API 526 envelope means drop-in interchangeability with existing installations",
@@ -105,7 +105,7 @@ const FARRIS: HubProduct[] = [
       { label: "Orifice Areas", value: "D (0.15 in²) to Z (176.7 in²)" },
       { label: "Set Pressure Range", value: "15 to 6000 psig (1.0 to 413 barg)" },
       { label: "Temperature Range", value: "-320 to 1500°F (-195 to 815°C)" },
-      { label: "Flange Classes", value: "150# – 2500#" },
+      { label: "Flange Classes", value: "150# to 2500#" },
       {
         label: "Materials",
         value:
@@ -137,22 +137,22 @@ const FARRIS: HubProduct[] = [
     standard: "API 526",
     tagline: "Pilot-operated process valve for high operating-to-set ratios.",
     overview:
-      "The 3800 Series is an API 526 process valve offering both snap-acting and modulating control actuation, with semi- and full-port nozzle designs and a tight typical blowdown of 3–6%.",
+      "The 3800 Series is an API 526 process valve offering both snap-acting and modulating control actuation, with semi- and full-port nozzle designs and a tight typical blowdown of 3 to 6%.",
     features: [
       "Conforms to API 526",
       "Snap acting and modulating control actuation",
       "Semi and full port nozzle design",
-      "Typical blowdown of 3–6%",
+      "Typical blowdown of 3 to 6%",
     ],
     benefits: [
       "Modulating action relieves only the required capacity, reducing product loss",
-      "Tight 3–6% blowdown allows operation close to set pressure",
+      "Tight 3 to 6% blowdown allows operation close to set pressure",
       "Full-port option delivers maximum certified capacity",
     ],
     images: [`${F}/3800.jpg`, `${F}/3800_1.jpg`, `${F}/3800_2.jpg`],
     videos: [
       { id: "Hit0yKF36Zc", title: "Farris 3800 Pilot Operated Relief Valve" },
-      { id: "h0R2arixQ48", title: "Farris 3800 — Exploded View" },
+      { id: "h0R2arixQ48", title: "Farris 3800 Exploded View" },
     ],
     tokens: ["3800"],
     related: ["series-2600", "series-2700"],
@@ -163,7 +163,7 @@ const FARRIS: HubProduct[] = [
     name: "2700 Series",
     family: "Process Pressure Relief Valve",
     group: "process",
-    tagline: "Process relief valve — full data in the series catalog.",
+    tagline: "Process relief valve, with full data in the series catalog.",
     overview:
       "A member of the Farris process pressure relief valve family. Complete technical data, sizing and ordering information are provided in the 2700 series catalog and installation manual below.",
     features: ["Direct spring-operated process relief valve"],
@@ -210,7 +210,7 @@ const FARRIS: HubProduct[] = [
       "The 1890 Series is a threaded steel pressure relief valve with a full bore nozzle design, ASME/NB certified for air, steam and water service.",
     features: [
       "Threaded steel PRV",
-      "ASME/NB certified — air, steam & water",
+      "ASME/NB certified for air, steam & water",
       "Full bore nozzle design",
     ],
     models: ["1890", "1890L", "1892", "1892L"],
@@ -302,7 +302,7 @@ const FARRIS: HubProduct[] = [
     name: "4700 Series",
     family: "Steam Safety Valve",
     group: "steam",
-    tagline: "Steam safety valve — full data on request.",
+    tagline: "Steam safety valve, with full data on request.",
     overview:
       "A member of the Farris steam safety valve family. Full technical data, sizing and ordering information are available on request and in the SizeMaster™ sizing tool.",
     features: ["Flanged steam safety valve"],
@@ -334,10 +334,10 @@ const FARRIS: HubProduct[] = [
     ],
     images: [`${F}/inSure.png`, `${F}/inSure-Web-image.png`, `${F}/inSure-phone-image.png`],
     videos: [
-      { id: "IV3fA8VdmvA", title: "iNSURE® Monitoring Device — Overview" },
-      { id: "csOEcnCzh4k", title: "iNSURE® Monitor — Demonstration" },
-      { id: "OEWzom_yO4g", title: "iNSURE® — Installation" },
-      { id: "c-JjL-yaS3Q", title: "iNSURE® Monitoring Device — In Brief" },
+      { id: "IV3fA8VdmvA", title: "iNSURE® Monitoring Device: Overview" },
+      { id: "csOEcnCzh4k", title: "iNSURE® Monitor: Demonstration" },
+      { id: "OEWzom_yO4g", title: "iNSURE®: Installation" },
+      { id: "c-JjL-yaS3Q", title: "iNSURE® Monitoring Device: In Brief" },
     ],
     externalUrl:
       "https://valves.curtisswright.com/en-us/services/farris/insure-monitoring-device",
@@ -349,7 +349,7 @@ const FARRIS: HubProduct[] = [
 const DYNAFLO: HubProduct[] = [
   {
     id: "dyna-sliding-stem",
-    code: "360–DF2000",
+    code: "360 / DF2000",
     name: "Sliding-Stem Control Valves",
     family: "Linear Globe Control Valve",
     group: "control",
@@ -363,13 +363,13 @@ const DYNAFLO: HubProduct[] = [
       "Broad size and pressure-class coverage",
     ],
     specs: [
-      { label: "360 Series", value: '1–8", Class 150–600' },
-      { label: "390 Series", value: '1"–6", Class 900–1500' },
-      { label: "350 Series", value: '6–12", Class 150–900' },
-      { label: "370 Series", value: '12–16", Class 150–600' },
-      { label: "380 Series", value: '3 & 8", Class 900–2500' },
-      { label: "320 AxFlo", value: '1–8", Class 300–1500, anti-cavitation' },
-      { label: "DF2000 Series", value: '1 & 2", Class 150–2500' },
+      { label: "360 Series", value: '1 to 8", Class 150 to 600' },
+      { label: "390 Series", value: '1" to 6", Class 900 to 1500' },
+      { label: "350 Series", value: '6 to 12", Class 150 to 900' },
+      { label: "370 Series", value: '12 to 16", Class 150 to 600' },
+      { label: "380 Series", value: '3 & 8", Class 900 to 2500' },
+      { label: "320 AxFlo", value: '1 to 8", Class 300 to 1500, anti-cavitation' },
+      { label: "DF2000 Series", value: '1 & 2", Class 150 to 2500' },
     ],
     models: ["360", "390", "350", "370", "380", "320 AxFlo", "DF2000"],
     images: [
@@ -384,7 +384,7 @@ const DYNAFLO: HubProduct[] = [
     videos: [
       {
         id: "yH5FuJixezQ",
-        title: "Dyna-Flo — 320 AxFlo Anti-Cavitation Sliding Stem Control Valve",
+        title: "Dyna-Flo 320 AxFlo Anti-Cavitation Sliding Stem Control Valve",
       },
     ],
     externalUrl:
@@ -394,13 +394,13 @@ const DYNAFLO: HubProduct[] = [
   },
   {
     id: "dyna-rotary-ball",
-    code: "570–590",
+    code: "570 / 590",
     name: "Rotary Ball Valves",
     family: "Rotary Control Valve",
     group: "control",
     tagline: "High-capacity segmented and full-ball valves for throttling or on/off.",
     overview:
-      "Dyna-Flo rotary ball valves deliver high flow capacity with tight shutoff in a compact face-to-face footprint, in flanged Class 150–900 configurations.",
+      "Dyna-Flo rotary ball valves deliver high flow capacity with tight shutoff in a compact face-to-face footprint, in flanged Class 150 to 900 configurations.",
     features: [
       "Segmented and full-ball designs",
       "High Cv, wide rangeability",
@@ -408,10 +408,10 @@ const DYNAFLO: HubProduct[] = [
       "Throttling or on/off service",
     ],
     specs: [
-      { label: "Model 570", value: '1–8", Class 150–600' },
-      { label: "Model 571", value: '1–24", Class 150 Flanged' },
-      { label: "Model 573", value: '1–24", Class 300 Flanged' },
-      { label: "Model 590", value: '4–16", Class 600–900' },
+      { label: "Model 570", value: '1 to 8", Class 150 to 600' },
+      { label: "Model 571", value: '1 to 24", Class 150 Flanged' },
+      { label: "Model 573", value: '1 to 24", Class 300 Flanged' },
+      { label: "Model 590", value: '4 to 16", Class 600 to 900' },
     ],
     models: ["570", "571", "573", "590"],
     images: [
@@ -446,8 +446,8 @@ const DYNAFLO: HubProduct[] = [
       "Class IV metal or Class VI PTFE soft seat for tight shutoff",
     ],
     specs: [
-      { label: "Size", value: "1 to 6 inch NPS (25–150 mm DN)" },
-      { label: "Pressure Rating", value: "ASME B16.34 Class 150–600" },
+      { label: "Size", value: "1 to 6 inch NPS (25 to 150 mm DN)" },
+      { label: "Pressure Rating", value: "ASME B16.34 Class 150 to 600" },
       { label: "Shutoff", value: "ANSI/FCI 70.2 & IEC 60534-4 Class IV / VI" },
       { label: "Body Materials", value: "WCC, CF3M" },
       { label: "Operation", value: "Quarter-turn, RF flanged" },
@@ -456,7 +456,7 @@ const DYNAFLO: HubProduct[] = [
     videos: [
       {
         id: "smUViOj2kSA",
-        title: "Dyna-Flo — DF400 Series Eccentric Rotary Plug Control Valve System",
+        title: "Dyna-Flo DF400 Series Eccentric Rotary Plug Control Valve System",
       },
     ],
     externalUrl:
@@ -466,7 +466,7 @@ const DYNAFLO: HubProduct[] = [
   },
   {
     id: "dyna-integral",
-    code: "DF100–DF2410",
+    code: "DF100 / DF2410",
     name: "Integral Valve & Actuator",
     family: "Integral Control Valve",
     group: "control",
@@ -479,10 +479,10 @@ const DYNAFLO: HubProduct[] = [
       "Ideal for dump-valve service",
     ],
     specs: [
-      { label: "DF100", value: '1 inch, ASME 150–900' },
-      { label: "DF234", value: '1 & 2 inch, ASME 150–1500' },
-      { label: "DF270", value: '1 & 2 inch, ASME 150–1500' },
-      { label: "DF2410", value: '1 & 2 inch, ASME 150–600' },
+      { label: "DF100", value: '1 inch, ASME 150 to 900' },
+      { label: "DF234", value: '1 & 2 inch, ASME 150 to 1500' },
+      { label: "DF270", value: '1 & 2 inch, ASME 150 to 1500' },
+      { label: "DF2410", value: '1 & 2 inch, ASME 150 to 600' },
     ],
     models: ["DF100", "DF234", "DF270", "DF2410"],
     images: [
@@ -504,7 +504,7 @@ const DYNAFLO: HubProduct[] = [
     group: "actuator",
     tagline: "Large-diaphragm spring-and-diaphragm actuators with fail-safe positioning.",
     overview:
-      "Large-diaphragm-area actuators for low-pressure operation. A spring provides fail-safe positioning on loss of pneumatic supply — DFC fails closed, DFO fails open — to automate control valves for throttling or on/off service.",
+      "Large-diaphragm-area actuators for low-pressure operation. A spring provides fail-safe positioning on loss of pneumatic supply, where DFC fails closed and DFO fails open, to automate control valves for throttling or on/off service.",
     features: [
       "Fail-closed (DFC) or fail-open (DFO) action",
       "Open yoke / open valve stem design option",
@@ -512,9 +512,9 @@ const DYNAFLO: HubProduct[] = [
       "Versatile instrument mounting",
     ],
     specs: [
-      { label: "Input Signal", value: "3–15 PSIG or 6–30 PSIG" },
+      { label: "Input Signal", value: "3 to 15 PSIG or 6 to 30 PSIG" },
       { label: "Valve Stem", value: '3/8", 1/2", 3/4"' },
-      { label: "Effective Area", value: "46–220 in² (sizes 1046–3220)" },
+      { label: "Effective Area", value: "46 to 220 in² (sizes 1046 to 3220)" },
       { label: "Temperature", value: "-40°F to 180°F (-40°C to 82°C)" },
     ],
     images: [`${D}/DFC-DFO_front.png`],
@@ -539,7 +539,7 @@ const DYNAFLO: HubProduct[] = [
       "Heavy-duty coatings option",
     ],
     specs: [
-      { label: "Input Signal", value: "0–18 PSIG or 0–33 PSIG" },
+      { label: "Input Signal", value: "0 to 18 PSIG or 0 to 33 PSIG" },
       { label: "Valve Shaft", value: '1/2" to 2"' },
       { label: "Sizes", value: "026, 047, 070, 156, 220" },
       { label: "Temperature", value: "-40°F to 180°F (-40°C to 82°C)" },
@@ -567,7 +567,7 @@ const DYNAFLO: HubProduct[] = [
     specs: [
       { label: "Min Cylinder Pressure", value: "20 PSIG (1.38 BARG)" },
       { label: "Valve Stem", value: '3/4", 1", 1-1/4"' },
-      { label: "Thrust", value: "Up to ~16,940 lbf (sizes 3113–5154)" },
+      { label: "Thrust", value: "Up to ~16,940 lbf (sizes 3113 to 5154)" },
       { label: "Temperature", value: "-40°F to 180°F (-40°C to 82°C)" },
     ],
     images: [`${D}/DFLP_Front.png`],
@@ -593,7 +593,7 @@ const DYNAFLO: HubProduct[] = [
     specs: [
       { label: "Min Cylinder Pressure", value: "20 PSIG (1.38 BARG)" },
       { label: "Valve Shaft", value: '1/2" to 2-1/2"' },
-      { label: "Torque", value: "Up to ~65,004 lbf-in (sizes 028–154)" },
+      { label: "Torque", value: "Up to ~65,004 lbf-in (sizes 028 to 154)" },
       { label: "Temperature", value: "-40°F to 180°F (-40°C to 82°C)" },
     ],
     images: [`${D}/DFRP_Front.png`],
@@ -647,7 +647,7 @@ const DYNAFLO: HubProduct[] = [
       { label: "Models", value: "4000, 4010, 4020, 4030" },
       { label: "Repeatability", value: "0.5% of sensing element range" },
       { label: "Deadband", value: "0.1% of output span" },
-      { label: "Output Signal", value: "3–15 PSIG or 6–30 PSIG" },
+      { label: "Output Signal", value: "3 to 15 PSIG or 6 to 30 PSIG" },
       { label: "Temperature", value: "-40°F to 160°F (-40°C to 71°C)" },
     ],
     models: ["4000", "4010", "4020", "4030", "4000LB"],
@@ -675,7 +675,7 @@ const DYNAFLO: HubProduct[] = [
     specs: [
       { label: "Max Sensor Pressure", value: "3,750 PSIG (259 BARG)" },
       { label: "Min Specific Gravity", value: "0.1" },
-      { label: "Output Signal", value: "3–15 PSIG or 6–30 PSIG" },
+      { label: "Output Signal", value: "3 to 15 PSIG or 6 to 30 PSIG" },
       { label: "Ambient Temp", value: "-20°F to 400°F (-29°C to 204°C)" },
     ],
     models: ["5000", "5000E"],
@@ -693,7 +693,7 @@ const DYNAFLO: HubProduct[] = [
     group: "instrumentation",
     tagline: "Digital HART positioner and rugged pneumatic positioner for any valve.",
     overview:
-      "The Siemens PS2 is a digital, HART-ready electro-pneumatic positioner with on-board programming and an LCD. The Model 760 is a rugged pneumatic positioner for linear or rotary valves, with optional 4–20 mA feedback and limit switches.",
+      "The Siemens PS2 is a digital, HART-ready electro-pneumatic positioner with on-board programming and an LCD. The Model 760 is a rugged pneumatic positioner for linear or rotary valves, with optional 4 to 20 mA feedback and limit switches.",
     features: [
       "PS2: digital, HART/Profibus/Foundation Fieldbus, on-board LCD",
       "760: pneumatic, linear or rotary, optional feedback module",
@@ -701,10 +701,10 @@ const DYNAFLO: HubProduct[] = [
       "Position-indicator windows (760)",
     ],
     specs: [
-      { label: "PS2 Input / Output", value: "4–20 mA / 0–30, 0–60, 0–101.5 PSIG" },
+      { label: "PS2 Input / Output", value: "4 to 20 mA / 0 to 30, 0 to 60, 0 to 101.5 PSIG" },
       { label: "PS2 Temperature", value: "-40°F to 176°F" },
-      { label: "760 Input", value: "3–15 / 9–15 / 6–30 PSIG or 4–20 mA" },
-      { label: "760 Travel", value: '1/2"–6" rectilinear or 90° rotary' },
+      { label: "760 Input", value: "3 to 15 / 9 to 15 / 6 to 30 PSIG or 4 to 20 mA" },
+      { label: "760 Travel", value: '1/2" to 6" rectilinear or 90° rotary' },
     ],
     models: ["Siemens PS2", "Model 760"],
     images: [`${D}/PS2.png`, `${D}/760.png`],
@@ -729,7 +729,7 @@ const DYNAFLO: HubProduct[] = [
     ],
     specs: [
       { label: "Inlet", value: "250 PSIG (17.24 BARG) max" },
-      { label: "Outlet", value: "0–35 / 0–60 / 0–125 PSIG" },
+      { label: "Outlet", value: "0 to 35 / 0 to 60 / 0 to 125 PSIG" },
       { label: "Temperature", value: "-40°F to 300°F (-40°C to 149°C)" },
     ],
     images: [`${D}/PRO-50.png`],
@@ -746,15 +746,15 @@ const DYNAFLO: HubProduct[] = [
     group: "instrumentation",
     tagline: "Current-to-pressure transducer for hazardous environments.",
     overview:
-      "A reliable, high-performance current-to-pressure (I/P) transducer for hazardous environments, converting a 4–20 mA electrical input into a stable pneumatic output to drive control valve actuators.",
+      "A reliable, high-performance current-to-pressure (I/P) transducer for hazardous environments, converting a 4 to 20 mA electrical input into a stable pneumatic output to drive control valve actuators.",
     features: [
       "Single acting, reverse or split range",
       "Field-adjustable on-board switches",
       "FM / CSA / Natural Gas approved",
     ],
     specs: [
-      { label: "Input", value: "4–20 mA" },
-      { label: "Output", value: "0–18 / 0–20 / 0–33 / 0–35 PSIG" },
+      { label: "Input", value: "4 to 20 mA" },
+      { label: "Output", value: "0 to 18 / 0 to 20 / 0 to 33 / 0 to 35 PSIG" },
       { label: "Temperature", value: "-40°F to 158°F (-40°C to 70°C)" },
       { label: "Ports", value: 'Pneumatic 1/4" NPT, Electric 1/2" NPT' },
     ],
@@ -776,7 +776,7 @@ const EST: HubProduct[] = [
     standard: "ASME PCC-2",
     tagline: "Weld-free mechanical tube plug with a helium-tight metal-to-metal seal.",
     overview:
-      "A hydraulically installed mechanical tube plug that seals leaking heat exchanger and condenser tubes with a helium-leak-tight metal-to-metal seal — no welding or explosives.",
+      "A hydraulically installed mechanical tube plug that seals leaking heat exchanger and condenser tubes with a helium-leak-tight metal-to-metal seal, with no welding or explosives.",
     features: [
       "Metal-to-metal helium-tight seal",
       "No welding or explosives",
@@ -785,7 +785,7 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Rated Pressure", value: "1,000 PsiG (68.9 BarG)" },
-      { label: "Tube ID Range", value: '0.472" – 2.067"' },
+      { label: "Tube ID Range", value: '0.472" to 2.067"' },
       { label: "Seal", value: "Metal-to-metal, helium leak-tight" },
       { label: "Standard", value: "ASME PCC-2 method" },
     ],
@@ -793,8 +793,8 @@ const EST: HubProduct[] = [
     videos: [
       { id: "hGMySeOiu94", title: "EST Group: Pop-A-Plug® Tube Plugging System" },
       { id: "yd8pdKqd5hc", title: "Through-The-Tube Plugging™" },
-      { id: "ZsYQj32Nm-0", title: "Product Overview — Pop-A-Plug® Tube Plugging System" },
-      { id: "RJCe7ybWO58", title: "Pop-A-Plug® Heat Exchanger Tube Plugging — Introduction" },
+      { id: "ZsYQj32Nm-0", title: "Product Overview: Pop-A-Plug® Tube Plugging System" },
+      { id: "RJCe7ybWO58", title: "Pop-A-Plug® Heat Exchanger Tube Plugging: Introduction" },
       { id: "Ntk05vPN8GQ", title: "Pop-A-Plug® Heat Exchanger Tube Plug" },
       { id: "qpdGY2lCq8M", title: "Pop-A-Plug® Installation, 6,000 PsiG Test and Removal" },
     ],
@@ -818,17 +818,17 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Rated Pressure", value: "7,000 PsiG (483 BarG)" },
-      { label: "Tube ID Range", value: '0.400" – 1.460"' },
+      { label: "Tube ID Range", value: '0.400" to 1.460"' },
       { label: "Seal", value: "Helium leak-tight, weld-free" },
       { label: "Quality", value: "ISO 9001 manufactured" },
     ],
     images: [`${EE}/p2.png`, `${EE}/p2-2.png`],
     videos: [
-      { id: "zIGFQX7El1c", title: "Installation Training — Pop-A-Plug P2 Heat Exchanger Tube Plugging System" },
-      { id: "L5yiXYwnAlE", title: "Ream, Brush and Install — Pop-A-Plug® P2" },
-      { id: "Jyt9x3m8K9Y", title: "Pop-A-Plug® Tapered Reamer — Weld Droop Removal" },
+      { id: "zIGFQX7El1c", title: "Installation Training: Pop-A-Plug P2 Heat Exchanger Tube Plugging System" },
+      { id: "L5yiXYwnAlE", title: "Ream, Brush and Install: Pop-A-Plug® P2" },
+      { id: "Jyt9x3m8K9Y", title: "Pop-A-Plug® Tapered Reamer: Weld Droop Removal" },
       { id: "9qk3xo7bjMs", title: "Pop-A-Plug® Tube Preparation Brush" },
-      { id: "rFWhvbcTu1E", title: "Pop-A-Plug® Tube Stabilizer — Installation" },
+      { id: "rFWhvbcTu1E", title: "Pop-A-Plug® Tube Stabilizer: Installation" },
     ],
     tokens: ["p2"],
     related: ["est-cpi-perma", "est-ram", "est-removal-tool"],
@@ -915,7 +915,7 @@ const EST: HubProduct[] = [
       "Accepts all MIT pull rods",
       "Zinc-plated carbon steel",
     ],
-    specs: [{ label: "Tube ID Range", value: '0.400" – 1.160"' }],
+    specs: [{ label: "Tube ID Range", value: '0.400" to 1.160"' }],
     images: [`${EE}/manual-tool.png`],
     tokens: ["manual tool", "manual installation"],
     related: ["est-ram", "est-removal-tool"],
@@ -934,11 +934,11 @@ const EST: HubProduct[] = [
       "Integral slide hammer",
       "Extensions available to 6 ft",
     ],
-    specs: [{ label: "Plug Sizes", value: '0.400" – 1.180"' }],
+    specs: [{ label: "Plug Sizes", value: '0.400" to 1.180"' }],
     images: [`${EE}/removal-tool.png`],
     videos: [
       { id: "DFrvnIor0cI", title: "Pop-A-Plug® Removal Tool" },
-      { id: "3agWN1oY6sI", title: "Pop-A-Plug® Removal Tool — Product Demonstration" },
+      { id: "3agWN1oY6sI", title: "Pop-A-Plug® Removal Tool: Product Demonstration" },
     ],
     tokens: ["removal tool"],
     related: ["est-manual-tool"],
@@ -962,9 +962,9 @@ const EST: HubProduct[] = [
     videos: [
       { id: "A-wokizervk", title: "Pop-A-Plug® Air-Cooled Heat Exchanger Tube Plugging System" },
       { id: "1yfA_L76nGs", title: "Pop-A-Plug® Air-Cooled Heat Exchanger Tube Plug" },
-      { id: "RYcvHhRnNzk", title: "Air-Cooled Heat Exchanger Tube Sizing — Go/No-Go Gage" },
-      { id: "LCMTVurmopg", title: "Air-Cooled Heat Exchanger — Tapered Reamer" },
-      { id: "QaAabmtguh8", title: "Air-Cooled Heat Exchanger — Tube Preparation Brush" },
+      { id: "RYcvHhRnNzk", title: "Air-Cooled Heat Exchanger Tube Sizing: Go/No-Go Gage" },
+      { id: "LCMTVurmopg", title: "Air-Cooled Heat Exchanger: Tapered Reamer" },
+      { id: "QaAabmtguh8", title: "Air-Cooled Heat Exchanger: Tube Preparation Brush" },
     ],
     tokens: ["ache", "air-cooled", "air cooled"],
     related: ["est-cpi-perma", "est-condenser"],
@@ -995,7 +995,7 @@ const EST: HubProduct[] = [
     group: "testing",
     tagline: "Patented dual-serrated high-pressure test plug for hardened pipe.",
     overview:
-      "A high-pressure test plug with a patented dual-serrated gripper and hardened shaft, grippers and cone — effective for hardened and high-alloy pipe up to HRC 32, reusable for hydrostatic or pneumatic testing.",
+      "A high-pressure test plug with a patented dual-serrated gripper and hardened shaft, grippers and cone, effective for hardened and high-alloy pipe up to HRC 32, reusable for hydrostatic or pneumatic testing.",
     features: [
       "Patented dual-serrated gripper",
       "Hardened shaft, grippers & cone",
@@ -1004,19 +1004,19 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Test Pressure", value: "15,000 PsiG (1,034 BarG)" },
-      { label: "Size Range", value: "3/8\" – 48\" NPS (DN10–DN1200)" },
+      { label: "Size Range", value: "3/8\" to 48\" NPS (DN10 to DN1200)" },
       { label: "Design", value: "Hardened, reusable" },
     ],
     images: [`${EE}/griptight-max.png`],
     videos: [
-      { id: "hMKWUSx_-Pc", title: "Product Overview — GripTight Test and Isolation Plugs" },
+      { id: "hMKWUSx_-Pc", title: "Product Overview: GripTight Test and Isolation Plugs" },
       { id: "ylIJ_8LoDrA", title: "GripTight MAX® Test Plug" },
       { id: "wcEXBumZlrc", title: "GripTight MAX High Pressure Test Plug" },
-      { id: "G7kigVX31Tk", title: "Installation and Removal — GripTight MAX® Test Plug" },
-      { id: "UHn1hqjasKk", title: "Preparation for Installation — GripTight MAX® Test Plug" },
-      { id: "hzB7iGMW3qw", title: "Cleaning and Storage — GripTight MAX® Test Plug" },
-      { id: "uhfPPAyfjKk", title: "Seal Replacement — GripTight MAX® Test Plug" },
-      { id: "0b4FLdPITFA", title: "Gripper Assembly Replacement — GripTight MAX® Test Plug" },
+      { id: "G7kigVX31Tk", title: "Installation and Removal: GripTight MAX® Test Plug" },
+      { id: "UHn1hqjasKk", title: "Preparation for Installation: GripTight MAX® Test Plug" },
+      { id: "hzB7iGMW3qw", title: "Cleaning and Storage: GripTight MAX® Test Plug" },
+      { id: "uhfPPAyfjKk", title: "Seal Replacement: GripTight MAX® Test Plug" },
+      { id: "0b4FLdPITFA", title: "Gripper Assembly Replacement: GripTight MAX® Test Plug" },
     ],
     tokens: ["griptight max", "gtmax", "gt max"],
     related: ["est-griptight-elbow", "est-od-griptight", "est-reverse-pressure"],
@@ -1037,7 +1037,7 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Test Pressure", value: "3,350 PsiG (231 BarG)" },
-      { label: "Size Range", value: "2\" – 48\" NPS (DN50–DN1200)" },
+      { label: "Size Range", value: "2\" to 48\" NPS (DN50 to DN1200)" },
     ],
     images: [`${EE}/griptight-elbow.png`],
     videos: [
@@ -1078,7 +1078,7 @@ const EST: HubProduct[] = [
     group: "testing",
     tagline: "A 4-in-1 purge dam, weld fixture, test plug and isolation plug.",
     overview:
-      "A 4-in-1 tool that acts as a purge dam, weld fixture, test plug and weld-isolation plug — letting you monitor upstream, purge, weld and hydro-test a flange joint with one tool.",
+      "A 4-in-1 tool that acts as a purge dam, weld fixture, test plug and weld-isolation plug, letting you monitor upstream, purge, weld and hydro-test a flange joint with one tool.",
     features: [
       "Purge dam + weld fixture + test + isolation",
       "Ported shaft for upstream monitoring",
@@ -1086,7 +1086,7 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Test Pressure", value: "2,250 PsiG (155 BarG)" },
-      { label: "Size Range", value: "3/4\" – 24\" NPS (DN20–DN600)" },
+      { label: "Size Range", value: "3/4\" to 24\" NPS (DN20 to DN600)" },
     ],
     images: [`${EE}/high-lift.png`],
     videos: [
@@ -1111,7 +1111,7 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Test Pressure", value: "5,000 PsiG (345 BarG)" },
-      { label: "Size Range", value: "1/4\" – 4\" (DN8–DN100)" },
+      { label: "Size Range", value: "1/4\" to 4\" (DN8 to DN100)" },
     ],
     images: [`${EE}/od-griptight.png`],
     tokens: ["od griptight", "odgt"],
@@ -1133,7 +1133,7 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Test Pressure", value: "5,000 PsiG (345 BarG)" },
-      { label: "Size Range", value: "1/2\" – 2\" NPS (DN15–DN50)" },
+      { label: "Size Range", value: "1/2\" to 2\" NPS (DN15 to DN50)" },
     ],
     images: [`${EE}/socket-sqs.png`, `${EE}/socket-sqs-2.png`],
     tokens: ["socket weld", "sqs", "sq2"],
@@ -1147,7 +1147,7 @@ const EST: HubProduct[] = [
     group: "testing",
     tagline: "Stresses a flange-to-pipe weld as if the whole system were pressurized.",
     overview:
-      "Subjects a flange-to-pipe weld to full radial, hoop and axial stresses during hydrostatic testing — equivalent to blinding and pressurizing the entire piping system.",
+      "Subjects a flange-to-pipe weld to full radial, hoop and axial stresses during hydrostatic testing, equivalent to blinding and pressurizing the entire piping system.",
     features: [
       "ASME PCC-2 Type I device",
       "Full radial, hoop & axial weld stress",
@@ -1155,7 +1155,7 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Test Pressure", value: "2,250 PsiG (155 BarG)" },
-      { label: "Size Range", value: "2\" – 48\" NPS (DN50–DN1200)" },
+      { label: "Size Range", value: "2\" to 48\" NPS (DN50 to DN1200)" },
     ],
     images: [`${EE}/reverse-pressure.png`],
     videos: [{ id: "71MPMG09LyQ", title: "GripTight® Reverse Pressure Test Plug" }],
@@ -1179,7 +1179,7 @@ const EST: HubProduct[] = [
     ],
     specs: [
       { label: "Between-Seals Pressure", value: "2,250 PsiG (155 BarG)" },
-      { label: "Size Range", value: "3/4\" – 48\" NPS (DN20–DN1200)" },
+      { label: "Size Range", value: "3/4\" to 48\" NPS (DN20 to DN1200)" },
     ],
     images: [`${EE}/dbb.png`, `${EE}/dbb-2.png`, `${EE}/dbb-3.png`],
     videos: [
@@ -1214,7 +1214,7 @@ const EST: HubProduct[] = [
     group: "tools",
     tagline: "Vacuum and pressure testers that locate leaking tubes and joints.",
     overview:
-      "Lightweight G-Series tools quickly seal and evacuate individual heat exchanger tubes or tube-to-tubesheet joints to locate pinhole leaks — a loss of vacuum indicates a leaking tube or joint.",
+      "Lightweight G-Series tools quickly seal and evacuate individual heat exchanger tubes or tube-to-tubesheet joints to locate pinhole leaks, where a loss of vacuum indicates a leaking tube or joint.",
     features: [
       "G-160 tube testing tool",
       "G-250 vacuum tube tester",
@@ -1222,14 +1222,14 @@ const EST: HubProduct[] = [
       "Lightweight, uses plant air",
     ],
     specs: [
-      { label: "G-250 Tube Range", value: '0.28" – 1.45", under 2.1 lbs' },
-      { label: "G-650 Tube OD", value: '3/8" – 1¼", under 2.7 lbs' },
-      { label: "Air Supply", value: "40–125 PsiG plant air" },
+      { label: "G-250 Tube Range", value: '0.28" to 1.45", under 2.1 lbs' },
+      { label: "G-650 Tube OD", value: '3/8" to 1¼", under 2.7 lbs' },
+      { label: "Air Supply", value: "40 to 125 PsiG plant air" },
     ],
     images: [`${EE}/g-series.png`, `${EE}/g-series-2.png`],
     videos: [
-      { id: "pSghlBoNuzk", title: "G-160 Tube Testing Tools — Product Demonstration" },
-      { id: "ku1-MTJfyR4", title: "G-250 Vacuum Tube Testing Tool — Product Demonstration" },
+      { id: "pSghlBoNuzk", title: "G-160 Tube Testing Tools: Product Demonstration" },
+      { id: "ku1-MTJfyR4", title: "G-250 Vacuum Tube Testing Tool: Product Demonstration" },
       { id: "FGSZ4u5437g", title: "G-160 Heat Exchanger Tube Testing Tools" },
       { id: "2qo6IQvDFNM", title: "G-160 Tube Testing Tools with Grippers" },
       { id: "ho0ajTGjdN0", title: "G-150 Tube Testing Gun" },
@@ -1350,7 +1350,7 @@ const CATEGORY_META: Record<
   "overview-ml": {
     icon: "Languages",
     type: "Multilingual",
-    describe: (d) => `Farris overview brochure${d.lang ? ` — ${d.lang}` : ""}.`,
+    describe: (d) => `Farris overview brochure${d.lang ? `, ${d.lang}` : ""}.`,
   },
   articles: {
     icon: "FileText",

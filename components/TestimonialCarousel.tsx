@@ -21,7 +21,7 @@ const testimonials: Testimonial[] = [
     title: "[Job Title]",
     company: "[Company Name]",
     quote:
-      "[Add client testimonial quote here — focus on business impact, speed, technical expertise, or reliability. Keep it 2-3 sentences.]",
+      "[Add client testimonial quote here. Focus on business impact, speed, technical expertise, or reliability. Keep it 2 to 3 sentences.]",
     image: "/images/testimonial-placeholder.jpg",
   },
   {
@@ -30,7 +30,7 @@ const testimonials: Testimonial[] = [
     title: "[Job Title]",
     company: "[Company Name]",
     quote:
-      "[Add second client testimonial quote — different industry or use case preferred.]",
+      "[Add second client testimonial quote. Different industry or use case preferred.]",
     image: "/images/testimonial-placeholder.jpg",
   },
 ];

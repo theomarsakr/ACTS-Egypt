@@ -155,7 +155,7 @@ export default function BrandsPage() {
             </h2>
             <p className="mt-4 text-lg text-gray-600 max-w-3xl">
               Every brochure, series catalog, bulletin, installation manual and
-              technical procedure from Farris Engineering, Dyna-Flo and EST —{" "}
+              technical procedure from Farris Engineering, Dyna-Flo and EST:{" "}
               {totalDocs}{" "}PDFs in all. Search, filter by brand or language, and
               open any document directly. Need something you can&apos;t find?{" "}
               <Link

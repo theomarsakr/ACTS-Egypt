@@ -2,17 +2,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
+  Activity,
   ArrowRight,
   MapPin,
   Building2,
-  GraduationCap,
+  FileText,
+  Gauge,
   History,
   TrendingUp,
   RefreshCw,
+  RadioTower,
   Rocket,
   Headset,
   ClipboardCheck,
   Lightbulb,
+  Radar,
+  Settings2,
+  ShieldCheck,
+  Thermometer,
   Wrench,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -22,9 +29,25 @@ import TimelineTrack from "@/components/TimelineTrack";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
-import { timeline, mission, values, offices } from "@/lib/data";
+import { timeline, mission, values, offices, forwardDirection } from "@/lib/data";
 
-const timelineIcons = [Building2, MapPin, GraduationCap, TrendingUp, RefreshCw, Rocket];
+/** One icon per timeline entry, in order: Farris agency, second branch,
+ *  rebuild, incorporation, transformation, Dyna-Flo agency, new HQ, EST
+ *  agency. The three agency years take their brand's own icon, matching the
+ *  brands page dock. */
+const timelineIcons = [
+  ShieldCheck,
+  MapPin,
+  RefreshCw,
+  TrendingUp,
+  Rocket,
+  Settings2,
+  Building2,
+  Thermometer,
+];
+
+/** One icon per `forwardDirection` entry, in order. */
+const forwardIcons = [Gauge, Activity, RadioTower, FileText];
 
 export const metadata: Metadata = {
   title: "About us",
@@ -67,8 +90,8 @@ const howWeOperate = [
   },
   {
     icon: Lightbulb,
-    title: "Consultancy-driven approach",
-    text: "Feasibility input and technical advisory, not just transactional sales.",
+    title: "Advisory-led selling",
+    text: "Technical input and the right recommendation come first, ahead of the sale.",
   },
   {
     icon: Wrench,
@@ -102,6 +125,12 @@ export default function AboutPage() {
             the trust of leading operators across Oil &amp; Gas,
             Petrochemicals, Power Generation, Water Treatment, and
             Fertilizers.
+          </p>
+          <p className="mt-5 text-lg md:text-xl text-white/80 leading-relaxed">
+            Today our capabilities span valves, actuators, instrumentation,
+            and heat exchanger services, which lets us meet the full range of
+            our customers&apos; needs through a single, coordinated point of
+            contact.
           </p>
         </div>
       </ScrollExpandMedia>
@@ -198,8 +227,9 @@ export default function AboutPage() {
                 Vision
               </div>
               <p className="mt-3 text-lg font-semibold text-navy leading-snug">
-                To be Egypt&apos;s most trusted partner for valves, flow
-                control, and critical process equipment.
+                To be the most trusted engineering partner behind Egypt&apos;s
+                critical industrial processes, for today&apos;s equipment and
+                tomorrow&apos;s technology.
               </p>
             </SpotlightCard>
           </Reveal>
@@ -209,9 +239,10 @@ export default function AboutPage() {
                 Mission
               </div>
               <p className="mt-3 text-lg font-semibold text-navy leading-snug">
-                To create lasting value for our customers, suppliers, and
-                employees through technical excellence, ethical business
-                practices, and responsive local support.
+                To bring global engineering standards to every valve,
+                exchanger, and process system we support, combining technical
+                excellence, integrity, and responsive local service so our
+                customers operate safely, efficiently, and with confidence.
               </p>
             </SpotlightCard>
           </Reveal>
@@ -249,6 +280,56 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Looking ahead — the forward direction the new brand story leads with.
+          Sits between the goals band and the values so the page reads
+          past → ambition → operating principles. */}
+      <section id="looking-ahead" className="scroll-mt-28 py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <div className="max-w-2xl">
+              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
+                Looking ahead
+              </div>
+              <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
+                Investing in the future of process industries
+              </h2>
+              <p className="mt-5 text-lg text-gray-600 leading-relaxed">
+                As Egypt&apos;s Oil &amp; Gas, Petrochemical, and Fertilizer
+                sectors evolve, ACTS is committed to bringing modern,
+                technology-driven solutions into how we support our customers.
+                Not just supplying equipment, but helping plants run smarter.
+              </p>
+            </div>
+          </Reveal>
+          <div className="mt-12 grid sm:grid-cols-2 gap-5">
+            {forwardDirection.map((f, i) => {
+              const Icon = forwardIcons[i] ?? Radar;
+              return (
+                <Reveal key={f.title} delay={i * 90}>
+                  <SpotlightCard className="card-lift group h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                      <Icon size={20} strokeWidth={2.25} />
+                    </span>
+                    <h3 className="mt-4 text-lg font-bold text-navy">{f.title}</h3>
+                    <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
+                      {f.description}
+                    </p>
+                  </SpotlightCard>
+                </Reveal>
+              );
+            })}
+          </div>
+          <Reveal delay={200}>
+            <p className="mt-10 max-w-3xl text-[15px] text-gray-600 leading-relaxed">
+              As these technologies mature, ACTS intends to be the partner that
+              brings them into Egyptian plants, combining our sole-agency
+              access to Farris, Dyna-Flo, and EST with a growing focus on
+              smarter, more connected process equipment.
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -298,8 +379,10 @@ export default function AboutPage() {
               </h2>
               <p className="mt-5 text-lg text-gray-600 leading-relaxed">
                 ACTS is the exclusive agent in Egypt for three Curtiss-Wright
-                divisions. This gives customers access to an integrated
-                portfolio across safety, control, and thermal management.
+                divisions: Farris Engineering, Dyna-Flo Control Valve
+                Services, and EST. That gives customers access to an
+                integrated portfolio spanning safety, control, and thermal
+                management.
               </p>
             </div>
           </Reveal>
@@ -350,7 +433,7 @@ export default function AboutPage() {
                 How we operate
               </div>
               <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
-                Consultancy-driven, not just transactional
+                Advisory-led, not just transactional
               </h2>
             </div>
           </Reveal>
@@ -455,6 +538,7 @@ export default function AboutPage() {
           { id: "timeline", label: "Our journey", icon: <History className="h-full w-full" strokeWidth={2.25} /> },
           { id: "mission", label: "Vision & mission", icon: <Lightbulb className="h-full w-full" strokeWidth={2.25} /> },
           { id: "goals", label: "Our goals", icon: <TrendingUp className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "looking-ahead", label: "Looking ahead", icon: <Radar className="h-full w-full" strokeWidth={2.25} /> },
           { id: "specializations", label: "Specializations", icon: <Wrench className="h-full w-full" strokeWidth={2.25} /> },
           { id: "how-we-operate", label: "How we operate", icon: <Headset className="h-full w-full" strokeWidth={2.25} /> },
           { id: "offices", label: "Our offices", icon: <MapPin className="h-full w-full" strokeWidth={2.25} /> },

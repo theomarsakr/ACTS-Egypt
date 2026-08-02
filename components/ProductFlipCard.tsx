@@ -36,7 +36,7 @@ export default function ProductFlipCard({
           type="button"
           onClick={() => setFlipped(true)}
           inert={flipped || undefined}
-          aria-label={`${alt} — show details`}
+          aria-label={`${alt}, show details`}
           className="absolute inset-0 backface-hidden rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden transition-shadow duration-300 group-hover:shadow-lg cursor-pointer text-left"
         >
           <div className="sheen relative w-full h-full">

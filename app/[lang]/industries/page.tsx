@@ -69,7 +69,7 @@ function RelatedProductChips({ industry }: { industry: (typeof industries)[numbe
             <Link
               key={`${pl.brandSlug}-${tag}`}
               href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
-              title={`${brand.name} — ${line.name}: ${note}`}
+              title={`${brand.name}, ${line.name}: ${note}`}
               className="inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-3.5 rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
             >
               {tag}
@@ -134,7 +134,7 @@ function ApplicationCard({
             <Link
               key={`${ref.brandSlug}-${ref.lineTag}`}
               href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
-              title={`${brand.name} — ${line.name}: ${line.description}`}
+              title={`${brand.name}, ${line.name}: ${line.description}`}
               className="inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-3.5 rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
             >
               {ref.lineTag}
@@ -357,7 +357,7 @@ export default function IndustriesPage() {
                           Full product index
                         </div>
                         <p className="mt-1 max-w-xl text-[13px] text-gray-500">
-                          Every line named above — what it specifically does
+                          Every line named above, what it specifically does
                           in {ind.name}, and where to see it.
                         </p>
                         <div className="mt-5">

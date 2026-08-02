@@ -34,48 +34,48 @@ const HQ = {
 };
 
 const PINS: Pin[] = [
-  { name: "Khalda Petroleum", sector: "Upstream — Western Desert", x: 72, y: 98 },
+  { name: "Khalda Petroleum", sector: "Upstream, Western Desert", x: 72, y: 98 },
   {
     name: "Belayim Petroleum (PETROBEL)",
-    sector: "Upstream — Gulf of Suez",
+    sector: "Upstream, Gulf of Suez",
     x: 182,
     y: 82,
   },
-  { name: "ENPPI", sector: "Engineering & EPC — Cairo", x: 161, y: 44 },
+  { name: "ENPPI", sector: "Engineering & EPC, Cairo", x: 161, y: 44 },
   {
     name: "SUMED",
-    sector: "Pipeline Terminal — Ain Sokhna, Suez Gulf",
+    sector: "Pipeline terminal, Ain Sokhna, Suez Gulf",
     x: 172,
     y: 66,
   },
   {
     name: "Damietta LNG (DLNG)",
-    sector: "LNG Export Terminal — Damietta",
+    sector: "LNG export terminal, Damietta",
     x: 151,
     y: 24,
   },
-  { name: "Birla Carbon", sector: "Carbon Black Plant — Alexandria", x: 106, y: 25 },
+  { name: "Birla Carbon", sector: "Carbon black plant, Alexandria", x: 106, y: 25 },
   {
     name: "Abu Qir Fertilizers",
-    sector: "Fertilizers — Abu Qir, Alexandria",
+    sector: "Fertilizers, Abu Qir, Alexandria",
     x: 135,
     y: 19,
   },
   {
     name: "Assiut Oil Refining Company",
-    sector: "Refining — Assiut, Upper Egypt",
+    sector: "Refining, Assiut, Upper Egypt",
     x: 143,
     y: 108,
   },
   {
     name: "Qarun Petroleum",
-    sector: "Upstream — Qarun Basin, Fayoum",
+    sector: "Upstream, Qarun Basin, Fayoum",
     x: 120,
     y: 74,
   },
   {
     name: "GUPCO",
-    sector: "Upstream — Ras Gharib, Gulf of Suez",
+    sector: "Upstream, Ras Gharib, Gulf of Suez",
     x: 196,
     y: 104,
   },

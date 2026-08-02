@@ -92,14 +92,14 @@ const BRAND_TOOLS: Record<string, { heading: string; blurb: string; cards: ToolC
       {
         img: "/Data/Farris-Valves/images/CAD-Drawings.jpg",
         title: "CAD Models & Drawings",
-        desc: "2D/3D CAD models and general-arrangement drawings for engineering, layout and integration — available on request.",
+        desc: "2D/3D CAD models and general-arrangement drawings for engineering, layout and integration, available on request.",
         href: "/contact",
         cta: "Request drawings",
       },
       {
         img: "/Data/Farris-Valves/images/DIRECTIONAL-CONTROL-VALVES.jpg",
         title: "Directional Control Valves",
-        desc: "Farris directional control valves for agricultural, industrial and mobile hydraulic systems — power-beyond, high-flow options.",
+        desc: "Farris directional control valves for agricultural, industrial and mobile hydraulic systems, with power-beyond and high-flow options.",
         href: "https://valves.curtisswright.com/en-us/products/directional-control-valves",
         external: true,
         cta: "Learn more",
@@ -114,7 +114,7 @@ const BRAND_TOOLS: Record<string, { heading: string; blurb: string; cards: ToolC
       {
         img: "/Data/EST/images/Product-Photos/Field-Services-2.jpg",
         title: "Field Services",
-        desc: "A full range of on-site services for tubular heat exchangers, condensers and oil coolers — plugging, pulling, sleeving and testing.",
+        desc: "A full range of on-site services for tubular heat exchangers, condensers and oil coolers: plugging, pulling, sleeving and testing.",
         href: "/contact",
         cta: "Request field service",
       },
@@ -128,7 +128,7 @@ const BRAND_TOOLS: Record<string, { heading: string; blurb: string; cards: ToolC
       {
         img: "/Data/EST/images/Product-Photos/Tube-Sleeve-Before-After.png",
         title: "Tube Sleeving, Plugging & Pulling",
-        desc: "Engineered tube repair — Hydra-Loc® sleeving, Pop-A-Plug® plugging and controlled tube pulling to extend asset life.",
+        desc: "Engineered tube repair: Hydra-Loc® sleeving, Pop-A-Plug® plugging and controlled tube pulling to extend asset life.",
         href: "/contact",
         cta: "Enquire",
       },
@@ -395,7 +395,7 @@ export default async function BrandPage({ params }: Props) {
                 <p className="mt-2 text-[15px] text-gray-500 max-w-2xl">
                   Open any product for its overview, key features, engineering
                   benefits, technical specifications, certifications and every
-                  matching brochure, catalog and manual — grouped in one place.
+                  matching brochure, catalog and manual, grouped in one place.
                 </p>
               </Reveal>
               <div className="mt-9">
@@ -456,7 +456,7 @@ export default async function BrandPage({ params }: Props) {
                             >
                               <ProductFlipCard
                                 item={g}
-                                alt={`${brand.name} — ${g.caption}`}
+                                alt={`${brand.name}: ${g.caption}`}
                                 docHref={dl?.href}
                                 docLabel={dl?.label}
                                 pdfHref={pdf?.href}
@@ -544,7 +544,7 @@ export default async function BrandPage({ params }: Props) {
                 </h2>
                 <p className="mt-2 text-[15px] text-gray-500 max-w-2xl">
                   Every brochure, catalog, bulletin, manual, technical procedure
-                  and certification — searchable and filterable by product and
+                  and certification, searchable and filterable by product and
                   type. View or download instantly.
                 </p>
               </Reveal>
