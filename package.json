@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "d3-geo": "^3.1.1",
     "d3-timer": "^3.0.1",
