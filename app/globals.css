@@ -540,6 +540,96 @@ html[lang="ar"] .ltr-inline {
   );
 }
 
+/* ── Atmosphere: the base field under a dark band ─────────────────────
+   Replaces a flat `bg-ink` fill with a lit room. Four layers, painted top
+   to bottom as written: a cool lift where the headline sits, a steel cast
+   from the upper right, a brass wash rising out of the lower left, over a
+   diagonal navy→ink column.
+
+   All four live in ONE element's `background`, which the GPU resolves in a
+   single paint — the same reason the mesh blobs above dropped their blur.
+   Adding depth by stacking more translucent, blurred divs is what this
+   deliberately avoids; gradient stops are free, composited layers are not. */
+/* Held in one custom property so the pre-paint intro curtain below renders the
+   identical field — two hand-copied gradients would drift the first time either
+   is tuned, and the seam between curtain and hero would show it. */
+:root {
+  --atmosphere:
+    radial-gradient(
+      52% 42% at 26% 30%,
+      rgba(120, 160, 210, 0.05) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      66% 58% at 96% 0%,
+      rgba(48, 92, 145, 0.13) 0%,
+      rgba(48, 92, 145, 0.05) 42%,
+      transparent 72%
+    ),
+    radial-gradient(
+      72% 62% at 2% 100%,
+      rgba(140, 104, 40, 0.14) 0%,
+      rgba(140, 104, 40, 0.05) 40%,
+      transparent 70%
+    ),
+    linear-gradient(
+      172deg,
+      #0a1526 0%,
+      #070f1e 38%,
+      var(--color-ink) 68%,
+      #03070f 100%
+    );
+}
+.atmosphere {
+  background: var(--atmosphere);
+}
+
+/* Pre-hydration curtain for the first-visit intro.
+   <IntroOverlay> can only decide whether to show itself on the client (it reads
+   localStorage), which means it cannot mount until React hydrates. Measured on
+   a local production build that is ~1.4s after navigation — 1.4s in which the
+   visitor watches the real hero paint, and then gets a full-screen overlay
+   dropped on top of it. Backwards, and the most amateur thing about the old
+   intro.
+
+   So a blocking inline script in the layout makes the same decision before
+   first paint and puts `intro-pending` on <html>; this rule paints the curtain
+   with the very first frame, and the React overlay simply arrives on top of an
+   already-dark screen (it sits at z-100, this at z-99). The script also arms a
+   timeout to clear the class, so a failed JS bundle can never leave the curtain
+   stuck over the site. */
+html.intro-pending::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background: var(--atmosphere);
+}
+/* The curtain also holds the page still, so nothing scrolls behind it in the
+   window before the overlay's own scroll lock takes over. */
+html.intro-pending,
+html.intro-pending body {
+  overflow: hidden;
+}
+
+/* Fine film grain. A dark gradient this wide banks into visible bands on
+   8-bit panels — the ramp from #10203a to #060d1c crosses far fewer than
+   256 steps, so the eye picks out every one of them as a stripe. A low
+   -opacity noise tile dithers the ramp back into a gradient.
+
+   One 180px SVG texture, rasterised once and tiled by the compositor: no
+   blend mode, no filter on the live layer, nothing re-computed per frame. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)'/></svg>");
+  background-size: 180px 180px;
+}
+
 /* Premium light card + brass glow hover (bento tiles) */
 .card-premium {
   background: #fff;

@@ -282,8 +282,14 @@ export default function HeroInteractiveBackground() {
     };
   }, [reduced]);
 
+  // `atmosphere` carries the colour (see globals.css) rather than a flat
+  // bg-ink fill; `grain` dithers that gradient so it doesn't band across a
+  // full-viewport dark ramp.
   return (
-    <div className="absolute inset-0 overflow-hidden bg-ink pointer-events-none" aria-hidden>
+    <div
+      className="atmosphere grain absolute inset-0 overflow-hidden pointer-events-none"
+      aria-hidden
+    >
       {/* Blueprint grid, faded toward the frame so the mesh reads as the hero. */}
       <div
         className="absolute inset-0 blueprint"

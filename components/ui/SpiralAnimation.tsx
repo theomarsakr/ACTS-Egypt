@@ -53,8 +53,10 @@ export function SpiralAnimation() {
       if (!start) start = now;
       const t = (now - start) / 1000;
 
-      // Draw-in from the center outward over ~1.8s (ease-out cubic).
-      const p = Math.min(1, t / 1.8);
+      // Draw-in from the center outward over ~1.1s (ease-out cubic). Paced to
+      // land with IntroOverlay's own reveal, which now lifts as soon as the
+      // page is actually ready rather than holding a fixed beat.
+      const p = Math.min(1, t / 1.1);
       const ease = 1 - Math.pow(1 - p, 3);
       const revealed = Math.floor(ease * N);
       const rot = t * 0.16; // slow overall rotation
