@@ -20,7 +20,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   const q = getDict(lang).quote;
-  return { title: q.metaTitle, description: q.metaDescription };
+  const isAr = lang === "ar";
+  return {
+    title: q.metaTitle,
+    description: q.metaDescription,
+    alternates: {
+      canonical: isAr ? "/ar/quote" : "/quote",
+      languages: { en: "/quote", ar: "/ar/quote", "x-default": "/quote" },
+    },
+  };
 }
 
 export default async function QuotePage({ params, searchParams }: PageProps) {

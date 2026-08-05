@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   title: "Products & services",
   description:
     "ACTS supplies, supports, and maintains critical process equipment across Egypt's Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: valves, actuators & instrumentation, heat exchanger & pressure testing equipment, and technical advisory & aftermarket services.",
+  alternates: { canonical: "/products" },
 };
 
 const pillars = [

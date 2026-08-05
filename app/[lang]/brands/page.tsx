@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "Our brands",
   description:
     "Farris Engineering safety relief valves, Dyna-Flo control valves, and EST heat exchanger repair equipment, supplied in Egypt by ACTS as sole agent.",
+  alternates: { canonical: "/brands" },
 };
 
 export default function BrandsPage() {

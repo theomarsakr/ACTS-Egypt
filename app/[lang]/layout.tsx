@@ -94,11 +94,12 @@ export async function generateMetadata({
 // resolve ACTS as a real entity with verifiable contact + location details.
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": ["Organization", "LocalBusiness"],
   name: "Advanced Company for Trading Services (ACTS)",
   alternateName: "ACTS Egypt",
   url: siteUrl,
   logo: `${siteUrl}/logo-transparent.png`,
+  image: `${siteUrl}/logo-transparent.png`,
   description:
     "ACTS is Egypt's trusted partner for valves, flow control, and critical process equipment across Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright).",
   email: "sales@actsegypt.com",
@@ -112,6 +113,16 @@ const organizationSchema = {
     postalCode: "12451",
     addressCountry: "EG",
   },
+  // Same coordinates as the HQ pin on the homepage globe (components/home/RotatingEarth.tsx).
+  geo: { "@type": "GeoCoordinates", latitude: 30.056, longitude: 30.9771 },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+      opens: "09:00",
+      closes: "17:00",
+    },
+  ],
   areaServed: { "@type": "Country", name: "Egypt" },
   knowsAbout: [
     "Safety relief valves",
@@ -131,8 +142,24 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       lang={lang}
       dir={lang === "ar" ? "rtl" : "ltr"}
       className={`${inter.variable} ${jakarta.variable} ${cairo.variable} h-full antialiased`}
+      // The pre-paint script below adds `intro-pending` to this element before
+      // React hydrates (see IntroOverlay's `dropCurtain`), so the live DOM
+      // intentionally differs from the server-rendered class list on first
+      // load — expected, not a real mismatch.
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        {/* Runs before first paint so the intro curtain is up from frame one,
+            rather than dropping over an already-visible hero once React
+            hydrates. See `html.intro-pending` in globals.css. The timeout is
+            the failsafe: if the bundle never arrives, the curtain clears
+            itself and the site is usable. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('acts-intro-seen')!=='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var e=document.documentElement;e.classList.add('intro-pending');setTimeout(function(){e.classList.remove('intro-pending')},6000)}}catch(_){}",
+          }}
+        />
         <IntroOverlay />
         <script
           type="application/ld+json"

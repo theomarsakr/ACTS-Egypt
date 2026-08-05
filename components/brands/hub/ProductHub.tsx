@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -29,10 +30,12 @@ import type { HubProduct, HubDoc, HubGroup, HubVideo } from "@/lib/brandHub";
 type ProductWithDocs = HubProduct & { docs: HubDoc[] };
 
 export default function ProductHub({
+  brandSlug,
   products,
   groups,
   industries,
 }: {
+  brandSlug: string;
   products: ProductWithDocs[];
   groups: HubGroup[];
   industries: string[];
@@ -120,6 +123,7 @@ export default function ProductHub({
         {visible.map((p) => (
           <ProductRow
             key={p.id}
+            brandSlug={brandSlug}
             product={p}
             open={openId === p.id}
             onToggle={() => setOpenId(openId === p.id ? null : p.id)}
@@ -138,6 +142,7 @@ export default function ProductHub({
 // ── Product row (collapsible hub) ───────────────────────────────────────────
 
 function ProductRow({
+  brandSlug,
   product: p,
   open,
   onToggle,
@@ -147,6 +152,7 @@ function ProductRow({
   focusTab,
   focusNonce,
 }: {
+  brandSlug: string;
   product: ProductWithDocs;
   open: boolean;
   onToggle: () => void;
@@ -235,6 +241,7 @@ function ProductRow({
               panel opens on the requested tab — no setState-in-effect needed. */}
           <ProductPanel
             key={focusTab ? `focus-${focusNonce}` : "base"}
+            brandSlug={brandSlug}
             product={p}
             onOpenRelated={onOpenRelated}
             allProducts={allProducts}
@@ -250,12 +257,14 @@ function ProductRow({
 // ── Expanded content: gallery + tabs ────────────────────────────────────────
 
 function ProductPanel({
+  brandSlug,
   product: p,
   onOpenRelated,
   allProducts,
   industries,
   initialTab = "overview",
 }: {
+  brandSlug: string;
   product: ProductWithDocs;
   onOpenRelated: (id: string) => void;
   allProducts: ProductWithDocs[];
@@ -292,6 +301,15 @@ function ProductPanel({
         <Gallery images={p.images} name={p.name} />
 
         <div className="min-w-0">
+          <div className="flex justify-end">
+            <Link
+              href={`/brands/${brandSlug}/products/${p.id}`}
+              className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-brand hover:text-brand-dark transition-colors"
+            >
+              Open full product page <ArrowUpRight size={13} />
+            </Link>
+          </div>
+
           {/* Tabs */}
           <div
             role="tablist"
@@ -371,7 +389,7 @@ function ProductPanel({
   );
 }
 
-function Gallery({ images, name }: { images: string[]; name: string }) {
+export function Gallery({ images, name }: { images: string[]; name: string }) {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -762,7 +780,7 @@ function VideosTab({ videos }: { videos: HubVideo[] }) {
   );
 }
 
-function VideoCard({ video }: { video: HubVideo }) {
+export function VideoCard({ video }: { video: HubVideo }) {
   const [playing, setPlaying] = useState(false);
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">

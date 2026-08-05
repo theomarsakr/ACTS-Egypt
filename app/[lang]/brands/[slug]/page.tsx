@@ -13,7 +13,7 @@ import {
 import Reveal from "@/components/Reveal";
 import BrandHeroVideo from "@/components/brands/BrandHeroVideo";
 import ProductLineCard from "@/components/brands/ProductLineCard";
-import ProductShowcase from "@/components/brands/ProductShowcase";
+import ProductShowcase from "@/components/brands/ProductShowcaseLazy";
 import { brandHeroVideo, galleryAnchorId } from "@/lib/brandMedia";
 import ProductFlipCard from "@/components/ProductFlipCard";
 import CountUp from "@/components/CountUp";
@@ -169,6 +169,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: brand.name,
     description: brand.description,
+    alternates: { canonical: `/brands/${slug}` },
   };
 }
 
@@ -400,6 +401,7 @@ export default async function BrandPage({ params }: Props) {
               </Reveal>
               <div className="mt-9">
                 <ProductHub
+                  brandSlug={brand.slug}
                   products={hub.products}
                   groups={hub.groups}
                   industries={brand.sectors}

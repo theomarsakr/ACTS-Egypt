@@ -53,6 +53,7 @@ export const metadata: Metadata = {
   title: "About us",
   description:
     "Founded in 2006 in Sixth of October City, Giza, ACTS has grown into Egypt's trusted partner for valves, flow control, and critical process equipment.",
+  alternates: { canonical: "/about" },
 };
 
 const aboutStats = [

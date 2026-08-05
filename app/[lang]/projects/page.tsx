@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   title: "Projects & clients",
   description:
     "For nearly two decades, ACTS has been the preferred technical partner for Egypt's most prominent operators in Oil & Gas, Petrochemicals, Power Generation, and Fertilizers.",
+  alternates: { canonical: "/projects" },
 };
 
 const categoryIcons: Record<string, typeof Drill> = {

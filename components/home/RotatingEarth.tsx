@@ -2,7 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import * as d3 from "d3";
+import {
+  geoBounds,
+  geoDistance,
+  geoGraticule,
+  geoOrthographic,
+  geoPath,
+} from "d3-geo";
+import { timer as d3Timer, type Timer } from "d3-timer";
 import { brands } from "@/lib/data";
 import { localeHref } from "@/lib/i18n";
 
@@ -57,7 +64,7 @@ const pointInFeature = (point: GeoPosition, feature: LandFeature): boolean => {
 
 const generateDotsInFeature = (feature: LandFeature, dotSpacing = 16) => {
   const dots: GeoPosition[] = [];
-  const [[minLng, minLat], [maxLng, maxLat]] = d3.geoBounds(feature);
+  const [[minLng, minLat], [maxLng, maxLat]] = geoBounds(feature);
   const step = dotSpacing * 0.08;
   for (let lng = minLng; lng <= maxLng; lng += step) {
     for (let lat = minLat; lat <= maxLat; lat += step) {
@@ -133,13 +140,12 @@ export default function RotatingEarth({
     canvas.style.height = `${containerHeight}px`;
     context.scale(dpr, dpr);
 
-    const projection = d3
-      .geoOrthographic()
+    const projection = geoOrthographic()
       .scale(radius)
       .translate([containerWidth / 2, containerHeight / 2])
       .clipAngle(90);
-    const path = d3.geoPath(projection, context);
-    const graticule = d3.geoGraticule();
+    const path = geoPath(projection, context);
+    const graticule = geoGraticule();
     const arcs = PINS.filter((p) => !p.isHub).map((p) => ({
       pin: p,
       line: {
@@ -159,7 +165,7 @@ export default function RotatingEarth({
 
     const rotation: [number, number] = [0, 0];
     const isFrontFacing = ([lng, lat]: GeoPosition) =>
-      d3.geoDistance([lng, lat], [-rotation[0], -rotation[1]]) < Math.PI / 2 - 0.05;
+      geoDistance([lng, lat], [-rotation[0], -rotation[1]]) < Math.PI / 2 - 0.05;
 
     const render = () => {
       context.clearRect(0, 0, containerWidth, containerHeight);
@@ -253,10 +259,10 @@ export default function RotatingEarth({
        section sits well below the fold, so without gating it the globe would
        redraw thousands of dots on every animation frame for the entire time
        the tab is open, whether or not anyone has scrolled anywhere near it. */
-    let rotationTimer: d3.Timer | null = null;
+    let rotationTimer: Timer | null = null;
     const startRotationTimer = () => {
       if (rotationTimer) return;
-      rotationTimer = d3.timer(() => {
+      rotationTimer = d3Timer(() => {
         if (!autoRotate) return;
         rotation[0] += rotationSpeed;
         projection.rotate(rotation);

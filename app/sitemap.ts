@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { brands } from "@/lib/data";
+import { HUB_BRANDS, getBrandHubData } from "@/lib/brandHub";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.actsegypt.com";
@@ -32,6 +33,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
+  const productEntries: MetadataRoute.Sitemap = HUB_BRANDS.flatMap((slug) => {
+    const hub = getBrandHubData(slug);
+    return (hub?.products ?? []).map((p) => ({
+      url: `${siteUrl}/brands/${slug}/products/${p.id}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    }));
+  });
+
   // Arabic pages (phase 1: the translated conversion path).
   const arabicEntries: MetadataRoute.Sitemap = ["/ar", "/ar/contact", "/ar/quote"].map(
     (path) => ({
@@ -42,5 +53,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticEntries, ...brandEntries, ...arabicEntries];
+  return [...staticEntries, ...brandEntries, ...productEntries, ...arabicEntries];
 }

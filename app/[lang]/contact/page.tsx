@@ -16,7 +16,15 @@ type PageProps = { params: Promise<{ lang: string }> };
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang } = await params;
   const c = getDict(lang).contact;
-  return { title: c.metaTitle, description: c.metaDescription };
+  const isAr = lang === "ar";
+  return {
+    title: c.metaTitle,
+    description: c.metaDescription,
+    alternates: {
+      canonical: isAr ? "/ar/contact" : "/contact",
+      languages: { en: "/contact", ar: "/ar/contact", "x-default": "/contact" },
+    },
+  };
 }
 
 export default async function ContactPage({ params }: PageProps) {

@@ -50,6 +50,7 @@ export const metadata: Metadata = {
   title: "Industries we serve",
   description:
     "ACTS delivers engineered solutions, critical equipment, and technical support across Egypt's most demanding industrial sectors: Oil & Gas, Petrochemical, Power Generation, Water Treatment, Fertilizers, and General Industrial.",
+  alternates: { canonical: "/industries" },
 };
 
 /** Every product line an industry lists, as compact linked chips — used by
