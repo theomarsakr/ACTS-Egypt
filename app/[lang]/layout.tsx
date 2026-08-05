@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import IntroOverlay from "@/components/IntroOverlay";
 import { getDict, locales, type Locale } from "@/lib/i18n";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -174,6 +175,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
           {children}
         </main>
         <Footer lang={lang} t={dict.footer} industryNames={dict.industryNames} />
+        <SpeedInsights />
       </body>
     </html>
   );
