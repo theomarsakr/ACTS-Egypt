@@ -128,7 +128,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-navy">
-        <div className="relative max-w-6xl mx-auto px-6 pt-12 pb-10 md:pt-16 md:pb-12">
+        <div className="relative max-w-6xl mx-auto px-safe pt-12 pb-10 md:pt-16 md:pb-12">
           <Reveal>
             <nav
               aria-label="Breadcrumb"
@@ -186,7 +186,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
       {/* Body */}
       <section className="py-14 md:py-16">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-safe">
           <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] gap-10">
             <Reveal>
               <div className="lg:sticky lg:top-28">
@@ -296,7 +296,7 @@ export default async function ProductDetailPage({ params }: Props) {
                     <SectionLabel icon={<Table2 size={14} />}>
                       Specifications
                     </SectionLabel>
-                    <div className="mt-3 overflow-hidden rounded-2xl border border-gray-200">
+                    <div className="mt-3 overflow-x-auto rounded-2xl border border-gray-200">
                       <table className="w-full text-left">
                         <tbody className="divide-y divide-gray-100">
                           {p.specs.map((s, i) => (
@@ -423,11 +423,11 @@ export default async function ProductDetailPage({ params }: Props) {
 
       {/* CTA */}
       <section className="pb-16">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <div className="border-beam relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h2 className="text-2xl font-extrabold text-white">
+                <h2 className="text-fluid-h4 font-extrabold text-white">
                   Need a {p.name.split(" ")[0]} for your project?
                 </h2>
                 <p className="mt-2 text-[15px] text-white/75 max-w-lg">

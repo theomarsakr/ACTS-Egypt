@@ -248,7 +248,7 @@ export default async function BrandPage({ params }: Props) {
       {/* Cinematic hero — brand-film loop (or still photo) behind a navy scrim */}
       <section
         id="overview"
-        className="relative flex min-h-[88vh] items-center overflow-hidden bg-navy"
+        className="relative flex min-h-[88svh] items-center overflow-hidden bg-navy"
       >
         {/* Background media */}
         {heroVideo ? (
@@ -284,7 +284,7 @@ export default async function BrandPage({ params }: Props) {
         />
         <div className="dark-vignette" aria-hidden />
 
-        <div className="relative w-full max-w-6xl mx-auto px-6 py-20 md:py-24 lg:py-28">
+        <div className="relative w-full max-w-6xl mx-auto px-safe py-20 md:py-24 lg:py-28">
           <Reveal>
             <Link
               href="/brands"
@@ -348,8 +348,8 @@ export default async function BrandPage({ params }: Props) {
       {isHub && <FloatingNav sections={navSections} />}
 
       <section className="py-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <div id="products" className="scroll-mt-40">
+        <div className="max-w-6xl mx-auto px-safe">
+          <div id="products" className="scroll-anchor">
             <Reveal>
               <div className="text-[13px] font-bold uppercase tracking-widest text-brand">
                 Product range
@@ -382,7 +382,7 @@ export default async function BrandPage({ params }: Props) {
           <ProductShowcase slug={brand.slug} />
 
           {hub && (
-            <div id="engineering-hub" className="mt-20 scroll-mt-40">
+            <div id="engineering-hub" className="mt-20 scroll-anchor">
               <Reveal>
                 <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
                   <Layers size={15} /> Engineering hub
@@ -408,7 +408,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           {brand.gallery && (
-            <div id="gallery" className="mt-20 scroll-mt-40">
+            <div id="gallery" className="mt-20 scroll-anchor">
               <Reveal>
                 <div className="text-[13px] font-bold uppercase tracking-widest text-brand">
                   Product gallery
@@ -472,7 +472,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           {tools && (
-            <div id="tools-support" className="mt-20 scroll-mt-40">
+            <div id="tools-support" className="mt-20 scroll-anchor">
               <Reveal>
                 <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
                   <Wrench size={15} /> Software, services &amp; support
@@ -532,7 +532,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           {hub && (
-            <div id="engineering-resources" className="mt-20 scroll-mt-40">
+            <div id="engineering-resources" className="mt-20 scroll-anchor">
               <Reveal>
                 <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
                   <Layers size={15} /> Engineering resource center
@@ -569,7 +569,7 @@ export default async function BrandPage({ params }: Props) {
               </div>
               <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                  <h3 className="text-2xl font-extrabold text-white">
+                  <h3 className="text-fluid-h4 font-extrabold text-white">
                     Interested in {brand.name} products?
                   </h3>
                   <p className="mt-2 text-[15px] text-white/75 max-w-lg">
