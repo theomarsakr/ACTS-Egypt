@@ -132,12 +132,12 @@ export default function ProductLineCard({
                         className="object-contain"
                       />
                       {galleryLink && (
-                        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-navy/85 py-1.5 text-[10.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/item:opacity-100">
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-navy/85 py-1.5 text-[10.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/item:opacity-100 group-focus-within/item:opacity-100 pointer-coarse:opacity-100">
                           <Images size={12} /> View in gallery
                         </div>
                       )}
                       {hubLink && (
-                        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-navy/85 py-1.5 text-[10.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/item:opacity-100">
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-navy/85 py-1.5 text-[10.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/item:opacity-100 group-focus-within/item:opacity-100 pointer-coarse:opacity-100">
                           <Layers size={12} /> View in Hub
                         </div>
                       )}

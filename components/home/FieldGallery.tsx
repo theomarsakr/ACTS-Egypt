@@ -194,7 +194,7 @@ export default function FieldGallery({
                     {a.sub}
                   </div>
                 </div>
-                <span className="w-9 h-9 rounded-full glass-dark flex items-center justify-center text-white opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                <span className="w-9 h-9 rounded-full glass-dark flex items-center justify-center text-white opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 pointer-coarse:opacity-100 pointer-coarse:translate-y-0">
                   <Expand size={15} />
                 </span>
               </div>

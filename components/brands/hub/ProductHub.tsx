@@ -436,7 +436,7 @@ export function Gallery({ images, name }: { images: string[]; name: string }) {
           sizes="(max-width: 1024px) 100vw, 40vw"
           className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105"
         />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 bg-navy/85 py-2 text-[12.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 bg-navy/85 py-2 text-[12.5px] font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 pointer-coarse:opacity-100">
           <Expand size={13} /> View photo
         </div>
       </button>

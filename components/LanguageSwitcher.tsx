@@ -21,19 +21,20 @@ export default function LanguageSwitcher({ lang }: { lang: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Close on outside click / Escape.
+  // Close on outside click / tap / Escape. pointerdown (not mousedown)
+  // covers both input types in one listener.
   useEffect(() => {
     if (!open) return;
-    function onDown(e: MouseEvent) {
+    function onDown(e: PointerEvent) {
       if (!ref.current?.contains(e.target as Node)) setOpen(false);
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
     }
-    document.addEventListener("mousedown", onDown);
+    document.addEventListener("pointerdown", onDown);
     document.addEventListener("keydown", onKey);
     return () => {
-      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("pointerdown", onDown);
       document.removeEventListener("keydown", onKey);
     };
   }, [open]);
