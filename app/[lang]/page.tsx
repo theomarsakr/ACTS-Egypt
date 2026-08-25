@@ -17,6 +17,7 @@ import {
   Wrench,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SectionHeading from "@/components/SectionHeading";
 import SiteDock from "@/components/SiteDock";
 import Hero from "@/components/home/Hero";
 import FieldProof from "@/components/home/FieldProof";
@@ -28,6 +29,7 @@ import ScrollRail from "@/components/home/ScrollRail";
 import EgyptReach from "@/components/home/EgyptReach";
 import { ContainerScroll } from "@/components/ui/ContainerScroll";
 import SpotlightCard from "@/components/ui/SpotlightCard";
+import CardLogoMark from "@/components/ui/CardLogoMark";
 import Magnetic from "@/components/ui/Magnetic";
 import ShimmerButton from "@/components/ui/ShimmerButton";
 // Re-enable together with the render site further down (search CLIENT TESTIMONIALS).
@@ -47,17 +49,184 @@ import { fill, getDict, localeHref, type Locale } from "@/lib/i18n";
 const whatWeDoIcons = [Gauge, Thermometer, Wrench];
 
 /* Gallery photos — labels/subtitles/groups come from the locale dictionary
-   (aligned by index); the structural fields live here. */
+   (aligned by index); the structural fields live here. Real brand photography
+   (manufacturer catalog shots + genuine field-service photos) from the brand
+   asset libraries under public/Data, not generic industrial stock.
+   EST's "enhanced" folder turned out to be a mix: most of it is AI-generated
+   marketing collateral with fabricated or garbled callouts (misspelled specs,
+   literal "<IMAGE 0>" prompt leakage), but a handful of files in there are
+   plain, uncomposited product photography indistinguishable from the rest of
+   the catalog. Each candidate from that folder was opened and read individually
+   before inclusion — only ones with zero overlay text/diagrams made the cut. */
 const activityBase = [
-  { src: "/images/refinery-blue.jpg", href: "/industries/oil-gas", aspect: "aspect-[4/5]", groupKey: "sites" as const },
-  { src: "/images/farris-relief-valves.jpg", href: "/brands/farris-engineering", aspect: "aspect-[4/3]", groupKey: "equipment" as const },
-  { src: "/images/offshore-rig.jpg", href: "/industries/oil-gas", aspect: "aspect-square", groupKey: "sites" as const },
-  { src: "/images/dynaflo-control-valve.jpg", href: "/brands/dyna-flo", aspect: "aspect-[4/3]", groupKey: "equipment" as const },
-  { src: "/images/power-station.jpg", href: "/industries/power-generation", aspect: "aspect-[4/5]", groupKey: "sites" as const },
-  { src: "/images/est-field-service.jpg", href: "/brands/est", aspect: "aspect-[4/3]", groupKey: "equipment" as const },
-  { src: "/images/gas-plant.jpg", href: "/industries/oil-gas", aspect: "aspect-square", groupKey: "sites" as const },
-  { src: "/images/petrochemical-plant.jpg", href: "/industries/petrochemical", aspect: "aspect-[4/3]", groupKey: "sites" as const },
-  { src: "/images/upstream-drilling-rig.jpg", href: "/projects", aspect: "aspect-[4/5]", groupKey: "sites" as const },
+  {
+    src: "/Data/Farris-Valves/images/FARRIS-AFTERMARKET-SERVICES.jpg",
+    href: "/brands/farris-engineering",
+    aspect: "aspect-[4/5]",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/6400.jpg",
+    href: "/brands/farris-engineering/products/series-6400",
+    aspect: "aspect-square",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/2700.jpg",
+    href: "/brands/farris-engineering/products/series-2700",
+    aspect: "aspect-[4/3]",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/2400.jpg",
+    href: "/brands/farris-engineering/products/series-2400",
+    aspect: "aspect-[4/5]",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/Directional-Control-Valve.jpg",
+    href: "/brands/farris-engineering",
+    aspect: "aspect-[4/3]",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/3800.jpg",
+    href: "/brands/farris-engineering/products/series-3800",
+    aspect: "aspect-[4/3]",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/4200-SERIES-STEAM-SAFETY-VALVE.jpg",
+    href: "/brands/farris-engineering/products/series-4200",
+    aspect: "aspect-[4/5]",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/4700.jpg",
+    href: "/brands/farris-engineering/products/series-4700",
+    aspect: "aspect-square",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/2600_1.png",
+    href: "/brands/farris-engineering/products/series-2600",
+    aspect: "aspect-square",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Farris-Valves/images/3800_1.jpg",
+    href: "/brands/farris-engineering/products/series-3800",
+    aspect: "aspect-[4/3]",
+    groupKey: "farris" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/4000LB-withstickers-2.png",
+    href: "/brands/dyna-flo/products/dyna-4000",
+    aspect: "aspect-[4/3]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/DFN.png",
+    href: "/brands/dyna-flo/products/dyna-dfn",
+    aspect: "aspect-[4/5]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/760.png",
+    href: "/brands/dyna-flo/products/dyna-positioners",
+    aspect: "aspect-square",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/PS2.png",
+    href: "/brands/dyna-flo/products/dyna-positioners",
+    aspect: "aspect-[4/3]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/control-air-T950XP.png",
+    href: "/brands/dyna-flo/products/dyna-t950xp",
+    aspect: "aspect-[4/5]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/5000.png",
+    href: "/brands/dyna-flo/products/dyna-5000",
+    aspect: "aspect-[4/3]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/DFC-DFO_front.png",
+    href: "/brands/dyna-flo/products/dyna-dfc-dfo",
+    aspect: "aspect-square",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/DFRP_Front.png",
+    href: "/brands/dyna-flo/products/dyna-dfrp",
+    aspect: "aspect-[4/5]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/DFLP_Front.png",
+    href: "/brands/dyna-flo/products/dyna-dflp",
+    aspect: "aspect-[4/5]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/Dynaflo/images/DFR220_Front.png",
+    href: "/brands/dyna-flo/products/dyna-dfr",
+    aspect: "aspect-[4/5]",
+    groupKey: "dynaflo" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/Field-Services-2.jpg",
+    href: "/brands/est",
+    aspect: "aspect-[4/5]",
+    groupKey: "est" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/Tube-Sleeve-Before-After.png",
+    href: "/brands/est",
+    aspect: "aspect-square",
+    groupKey: "est" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/sr-plus-kit-capped.png",
+    href: "/brands/est/products/est-smart-ram",
+    aspect: "aspect-[4/3]",
+    groupKey: "est" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/Tooling-Package.png",
+    href: "/brands/est",
+    aspect: "aspect-[4/3]",
+    groupKey: "est" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/enhanced/dbb.png",
+    href: "/brands/est/products/est-dbb",
+    aspect: "aspect-square",
+    groupKey: "est" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/enhanced/cpi-perma.png",
+    href: "/brands/est/products/est-cpi-perma",
+    aspect: "aspect-[4/3]",
+    groupKey: "est" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/enhanced/ram.png",
+    href: "/brands/est/products/est-ram",
+    aspect: "aspect-[4/3]",
+    groupKey: "est" as const,
+  },
+  {
+    src: "/Data/EST/images/Product-Photos/enhanced/griptight-elbow.png",
+    href: "/brands/est/products/est-griptight-elbow",
+    aspect: "aspect-[4/5]",
+    groupKey: "est" as const,
+  },
 ];
 
 export default async function Home({
@@ -83,11 +252,9 @@ export default async function Home({
     aspect: a.aspect,
     label: hm.gallery.items[i]?.label ?? "",
     sub: hm.gallery.items[i]?.sub ?? "",
-    group:
-      a.groupKey === "sites" ? hm.gallery.groups.sites : hm.gallery.groups.equipment,
+    group: hm.gallery.groups[a.groupKey],
   }));
 
-  const arrowFlip = "rtl:rotate-180";
   const arrowNudge =
     "transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1";
 
@@ -133,24 +300,36 @@ export default async function Home({
       <section id="what-we-do" className="scroll-mt-28 py-20 md:py-24 lg:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
-            <div className="max-w-2xl">
-              <div className="eyebrow text-brand">{hm.whatWeDo.eyebrow}</div>
-              <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                {hm.whatWeDo.title}
-              </h2>
-              <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                {hm.whatWeDo.lede}
-              </p>
-            </div>
+            <SectionHeading
+              className="max-w-2xl"
+              tier="xl"
+              title={hm.whatWeDo.title}
+              subtitle={hm.whatWeDo.subtitle}
+              lede={hm.whatWeDo.lede}
+            />
           </Reveal>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {hm.whatWeDo.items.map((w, i) => {
               const Icon = whatWeDoIcons[i] ?? Gauge;
               return (
-                <Reveal key={w.title} delay={i * 100}>
+                <Reveal
+                  key={w.title}
+                  delay={i * 100}
+                  // Three cards in two columns leaves the third alone beside
+                  // an empty half row. Between `sm` and `lg`, where that is
+                  // the shape, it takes the full width instead.
+                  className={
+                    i === hm.whatWeDo.items.length - 1
+                      ? "sm:max-lg:col-span-2"
+                      : ""
+                  }
+                >
                   <SpotlightCard className="group card-premium glow-hover h-full p-7">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                      <Icon size={23} />
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                        <Icon size={23} />
+                      </div>
+                      <CardLogoMark />
                     </div>
                     <h3 className="mt-5 text-lg font-bold text-navy">{w.title}</h3>
                     <p className="mt-2.5 text-[15px] text-gray-600 leading-relaxed">
@@ -169,12 +348,12 @@ export default async function Home({
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
-              <div className="max-w-2xl">
-                <div className="eyebrow text-brand">{hm.brands.eyebrow}</div>
-                <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                  {hm.brands.title}
-                </h2>
-              </div>
+              <SectionHeading
+                className="max-w-2xl"
+                tier="xl"
+                title={hm.brands.title}
+                subtitle={hm.brands.subtitle}
+              />
               <Link
                 href="/brands"
                 className="btn btn-ghost-light px-6 py-3 text-[15px] group"
@@ -195,7 +374,7 @@ export default async function Home({
             {brands.map((b, i) => {
               // Auto-rotating gallery of normalized card tiles (lead cut-out
               // first) — every frame is the product centered on an identical
-              // 15:16 white canvas, so one fit works for all of them.
+              // 5:3 white canvas, so one fit works for all of them.
               const folder = brandSlugToFolder[b.slug];
               const galleryImages = folder ? brandCardImages[folder] : [b.image];
               const meta = hm.brands.meta[b.slug] ?? {
@@ -209,7 +388,7 @@ export default async function Home({
                 <SpotlightCard className="group card-premium glow-hover flex flex-col h-full overflow-hidden !rounded-3xl">
                   <Link
                     href={`/brands/${b.slug}`}
-                    className="relative aspect-15/16 block overflow-hidden bg-white border-b border-gray-100"
+                    className="relative aspect-5/3 block overflow-hidden bg-white border-b border-gray-100"
                   >
                     <AutoRotateImage
                       images={galleryImages}
@@ -219,10 +398,14 @@ export default async function Home({
                       intervalMs={8000}
                       startDelayMs={i * 2200}
                     />
-                    <div className="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-white to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-8 bg-linear-to-t from-white to-transparent" />
                     <div className="absolute bottom-3.5 left-5 text-[11.5px] font-bold text-gray-500 uppercase tracking-[0.2em]">
                       {b.no}
                     </div>
+                    {/* The card tiles are generated with this badge's corner
+                        treated as a keep-out (see scripts/normalize-brand-cards.mjs),
+                        so no product ever runs under it and the badge needs no
+                        scrim of its own to stay legible. */}
                     {b.logo && (
                       <div className="absolute top-3.5 right-3.5 bg-white/95 backdrop-blur rounded-xl px-3 py-2 shadow-lg shadow-ink/10 ring-1 ring-gray-200/70">
                         <Image
@@ -235,36 +418,33 @@ export default async function Home({
                       </div>
                     )}
                   </Link>
-                  <div className="p-7 flex flex-col flex-1">
-                    {/* The card's own p-7 keeps the 8px of overlay this adds
+                  <div className="p-5 flex flex-col flex-1">
+                    {/* The card's own p-5 keeps the 8px of overlay this adds
                         clear of the image link above it, and the line below is
                         a plain category label, not a target. */}
                     <Link href={`/brands/${b.slug}`} className="tap-target block">
-                      <h3 className="text-xl font-extrabold text-navy transition-colors group-hover:text-brand">
+                      <h3 className="text-lg font-extrabold text-navy transition-colors group-hover:text-brand">
                         {b.name}
                       </h3>
                     </Link>
                     <div className="mt-1 text-sm font-semibold text-brand">
                       {meta.category}
                     </div>
-                    <p className="mt-3 text-[15px] text-gray-600 leading-relaxed flex-1">
-                      {meta.summary}
-                    </p>
+                    <div className="mt-3 flex-1">
+                      <p className="text-[15px] text-gray-600 leading-snug line-clamp-3">
+                        {meta.summary}
+                      </p>
+                    </div>
                     {b.bestSellers && (
-                      <div className="mt-4">
-                        <div className="text-[11px] font-bold uppercase tracking-wider text-gray-500">
-                          {hm.brands.featured}
-                        </div>
-                        <div className="mt-1.5 flex flex-wrap gap-1.5">
-                          {b.bestSellers.map((s) => (
-                            <span
-                              key={s}
-                              className="text-[12.5px] font-semibold text-brand-dark bg-brand-light rounded-full px-2.5 py-1"
-                            >
-                              {s}
-                            </span>
-                          ))}
-                        </div>
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {b.bestSellers.map((s) => (
+                          <span
+                            key={s}
+                            className="text-[11.5px] font-semibold text-brand-dark bg-brand-light rounded-full px-2 py-0.5"
+                          >
+                            {s}
+                          </span>
+                        ))}
                       </div>
                     )}
                     {/* Both are ~110-130px wide and only 20-23px tall, and they
@@ -272,7 +452,7 @@ export default async function Home({
                         grow downward/upward — there is no vertical neighbour to
                         take taps from, and horizontally each is already well
                         past 44px. Painted row is unchanged. */}
-                    <div className="mt-5 flex items-center justify-between gap-3">
+                    <div className="mt-3.5 flex items-center justify-between gap-3">
                       <Link
                         href={`/brands/${b.slug}`}
                         className="tap-target inline-flex items-center gap-1.5 text-[15px] font-bold text-navy transition-colors hover:text-brand"
@@ -315,10 +495,12 @@ export default async function Home({
         />
         <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <Reveal>
-            <div className="eyebrow text-amber">{hm.global.eyebrow}</div>
-            <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-              {hm.global.title}
-            </h2>
+            <SectionHeading
+              tier="xl"
+              tone="dark"
+              title={hm.global.title}
+              subtitle={hm.global.subtitle}
+            />
             <p className="mt-5 text-lg text-white/70 leading-relaxed max-w-lg">
               {hm.global.lede}
             </p>
@@ -327,14 +509,15 @@ export default async function Home({
               style={{ "--chip-count": brands.length } as React.CSSProperties}
             >
               {brands.map((b, i) => (
-                <span
+                <Link
                   key={b.slug}
-                  className="brand-chip glass-dark rounded-full px-3.5 py-2 text-[13px] font-semibold text-white/80"
+                  href={`/brands/${b.slug}`}
                   style={{ "--i": i } as React.CSSProperties}
+                  className="hero-brand-chip glass-dark rounded-full px-3.5 py-2 text-[13px] font-semibold text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber/70"
                 >
                   {b.name}
                   <span className="text-white/40"> · {b.origin.split(" · ")[0]}</span>
-                </span>
+                </Link>
               ))}
             </div>
           </Reveal>
@@ -355,7 +538,7 @@ export default async function Home({
       <section id="why-acts" className="why-section scroll-mt-28 relative overflow-x-clip py-24 md:py-28 lg:py-32">
         <div className="why-backdrop" aria-hidden />
         <div className="relative max-w-7xl mx-auto px-6">
-          <ContainerScroll label={hm.why.eyebrow}>
+          <ContainerScroll>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.6fr)] lg:gap-16">
             {/* ---------- Narrative rail ---------- */}
             {/* Sticky only at `lg:`, where there are two columns for it to be
@@ -365,7 +548,7 @@ export default async function Home({
                 equivalent of "argument holds still, evidence moves".
 
                 That only works if the argument is short, and this one is not.
-                The block is the eyebrow, a three-line display headline, a
+                The block is the section title, a three-line display headline, a
                 four-line lede and two CTAs: 665px on a 390px-wide phone, 556px
                 at 768. Pinned at top-20 on an 844px viewport it left ~99px of
                 clearance, and the sticky header on top of that. So the entire
@@ -383,10 +566,11 @@ export default async function Home({
                 before. */}
             <div className="self-start lg:sticky lg:top-28">
               <Reveal>
-                <div className="eyebrow text-brand">{hm.why.eyebrow}</div>
-                <h2 className="mt-4 text-4xl leading-[1.06] font-extrabold tracking-tight text-balance text-navy md:text-5xl xl:text-[3.3rem]">
-                  {hm.why.title}
-                </h2>
+                <SectionHeading
+                  tier="xl"
+                  title={hm.why.title}
+                  subtitle={hm.why.subtitle}
+                />
                 <p className="mt-6 max-w-md text-lg leading-relaxed text-gray-600">
                   {hm.why.lede}
                 </p>
@@ -431,7 +615,12 @@ export default async function Home({
                   <div className="dark-vignette" aria-hidden />
 
                   <div className="relative flex items-start justify-between gap-4">
-                    <div className="eyebrow text-amber">{hm.why.exclusive.eyebrow}</div>
+                    <SectionHeading
+                      tier="md"
+                      tone="dark"
+                      title={hm.why.exclusive.title}
+                      subtitle={hm.why.exclusive.subtitle}
+                    />
                     <span className="sheen shrink-0 rounded-xl bg-white px-3 py-2 shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
                       <Image
                         src="/images/curtiss-wright-logo.png"
@@ -442,10 +631,6 @@ export default async function Home({
                       />
                     </span>
                   </div>
-
-                  <h3 className="relative mt-6 text-[1.7rem] leading-[1.14] font-extrabold tracking-tight text-balance md:text-[2.05rem]">
-                    {hm.why.exclusive.title}
-                  </h3>
                   <p className="relative mt-4 max-w-lg text-[15.5px] leading-relaxed text-white/60">
                     {hm.why.exclusive.text}
                   </p>
@@ -665,7 +850,7 @@ export default async function Home({
                       </Link>
                     </div>
                     <div className="mx-auto w-full max-w-56 @[36rem]:max-w-none">
-                      <EgyptReach />
+                      <EgyptReach lang={lang} />
                       <p className="mt-2 text-center text-[11.5px] text-gray-400">
                         {hm.why.locationTile.mapHint}
                       </p>
@@ -696,15 +881,14 @@ export default async function Home({
         />
         <div className="relative max-w-7xl mx-auto px-6">
           <Reveal>
-            <div className="max-w-2xl">
-              <div className="eyebrow text-amber">{hm.proven.eyebrow}</div>
-              <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-                {hm.proven.title}
-              </h2>
-              <p className="mt-5 text-lg text-white/70 leading-relaxed">
-                {hm.proven.lede}
-              </p>
-            </div>
+            <SectionHeading
+              className="max-w-2xl"
+              tier="xl"
+              tone="dark"
+              title={hm.proven.title}
+              subtitle={hm.proven.subtitle}
+              lede={hm.proven.lede}
+            />
           </Reveal>
           <div className="mt-10">
             <FieldProof
@@ -742,12 +926,12 @@ export default async function Home({
                 <div className="inline-flex items-center gap-2 text-[12.5px] font-bold text-brand-dark uppercase tracking-[0.14em] bg-brand-light rounded-full px-3.5 py-1.5">
                   {hm.gallery.chip}
                 </div>
-                <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-navy text-balance">
-                  {hm.gallery.title}
-                </h2>
-                <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                  {hm.gallery.lede}
-                </p>
+                <SectionHeading
+                  className="mt-4"
+                  tier="xl"
+                  title={hm.gallery.title}
+                  lede={hm.gallery.lede}
+                />
               </div>
               <Link
                 href="/projects"
@@ -790,14 +974,13 @@ export default async function Home({
         </div>
         <div className="relative max-w-4xl mx-auto px-6 py-24 md:py-28 lg:py-32 text-center">
           <Reveal>
-            <div className="eyebrow text-amber justify-center [&::before]:hidden">
-              <span className="w-6.5 h-0.5 rounded bg-current opacity-85" />
-              {hm.cta.eyebrow}
-              <span className="w-6.5 h-0.5 rounded bg-current opacity-85" />
-            </div>
-            <h2 className="mt-5 text-4xl md:text-6xl font-extrabold tracking-[-0.03em] text-balance">
-              {hm.cta.title}
-            </h2>
+            <SectionHeading
+              tier="hero"
+              tone="dark"
+              align="center"
+              title={hm.cta.title}
+              subtitle={hm.cta.subtitle}
+            />
             <p className="mt-6 text-lg md:text-xl text-white/70 max-w-xl mx-auto">
               {hm.cta.lede}
             </p>
@@ -845,11 +1028,11 @@ export default async function Home({
       <SiteDock
         lang={lang}
         sections={[
-          { id: "what-we-do", label: hm.whatWeDo.eyebrow, icon: <Gauge className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "brands", label: hm.brands.eyebrow, icon: <Package className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "global-reach", label: hm.global.navLabel, icon: <Globe className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "why-acts", label: hm.why.eyebrow, icon: <ShieldCheck className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "proven", label: hm.proven.eyebrow, icon: <Briefcase className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "what-we-do", label: hm.whatWeDo.title, icon: <Gauge className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "brands", label: hm.brands.title, icon: <Package className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "global-reach", label: hm.global.title, icon: <Globe className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "why-acts", label: hm.why.title, icon: <ShieldCheck className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "proven", label: hm.proven.title, icon: <Briefcase className="h-full w-full" strokeWidth={2.25} /> },
           { id: "gallery", label: hm.gallery.chip, icon: <Camera className="h-full w-full" strokeWidth={2.25} /> },
         ]}
       />

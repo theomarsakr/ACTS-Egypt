@@ -33,11 +33,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import PageHero from "@/components/PageHero";
+import SectionHeading from "@/components/SectionHeading";
 import SiteDock from "@/components/SiteDock";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
+import IndustryProductLibrary from "@/components/industries/IndustryProductLibrary";
 import {
   industries,
   industriesSummary,
@@ -45,6 +48,7 @@ import {
   getProductLine,
   productLineAnchorId,
 } from "@/lib/data";
+import { getIndustryLibrary } from "@/lib/industryLibrary";
 
 export const metadata: Metadata = {
   title: "Industries we serve",
@@ -200,39 +204,12 @@ export default function IndustriesPage() {
   return (
     <>
       {/* Page hero */}
-      <section id="overview" className="scroll-mt-28 relative overflow-hidden bg-navy">
-        <div className="absolute inset-0" aria-hidden>
-          <Image
-            src="/images/power-station.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50" />
-        </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
-          <Reveal>
-            <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-              Industries we serve
-            </div>
-            <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
-              Engineered for every demanding sector
-            </h1>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              ACTS delivers engineered solutions, critical equipment, and
-              technical support across Egypt&apos;s most demanding industrial
-              sectors. Our exclusive representation of world-class
-              manufacturers, combined with in-house application engineering,
-              enables us to address the unique challenges of each industry
-              we serve.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      <PageHero
+        id="overview"
+        title="Industries We Serve"
+        subtitle="Engineered for every demanding sector"
+        lede="Engineered solutions, critical equipment, and technical support across Egypt's most demanding industrial sectors, backed by exclusive manufacturer representation and in-house application engineering."
+      />
 
       {/* Industry tabs */}
       <section id="explore-industries" className="scroll-mt-28 py-16">
@@ -268,7 +245,7 @@ export default function IndustriesPage() {
                           <div className="text-sm font-semibold text-brand">
                             {ind.tagline}
                           </div>
-                          <h2 className="mt-1.5 text-2xl md:text-3xl font-extrabold text-navy">
+                          <h2 className="mt-1.5 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
                             {ind.name}
                           </h2>
                           <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
@@ -281,9 +258,9 @@ export default function IndustriesPage() {
                               grid, deliberately lighter-weight than the
                               chapter below it. */}
                           <div className="mt-8">
-                            <div className="text-sm font-bold text-navy uppercase tracking-wide">
+                            <h4 className="text-sm font-bold text-navy uppercase tracking-wide">
                               How we support this sector
-                            </div>
+                            </h4>
                             <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
                               {ind.howWeSupport.map((h, i) => {
                                 const brand = h.brandSlug ? getBrand(h.brandSlug) : undefined;
@@ -325,16 +302,13 @@ export default function IndustriesPage() {
                           This is the chapter; the capability strip above and
                           the index below deliberately read lighter than it. */}
                       <div className="border-t border-gray-100 bg-gray-50/60 p-8 md:p-10">
-                        <div className="eyebrow text-brand">Key applications</div>
-                        <h3 className="mt-3 text-xl md:text-2xl font-extrabold tracking-tight text-navy">
-                          Where {ind.name} work actually happens
-                        </h3>
-                        <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-gray-600">
-                          Process area by process area: the engineering
-                          challenge, how we solve it, why that approach is the
-                          right one, and the exact product line behind the
-                          claim.
-                        </p>
+                        <SectionHeading
+                          as="h3"
+                          tier="md"
+                          title="Key Applications"
+                          subtitle={`Where ${ind.name} work actually happens`}
+                          lede="Process area by process area: the engineering challenge, how we solve it, why that approach is the right one, and the exact product line behind the claim."
+                        />
                         <div className="mt-7 grid gap-4 md:grid-cols-2">
                           {ind.applications.map((app, i) => (
                             <Reveal key={app.area} delay={i * 80}>
@@ -347,58 +321,29 @@ export default function IndustriesPage() {
                       {/* Closing recap: every line named above, but now
                           answering what the chip grid never did — what this
                           specific line does *in this industry*, not just
-                          that it exists. Same SpecSheet "datasheet" primitive
-                          as "At a glance" below, so it reads as reference
-                          material, not a repeat of the Key Applications
-                          narrative above it. Deliberately the same light
-                          label weight as "How we support," bookending the
-                          chapter rather than competing with it. */}
+                          that it exists. Each line is a dropdown rather than
+                          a flat datasheet row, which buys the room to put
+                          both of the things a reader wants next behind the
+                          line itself: the product, and its PDFs. Before this,
+                          the documents lived only on /brands#document-library
+                          and had to be searched for by hand. Deliberately the
+                          same light label weight as "How we support,"
+                          bookending the chapter rather than competing with
+                          it. */}
                       <div className="border-t border-gray-100 p-8 md:p-10">
-                        <div className="text-sm font-bold text-navy uppercase tracking-wide">
-                          Full product index
-                        </div>
+                        <h4 className="text-sm font-bold text-navy uppercase tracking-wide">
+                          Product &amp; document library
+                        </h4>
                         <p className="mt-1 max-w-xl text-[13px] text-gray-500">
-                          Every line named above, what it specifically does
-                          in {ind.name}, and where to see it.
+                          Every line named above, what it specifically does in{" "}
+                          {ind.name}, and, on any line, a link to the product
+                          and its brochures, catalogs, and manuals.
                         </p>
                         <div className="mt-5">
-                          <SpecSheet
-                            records={ind.productLines.flatMap((pl) => {
-                              const brand = getBrand(pl.brandSlug);
-                              if (!brand) return [];
-                              return pl.lines.flatMap(({ tag, note }) => {
-                                const pLine = getProductLine(pl.brandSlug, tag);
-                                if (!pLine) return [];
-                                return [
-                                  {
-                                    title: tag,
-                                    tag: brand.name,
-                                    fields: [
-                                      {
-                                        label: `Role in ${ind.name}`,
-                                        value: note,
-                                        wide: true,
-                                      },
-                                      {
-                                        label: "Product",
-                                        value: (
-                                          <Link
-                                            href={`/brands/${brand.slug}#${productLineAnchorId(pLine)}`}
-                                            className="tap-target group inline-flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-dark"
-                                          >
-                                            {pLine.name}
-                                            <ArrowRight
-                                              size={12}
-                                              className="transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
-                                            />
-                                          </Link>
-                                        ),
-                                      },
-                                    ],
-                                  },
-                                ];
-                              });
-                            })}
+                          <IndustryProductLibrary
+                            industrySlug={ind.slug}
+                            industryName={ind.name}
+                            entries={getIndustryLibrary(ind)}
                           />
                         </div>
                       </div>

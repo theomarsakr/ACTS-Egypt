@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import arkanPlaza from "@/public/images/arkan-plaza.jpg";
 import { ClipboardCheck, ListChecks } from "lucide-react";
 import RFQForm from "@/components/RFQForm";
 import Reveal from "@/components/Reveal";
 import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
+import CardLogoMark from "@/components/ui/CardLogoMark";
 import { getBrand } from "@/lib/data";
 import { getDict, type Locale } from "@/lib/i18n";
 
@@ -44,29 +46,37 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
   return (
     <>
       {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy">
-        <div className="absolute inset-0" aria-hidden>
+      <section className="relative overflow-hidden bg-navy flex items-center min-h-115 md:min-h-140">
+        <div className="absolute inset-0 grain" aria-hidden>
           <Image
-            src="/images/hero-plant.jpg"
+            src={arkanPlaza}
             alt=""
             fill
-            priority
+            loading="eager"
+            fetchPriority="high"
+            quality={90}
             sizes="100vw"
-            className="object-cover opacity-40"
+            className="object-cover object-[50%_42%]"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50 rtl:bg-linear-to-l" />
+          <div className="absolute inset-0 hero-scrim" />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
+        {/* w-full is load-bearing: the section is a flex container, so without
+            it this div shrink-wraps to its content and mx-auto centres the
+            copy instead of aligning it to the max-w-6xl column the rest of the
+            site's page heroes use. */}
+        <div className="relative w-full max-w-6xl mx-auto px-6 pt-40 pb-16 md:pt-56 md:pb-20">
+          {/* Category label leads, statement second, lede last -- the same
+              stepped-down hierarchy the engagement cards use. */}
           <Reveal>
-            <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
+            <div className="hero-copy-shadow font-display text-4xl md:text-6xl font-extrabold uppercase leading-[1.02] tracking-[-0.02em] text-amber">
               {q.heroChip}
             </div>
-            <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
+            <h1 className="hero-copy-shadow mt-3 text-2xl md:text-3xl font-bold tracking-tight text-white/90">
               {q.heroTitle}
             </h1>
           </Reveal>
           <Reveal delay={120}>
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
+            <p className="hero-copy-shadow mt-5 text-base md:text-[17px] text-white/70 max-w-xl leading-relaxed">
               {q.lede}
             </p>
           </Reveal>
@@ -93,9 +103,19 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
           <div className="grid sm:grid-cols-2 gap-4">
             {q.steps.map((s, i) => (
               <Reveal key={s.step} delay={i * 80}>
-                <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
-                  <div className="text-sm font-bold text-brand">{s.step}</div>
-                  <p className="mt-1.5 text-[15px] text-gray-600">{s.text}</p>
+                <SpotlightCard className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                  {/* Step label and ACTS mark share the header line, the same
+                      way every other card grid on the site is built (about's
+                      vision/mission, the homepage tiles, the projects trust
+                      cards). Narrower than the standard 104px mark those use,
+                      because these tiles sit two-up in a max-w-2xl column: at
+                      full size the lockup outweighs the step label beside it
+                      and crowds one as long as "2. Technical Review". */}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-sm font-bold text-brand">{s.step}</div>
+                    <CardLogoMark width={72} />
+                  </div>
+                  <p className="mt-3 text-[15px] text-gray-600">{s.text}</p>
                 </SpotlightCard>
               </Reveal>
             ))}

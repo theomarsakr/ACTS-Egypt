@@ -367,7 +367,15 @@ export default function RotatingEarth({
     const handleClick = (event: MouseEvent) => {
       const [x, y] = toLocalPoint(event);
       const hit = findPinNear(x, y);
-      if (hit?.pin.slug) {
+      if (!hit) return;
+      if (hit.pin.isHub) {
+        // Same Maps search query used by the office card on /contact.
+        window.open(
+          "https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza",
+          "_blank",
+          "noopener,noreferrer"
+        );
+      } else if (hit.pin.slug) {
         router.push(localeHref(lang, `/brands/${hit.pin.slug}`));
       }
     };
@@ -394,23 +402,40 @@ export default function RotatingEarth({
     // so a visitor who never scrolls this far never pays for the request or
     // for the point-in-polygon scan that turns it into dots.
     let landDataRequested = false;
+    const landDataAbort = new AbortController();
     const loadLandData = () => {
       if (landDataRequested) return;
       landDataRequested = true;
       (async () => {
         try {
           setIsLoading(true);
-          const response = await fetch(
-            "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json"
-          );
-          if (!response.ok) throw new Error("Failed to load land data");
-          landFeatures = (await response.json()) as LandCollection;
+          // Served from our own origin (public/geo/), not raw.githubusercontent.com.
+          // A cross-origin fetch here put the hero visual at the mercy of ad
+          // blockers, privacy extensions, corporate proxies, and GitHub's
+          // rate limits, and would be blocked outright by connect-src 'self'.
+          // Source: github.com/martynafford/natural-earth-geojson (MIT), from
+          // Natural Earth 110m physical land (public domain).
+          const response = await fetch("/geo/ne_110m_land.json", {
+            signal: landDataAbort.signal,
+          });
+          if (!response.ok) {
+            throw new Error(`land data responded ${response.status}`);
+          }
+          const collection = (await response.json()) as LandCollection;
+          if (!collection?.features?.length) {
+            throw new Error("land data contained no features");
+          }
+          landFeatures = collection;
           landFeatures.features.forEach((feature) => {
             allDots.push(...generateDotsInFeature(feature));
           });
           render();
           setIsLoading(false);
-        } catch {
+        } catch (err) {
+          // An abort is the cleanup path on unmount, not a failure — leaving
+          // the error panel up for it would flash a broken globe on nav.
+          if (landDataAbort.signal.aborted) return;
+          console.error("globe land data failed to load:", err);
           setError("Failed to load globe data");
           setIsLoading(false);
         }
@@ -448,6 +473,7 @@ export default function RotatingEarth({
 
     return () => {
       stopRotationTimer();
+      landDataAbort.abort();
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       canvas.removeEventListener("mousedown", handleMouseDown);
@@ -485,7 +511,11 @@ export default function RotatingEarth({
           <div className="text-white/60">{tooltip.pin.city}</div>
         </div>
       )}
-      <div className="glass-dark pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[12px] font-medium text-white/70">
+      {/* Control legend, not a page-scroll cue, so it keeps its own shape
+          rather than becoming a <ScrollHint> chip — but it was set at
+          `white/70` over a lit globe, where it disappeared against the
+          bright limb. Given a real ground and full-strength text. */}
+      <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-ink/70 px-4 py-2 text-[12.5px] font-semibold whitespace-nowrap text-white ring-1 ring-white/25 backdrop-blur-md">
         {isLoading ? "Loading globe…" : "Drag to rotate · Scroll to zoom"}
       </div>
     </div>

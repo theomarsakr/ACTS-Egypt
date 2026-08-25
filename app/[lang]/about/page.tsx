@@ -20,15 +20,21 @@ import {
   Settings2,
   ShieldCheck,
   Thermometer,
+  UserRound,
   Wrench,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import SectionHeading from "@/components/SectionHeading";
 import SiteDock from "@/components/SiteDock";
 import Counter from "@/components/Counter";
 import TimelineTrack from "@/components/TimelineTrack";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
+import CardLogoMark from "@/components/ui/CardLogoMark";
+import { ProgressiveBlurCard } from "@/components/ui/progressive-blur-card";
+import { ShineBorder } from "@/components/ui/ShineBorder";
+import FlipDiskMatrixLazy from "@/components/ui/flip-disk-matrix-lazy";
 import { timeline, mission, values, offices, forwardDirection } from "@/lib/data";
 
 /** One icon per timeline entry, in order: Farris agency, second branch,
@@ -78,6 +84,26 @@ const specializations = [
   },
 ];
 
+/** Three pull-quotes for the leadership card, each opening in place to the
+ *  fuller thought. Drawn from copy the site already commits to elsewhere, so
+ *  they restate the position rather than adding a new one: `mission` 01 and
+ *  the single-point-support pillar; the `values` entries for Empowerment and
+ *  Excellence; the aftermarket pillar and `forwardDirection`. */
+const leadershipQuotes = [
+  {
+    short: "Be the partner customers call first.",
+    full: "That means answering fast and getting the application right the first time, with one dedicated contact who understands both the product and the plant it is going into. Not a ticket number, and not a different person at every stage between enquiry and delivery.",
+  },
+  {
+    short: "The right recommendation comes before the sale.",
+    full: "We advise customers toward the right solution even when it is the smaller order, and every enquiry gets a technical review before it is quoted rather than just processed. That is the difference between a supplier and a technical partner on a critical project, and it is why customers come back.",
+  },
+  {
+    short: "Support does not end at delivery.",
+    full: "Maintenance and reconditioning are built into how we work, not sold as an afterthought once something has already failed. We are also moving customers from reactive repairs toward predictive maintenance and digital diagnostics, so a failure gets anticipated instead of absorbed as downtime.",
+  },
+];
+
 const howWeOperate = [
   {
     icon: Headset,
@@ -109,10 +135,12 @@ export default function AboutPage() {
           page. Must stay the very first thing on the page: see the component
           doc comment for why. */}
       <ScrollExpandMedia
-        mediaType="image"
-        mediaSrc="/images/petrochemical-plant.jpg"
-        mediaAlt="Petrochemical processing facility ACTS supplies valves and flow-control equipment to"
-        bgImageSrc="/images/refinery-blue.jpg"
+        mediaType="video"
+        mediaSrc="/videos/Ceo-scrub.mp4"
+        posterSrc="/videos/Ceo-poster.jpg"
+        mediaAlt="ACTS company film"
+        scrubOnScroll
+        bgImageSrc="/images/arkan-plaza-terrace.jpg"
         eyebrow="About ACTS"
         title="Nearly Two Decades"
       >
@@ -168,14 +196,11 @@ export default function AboutPage() {
       <section id="timeline" className="scroll-mt-28 py-20">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal>
-            <div className="text-center">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Our journey
-              </div>
-              <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
-                From trading firm to sole-agency partner
-              </h2>
-            </div>
+            <SectionHeading
+              align="center"
+              title="Our Journey"
+              subtitle="From trading firm to sole-agency partner"
+            />
           </Reveal>
           <div className="mt-14 relative">
             <TimelineTrack />
@@ -219,15 +244,54 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Leadership */}
+      <section id="leadership" className="scroll-mt-28 py-20">
+        <div className="max-w-4xl mx-auto px-6">
+          <Reveal>
+            <SectionHeading
+              className="mx-auto mb-10 max-w-2xl"
+              align="center"
+              title="Leadership"
+              subtitle="Who leads ACTS today"
+            />
+          </Reveal>
+          <Reveal delay={100}>
+            <ProgressiveBlurCard
+              className="mx-auto max-w-2xl"
+              name="Ayman El-Mohamady Sakr"
+              role="General Manager"
+              initials="AS"
+              photoSrc="/images/ayman-el-mohamady-sakr.png"
+              /* Facts about the remit, not a product list. The three agency
+                 brands have their own pages; this section is about ACTS. */
+              rows={[
+                { label: "Remit", value: "Operations and technical partnerships" },
+                { label: "Sectors", value: "Oil & Gas, Power, Fertilizers" },
+                { label: "Based", value: "Sheikh Zayed City, Giza" },
+              ]}
+              quotes={leadershipQuotes}
+              bio={[
+                "As General Manager, Ayman El-Mohamady Sakr leads ACTS' day-to-day operations and the engineering capability behind them, holding sole agency in Egypt for three Curtiss-Wright divisions.",
+                "Under his direction, ACTS has grown from a Giza-based trading firm into a full-service partner for valves, control equipment, and heat-exchanger maintenance, serving operators across Oil & Gas, Petrochemical, Power Generation, and Fertilizer industries from ACTS' headquarters in Sheikh Zayed City, Giza.",
+                "His approach favors single-point technical accountability over transactional selling: one dedicated contact per account, structured project management from enquiry to delivery, and an aftermarket program that keeps safety and control equipment in service long after installation.",
+              ]}
+            />
+          </Reveal>
+        </div>
+      </section>
+
       {/* Vision & Mission */}
       <section id="mission" className="scroll-mt-28 py-4 pb-16">
         <div className="max-w-4xl mx-auto px-6 grid sm:grid-cols-2 gap-6">
           <Reveal>
-            <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Vision
+            <SpotlightCard className="card-lift group h-full rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition-colors hover:border-brand/40">
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
+                  Vision
+                </div>
+                <CardLogoMark />
               </div>
-              <p className="mt-3 text-lg font-semibold text-navy leading-snug">
+              <p className="mt-4 text-lg font-semibold text-navy leading-snug">
                 To be the most trusted engineering partner behind Egypt&apos;s
                 critical industrial processes, for today&apos;s equipment and
                 tomorrow&apos;s technology.
@@ -235,11 +299,14 @@ export default function AboutPage() {
             </SpotlightCard>
           </Reveal>
           <Reveal delay={100}>
-            <SpotlightCard className="h-full bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Mission
+            <SpotlightCard className="card-lift group h-full rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition-colors hover:border-brand/40">
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
+                  Mission
+                </div>
+                <CardLogoMark />
               </div>
-              <p className="mt-3 text-lg font-semibold text-navy leading-snug">
+              <p className="mt-4 text-lg font-semibold text-navy leading-snug">
                 To bring global engineering standards to every valve,
                 exchanger, and process system we support, combining technical
                 excellence, integrity, and responsive local service so our
@@ -254,29 +321,39 @@ export default function AboutPage() {
       <section id="goals" className="scroll-mt-28 bg-navy text-white py-20">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-                Our goals
-              </div>
-              <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
-                What we&apos;re working toward
-              </h2>
-            </div>
+            <SectionHeading
+              className="max-w-2xl mx-auto"
+              align="center"
+              tone="dark"
+              title="Our Goals"
+              subtitle="What we're working toward"
+            />
           </Reveal>
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Two by two, not three across. There are four goals, and a
+              three-column grid left the fourth stranded alone beside two
+              empty columns, which read as a layout that had lost a card
+              rather than a deliberate set. Two columns also matches "How We
+              Operate" and "Looking Ahead" below, so the whole lower half of
+              the page keeps one rhythm. */}
+          <div className="mt-14 grid gap-5 sm:grid-cols-2">
             {mission.map((m, i) => (
               <Reveal key={m.num} delay={i * 90}>
                 <SpotlightCard
                   color="rgba(240, 196, 25, 0.1)"
-                  className="h-full bg-navy-800 rounded-2xl border border-white/10 p-6 hover:border-amber/50 hover:bg-navy-700 transition-colors"
+                  className="relative h-full overflow-hidden bg-navy-800 rounded-2xl border border-white/10 p-6 hover:border-amber/50 hover:bg-navy-700 transition-colors"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/10 text-amber font-extrabold flex items-center justify-center">
-                    {m.num}
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-white/10 text-amber font-extrabold flex items-center justify-center">
+                        {m.num}
+                      </div>
+                      <CardLogoMark surface="dark" />
+                    </div>
+                    <h3 className="mt-4 text-lg font-bold">{m.title}</h3>
+                    <p className="mt-2 text-[15px] text-white/65">
+                      {m.description}
+                    </p>
                   </div>
-                  <h3 className="mt-4 text-lg font-bold">{m.title}</h3>
-                  <p className="mt-2 text-[15px] text-white/65">
-                    {m.description}
-                  </p>
                 </SpotlightCard>
               </Reveal>
             ))}
@@ -290,20 +367,12 @@ export default function AboutPage() {
       <section id="looking-ahead" className="scroll-mt-28 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="max-w-2xl">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Looking ahead
-              </div>
-              <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
-                Investing in the future of process industries
-              </h2>
-              <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                As Egypt&apos;s Oil &amp; Gas, Petrochemical, and Fertilizer
-                sectors evolve, ACTS is committed to bringing modern,
-                technology-driven solutions into how we support our customers.
-                Not just supplying equipment, but helping plants run smarter.
-              </p>
-            </div>
+            <SectionHeading
+              className="max-w-2xl"
+              title="Looking Ahead"
+              subtitle="Investing in the future of process industries"
+              lede="As Egypt's Oil & Gas, Petrochemical, and Fertilizer sectors evolve, ACTS is committed to bringing modern, technology-driven solutions into how we support our customers. Not just supplying equipment, but helping plants run smarter."
+            />
           </Reveal>
           <div className="mt-12 grid sm:grid-cols-2 gap-5">
             {forwardDirection.map((f, i) => {
@@ -311,9 +380,12 @@ export default function AboutPage() {
               return (
                 <Reveal key={f.title} delay={i * 90}>
                   <SpotlightCard className="card-lift group h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                      <Icon size={20} strokeWidth={2.25} />
-                    </span>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                        <Icon size={20} strokeWidth={2.25} />
+                      </span>
+                      <CardLogoMark />
+                    </div>
                     <h3 className="mt-4 text-lg font-bold text-navy">{f.title}</h3>
                     <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
                       {f.description}
@@ -338,29 +410,46 @@ export default function AboutPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Our values
-              </div>
-              <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
-                How our values show up in the work
-              </h2>
-            </div>
+            <SectionHeading
+              className="max-w-2xl mx-auto"
+              align="center"
+              title="Our Values"
+              subtitle="How our values show up in the work"
+            />
           </Reveal>
-          <div className="mt-14 grid sm:grid-cols-2 gap-x-12 gap-y-9">
+          {/* Five values, three over two, as cards rather than as loose
+              numbered paragraphs — the same object the rest of the page uses
+              to hold a titled point.
+
+              The formation is what the six-column track is for. In two
+              columns the fifth value was stranded at the foot of the section
+              beside an empty half page, reading as a list that had run out
+              rather than as a set of five. Each card spans two of six and the
+              fourth starts one column in, so the last two land centred under
+              the first three. Between `sm` and `lg` there are only two
+              columns to work with, where the last card goes full width for
+              the same reason. */}
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
             {values.map((v, i) => (
-              <Reveal key={v.name} delay={i * 80}>
-                <div className="group flex gap-5">
-                  <span className="text-2xl font-extrabold tabular-nums text-brand-dark/70 transition-colors group-hover:text-brand">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="pt-0.5">
-                    <h3 className="text-lg font-bold text-navy">{v.name}</h3>
-                    <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
-                      {v.description}
-                    </p>
+              <Reveal
+                key={v.name}
+                delay={i * 80}
+                className={`lg:col-span-2 ${i === 3 ? "lg:col-start-2" : ""} ${
+                  i === values.length - 1 ? "sm:max-lg:col-span-2" : ""
+                }`}
+              >
+                <SpotlightCard className="card-lift group h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-2xl font-extrabold tabular-nums text-brand-dark/70 transition-colors group-hover:text-brand">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <CardLogoMark />
                   </div>
-                </div>
+                  <h3 className="mt-4 text-lg font-bold text-navy">{v.name}</h3>
+                  <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
+                    {v.description}
+                  </p>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -371,21 +460,12 @@ export default function AboutPage() {
       <section id="specializations" className="scroll-mt-28 py-20 bg-gray-50 border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="max-w-2xl">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                What we specialize in
-              </div>
-              <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
-                Exclusive agent for three Curtiss-Wright divisions
-              </h2>
-              <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-                ACTS is the exclusive agent in Egypt for three Curtiss-Wright
-                divisions: Farris Engineering, Dyna-Flo Control Valve
-                Services, and EST. That gives customers access to an
-                integrated portfolio spanning safety, control, and thermal
-                management.
-              </p>
-            </div>
+            <SectionHeading
+              className="max-w-2xl"
+              title="What We Specialize In"
+              subtitle="Exclusive agent for three Curtiss-Wright divisions"
+              lede="ACTS is the exclusive agent in Egypt for three Curtiss-Wright divisions: Farris Engineering, Dyna-Flo Control Valve Services, and EST. That gives customers access to an integrated portfolio spanning safety, control, and thermal management."
+            />
           </Reveal>
           <div className="mt-12 space-y-4">
             {specializations.map((s, i) => {
@@ -429,14 +509,12 @@ export default function AboutPage() {
       <section id="how-we-operate" className="scroll-mt-28 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                How we operate
-              </div>
-              <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
-                Advisory-led, not just transactional
-              </h2>
-            </div>
+            <SectionHeading
+              className="max-w-2xl mx-auto"
+              align="center"
+              title="How We Operate"
+              subtitle="Advisory-led, not just transactional"
+            />
           </Reveal>
           <div className="mt-14 grid sm:grid-cols-2 gap-5">
             {howWeOperate.map((h, i) => {
@@ -447,8 +525,20 @@ export default function AboutPage() {
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
                       <Icon size={22} />
                     </span>
-                    <div>
-                      <h3 className="text-lg font-bold text-navy">{h.title}</h3>
+                    <div className="min-w-0 flex-1">
+                      {/* The mark shares the title's line here rather than
+                          the icon's, because on these cards the icon sits in
+                          its own column — and it is dropped below `lg`, where
+                          the 104px it takes out of that line turns titles
+                          this long into three wrapped lines. The hero
+                          watermark is hidden at those widths for the same
+                          reason. Vertical cards elsewhere on the page keep
+                          their mark at every width, because there the mark
+                          has a line of its own. */}
+                      <div className="flex items-start justify-between gap-4">
+                        <h3 className="text-lg font-bold text-navy">{h.title}</h3>
+                        <CardLogoMark className="max-lg:hidden" />
+                      </div>
                       <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
                         {h.text}
                       </p>
@@ -467,32 +557,37 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <Reveal>
-                <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                  Where to find us
-                </div>
-                <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
-                  Our headquarters
-                </h2>
+                <SectionHeading
+                  title="Our Headquarters"
+                  subtitle="Where to find us"
+                />
               </Reveal>
               <div className="mt-8 space-y-5">
                 {offices.map((o, i) => (
                   <Reveal key={o.tag} delay={i * 120}>
-                    <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex gap-4">
-                      <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
-                        <MapPin size={21} />
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-brand">
-                          {o.tag}
+                    <a
+                      href="https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${o.name}, ${o.address} — open in Google Maps`}
+                    >
+                      <SpotlightCard className="card-lift bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex gap-4 cursor-pointer">
+                        <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
+                          <MapPin size={21} />
                         </div>
-                        <div className="mt-1 text-lg font-bold text-navy">
-                          {o.name}
+                        <div>
+                          <div className="text-sm font-semibold text-brand">
+                            {o.tag}
+                          </div>
+                          <div className="mt-1 text-lg font-bold text-navy">
+                            {o.name}
+                          </div>
+                          <div className="mt-1 text-[15px] text-gray-600">
+                            {o.address}
+                          </div>
                         </div>
-                        <div className="mt-1 text-[15px] text-gray-600">
-                          {o.address}
-                        </div>
-                      </div>
-                    </SpotlightCard>
+                      </SpotlightCard>
+                    </a>
                   </Reveal>
                 ))}
               </div>
@@ -520,29 +615,69 @@ export default function AboutPage() {
               </Reveal>
             </div>
             <Reveal delay={150}>
-              <div className="img-zoom relative rounded-2xl overflow-hidden shadow-xl shadow-navy/15 h-100">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Arkan Plaza location in Google Maps"
+                className="img-zoom relative block rounded-2xl overflow-hidden shadow-xl shadow-navy/15 aspect-1264/843"
+              >
                 <Image
-                  src="/images/gas-plant.jpg"
-                  alt="Natural gas wellhead with valve handwheels"
+                  src="/images/arkan-plaza.jpg"
+                  alt="Arkan Plaza's lit promenade at night, ACTS' headquarters complex in Sheikh Zayed City"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
-              </div>
+              </a>
             </Reveal>
           </div>
         </div>
       </section>
 
+      {/* Closing mark — a split-flap sign spelling ACTS, purely decorative.
+          Same dark-band atmosphere (bg-ink, blueprint, brass mesh, vignette)
+          as the homepage's closing CTA, so the page's last word carries the
+          same weight as its first — the hero above opens on this exact
+          treatment. A brass ShineBorder rim on the case itself, rather than
+          on the page band, keeps the shimmer on the object being lit rather
+          than smeared across the whole section. */}
+      <section className="relative overflow-hidden bg-ink py-20 md:py-28">
+        <div className="absolute inset-0" aria-hidden>
+          <div
+            className="absolute inset-0 blueprint"
+            style={{
+              maskImage:
+                "radial-gradient(ellipse 70% 90% at 50% 50%, black 20%, transparent 75%)",
+            }}
+          />
+          <div className="mesh mesh-brass w-152 h-152 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+          <div className="dark-vignette" />
+        </div>
+        <div className="relative max-w-6xl mx-auto px-6 flex justify-center">
+          {/* w-full at every layer down to the grid itself: each is a flex
+              item or wraps one sized by its content by default, and the
+              matrix's own width is a 100%-of-parent chain all the way down
+              (case -> ShineBorder -> Reveal) — breaking the chain at any one
+              link collapses the whole thing to its min-content width. */}
+          <Reveal className="w-full">
+            <ShineBorder borderRadius={24} duration={16} className="w-full">
+              <FlipDiskMatrixLazy />
+            </ShineBorder>
+          </Reveal>
+        </div>
+      </section>
+
       <SiteDock
         sections={[
-          { id: "timeline", label: "Our journey", icon: <History className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "mission", label: "Vision & mission", icon: <Lightbulb className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "goals", label: "Our goals", icon: <TrendingUp className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "looking-ahead", label: "Looking ahead", icon: <Radar className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "timeline", label: "Our Journey", icon: <History className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "leadership", label: "Leadership", icon: <UserRound className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "mission", label: "Vision & Mission", icon: <Lightbulb className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "goals", label: "Our Goals", icon: <TrendingUp className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "looking-ahead", label: "Looking Ahead", icon: <Radar className="h-full w-full" strokeWidth={2.25} /> },
           { id: "specializations", label: "Specializations", icon: <Wrench className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "how-we-operate", label: "How we operate", icon: <Headset className="h-full w-full" strokeWidth={2.25} /> },
-          { id: "offices", label: "Our offices", icon: <MapPin className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "how-we-operate", label: "How We Operate", icon: <Headset className="h-full w-full" strokeWidth={2.25} /> },
+          { id: "offices", label: "Our Headquarters", icon: <MapPin className="h-full w-full" strokeWidth={2.25} /> },
         ]}
       />
     </>

@@ -191,7 +191,6 @@ export default function DocumentLibrary({ brands }: Props) {
                 {b.categories.map((c) => (
                   <div key={c.slug}>
                     <div className="flex items-center gap-3">
-                      <span className="w-6 h-px bg-brand/50 shrink-0" />
                       <h4 className="text-sm font-bold text-navy uppercase tracking-wide">
                         {c.label}
                       </h4>

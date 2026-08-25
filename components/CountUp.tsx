@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 
 // Counts up from 0 to `value` once it scrolls into view.
 export default function CountUp({
@@ -11,16 +12,16 @@ export default function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [display, setDisplay] = useState(0);
+  const reduced = useReducedMotion();
+  const [counted, setCounted] = useState(0);
+  // Reduced motion shows the final number outright. Deriving it beats writing
+  // it from an effect: no second render pass, and it stays correct if the
+  // reader flips the OS setting while the page is open.
+  const display = reduced ? value : counted;
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplay(value);
-      return;
-    }
+    if (!el || reduced) return;
 
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -31,7 +32,7 @@ export default function CountUp({
         const tick = (now: number) => {
           const t = Math.min(1, (now - start) / duration);
           const eased = 1 - Math.pow(1 - t, 3);
-          setDisplay(Math.round(eased * value));
+          setCounted(Math.round(eased * value));
           if (t < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
@@ -40,7 +41,7 @@ export default function CountUp({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [value]);
+  }, [value, reduced]);
 
   return (
     <span ref={ref} className={className}>

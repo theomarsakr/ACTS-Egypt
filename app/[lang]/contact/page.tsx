@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import arkanPlaza from "@/public/images/arkan-plaza.jpg";
 import Link from "next/link";
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -37,29 +38,37 @@ export default async function ContactPage({ params }: PageProps) {
   return (
     <>
       {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy">
-        <div className="absolute inset-0" aria-hidden>
+      <section className="relative overflow-hidden bg-navy flex items-center min-h-115 md:min-h-140">
+        <div className="absolute inset-0 grain" aria-hidden>
           <Image
-            src="/images/hero-plant.jpg"
+            src={arkanPlaza}
             alt=""
             fill
-            priority
+            loading="eager"
+            fetchPriority="high"
+            quality={90}
             sizes="100vw"
-            className="object-cover opacity-40"
+            className="object-cover object-[50%_42%]"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50 rtl:bg-linear-to-l" />
+          <div className="absolute inset-0 hero-scrim" />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
+        {/* w-full is load-bearing: the section is a flex container, so without
+            it this div shrink-wraps to its content and mx-auto centres the
+            copy instead of aligning it to the max-w-6xl column the rest of the
+            site's page heroes use. */}
+        <div className="relative w-full max-w-6xl mx-auto px-6 pt-40 pb-16 md:pt-56 md:pb-20">
+          {/* Category label leads, statement second, lede last -- the same
+              stepped-down hierarchy the engagement cards use. */}
           <Reveal>
-            <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
+            <div className="hero-copy-shadow font-display text-4xl md:text-6xl font-extrabold uppercase leading-[1.02] tracking-[-0.02em] text-amber">
               {c.heroChip}
             </div>
-            <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
+            <h1 className="hero-copy-shadow mt-3 text-2xl md:text-3xl font-bold tracking-tight text-white/90">
               {c.heroTitle}
             </h1>
           </Reveal>
           <Reveal delay={120}>
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
+            <p className="hero-copy-shadow mt-5 text-base md:text-[17px] text-white/70 max-w-xl leading-relaxed">
               {c.lede}{" "}
               <Link
                 href={localeHref(lang, "/quote")}
@@ -316,7 +325,12 @@ export default async function ContactPage({ params }: PageProps) {
               </a>
             </Reveal>
             <Reveal delay={180}>
-              <div className="spotlight-card card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="spotlight-card card-lift flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+              >
                 <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
                   <MapPin size={20} />
                 </div>
@@ -328,7 +342,7 @@ export default async function ContactPage({ params }: PageProps) {
                     {c.locationValue}
                   </div>
                 </div>
-              </div>
+              </a>
             </Reveal>
           </div>
         </div>

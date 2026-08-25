@@ -19,6 +19,12 @@ import HeroProductCards from "@/components/home/HeroProductCards";
 import { localeHref, type Locale } from "@/lib/i18n/routing";
 import type { Dict } from "@/lib/i18n/en";
 
+const heroBrands = [
+  { name: "Farris Engineering", slug: "farris-engineering" },
+  { name: "Dyna-Flo", slug: "dyna-flo" },
+  { name: "EST Group", slug: "est" },
+];
+
 const rise = {
   hidden: { opacity: 0, y: 28 },
   show: (i: number) => ({
@@ -47,18 +53,18 @@ export default function Hero({
     offset: ["start start", "end start"],
   });
   // Whole stack drifts up slightly slower than the page (parallax)
-  const stackY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 90]);
+  const stackY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 56]);
 
   // Cursor tilt on the spec-card stack — the catalog reacts like an instrument panel
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const springConfig = { stiffness: 150, damping: 22, mass: 0.4 };
+  const springConfig = { stiffness: 120, damping: 24, mass: 0.5 };
   const rotateX = useSpring(
-    useTransform(pointerY, [-0.5, 0.5], [7, -7]),
+    useTransform(pointerY, [-0.5, 0.5], [4.5, -4.5]),
     springConfig
   );
   const rotateY = useSpring(
-    useTransform(pointerX, [-0.5, 0.5], [-7, 7]),
+    useTransform(pointerX, [-0.5, 0.5], [-4.5, 4.5]),
     springConfig
   );
 
@@ -83,25 +89,33 @@ export default function Hero({
       <HeroInteractiveBackground />
 
       <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-14 md:pt-24 md:pb-16 lg:pt-28">
+        {/* Badge sits in normal flow above the heading at every breakpoint —
+            its own bottom margin is what keeps a clean gap above the H1. */}
+        <motion.div
+          variants={rise}
+          initial="hidden"
+          animate="show"
+          custom={0}
+          className="mb-7"
+        >
+          <div className="inline-flex w-fit max-w-full items-center gap-2.5 text-[12.5px] font-semibold text-white uppercase tracking-[0.18em] glass-dark rounded-full px-4 py-2">
+            <span className="relative flex w-1.5 h-1.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-60 animate-ping" />
+              <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-white" />
+            </span>
+            {t.badge}
+          </div>
+        </motion.div>
+
         <div className="grid lg:grid-cols-[1.02fr_0.98fr] gap-14 lg:gap-10 items-center">
           {/* Copy column */}
           <div className="max-w-2xl">
-            <motion.div variants={rise} initial="hidden" animate="show" custom={0}>
-              <div className="inline-flex items-center gap-2.5 text-[12.5px] font-semibold text-amber uppercase tracking-[0.18em] glass-dark rounded-full px-4 py-2">
-                <span className="relative flex w-1.5 h-1.5">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-amber opacity-60 animate-ping" />
-                  <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-amber" />
-                </span>
-                {t.badge}
-              </div>
-            </motion.div>
-
             <motion.h1
               variants={rise}
               initial="hidden"
               animate="show"
               custom={1}
-              className="mt-7 text-[2.7rem] leading-[1.04] md:text-6xl lg:text-[4.35rem] tracking-[-0.03em] text-balance"
+              className="text-[2.7rem] leading-[1.04] md:text-6xl lg:text-[4.35rem] tracking-[-0.03em] text-balance"
             >
               <span className="font-medium text-white/80">{t.titleA}</span>{" "}
               <span className="font-extrabold text-shimmer">{t.titleB}</span>
@@ -147,14 +161,17 @@ export default function Hero({
               animate="show"
               custom={4}
               className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2"
+              style={{ "--chip-count": heroBrands.length } as React.CSSProperties}
             >
-              {["Farris Engineering", "Dyna-Flo", "EST Group"].map((b) => (
-                <span
-                  key={b}
-                  className="text-[12.5px] font-semibold text-white/60 glass-dark rounded-full px-3.5 py-1.5"
+              {heroBrands.map((b, i) => (
+                <Link
+                  key={b.slug}
+                  href={`/brands/${b.slug}`}
+                  style={{ "--i": i } as React.CSSProperties}
+                  className="hero-brand-chip text-[12.5px] font-semibold text-white/60 glass-dark rounded-full px-3.5 py-1.5 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber/70"
                 >
-                  {b}
-                </span>
+                  {b.name}
+                </Link>
               ))}
               <span className="text-[12.5px] text-white/40">
                 {t.exclusiveNote}

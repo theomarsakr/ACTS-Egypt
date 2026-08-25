@@ -98,7 +98,7 @@ export default function BrandResourceCard({
               </div>
             )}
             <div className="lg:col-span-3 p-8 md:p-10">
-              <h2 className="text-2xl md:text-3xl font-extrabold text-navy">
+              <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
                 {brand.name}
               </h2>
               <div className="mt-1.5 text-sm font-semibold text-brand">

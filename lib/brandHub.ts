@@ -6,7 +6,12 @@
 // (via lib/documents.ts). Never import this into a client component; the page
 // computes the data server-side and passes plain data down.
 
-import { getBrandDocuments, type BrandDoc } from "@/lib/documents";
+import {
+  getBrandDocuments,
+  docSearchText,
+  docTokenMatches,
+  type BrandDoc,
+} from "@/lib/documents";
 
 export type HubSpec = { label: string; value: string };
 
@@ -1389,22 +1394,10 @@ const CATEGORY_META: Record<
   },
 };
 
-// A token matches a document when it appears in the doc text and is NOT
-// immediately followed by another letter — so "dfr" matches "DFR026" and
-// "DFR Bulletin" but not "DFRP", and "2600" matches "2600 Series" cleanly.
-function tokenMatches(text: string, token: string): boolean {
-  const esc = token.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(esc + "(?![a-z])", "i").test(text);
-}
-
-function docText(d: BrandDoc): string {
-  return `${d.title} ${d.ref ?? ""}`.toLowerCase();
-}
-
 function relatedCodes(products: HubProduct[], d: BrandDoc): string[] {
-  const text = docText(d);
+  const text = docSearchText(d);
   return products
-    .filter((p) => p.tokens.some((t) => tokenMatches(text, t)))
+    .filter((p) => p.tokens.some((t) => docTokenMatches(text, t)))
     .map((p) => p.code);
 }
 
@@ -1469,7 +1462,7 @@ export function hubGalleryDocLink(
 ): { href: string; label: string; productId: string | null } {
   const products = PRODUCTS[slug] ?? [];
   const t = tag.toLowerCase();
-  const match = products.find((p) => p.tokens.some((tok) => tokenMatches(t, tok)));
+  const match = products.find((p) => p.tokens.some((tok) => docTokenMatches(t, tok)));
   if (match)
     return {
       href: `#hub-${match.id}`,

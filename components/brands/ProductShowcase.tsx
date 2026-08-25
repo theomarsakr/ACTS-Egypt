@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useReducedMotion } from "motion/react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { RotateCcw } from "lucide-react";
+import ScrollHint from "@/components/ui/ScrollHint";
 
 /**
  * ProductShowcase — scroll-driven 3D product viewer, one flagship per brand.
@@ -399,11 +401,7 @@ export default function ProductShowcase({ slug }: { slug: string }) {
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const installCapRef = useRef<HTMLDivElement>(null);
   const hintRef = useRef<HTMLParagraphElement>(null);
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     const host = canvasHostRef.current;
@@ -413,7 +411,10 @@ export default function ProductShowcase({ slug }: { slug: string }) {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // PCFSoftShadowMap is deprecated as of three r185 and already falls back
+    // to this internally, so naming it directly keeps the identical output
+    // without the console deprecation warning on every showcase mount.
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     host.appendChild(renderer.domElement);
 
@@ -607,8 +608,17 @@ export default function ProductShowcase({ slug }: { slug: string }) {
         </div>
 
         {!reduced && (
-          <p ref={hintRef} className="relative pb-6 text-[12.5px] font-medium text-gray-400">
-            Keep scrolling, it turns with the page ↓
+          /* Clears the floating brand nav, which is `fixed` and would
+             otherwise sit straight on top of this cue. `--floating-nav-h` is
+             published by whichever bar is on screen and drops to just the
+             handle's height when the reader collapses it, so this follows it
+             back down instead of reserving a permanent gap. */
+          <p
+            ref={hintRef}
+            className="relative"
+            style={{ paddingBottom: "calc(var(--floating-nav-h, 0px) + 1.5rem)" }}
+          >
+            <ScrollHint tone="light">Keep scrolling to rotate</ScrollHint>
           </p>
         )}
       </div>

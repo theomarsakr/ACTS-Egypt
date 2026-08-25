@@ -304,11 +304,8 @@ export default async function BrandPage({ params }: Props) {
             <h1 className="mt-3 text-[2.6rem] leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">
               {brand.name}
             </h1>
-            <div className="mt-4 flex items-center gap-3">
-              <span className="h-px w-8 bg-amber/70" aria-hidden />
-              <span className="text-lg font-semibold text-amber">
-                {brand.category}
-              </span>
+            <div className="mt-4 text-lg font-semibold text-amber">
+              {brand.category}
             </div>
           </Reveal>
           <Reveal delay={200}>
@@ -429,7 +426,6 @@ export default async function BrandPage({ params }: Props) {
                   <div key={group.category}>
                     <Reveal>
                       <div className="flex items-center gap-3">
-                        <span className="w-6 h-px bg-brand/50 shrink-0" />
                         <h3 className="text-sm font-bold text-navy uppercase tracking-wide">
                           {group.category}
                         </h3>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowRight,
   CheckCircle2,
@@ -11,6 +10,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import PageHero from "@/components/PageHero";
 import SiteDock from "@/components/SiteDock";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
@@ -179,40 +179,12 @@ export default function ProductsPage() {
   return (
     <>
       {/* Page hero */}
-      <section id="overview" className="scroll-mt-28 relative overflow-hidden bg-navy">
-        <div className="absolute inset-0" aria-hidden>
-          <Image
-            src="/images/gas-plant.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50" />
-        </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
-          <Reveal>
-            <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-              Catalog
-            </div>
-            <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
-              Products &amp; Services
-            </h1>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              ACTS supplies, supports, and maintains critical process
-              equipment across Egypt&apos;s Oil &amp; Gas, Petrochemical,
-              Power Generation, Water Treatment, and Fertilizer industries.
-              Our portfolio is organized into four integrated pillars that
-              deliver complete solutions, from overpressure protection to
-              thermal asset management and the aftermarket support that keeps
-              both running.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      <PageHero
+        id="overview"
+        title="Products & Services"
+        subtitle="Four integrated pillars, one partner"
+        lede="Critical process equipment supplied, supported, and maintained across Egypt's Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries."
+      />
 
       {/* Pillars */}
       <section id="explore-products" className="scroll-mt-28 py-16">

@@ -60,7 +60,7 @@ function AutoRotateImage({
   const cls = leadSrc && src === leadSrc ? leadClassName ?? imgClassName : imgClassName;
 
   return (
-    <AnimatePresence initial={false}>
+    <AnimatePresence initial={false} mode="wait">
       <motion.div
         key={src}
         initial={{ opacity: 0 }}

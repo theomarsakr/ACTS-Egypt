@@ -36,14 +36,16 @@ export default function RFQForm({
   // One ref per step container — used to validate only the visible step's
   // controls before advancing, so the native submit on the final step never
   // has to focus an invalid control hidden in an earlier step.
-  const stepRefs = [
-    useRef<HTMLDivElement>(null),
-    useRef<HTMLDivElement>(null),
-    useRef<HTMLDivElement>(null),
-  ];
+  //
+  // Three named refs rather than an array of them: indexing a ref array in
+  // the JSX below reads to the compiler as a ref access during render, which
+  // `react-hooks/refs` rejects. Same behaviour, one ref per step.
+  const contactStepRef = useRef<HTMLDivElement>(null);
+  const detailsStepRef = useRef<HTMLDivElement>(null);
+  const finalStepRef = useRef<HTMLDivElement>(null);
 
   function validateStep(n: number): boolean {
-    const container = stepRefs[n].current;
+    const container = [contactStepRef, detailsStepRef, finalStepRef][n]?.current;
     if (!container) return true;
     const controls = container.querySelectorAll<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -163,7 +165,7 @@ export default function RFQForm({
       </ol>
 
       {/* Step 1 — Contact information */}
-      <div ref={stepRefs[0]} hidden={step !== 0} className="animate-page-in">
+      <div ref={contactStepRef} hidden={step !== 0} className="animate-page-in">
         <div className="text-sm font-bold text-navy uppercase tracking-wide mb-3">
           {t.contactInfo}
         </div>
@@ -241,7 +243,7 @@ export default function RFQForm({
       </div>
 
       {/* Step 2 — Project details */}
-      <div ref={stepRefs[1]} hidden={step !== 1} className="animate-page-in">
+      <div ref={detailsStepRef} hidden={step !== 1} className="animate-page-in">
         <div className="text-sm font-bold text-navy uppercase tracking-wide mb-3">
           {t.projectDetails}
         </div>
@@ -338,7 +340,7 @@ export default function RFQForm({
       </div>
 
       {/* Step 3 — Attachment + notes */}
-      <div ref={stepRefs[2]} hidden={step !== 2} className="animate-page-in">
+      <div ref={finalStepRef} hidden={step !== 2} className="animate-page-in">
         <div className="text-sm font-bold text-navy uppercase tracking-wide mb-3">
           {t.finalDetails}
         </div>

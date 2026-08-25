@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { ChevronDown, Images, Layers } from "lucide-react";
 import SpotlightCard from "@/components/ui/SpotlightCard";
+import ScrollHint from "@/components/ui/ScrollHint";
 import type { ProductLine } from "@/lib/data";
 
 /**
@@ -165,8 +166,10 @@ export default function ProductLineCard({
                 })}
               </ul>
               {count > 2 && (
-                <p className="px-5 pt-0.5 text-[11px] font-medium text-gray-400">
-                  Scroll to see all {count} →
+                <p className="px-5 pt-1.5">
+                  <ScrollHint tone="light" direction="right" size="sm">
+                    See all {count}
+                  </ScrollHint>
                 </p>
               )}
             </div>

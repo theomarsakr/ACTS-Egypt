@@ -18,10 +18,14 @@ import {
   Lock,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import PageHero from "@/components/PageHero";
+import PageHeroBackground from "@/components/PageHeroBackground";
+import SectionHeading from "@/components/SectionHeading";
 import SiteDock from "@/components/SiteDock";
 import Counter from "@/components/Counter";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
+import CardLogoMark from "@/components/ui/CardLogoMark";
 import Magnetic from "@/components/ui/Magnetic";
 import { projectClients, engagementHighlights } from "@/lib/data";
 
@@ -85,40 +89,12 @@ export default function ProjectsPage() {
   return (
     <>
       {/* Page hero */}
-      <section id="overview" className="scroll-mt-28 relative overflow-hidden bg-navy">
-        <div className="absolute inset-0" aria-hidden>
-          <Image
-            src="/images/refinery-blue.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50" />
-        </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
-          <Reveal>
-            <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-              Projects &amp; Clients
-            </div>
-            <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
-              Trusted by Egypt&apos;s industry leaders
-            </h1>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              For nearly two decades, ACTS has been the preferred technical
-              partner for Egypt&apos;s most prominent operators in Oil &amp;
-              Gas, Petrochemicals, Power Generation, and Fertilizers. Our
-              clients include national oil companies, international EPC
-              contractors, and major industrial manufacturers. All of them
-              rely on our technical expertise, exclusive manufacturer
-              representation, and commitment to quality.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      <PageHero
+        id="overview"
+        title="Projects & Clients"
+        subtitle="Trusted by Egypt's industry leaders"
+        lede="For nearly two decades, the preferred technical partner for Egypt's national oil companies, international EPC contractors, and major industrial manufacturers."
+      />
 
       {/* Stat bar overlapping the hero */}
       <section className="relative z-10 -mt-14 pb-4">
@@ -209,18 +185,14 @@ export default function ProjectsPage() {
       <section id="value" className="scroll-mt-28 py-16 bg-gray-50 border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Where we add value
-              </div>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy">
-                The kind of work we support, sector by sector
-              </h2>
-              <p className="mt-4 text-[15px] text-gray-600">
-                Illustrative of our capabilities, not a record of any specific
-                engagement. See our confidentiality statement below.
-              </p>
-            </div>
+            <SectionHeading
+              className="max-w-2xl mx-auto"
+              align="center"
+              tier="md"
+              title="Where We Add Value"
+              subtitle="The kind of work we support, sector by sector"
+              lede="Illustrative of our capabilities, not a record of any specific engagement. See our confidentiality statement below."
+            />
           </Reveal>
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {engagementHighlights.map((h, i) => {
@@ -228,8 +200,11 @@ export default function ProjectsPage() {
               return (
                 <Reveal key={h.slug} delay={i * 80}>
                   <SpotlightCard className="card-lift h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                    <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center">
-                      <Icon size={20} strokeWidth={2.25} />
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center">
+                        <Icon size={20} strokeWidth={2.25} />
+                      </div>
+                      <CardLogoMark />
                     </div>
                     <h3 className="mt-4 text-lg font-bold text-navy">{h.title}</h3>
                     <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
@@ -259,9 +234,12 @@ export default function ProjectsPage() {
               return (
                 <Reveal key={t.title} delay={i * 80}>
                   <SpotlightCard className="group h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                      <Icon size={20} strokeWidth={2.25} />
-                    </span>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                        <Icon size={20} strokeWidth={2.25} />
+                      </span>
+                      <CardLogoMark />
+                    </div>
                     <h3 className="mt-4 text-lg font-bold text-navy">{t.title}</h3>
                     <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
                       {t.text}
@@ -304,50 +282,60 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0" aria-hidden>
-          <Image
-            src="/images/gas-plant.jpg"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-navy/85" />
-        </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 text-center">
+      {/* Closing CTA — the exact bookend of this page's own hero: same dark
+          band, same PageHeroBackground, so the page opens and closes on one
+          frame. The lockup used to be centred behind this heading at 72%
+          width, which ran the brand's coloured strokes and the "Advanced …
+          Services" strapline straight through the copy and the button row;
+          PageHeroBackground holds it clear of the text column instead, which
+          is the treatment every other dark band on the site already uses.
+          Left-aligned to match the hero and the confidentiality note above
+          it, and the brass primary now leads the button row as it does on the
+          Products and Industries CTAs. */}
+      <section className="relative overflow-hidden bg-navy">
+        <PageHeroBackground priority={false} />
+        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-              Ready to partner with us?
-            </h2>
-            <p className="mt-5 text-lg text-white/75 max-w-xl mx-auto">
-              Join Egypt&apos;s most respected operators in choosing ACTS as
-              your trusted technical partner for critical process equipment.
-            </p>
-            <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link
-                href="/contact"
-                className="group inline-flex items-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-white/10 text-white border border-white/30 backdrop-blur hover:bg-white/20 transition-all hover:-translate-y-0.5"
-              >
-                Contact us
-                <ArrowRight
-                  size={18}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </Link>
-              <Magnetic>
+            <div className="max-w-xl lg:max-w-2xl">
+              <div className="flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.18em] text-amber">
+                <span className="h-px w-8 bg-amber/50" aria-hidden />
+                Work with ACTS
+              </div>
+              <h2 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] leading-[1.05] text-white text-balance">
+                Ready to partner with us?
+              </h2>
+              <p className="mt-5 text-[17px] md:text-lg leading-relaxed text-white/65">
+                Join Egypt&apos;s most respected operators in choosing ACTS as
+                your trusted technical partner for critical process equipment.
+              </p>
+              {/* items-start, not the column default of stretch: Magnetic
+                  wraps only the primary, so a stretched row would leave the
+                  brass button sized to its label inside a full-width wrapper
+                  and the ghost button running the full column width. */}
+              <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+                <Magnetic>
+                  <Link
+                    href="/quote"
+                    className="group inline-flex items-center justify-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-xl shadow-navy/40"
+                  >
+                    Request a quote
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+                    />
+                  </Link>
+                </Magnetic>
                 <Link
-                  href="/quote"
-                  className="group inline-flex items-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all hover:-translate-y-0.5 shadow-xl shadow-navy/40"
+                  href="/contact"
+                  className="group inline-flex items-center justify-center gap-2 text-base font-semibold px-8 py-4 rounded-lg bg-white/10 text-white border border-white/25 backdrop-blur hover:bg-white/20 hover:border-white/40 transition-all hover:-translate-y-0.5"
                 >
-                  Request a quote
+                  Contact us
                   <ArrowRight
                     size={18}
-                    className="transition-transform group-hover:translate-x-1"
+                    className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
                   />
                 </Link>
-              </Magnetic>
+              </div>
             </div>
           </Reveal>
         </div>

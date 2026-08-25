@@ -92,15 +92,6 @@ export default function Footer({
             <p className="text-[14.5px] text-white/55 mt-5 max-w-xs leading-relaxed">
               {t.blurb}
             </p>
-            <div className="bg-white rounded-xl px-3 py-2 inline-block mt-6">
-              <Image
-                src="/images/curtiss-wright-logo.png"
-                alt="Curtiss-Wright"
-                width={354}
-                height={100}
-                className="h-6 w-auto object-contain"
-              />
-            </div>
             <div className="mt-7 flex gap-2.5">
               {channels.map((c) => (
                 <a

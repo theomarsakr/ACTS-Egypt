@@ -316,3 +316,20 @@ export function getBrandDocuments(): BrandDocuments[] {
 export function totalDocumentCount(): number {
   return getBrandDocuments().reduce((n, b) => n + b.total, 0);
 }
+
+/** Does `token` appear in `text` without another letter running straight on
+ *  from it? Manufacturer filenames pack model codes together, so a plain
+ *  `includes` over-matches badly: this is what keeps "DFR" on DFR026 and
+ *  "DFR Bulletin" but off DFRP, and "2600" on "2600 Series" cleanly. Shared
+ *  by the brand hub (product -> its PDFs) and the Industries page (product
+ *  line -> its PDFs) so both join the library the same way. */
+export function docTokenMatches(text: string, token: string): boolean {
+  const esc = token.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(esc + "(?![a-z])", "i").test(text);
+}
+
+/** The text a document is matched against: its humanized title plus the
+ *  manufacturer doc code, which is where EST's MK/DC references live. */
+export function docSearchText(d: BrandDoc): string {
+  return `${d.title} ${d.ref ?? ""}`.toLowerCase();
+}

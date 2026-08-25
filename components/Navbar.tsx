@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, Phone, Mail, ChevronDown, ArrowRight } from "lucide-react";
 import { contact, brands } from "@/lib/data";
 import { localeHref, stripLocale, type Locale } from "@/lib/i18n/routing";
+import { useHydrated } from "@/lib/hooks";
 import type { Dict } from "@/lib/i18n/en";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -32,7 +33,8 @@ export default function Navbar({
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  // Gates the portalled mobile menu below; see lib/hooks.ts.
+  const mounted = useHydrated();
   const pathname = usePathname();
   // Active-state checks compare the canonical (locale-stripped) path so the
   // same link highlights on both /contact and /ar/contact.
@@ -47,8 +49,6 @@ export default function Navbar({
     { href: "/projects", label: t.projects },
     { href: "/contact", label: t.contact },
   ];
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     function onScroll() {

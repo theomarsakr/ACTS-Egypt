@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 /**
  * BrandHeroVideo — a full-bleed, muted, looping background clip for a brand hero.
@@ -32,19 +32,34 @@ export default function BrandHeroVideo({
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
-  // null → video not mounted (SSR, reduced motion, or data-saving connections)
-  const [activeSrc, setActiveSrc] = useState<string | null>(null);
-
-  // Decide once on the client whether — and which file — to load.
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    type NetInfo = { saveData?: boolean; effectiveType?: string };
-    const conn = (navigator as Navigator & { connection?: NetInfo }).connection;
-    if (conn?.saveData) return;
-    if (/(^|-)2g$/.test(conn?.effectiveType ?? "")) return;
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
-    setActiveSrc(mobile && srcMobile ? srcMobile : src);
-  }, [src, srcMobile]);
+  // Which file to load, or null → no <video> at all (SSR, reduced motion, or
+  // data-saving connections). Read through useSyncExternalStore rather than
+  // resolved into state from an effect: the answer genuinely differs between
+  // server and client, which is exactly what that hook is for, and it costs
+  // one render pass instead of two. Subscribing to the two media queries also
+  // means a tablet rotated across the 768px breakpoint picks up the encode
+  // cropped for its new orientation, which the mount-once version never did.
+  const activeSrc = useSyncExternalStore<string | null>(
+    useCallback((onStoreChange: () => void) => {
+      const queries = [
+        window.matchMedia("(prefers-reduced-motion: reduce)"),
+        window.matchMedia("(max-width: 767px)"),
+      ];
+      queries.forEach((q) => q.addEventListener("change", onStoreChange));
+      return () =>
+        queries.forEach((q) => q.removeEventListener("change", onStoreChange));
+    }, []),
+    useCallback(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
+      type NetInfo = { saveData?: boolean; effectiveType?: string };
+      const conn = (navigator as Navigator & { connection?: NetInfo }).connection;
+      if (conn?.saveData) return null;
+      if (/(^|-)2g$/.test(conn?.effectiveType ?? "")) return null;
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      return mobile && srcMobile ? srcMobile : src;
+    }, [src, srcMobile]),
+    () => null
+  );
 
   // Play while the hero is on screen, pause the loop once it scrolls away.
   useEffect(() => {

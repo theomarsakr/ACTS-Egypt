@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { localeHref } from "@/lib/i18n";
 
 /**
  * EgyptReach — the location card's claim, made concrete: the country outline
@@ -110,8 +112,15 @@ const toPct = (x: number, y: number) => ({
   top: `${((y - 6) / 218) * 100}%`,
 });
 
-export default function EgyptReach({ className = "" }: { className?: string }) {
+export default function EgyptReach({
+  className = "",
+  lang = "en",
+}: {
+  className?: string;
+  lang?: string;
+}) {
   const [active, setActive] = useState<Pin | null>(null);
+  const router = useRouter();
 
   const pinHandlers = (pin: Pin) => ({
     onMouseEnter: () => setActive(pin),
@@ -123,6 +132,24 @@ export default function EgyptReach({ className = "" }: { className?: string }) {
     // covers touch too, toggling so a second tap on the same pin dismisses it.
     onClick: () => setActive((prev) => (prev?.name === pin.name ? null : pin)),
   });
+
+  // The HQ pin is a real destination, not just a label to toggle: clicking it
+  // jumps to the map embedded on /contact, so the tooltip's promise ("this is
+  // where we are") has somewhere to go. Hover/focus still preview the
+  // tooltip like every other pin; only the click behavior differs.
+  const goToMap = () => router.push(localeHref(lang, "/contact#office"));
+  const hqHandlers = {
+    onMouseEnter: () => setActive(HQ),
+    onMouseLeave: () => setActive(null),
+    onFocus: () => setActive(HQ),
+    onBlur: () => setActive(null),
+    onClick: goToMap,
+    // `<g role="link">` gets no native key handling — Enter has to be wired
+    // up by hand the way a real <a> gets it for free.
+    onKeyDown: (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") goToMap();
+    },
+  };
 
   return (
     <div className={`eg-map-wrap relative ${className}`}>
@@ -200,13 +227,13 @@ export default function EgyptReach({ className = "" }: { className?: string }) {
           </g>
         ))}
 
-        {/* Giza HQ */}
+        {/* Giza HQ — the one pin that's also a link, to the map on /contact. */}
         <g
           className="eg-hq"
           tabIndex={0}
-          role="button"
-          aria-label={`${HQ.name}: ${HQ.sector}`}
-          {...pinHandlers(HQ)}
+          role="link"
+          aria-label={`${HQ.name}: ${HQ.sector}. View on map.`}
+          {...hqHandlers}
         >
           <circle cx={HQ.x} cy={HQ.y} r={26} fill="url(#eg-glow)" />
           <circle cx={HQ.x} cy={HQ.y} r={16} fill="transparent" />

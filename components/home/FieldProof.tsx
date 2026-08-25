@@ -88,23 +88,24 @@ export default function FieldProof({
             }}
             className="relative p-8 md:p-12 cursor-grab active:cursor-grabbing"
           >
-            <figcaption className="eyebrow text-amber">{item.sector}</figcaption>
-            <blockquote className="mt-4 max-w-3xl">
-              <div className="text-2xl md:text-[1.9rem] font-extrabold tracking-tight leading-snug">
+            <figcaption className="font-display text-3xl md:text-5xl font-extrabold uppercase leading-[1.05] text-amber">
+              {item.sector}
+            </figcaption>
+            <blockquote className="mt-3 max-w-3xl">
+              <div className="text-lg md:text-xl font-bold tracking-tight leading-snug text-white/90">
                 {item.title}
               </div>
-              <p className="mt-3.5 text-[16.5px] text-white/70 leading-relaxed max-w-2xl">
+              <p className="mt-2 text-sm text-white/60 leading-relaxed max-w-2xl">
                 {item.text}
               </p>
             </blockquote>
-            <div className="mt-6 flex items-center gap-3 text-[13.5px] text-white/45">
-              <span className="w-8 h-px bg-white/20" />
+            <div className="mt-5 flex items-center gap-3 text-xs text-white/40">
               {labels.confidential}{" "}
               <Link
                 href="/projects"
-                className="tap-target inline-flex items-center gap-1 font-semibold text-white/75 hover:text-amber transition-colors"
+                className="tap-target inline-flex items-center gap-1 font-semibold text-white/70 hover:text-amber transition-colors"
               >
-                {labels.seeWho} <ArrowRight size={14} className="rtl:rotate-180" />
+                {labels.seeWho} <ArrowRight size={12} className="rtl:rotate-180" />
               </Link>
             </div>
           </motion.figure>

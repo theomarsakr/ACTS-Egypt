@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   BookOpen,
   Home,
@@ -10,8 +10,15 @@ import {
   Layers,
   Package,
   Wrench,
+  ChevronDown,
   type LucideIcon,
 } from "lucide-react";
+import { useHydrated, usePublishFloatingNavHeight } from "@/lib/hooks";
+
+/** Separate from <Dock>'s key: the two bars never appear together, and a
+ *  reader dismissing one on a brand page should not silently dismiss the
+ *  other everywhere else. */
+const MINIMIZED_KEY = "acts-brandnav-minimized";
 
 /**
  * FloatingNav — a floating bottom "dock" for in-page section navigation.
@@ -55,11 +62,34 @@ export default function FloatingNav({
   // Portalled to <body>: the route template's entrance animation leaves a
   // residual identity transform on its wrapper, which would turn descendant
   // position:fixed into "absolute inside the page". Client-only by nature.
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHydrated();
   const containerRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const wrapperRef = useRef<HTMLElement>(null);
+  // Read straight out of storage rather than defaulting to expanded and
+  // correcting in an effect: nothing renders until `mounted`, so the stored
+  // value is in place for the first render that produces DOM.
+  const [minimized, setMinimized] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return localStorage.getItem(MINIMIZED_KEY) === "1";
+    } catch {
+      return false; /* storage blocked - default to expanded */
+    }
+  });
+  usePublishFloatingNavHeight(wrapperRef, minimized, mounted);
 
-  useEffect(() => setMounted(true), []);
+  function toggleMinimized() {
+    setMinimized((was) => {
+      const next = !was;
+      try {
+        localStorage.setItem(MINIMIZED_KEY, next ? "1" : "0");
+      } catch {
+        /* storage blocked - the choice just will not persist */
+      }
+      return next;
+    });
+  }
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const activeIndex = Math.max(
     0,
@@ -124,9 +154,44 @@ export default function FloatingNav({
 
   return createPortal(
     <nav
+      ref={wrapperRef}
       aria-label="Page sections"
-      className="fixed bottom-4 sm:bottom-5 left-1/2 z-40 -translate-x-1/2 px-3 pb-[env(safe-area-inset-bottom)]"
+      className="fixed bottom-4 sm:bottom-5 left-1/2 z-40 flex -translate-x-1/2 flex-col items-center px-3 pb-[env(safe-area-inset-bottom)]"
     >
+      {/* Collapse handle. <Dock> has had one of these on every other page;
+          this bar never did, so on the brand pages it sat permanently over
+          whatever the page put at the bottom of a section - including the
+          3D showcase's own scroll cue, which it hid outright. Same 44x28 tab,
+          same localStorage-backed choice, so the two bars behave alike. */}
+      <button
+        type="button"
+        onClick={toggleMinimized}
+        aria-expanded={!minimized}
+        aria-label={minimized ? "Show page sections" : "Minimize page sections"}
+        title={minimized ? "Show page sections" : "Minimize page sections"}
+        // tap-target: deliberately a small 44x28 tab, so on touch it gets the
+        // missing height as invisible hit area rather than being drawn bigger.
+        className="tap-target relative z-10 mb-1.5 flex h-8 w-14 shrink-0 items-center justify-center gap-1 rounded-full border border-brand/25 bg-white text-brand shadow-lg shadow-navy/15 transition-colors hover:border-brand/50 hover:bg-brand-light"
+      >
+        <ChevronDown
+          size={16}
+          strokeWidth={2.5}
+          className={`transition-transform duration-300 ${minimized ? "rotate-180" : ""}`}
+        />
+        <span className="text-[10px] font-bold tracking-wider uppercase">
+          {minimized ? "Nav" : "Hide"}
+        </span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {!minimized && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
       {/* No backdrop-blur — this is `fixed`, pinned through the whole scroll,
           same as <Dock> and <Navbar>'s nav. Bumped to bg-white/95 (from /90)
           to cover the small amount of softening the blur used to add. */}
@@ -177,6 +242,9 @@ export default function FloatingNav({
           />
         )}
       </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>,
     document.body
   );

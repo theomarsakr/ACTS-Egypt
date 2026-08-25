@@ -61,6 +61,32 @@
   --animate-page-in: page-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-slow-zoom: slow-zoom 30s ease-out both;
   --animate-float: float 8s ease-in-out infinite;
+  /* Scroll cues. `float` is an 8s drift meant for ambient decoration; a hint
+     that has to be *noticed* needs a much shorter cycle and a hold at the
+     top, so the eye catches a repeated nudge rather than a slow glide. */
+  --animate-scroll-nudge: scroll-nudge 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-scroll-nudge-x: scroll-nudge-x 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+  @keyframes scroll-nudge {
+    0%,
+    55%,
+    100% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(5px);
+    }
+  }
+  @keyframes scroll-nudge-x {
+    0%,
+    55%,
+    100% {
+      transform: translateX(0);
+    }
+    75% {
+      transform: translateX(5px);
+    }
+  }
 
   @keyframes marquee {
     from {
@@ -122,26 +148,34 @@ p {
   text-wrap: pretty;
 }
 
-/* Brand-tinted, slim scrollbar — a small "considered" detail that reads
-   premium on desktop without fighting the OS on mobile. */
-@media (pointer: fine) {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(138, 106, 48, 0.4) transparent;
-  }
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(138, 106, 48, 0.35);
-    border: 3px solid transparent;
-    border-radius: 9999px;
-    background-clip: padding-box;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(138, 106, 48, 0.6);
-    background-clip: padding-box;
+/* High-visibility scrollbar — black, wide track, easy to spot at a glance.
+   Wrapped in Tailwind's `base` layer (Tailwind v4 orders layers
+   theme -> base -> components -> utilities, later wins) so components that
+   opt out via a `[scrollbar-width:none]`/`[&::-webkit-scrollbar]:hidden`
+   utility -- the tab strips, ProductHub, the floating dock -- can still win
+   against it. Left unlayered, this block would beat every one of those
+   utilities regardless of selector specificity, since unlayered CSS always
+   outranks layered CSS per the Cascade Layers spec. */
+@layer base {
+  @media (pointer: fine) {
+    * {
+      scrollbar-width: auto;
+      scrollbar-color: rgba(6, 13, 28, 0.85) transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 22px;
+      height: 22px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(6, 13, 28, 0.85);
+      border: 3px solid transparent;
+      border-radius: 9999px;
+      background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(6, 13, 28, 1);
+      background-clip: padding-box;
+    }
   }
 }
 
@@ -226,6 +260,7 @@ p {
 h1,
 h2,
 h3,
+h4,
 .eyebrow,
 .font-display {
   font-family: var(--font-display);
@@ -237,24 +272,14 @@ h3,
 
 /* ================= Design system ================= */
 
-/* Spec-label eyebrow: uppercase tracking with a short brass rule, the way a
-   datasheet labels its sections. Color comes from the text color utility. */
+/* Spec-label eyebrow: uppercase tracking, the way a datasheet labels its
+   sections. Color comes from the text color utility. No leading rule/dash —
+   the weight, size and letter-spacing already read as a label on their own. */
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-}
-.eyebrow::before {
-  content: "";
-  width: 26px;
-  height: 2px;
-  border-radius: 2px;
-  background: currentColor;
-  opacity: 0.85;
 }
 
 /* ================= Arabic (RTL) ================= */
@@ -504,6 +529,74 @@ html[lang="ar"] .ltr-inline {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
+
+/* Hero scrim: a single soft wash over the text column, clearing quickly so
+   the rest of the Arkan Plaza night photo -- signage, lit canopy, colonnade
+   -- reads at full, unedited strength. Neutral black rather than the brand
+   navy: navy tinted the whole darkened side of the photo blue instead of
+   just dimming it. One light `background` on one element: the photo does
+   the work, this just nudges contrast where the headline sits. RTL mirrors
+   the ramp; below md it runs bottom-to-top instead, since the text spans
+   the full width. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Two stacked layers rather than one ramp. The lede is max-w-2xl inside a
+     centred max-w-6xl, so its last line always ends at 55-60% of the viewport
+     at every desktop width -- the previous single ramp had already decayed to
+     ~0.05 alpha by then, which is why the right-hand end of each line sat on
+     bare photo. The flat wash sets a legibility floor across the whole band;
+     the ramp deepens it under the text column and clears the right third so
+     the signage and colonnade still read. */
+  background:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.66) 0%,
+      rgba(0, 0, 0, 0.62) 45%,
+      rgba(0, 0, 0, 0.5) 65%,
+      rgba(0, 0, 0, 0.18) 82%,
+      rgba(0, 0, 0, 0) 95%
+    ),
+    linear-gradient(rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46));
+}
+[dir="rtl"] .hero-scrim {
+  background:
+    linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0.66) 0%,
+      rgba(0, 0, 0, 0.62) 45%,
+      rgba(0, 0, 0, 0.5) 65%,
+      rgba(0, 0, 0, 0.18) 82%,
+      rgba(0, 0, 0, 0) 95%
+    ),
+    linear-gradient(rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46));
+}
+@media (max-width: 767px) {
+  /* Text spans the full width here, so there is no clear side to protect:
+     a flat floor everywhere, deepening toward the bottom where the copy sits. */
+  .hero-scrim,
+  [dir="rtl"] .hero-scrim {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.74) 0%,
+      rgba(0, 0, 0, 0.64) 50%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+}
+
+/* Cheap contrast boost for hero copy sitting directly on a photo -- lets
+   .hero-scrim stay light enough for the image to actually read. A tight
+   near-black edge keeps glyphs crisp; the softer, wider shadow behind it
+   is what actually carries legibility now that the scrim underneath it
+   is much lighter -- together they read as a clean typographic choice,
+   not a slapped-on effect. */
+.hero-copy-shadow {
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.7),
+    0 6px 24px rgba(0, 0, 0, 0.65);
 }
 
 /* Cinematic depth for dark bands: a hairline of light along the top edge and a
@@ -931,18 +1024,6 @@ html.intro-pending body {
   }
 }
 
-/* Brand chips in the GLOBAL REACH section: on desktop, hover does the job of
-   drawing attention to one at a time. Touch has no hover, so below `lg` a
-   slow spotlight chases through them instead — one lights up, fades off, the
-   next takes its turn — while the section is in view. `--chip-count` (set
-   from brands.length) and `--i` (each chip's index) come from the JSX so the
-   loop always makes one full pass regardless of how many chips there are. */
-@media (max-width: 1023.98px) {
-  .reveal.in-view .brand-chip {
-    animation: chip-spotlight calc(var(--chip-count, 1) * 1.4s) ease-in-out infinite;
-    animation-delay: calc(var(--i, 0) * 1.4s);
-  }
-}
 @keyframes chip-spotlight {
   0%,
   3% {
@@ -962,6 +1043,64 @@ html.intro-pending body {
     border-color: rgba(240, 196, 25, 0.6);
     box-shadow: 0 0 24px -2px rgba(240, 196, 25, 0.55);
   }
+}
+
+/* Brand pills (hero, and the GLOBAL REACH chips): a continuous chase through
+   the linked pills — one lights up, fades off, the next takes its turn,
+   looping forever at every viewport size, since these are links the
+   animation is meant to draw clicks toward. `--chip-count` (set from
+   brands.length) and `--i` (each chip's index) come from the JSX so the loop
+   always makes one full pass regardless of how many chips there are. */
+.hero-brand-chip {
+  animation: chip-spotlight calc(var(--chip-count, 1) * 1.6s) ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 1.6s);
+}
+
+/* Eight stops around an ellipse (0.707 = cos/sin 45°), so the path is a
+   smooth continuous arc rather than the diamond a four-stop version traces.
+   `linear` keeps the traversal speed constant the whole way round: an
+   ease-in-out here would make each card visibly stall at four points per
+   revolution, which is what reads as "animated" instead of "in motion". */
+@keyframes card-orbit {
+  0% {
+    transform: translate(var(--orb-x), 0);
+  }
+  12.5% {
+    transform: translate(calc(var(--orb-x) * 0.707), calc(var(--orb-y) * -0.707));
+  }
+  25% {
+    transform: translate(0, calc(var(--orb-y) * -1));
+  }
+  37.5% {
+    transform: translate(calc(var(--orb-x) * -0.707), calc(var(--orb-y) * -0.707));
+  }
+  50% {
+    transform: translate(calc(var(--orb-x) * -1), 0);
+  }
+  62.5% {
+    transform: translate(calc(var(--orb-x) * -0.707), calc(var(--orb-y) * 0.707));
+  }
+  75% {
+    transform: translate(0, var(--orb-y));
+  }
+  87.5% {
+    transform: translate(calc(var(--orb-x) * 0.707), calc(var(--orb-y) * 0.707));
+  }
+  100% {
+    transform: translate(var(--orb-x), 0);
+  }
+}
+
+/* Hero spec-cards: a slow orbital drift, calibrated by depth rather than
+   applied uniformly. The card nearest the viewer travels the furthest and the
+   ones set back travel less, which is how real parallax behaves and is what
+   makes the group read as three objects at different distances instead of
+   three sprites sliding in step. Periods are mutually prime-ish (19/23/26s)
+   so the three never fall back into sync. --orb-x / --orb-y / --orb-dur /
+   --orb-delay are set per-card from the JSX. */
+.hero-card-orbit {
+  animation: card-orbit var(--orb-dur, 22s) linear infinite;
+  animation-delay: var(--orb-delay, 0s);
 }
 
 /* Brass-lit icon plate shared by the icon cards. */
@@ -1152,12 +1291,13 @@ html.intro-pending body {
   .digit-rise > span,
   .stat-unit,
   .chip-in,
-  .eg-map .eg-site {
+  .eg-map .eg-site,
+  .hero-card-orbit {
     opacity: 1;
     transform: none;
     animation: none !important;
   }
-  .brand-chip {
+  .hero-brand-chip {
     animation: none !important;
   }
   .stat-rule {

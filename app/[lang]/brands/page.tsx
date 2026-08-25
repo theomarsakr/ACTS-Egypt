@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { Clock, Library, Settings2, ShieldCheck, Thermometer } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import PageHero from "@/components/PageHero";
 import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import BrandResourceCard from "@/components/brands/BrandResourceCard";
@@ -26,54 +26,23 @@ export default function BrandsPage() {
   return (
     <>
       {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy">
-        <div className="absolute inset-0" aria-hidden>
-          <Image
-            src="/images/gas-plant.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-navy via-navy/85 to-navy/50" />
-        </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
-          <Reveal>
-            <div className="flex items-center gap-4">
-              <div className="text-[13px] font-bold text-amber uppercase tracking-widest">
-                Sole agent in Egypt
-              </div>
-              <div className="bg-white rounded-lg px-3 py-1.5">
-                <Image
-                  src="/images/curtiss-wright-logo.png"
-                  alt="Curtiss-Wright"
-                  width={354}
-                  height={100}
-                  className="h-4 w-auto object-contain"
-                />
-              </div>
-            </div>
-            <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight text-white">
-              Our Brands
-            </h1>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              Three Curtiss-Wright divisions, one local partner. Flip any brand
-              card for its brochures and catalogs, browse the full{" "}
-              <a href="#document-library" className="text-amber font-semibold hover:underline">
-                document library
-              </a>{" "}
-              of {totalDocs}{" "}PDFs, or{" "}
-              <Link href="/contact" className="text-amber font-semibold hover:underline">
-                ask us directly
-              </Link>
-              .
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      <PageHero
+        title="Our Brands"
+        subtitle="Three Curtiss-Wright divisions, one local partner"
+        lede={
+          <>
+            Flip any brand card for its brochures and catalogs, browse the full{" "}
+            <a href="#document-library" className="text-amber font-semibold hover:underline">
+              document library
+            </a>{" "}
+            of {totalDocs}{" "}PDFs, or{" "}
+            <Link href="/contact" className="text-amber font-semibold hover:underline">
+              ask us directly
+            </Link>
+            .
+          </>
+        }
+      />
 
       {/* Brand sections */}
       <section className="py-16">

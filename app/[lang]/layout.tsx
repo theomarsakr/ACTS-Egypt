@@ -142,6 +142,10 @@ export default async function RootLayout({ children, params }: LayoutProps) {
     <html
       lang={lang}
       dir={lang === "ar" ? "rtl" : "ltr"}
+      // Opts back in to Next's smooth-scroll override on route transitions.
+      // Next 16 stopped doing this implicitly, and warns when it finds
+      // `scroll-behavior: smooth` (globals.css) without this attribute.
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${jakarta.variable} ${cairo.variable} h-full antialiased`}
       // The pre-paint script below adds `intro-pending` to this element before
       // React hydrates (see IntroOverlay's `dropCurtain`), so the live DOM

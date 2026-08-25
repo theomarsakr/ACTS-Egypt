@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useHydrated, usePublishFloatingNavHeight } from "@/lib/hooks";
 
 const MINIMIZED_KEY = "acts-dock-minimized";
 
@@ -56,17 +57,19 @@ type DockIconProps = { className?: string; children: ReactNode };
  * docks alike).
  */
 function Dock({ children, className, wrapperClassName, label = "Quick navigation" }: DockProps) {
-  const [mounted, setMounted] = useState(false);
-  const [minimized, setMinimized] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
+  const mounted = useHydrated();
+  // Read straight out of storage rather than defaulting to expanded and
+  // correcting in an effect: this component renders nothing until `mounted`
+  // is true, so the stored value is already in place by the first render
+  // that produces DOM — no flash of an expanded dock the reader dismissed.
+  const [minimized, setMinimized] = useState(() => {
+    if (typeof window === "undefined") return false;
     try {
-      if (localStorage.getItem(MINIMIZED_KEY) === "1") setMinimized(true);
+      return localStorage.getItem(MINIMIZED_KEY) === "1";
     } catch {
-      /* storage blocked — default to expanded */
+      return false; /* storage blocked — default to expanded */
     }
-  }, []);
+  });
 
   function toggleMinimized() {
     setMinimized((was) => {
@@ -81,6 +84,10 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
   }
 
   const navRef = useRef<HTMLElement>(null);
+  // Reserves the space this bar covers so page content (scroll cues above
+  // all) can stay clear of it. Re-measures on collapse.
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  usePublishFloatingNavHeight(wrapperRef, minimized, mounted);
   const [indicator, setIndicator] = useState({ width: 0, left: 0 });
 
   // Slides the pill behind whichever child rendered with data-dock-active —
@@ -113,6 +120,7 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
 
   return createPortal(
     <div
+      ref={wrapperRef}
       className={cn(
         "fixed inset-x-0 bottom-4 z-40 flex flex-col items-center px-4 pb-[env(safe-area-inset-bottom)] sm:bottom-6",
         wrapperClassName
@@ -131,12 +139,16 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
         // the life of the scroll — see the note on <Navbar>'s nav for why
         // that combination can silently stop painting mid-scroll. bg-white/95
         // alone reads close to identical without the risk.
-        className="tap-target relative z-10 mb-1.5 flex h-7 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-400 shadow-md transition-colors hover:text-navy"
+        className="tap-target relative z-10 mb-1.5 flex h-8 w-14 shrink-0 items-center justify-center gap-1 rounded-full border border-brand/25 bg-white text-brand shadow-lg shadow-navy/15 transition-colors hover:border-brand/50 hover:bg-brand-light"
       >
         <ChevronDown
-          size={14}
+          size={16}
+          strokeWidth={2.5}
           className={cn("transition-transform duration-300", minimized && "rotate-180")}
         />
+        <span className="text-[10px] font-bold tracking-wider uppercase">
+          {minimized ? "Nav" : "Hide"}
+        </span>
       </button>
 
       <AnimatePresence initial={false}>
