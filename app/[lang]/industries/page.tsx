@@ -41,6 +41,7 @@ import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
 import IndustryProductLibrary from "@/components/industries/IndustryProductLibrary";
+import Container from "@/components/layout/Container";
 import {
   industries,
   industriesSummary,
@@ -212,8 +213,8 @@ export default function IndustriesPage() {
       />
 
       {/* Industry tabs */}
-      <section id="explore-industries" className="scroll-mt-28 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="explore-industries" className="scroll-anchor py-16">
+        <Container>
           <Reveal>
             <Tabs
               items={industries.map((ind): TabItem => {
@@ -241,7 +242,7 @@ export default function IndustriesPage() {
                             <Icon size={20} className="text-white" strokeWidth={2.25} />
                           </div>
                         </div>
-                        <div className="lg:col-span-3 p-8 md:p-10">
+                        <div className="lg:col-span-3 p-5 sm:p-8 lg:p-10">
                           <div className="text-sm font-semibold text-brand">
                             {ind.tagline}
                           </div>
@@ -301,7 +302,7 @@ export default function IndustriesPage() {
                           advantage breakdown per process area needs the room.
                           This is the chapter; the capability strip above and
                           the index below deliberately read lighter than it. */}
-                      <div className="border-t border-gray-100 bg-gray-50/60 p-8 md:p-10">
+                      <div className="border-t border-gray-100 bg-gray-50/60 p-5 sm:p-8 lg:p-10">
                         <SectionHeading
                           as="h3"
                           tier="md"
@@ -330,7 +331,7 @@ export default function IndustriesPage() {
                           same light label weight as "How we support,"
                           bookending the chapter rather than competing with
                           it. */}
-                      <div className="border-t border-gray-100 p-8 md:p-10">
+                      <div className="border-t border-gray-100 p-5 sm:p-8 lg:p-10">
                         <h4 className="text-sm font-bold text-navy uppercase tracking-wide">
                           Product &amp; document library
                         </h4>
@@ -353,15 +354,15 @@ export default function IndustriesPage() {
               })}
             />
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       {/* Summary table */}
-      <section id="at-a-glance" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="at-a-glance" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+        <Container>
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl font-extrabold tracking-tight text-navy">
+              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
                 At a glance
               </h2>
             </div>
@@ -389,16 +390,16 @@ export default function IndustriesPage() {
               })}
             />
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* CTA */}
       <section className="py-16">
-        <div className="max-w-6xl mx-auto px-6">
+        <Container>
           <Reveal>
             <div className="border-beam rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
               <div>
-                <h3 className="text-2xl font-extrabold text-white">
+                <h3 className="text-fluid-h4 font-extrabold text-white">
                   See the brands behind these solutions
                 </h3>
                 <p className="mt-2 text-[15px] text-white/75 max-w-lg">
@@ -429,7 +430,7 @@ export default function IndustriesPage() {
               </div>
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       <SiteDock

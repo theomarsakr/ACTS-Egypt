@@ -166,7 +166,7 @@ export default function AboutPage() {
 
       {/* Stat bar */}
       <section className="relative z-10 -mt-10 pb-4">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <div className="bg-white rounded-2xl shadow-xl shadow-navy/10 border border-gray-100 grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-100 max-md:divide-y max-md:[&>*:nth-child(2n+1)]:border-l-0">
               {aboutStats.map((s) => (
@@ -193,8 +193,8 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section id="timeline" className="scroll-mt-28 py-20">
-        <div className="max-w-3xl mx-auto px-6">
+      <section id="timeline" className="scroll-anchor py-20">
+        <div className="max-w-3xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               align="center"
@@ -220,7 +220,7 @@ export default function AboutPage() {
                     </div>
                     <SpotlightCard className="card-lift flex-1 bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
                       <div className="flex items-baseline gap-3 flex-wrap">
-                        <span className="text-2xl font-extrabold text-navy">
+                        <span className="text-fluid-h4 font-extrabold text-navy">
                           {t.year}
                         </span>
                         <span className="text-sm font-semibold rounded-full px-3 py-0.5 bg-brand-light text-brand-dark">
@@ -245,8 +245,8 @@ export default function AboutPage() {
       </section>
 
       {/* Leadership */}
-      <section id="leadership" className="scroll-mt-28 py-20">
-        <div className="max-w-4xl mx-auto px-6">
+      <section id="leadership" className="scroll-anchor py-20">
+        <div className="max-w-4xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="mx-auto mb-10 max-w-2xl"
@@ -281,8 +281,8 @@ export default function AboutPage() {
       </section>
 
       {/* Vision & Mission */}
-      <section id="mission" className="scroll-mt-28 py-4 pb-16">
-        <div className="max-w-4xl mx-auto px-6 grid sm:grid-cols-2 gap-6">
+      <section id="mission" className="scroll-anchor py-4 pb-16">
+        <div className="max-w-4xl mx-auto px-safe grid sm:grid-cols-2 gap-6">
           <Reveal>
             <SpotlightCard className="card-lift group h-full rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition-colors hover:border-brand/40">
               <div className="flex items-center justify-between gap-4">
@@ -318,8 +318,8 @@ export default function AboutPage() {
       </section>
 
       {/* Goals — navy band */}
-      <section id="goals" className="scroll-mt-28 bg-navy text-white py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="goals" className="scroll-anchor bg-navy text-white py-20">
+        <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="max-w-2xl mx-auto"
@@ -364,8 +364,8 @@ export default function AboutPage() {
       {/* Looking ahead — the forward direction the new brand story leads with.
           Sits between the goals band and the values so the page reads
           past → ambition → operating principles. */}
-      <section id="looking-ahead" className="scroll-mt-28 py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="looking-ahead" className="scroll-anchor py-20">
+        <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="max-w-2xl"
@@ -408,7 +408,7 @@ export default function AboutPage() {
 
       {/* Values */}
       <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="max-w-2xl mx-auto"
@@ -440,7 +440,7 @@ export default function AboutPage() {
               >
                 <SpotlightCard className="card-lift group h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="text-2xl font-extrabold tabular-nums text-brand-dark/70 transition-colors group-hover:text-brand">
+                    <span className="text-fluid-h4 font-extrabold tabular-nums text-brand-dark/70 transition-colors group-hover:text-brand">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <CardLogoMark />
@@ -457,8 +457,8 @@ export default function AboutPage() {
       </section>
 
       {/* What we specialize in */}
-      <section id="specializations" className="scroll-mt-28 py-20 bg-gray-50 border-y border-gray-200">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="specializations" className="scroll-anchor py-20 bg-gray-50 border-y border-gray-200">
+        <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="max-w-2xl"
@@ -479,7 +479,7 @@ export default function AboutPage() {
                         <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand">
                           {String(i + 1).padStart(2, "0")} · {brand.trim()}
                         </div>
-                        <h3 className="mt-1 text-xl font-bold text-navy leading-snug">
+                        <h3 className="mt-1 text-fluid-h4 font-bold text-navy leading-snug">
                           {spec || brand.trim()}
                         </h3>
                       </div>
@@ -506,8 +506,8 @@ export default function AboutPage() {
       </section>
 
       {/* How we operate */}
-      <section id="how-we-operate" className="scroll-mt-28 py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="how-we-operate" className="scroll-anchor py-20">
+        <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="max-w-2xl mx-auto"
@@ -552,8 +552,8 @@ export default function AboutPage() {
       </section>
 
       {/* Headquarters */}
-      <section id="offices" className="scroll-mt-28 py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="offices" className="scroll-anchor py-20">
+        <div className="max-w-6xl mx-auto px-safe">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <Reveal>
@@ -654,7 +654,7 @@ export default function AboutPage() {
           <div className="mesh mesh-brass w-152 h-152 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           <div className="dark-vignette" />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 flex justify-center">
+        <div className="relative max-w-6xl mx-auto px-safe flex justify-center">
           {/* w-full at every layer down to the grid itself: each is a flex
               item or wraps one sized by its content by default, and the
               matrix's own width is a 100%-of-parent chain all the way down
