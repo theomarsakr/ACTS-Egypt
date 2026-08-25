@@ -7,7 +7,7 @@
         divider line above it; images without one pass through untouched),
      2. trims the white page margins down to the product's bounding box,
      3. re-centers the product at a uniform relative size on an identical
-        15:16 white canvas (matching the card's aspect-15/16 frame), leaving
+        5:3 white canvas (matching the card's aspect-5/3 frame), leaving
         the bottom strip clear for the white fade + "BRAND 01" label.
 
    It also flags frames whose corners aren't white (photographs, full-bleed
@@ -23,14 +23,32 @@ const PROJECT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUB = path.join(PROJECT, "public", "images");
 const OUT_ROOT = path.join(PUB, "cards");
 
-// Canvas: 15:16 to match the card's aspect-15/16 frame.
-const CANVAS_W = 900;
-const CANVAS_H = 960;
-// Product fit box: centered horizontally; vertically centered in the top 88%
-// so the bottom strip stays clear for the white fade + "BRAND 01" label.
-const FIT_W = Math.round(CANVAS_W * 0.8);
-const FIT_H = Math.round(CANVAS_H * 0.72);
-const V_BAND = 0.88;
+// Canvas: 5:3 to match the card's aspect-5/3 frame.
+const CANVAS_W = 1200;
+const CANVAS_H = 720;
+
+/* Safe area the product may occupy. The bottom edge clears the "BRAND 01"
+   label (bottom-3.5, ~11.5px caps => its top lands near y=632 here), so the
+   label always sits on clean canvas rather than relying on the card's white
+   bottom fade — that fade is only ~9% opaque where the text starts, far too
+   little to carry contrast over a dark product. */
+const SAFE_TOP = 26;
+const SAFE_BOTTOM = 624;
+const SAFE_LEFT = 40;
+const SAFE_RIGHT = 1160;
+const SAFE_W = SAFE_RIGHT - SAFE_LEFT;
+const SAFE_H = SAFE_BOTTOM - SAFE_TOP;
+
+/* The card overlays a brand logo badge in the top-right corner. Its painted
+   box (top-3.5 right-3.5, px-3 py-2, a 24px-tall logo up to ~85px wide) maps
+   to roughly x>=815, y<=176 on this canvas; these carry a few px of margin on
+   top of that. A product placed into that corner reads as colliding with the
+   badge however the card is styled, so placement below treats it as a keep-out
+   rather than relying on the card's own white corner fade to hide the clash. */
+const BADGE_X0 = 810;
+const BADGE_Y1 = 182;
+/* Where a product gets dropped to when it would otherwise hit the badge. */
+const BELOW_BADGE_TOP = 196;
 
 const BRANDS = ["farris", "dynaflo", "est"];
 const LEADS = {
@@ -119,12 +137,29 @@ async function processOne(srcRel, outFile) {
   const raw = await sharp(tBuf).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const kind = classify(raw.data, raw.info.width, raw.info.height);
 
-  // Scale into the fit box, keep aspect.
-  const s = Math.min(FIT_W / tInfo.width, FIT_H / tInfo.height, 1.6);
-  const w = Math.round(tInfo.width * s);
-  const h = Math.round(tInfo.height * s);
-  const left = Math.round((CANVAS_W - w) / 2);
-  const top = Math.round((CANVAS_H * V_BAND - h) / 2);
+  /* Largest centered placement that fits the given box, keeping aspect. */
+  const place = (maxW, maxH, bandTop) => {
+    const s = Math.min(maxW / tInfo.width, maxH / tInfo.height, 1.6);
+    const w = Math.round(tInfo.width * s);
+    const h = Math.round(tInfo.height * s);
+    return {
+      w,
+      h,
+      left: Math.round((CANVAS_W - w) / 2),
+      top: Math.round(bandTop + (maxH - h) / 2),
+    };
+  };
+  const hitsBadge = (p) => p.left + p.w > BADGE_X0 && p.top < BADGE_Y1;
+
+  /* Prefer the full safe area — tall, narrow products (most valves) never
+     reach the badge corner there and stay as large as the frame allows. Only
+     the wide ones that would run under the badge get dropped into the shorter
+     band beneath it, which costs some size but is always collision-free. */
+  let p = place(SAFE_W, SAFE_H, SAFE_TOP);
+  if (hitsBadge(p)) {
+    p = place(SAFE_W, SAFE_BOTTOM - BELOW_BADGE_TOP, BELOW_BADGE_TOP);
+  }
+  const { w, h, left, top } = p;
 
   const product = await sharp(tBuf).resize(w, h).toBuffer();
   await sharp({
