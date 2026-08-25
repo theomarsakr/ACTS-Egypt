@@ -202,6 +202,10 @@ export default function EgyptReach({
             tabIndex={0}
             role="button"
             aria-label={`${pin.name}: ${pin.sector}`}
+            // See the comment on the r=11 hit circle below: this is the one
+            // documented, deliberate exception to the 44px touch floor.
+            // tests/responsive.spec.ts reads this attribute to exclude it.
+            data-allow-small-target
             {...pinHandlers(pin)}
           >
             {/* Larger, invisible hit area — the visible ring is a touch small

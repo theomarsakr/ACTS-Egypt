@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "check:links": "node scripts/check-product-links.mjs",
-    "test:smoke": "playwright test"
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "test:responsive": "playwright test tests/responsive.spec.ts",
+    "test:visual": "playwright test tests/visual.spec.ts",
+    "test:all": "cross-env PW_PROD=1 playwright test"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",
@@ -35,6 +38,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.185.1",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "^16.3.1",
     "tailwindcss": "^4",

@@ -1,6 +1,14 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+// Scan the settled, reduced-motion state: the .reveal fade snaps to full
+// opacity instantly under reduced motion, so axe measures true resting
+// contrast instead of catching text mid-fade at partial opacity. Set here
+// rather than in the shared playwright.config.ts `use` block, which would
+// silently disable every effect the responsive/smoothness suites exist to
+// verify is actually running.
+test.use({ reducedMotion: "reduce" });
+
 const routes = [
   "/",
   "/about",
