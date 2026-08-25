@@ -17,6 +17,12 @@ type DockProps = {
       to suppress the dock on small screens for a specific page). */
   wrapperClassName?: string;
   label?: string;
+  /** Rendered after the scrollable item row, outside its overflow-x-auto —
+      so it can never itself scroll out of reach. SiteDock uses this for the
+      "Request a quote" CTA: the one destination the dock exists to
+      guarantee, now that labelled items (below) no longer fit unscrolled at
+      every width. */
+  pinnedItem?: ReactNode;
 };
 type DockItemProps = {
   className?: string;
@@ -56,7 +62,13 @@ type DockIconProps = { className?: string; children: ReactNode };
  * it (the standard fix for any fixed-position overlay: modals, toasts, and
  * docks alike).
  */
-function Dock({ children, className, wrapperClassName, label = "Quick navigation" }: DockProps) {
+function Dock({
+  children,
+  className,
+  wrapperClassName,
+  label = "Quick navigation",
+  pinnedItem,
+}: DockProps) {
   const mounted = useHydrated();
   // Read straight out of storage rather than defaulting to expanded and
   // correcting in an effect: this component renders nothing until `mounted`
@@ -177,7 +189,7 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
                 // the one class of element that can go blank mid-scroll if it
                 // carries one (confirmed on <Navbar>'s nav, same portal
                 // pattern as this dock).
-                "relative mx-auto flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                "relative mx-auto flex w-fit max-w-full items-center gap-1 rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15",
                 className
               )}
             >
@@ -190,7 +202,18 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
                   aria-hidden
                 />
               )}
-              {children}
+              {/* Labelled items no longer fit unscrolled at every width (see
+                  <DockLabel>), so this row scrolls on its own — scroll-snap
+                  keeps items from stopping half-visible, and scroll-fade-x
+                  signals there's more where the fade hides it (this scroller
+                  hides its own scrollbar, so nothing else would say so). The
+                  CTA lives outside this div entirely (see `pinnedItem`
+                  below) rather than being just another scrollable child, so
+                  it can never itself scroll out of reach. */}
+              <div className="scroll-fade-x flex snap-x snap-proximity items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {children}
+              </div>
+              {pinnedItem}
             </nav>
           </motion.div>
         )}
@@ -209,11 +232,10 @@ function DockItem({ children, className, href, label, active }: DockItemProps) {
       title={label}
       data-dock-active={active ? "true" : undefined}
       className={cn(
-        // min-h-11 is the 44px touch floor for the icon-only layout below
-        // `lg:`, where the item is otherwise 36px tall (20px icon + py-2).
-        // Inert once labels come in — that layout is already 52px — so the
-        // labelled desktop dock is unaffected.
-        "relative z-10 flex min-h-11 shrink-0 flex-col items-center justify-center gap-0.5 rounded-full px-3.5 py-2 text-center transition-colors duration-200 sm:px-4",
+        // min-h-11 is the 44px touch floor — labels are always on now (see
+        // <DockLabel>), so the icon+label layout already clears it, but this
+        // stays as the floor for any consumer that renders an icon alone.
+        "relative z-10 flex min-h-11 shrink-0 snap-start flex-col items-center justify-center gap-0.5 rounded-full px-3.5 py-2 text-center transition-colors duration-200 sm:px-4",
         active ? "text-brand" : "text-gray-500 hover:text-navy",
         className
       )}
@@ -224,31 +246,21 @@ function DockItem({ children, className, href, label, active }: DockItemProps) {
 }
 
 function DockLabel({ children, className }: DockLabelProps) {
+  // Visible at every width now, not just `lg:` (1024px) — that gate is what
+  // used to save this scroller from the fate described below. The rescue
+  // moved up a level: the item row scrolls on its own (see <Dock>'s
+  // scroll-fade-x div) with the CTA pinned outside it, so labels no longer
+  // have to disappear to keep the "Request a quote" destination reachable.
+  //
+  // Measured on the homepage's six-section dock: with labels the nav is
+  // 826px wide, well past what any of these widths grant it unscrolled —
+  // hence the scroller rather than a breakpoint. Arabic labels run wider
+  // still, which is exactly why that variant needs checking first (see the
+  // refactor notes), not last.
   return (
-    <>
-      {/* `lg:` (1024px), not `sm:` (640px) — same reasoning as the header's
-          `xl:` link row: the breakpoint has to be where the content actually
-          fits, not where a label would first be nice to have.
-
-          Measured on the homepage's six-section dock: with labels the nav is
-          826px wide, and the wrapper's px-4 means it needs an 858px viewport.
-          Turning them on at `sm:` therefore clipped the dock across the whole
-          640–858px range — 92px cut at 768 (iPad portrait), 40px at 820 (iPad
-          Air) — and because this scroller hides its scrollbar, nothing on
-          screen said so. What got cut was the last item: the "Request a quote"
-          CTA, i.e. the one destination the dock exists to guarantee.
-
-          Icon-only below `lg:` fits in ~380px with room to spare, at any
-          section count and in either locale (Arabic labels are wider still).
-          The label is not lost — it stays the Link's aria-label and title. */}
-      <span className={cn("hidden text-[11px] font-semibold whitespace-nowrap lg:block", className)}>
-        {children}
-      </span>
-      {/* The accessible name still comes from the parent Link's aria-label;
-          this is belt-and-suspenders for any AT that prefers visible text
-          nodes over aria-label. */}
-      <span className="sr-only lg:hidden">{children}</span>
-    </>
+    <span className={cn("text-[11px] font-semibold whitespace-nowrap", className)}>
+      {children}
+    </span>
   );
 }
 

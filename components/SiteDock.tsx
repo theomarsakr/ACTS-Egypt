@@ -69,27 +69,34 @@ export default function SiteDock({
   }, [sections]);
 
   return (
-    <Dock label={lang === "ar" ? "تصفح سريع" : "Quick navigation"}>
+    <Dock
+      label={lang === "ar" ? "تصفح سريع" : "Quick navigation"}
+      pinnedItem={
+        // The CTA: brand-brass gradient (same BRAND_BG as <ShimmerButton>
+        // elsewhere), not flat amber — amber is reserved for kickers/accents
+        // on dark bands, and using it as a solid fill here read as far more
+        // saturated than every other "Request a quote" button on the site.
+        // Passed as `pinnedItem` (outside the scrollable row) rather than a
+        // plain child so it can never itself scroll out of reach — the one
+        // destination the dock exists to guarantee.
+        <DockItem
+          href={localeHref(lang, "/quote")}
+          label={dict.nav.requestQuote}
+          className="bg-linear-to-br from-[#a37d3a] via-brand to-brand-dark text-white shadow-[0_10px_28px_-10px_rgba(138,106,48,0.55)] hover:text-white hover:brightness-110 focus-visible:text-white focus-visible:brightness-110"
+        >
+          <DockIcon>
+            <ArrowUpRight className="h-full w-full" strokeWidth={2.25} />
+          </DockIcon>
+          <DockLabel>{dict.nav.requestQuote}</DockLabel>
+        </DockItem>
+      }
+    >
       {sections.map((s) => (
         <DockItem key={s.id} href={`#${s.id}`} label={s.label} active={activeId === s.id}>
           <DockIcon>{s.icon}</DockIcon>
           <DockLabel>{s.label}</DockLabel>
         </DockItem>
       ))}
-      {/* The CTA: brand-brass gradient (same BRAND_BG as <ShimmerButton>
-          elsewhere), not flat amber — amber is reserved for kickers/accents
-          on dark bands, and using it as a solid fill here read as far more
-          saturated than every other "Request a quote" button on the site. */}
-      <DockItem
-        href={localeHref(lang, "/quote")}
-        label={dict.nav.requestQuote}
-        className="bg-linear-to-br from-[#a37d3a] via-brand to-brand-dark text-white shadow-[0_10px_28px_-10px_rgba(138,106,48,0.55)] hover:text-white hover:brightness-110 focus-visible:text-white focus-visible:brightness-110"
-      >
-        <DockIcon>
-          <ArrowUpRight className="h-full w-full" strokeWidth={2.25} />
-        </DockIcon>
-        <DockLabel>{dict.nav.requestQuote}</DockLabel>
-      </DockItem>
     </Dock>
   );
 }

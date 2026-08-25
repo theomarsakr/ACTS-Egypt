@@ -27,9 +27,9 @@ const MINIMIZED_KEY = "acts-brandnav-minimized";
  * the bottom edge, one icon button per page section, with a spring-animated
  * indicator that slides to the active item. Active state follows the scroll
  * position (IntersectionObserver scrollspy) and clicking smooth-scrolls to the
- * section, offset so it never hides under the sticky site header. Labels hide
- * on small screens (icons only); the full section name stays available to
- * assistive tech and as a tooltip.
+ * section, offset so it never hides under the sticky site header. Labels are
+ * shown at every width; the row scrolls horizontally (with a fade + snap)
+ * once they don't all fit rather than hiding any of them.
  */
 
 /** Icons are passed by name so server components can hand us plain data. */
@@ -195,10 +195,18 @@ export default function FloatingNav({
           >
       {/* No backdrop-blur — this is `fixed`, pinned through the whole scroll,
           same as <Dock> and <Navbar>'s nav. Bumped to bg-white/95 (from /90)
-          to cover the small amount of softening the blur used to add. */}
+          to cover the small amount of softening the blur used to add.
+
+          overflow-x-auto + scroll-fade-x + snap: labels are on at every
+          width now (see the item markup below), and six of them run past
+          640px unscrolled — worse in Arabic, where labels run ~20% wider.
+          <Dock> got the same scroller; this bar never had one at all, so
+          before this it simply clipped. No pinned trailing item here (this
+          bar carries no CTA), so unlike <Dock> the scroll container and the
+          visual pill chrome can stay the one element. */}
       <div
         ref={containerRef}
-        className="relative flex items-center rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15"
+        className="scroll-fade-x relative flex snap-x snap-proximity items-center overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {sections.map((s, index) => {
           const isActive = active === s.id;
@@ -213,21 +221,17 @@ export default function FloatingNav({
               onClick={(e) => handleClick(e, s.id)}
               aria-current={isActive ? "true" : undefined}
               title={s.title ?? s.label}
-              // min-h-11 for the same reason <Dock> carries it: below `sm:`
-              // this collapses to icon-only and the item is 31px tall. From
-              // `sm:` up the label brings it to 50px on its own, so this is
-              // inert there. (Unlike the homepage dock, the labels here do
-              // not need pushing to `lg:` — six short labels measure 444px,
-              // which fits every width down to 640.)
-              className={`relative z-10 flex min-h-11 flex-col items-center justify-center rounded-full px-3.5 py-1.5 sm:px-4 transition-colors duration-200 ${
+              // min-h-11 is the 44px touch floor; the label (always on now,
+              // see below) already brings the item to 50px, so this is
+              // inert in practice but stays as the floor.
+              className={`relative z-10 flex min-h-11 shrink-0 snap-start flex-col items-center justify-center rounded-full px-3.5 py-1.5 sm:px-4 transition-colors duration-200 ${
                 isActive ? "text-brand" : "text-gray-500 hover:text-navy"
               }`}
             >
               <Icon size={19} aria-hidden />
-              <span className="mt-0.5 hidden text-[11px] font-semibold sm:block">
+              <span className="mt-0.5 text-[11px] font-semibold whitespace-nowrap">
                 {s.label}
               </span>
-              <span className="sr-only sm:hidden">{s.title ?? s.label}</span>
             </a>
           );
         })}
