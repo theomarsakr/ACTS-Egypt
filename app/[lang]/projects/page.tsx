@@ -27,6 +27,7 @@ import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import CardLogoMark from "@/components/ui/CardLogoMark";
 import Magnetic from "@/components/ui/Magnetic";
+import Container from "@/components/layout/Container";
 import { projectClients, engagementHighlights } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -98,12 +99,17 @@ export default function ProjectsPage() {
 
       {/* Stat bar overlapping the hero */}
       <section className="relative z-10 -mt-14 pb-4">
-        <div className="max-w-6xl mx-auto px-6">
+        <Container>
           <Reveal>
-            <div className="bg-white rounded-2xl shadow-xl shadow-navy/10 border border-gray-100 grid grid-cols-3 divide-x divide-gray-100">
+            {/* grid-cols-3 was the only unprefixed multi-column grid on the
+                site: at 320px each cell got (320-48)/3 - 48(p-6) = ~ 56px of
+                content width for "Years serving Egypt's industry". xs (424px)
+                is reflow, not removal — all three stats still render, just
+                stacked below it. */}
+            <div className="bg-white rounded-2xl shadow-xl shadow-navy/10 border border-gray-100 grid grid-cols-1 xs:grid-cols-3 divide-y xs:divide-y-0 xs:divide-x divide-gray-100">
               {portfolioStats.map((s) => (
-                <div key={s.label} className="p-6 text-center">
-                  <div className="text-3xl md:text-4xl font-extrabold text-navy">
+                <div key={s.label} className="p-4 xs:p-6 text-center">
+                  <div className="text-fluid-h3 font-extrabold text-navy">
                     <Counter value={s.value} suffix={s.suffix} />
                   </div>
                   <div className="text-[13px] text-gray-500 mt-1.5">
@@ -113,17 +119,17 @@ export default function ProjectsPage() {
               ))}
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       {/* Client portfolio */}
-      <section id="portfolio" className="scroll-mt-28 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="portfolio" className="scroll-anchor py-16">
+        <Container>
           <Reveal>
             <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
               Our client portfolio
             </div>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy">
+            <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
               Browse by sector
             </h2>
           </Reveal>
@@ -151,8 +157,8 @@ export default function ProjectsPage() {
                             <Icon size={20} className="text-white" strokeWidth={2.25} />
                           </div>
                         </div>
-                        <div className="lg:col-span-3 p-8 md:p-10">
-                          <h3 className="text-xl font-extrabold text-navy">
+                        <div className="lg:col-span-3 p-5 sm:p-8 lg:p-10">
+                          <h3 className="text-fluid-h4 font-extrabold text-navy">
                             {group.category}
                           </h3>
                           <div className="mt-5 grid sm:grid-cols-2 gap-3">
@@ -178,12 +184,12 @@ export default function ProjectsPage() {
               })}
             />
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Where we add value */}
-      <section id="value" className="scroll-mt-28 py-16 bg-gray-50 border-y border-gray-200">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="value" className="scroll-anchor py-16 bg-gray-50 border-y border-gray-200">
+        <Container>
           <Reveal>
             <SectionHeading
               className="max-w-2xl mx-auto"
@@ -215,15 +221,15 @@ export default function ProjectsPage() {
               );
             })}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* What clients trust us for */}
-      <section id="trust" className="scroll-mt-28 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="trust" className="scroll-anchor py-16">
+        <Container>
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl font-extrabold tracking-tight text-navy">
+              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
                 What Our Clients Trust Us For
               </h2>
             </div>
@@ -249,12 +255,12 @@ export default function ProjectsPage() {
               );
             })}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Confidentiality */}
-      <section id="confidentiality" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-3xl mx-auto px-6">
+      <section id="confidentiality" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+        <Container width="prose">
           <Reveal>
             <div className="relative overflow-hidden rounded-2xl border border-brand/30 bg-brand-light/60 p-7 md:p-9">
               <div className="flex flex-col sm:flex-row gap-5">
@@ -265,7 +271,7 @@ export default function ProjectsPage() {
                   <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand">
                     Client confidentiality
                   </div>
-                  <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-navy">
+                  <h2 className="mt-1 text-fluid-h4 font-extrabold tracking-tight text-navy">
                     Confidentiality Statement
                   </h2>
                   <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
@@ -279,7 +285,7 @@ export default function ProjectsPage() {
               </div>
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       {/* Closing CTA — the exact bookend of this page's own hero: same dark
@@ -294,14 +300,14 @@ export default function ProjectsPage() {
           Products and Industries CTAs. */}
       <section className="relative overflow-hidden bg-navy">
         <PageHeroBackground priority={false} />
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24">
+        <Container className="relative py-20 md:py-24">
           <Reveal>
             <div className="max-w-xl lg:max-w-2xl">
               <div className="flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.18em] text-amber">
                 <span className="h-px w-8 bg-amber/50" aria-hidden />
                 Work with ACTS
               </div>
-              <h2 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] leading-[1.05] text-white text-balance">
+              <h2 className="mt-4 text-fluid-h2 font-extrabold tracking-[-0.03em] text-white text-balance">
                 Ready to partner with us?
               </h2>
               <p className="mt-5 text-[17px] md:text-lg leading-relaxed text-white/65">
@@ -338,7 +344,7 @@ export default function ProjectsPage() {
               </div>
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       <SiteDock
