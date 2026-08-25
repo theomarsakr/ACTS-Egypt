@@ -179,7 +179,13 @@ export default async function RootLayout({ children, params }: LayoutProps) {
           {children}
         </main>
         <Footer lang={lang} t={dict.footer} industryNames={dict.industryNames} />
-        <Analytics />
+        {/* Vercel Analytics has no endpoint to report to off-Vercel: "production"
+            mode 404s fetching /_vercel/insights/script.js against a local
+            `next start`, and "development" mode instead fetches an external
+            debug script that the site's CSP (script-src 'self') rightly blocks.
+            VERCEL is set only by Vercel's own build/runtime, so this renders
+            nothing — and does nothing — anywhere else. */}
+        {process.env.VERCEL && <Analytics />}
       </body>
     </html>
   );
