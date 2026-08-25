@@ -12,7 +12,7 @@ export const en = {
   skipLink: "Skip to main content",
 
   nav: {
-    tagline: "Representing World-Class Engineering Solutions in Egypt.",
+    tagline: "Representing World-Class Engineering Solutions in Egypt",
     home: "Home",
     ourBrands: "Our Brands",
     viewAllBrands: "View all brands",
@@ -47,7 +47,7 @@ export const en = {
     getInTouch: "Get in touch",
     companyFull: "Advanced Company for Trading Services",
     rights: "All rights reserved.",
-    tagline: "Representing World-Class Engineering Solutions in Egypt.",
+    tagline: "Representing World-Class Engineering Solutions in Egypt",
   },
 
   /** Industry display names keyed by lib/data.ts slug. */
@@ -62,7 +62,7 @@ export const en = {
 
   home: {
     hero: {
-      badge: "Representing World-Class Engineering Solutions in Egypt.",
+      badge: "Representing World-Class Engineering Solutions in Egypt",
       titleA: "Engineering the future of",
       titleB: "industrial reliability",
       lede: "From safety-critical valves to smart, connected instrumentation, ACTS has spent nearly two decades engineering the reliability behind Egypt's Oil & Gas, Petrochemical, Power, and Fertilizer industries, as sole agent for Farris Engineering, Dyna-Flo Control Valve Services, and EST, all divisions of Curtiss-Wright.",
@@ -78,8 +78,8 @@ export const en = {
     },
     marquee: "Trusted by Egypt's leading operators",
     whatWeDo: {
-      eyebrow: "What we do",
-      title: "Sales, technical support, and aftermarket services",
+      title: "What We Do",
+      subtitle: "Sales, technical support, and aftermarket services",
       lede: "Three areas of industrial process equipment, backed by nearly two decades of relationships built on integrity, speed, and technical expertise.",
       items: [
         {
@@ -97,8 +97,8 @@ export const en = {
       ],
     },
     brands: {
-      eyebrow: "Represented brands",
-      title: "Three world-class manufacturers. One local partner.",
+      title: "Represented Brands",
+      subtitle: "Three world-class manufacturers. One local partner.",
       allBrands: "All brands",
       featured: "Featured products in Egypt",
       viewProducts: "View products",
@@ -123,20 +123,17 @@ export const en = {
       } as Record<string, { category: string; summary: string }>,
     },
     global: {
-      eyebrow: "Global manufacturing, local execution",
-      /** Short nav-menu form of the section name (dock/anchor labels) — the
-          eyebrow above is marketing copy, too long for a tooltip. */
-      navLabel: "Global reach",
-      title: "World-class engineering, delivered and supported from Egypt",
+      title: "Global Reach",
+      subtitle: "World-class engineering, delivered and supported from Egypt",
       lede: "Every valve and tool we supply traces back to a Curtiss-Wright manufacturing site in North America, backed on the ground in Giza by engineers who size, stock, and service it.",
     },
     why: {
-      eyebrow: "Why ACTS",
-      title: "Built for procurement teams",
+      title: "Why ACTS",
+      subtitle: "Built for procurement teams",
       lede: "We know what engineering procurement needs from an industrial equipment supplier. We've been doing it for nearly two decades.",
       exclusive: {
-        eyebrow: "Exclusive agency",
-        title: "The sole authorized source for three Curtiss-Wright divisions in Egypt",
+        title: "Exclusive Agency",
+        subtitle: "The sole authorized source for three Curtiss-Wright divisions in Egypt",
         text: "Factory-backed pricing, genuine parts, and direct access to manufacturer engineering, without intermediaries.",
         link: "Our brands",
       },
@@ -172,8 +169,8 @@ export const en = {
       },
     },
     proven: {
-      eyebrow: "Proven in the field",
-      title: "The work our clients rely on us for",
+      title: "Proven in the Field",
+      subtitle: "The work our clients rely on us for",
       lede: "Project specifics stay confidential. These are the engagements Egypt's operators bring to ACTS, from named clients like ENPPI, Petrojet, and Khalda Petroleum.",
       confidential: "Client details confidential ·",
       seeWho: "See who we work with",
@@ -210,7 +207,7 @@ export const en = {
     gallery: {
       chip: "Company gallery",
       title: "Where our equipment works",
-      lede: "The sites we support and the equipment we keep running, from the Western Desert to the Gulf of Suez. Tap any photo to view it full-screen.",
+      lede: "Farris safety valves, Dyna-Flo control equipment, and EST heat-exchanger tooling and field service — a closer look at the brands we support. Tap any photo to view it full-screen.",
       projectsBtn: "Projects & clients",
       allPhotos: "All photos",
       learnMore: "Learn more",
@@ -221,24 +218,44 @@ export const en = {
       thumbLabel: "Photo {n}: {title}",
       dialogLabel: "Field photo gallery",
       groups: {
-        sites: "Field sites",
-        equipment: "Equipment & services",
+        farris: "Farris Engineering",
+        dynaflo: "Dyna-Flo",
+        est: "EST",
       },
       items: [
-        { label: "Refining", sub: "Turnaround & outage support" },
-        { label: "Overpressure protection", sub: "Farris safety relief valves" },
-        { label: "Upstream", sub: "Wellhead & separator protection" },
-        { label: "Process control", sub: "Dyna-Flo control valves" },
-        { label: "Power generation", sub: "Boiler & turbine systems" },
-        { label: "Field services", sub: "EST heat-exchanger repair" },
-        { label: "Gas processing", sub: "Pressure regulation & control" },
-        { label: "Petrochemical", sub: "Severe-service applications" },
-        { label: "Drilling", sub: "Upstream operations" },
+        { label: "Valve overhaul", sub: "Farris FAST-certified service" },
+        { label: "High-pressure relief", sub: "Farris Series 6400 relief valve" },
+        { label: "Process safety", sub: "Farris Series 2700 relief valve" },
+        { label: "Bubble-tight shutoff", sub: "Farris Series 2400 relief valve" },
+        { label: "Flow control", sub: "Farris directional control valve" },
+        { label: "Pilot-operated relief", sub: "Farris Series 3800 relief valve" },
+        { label: "Steam safety", sub: "Farris Series 4200 safety valve" },
+        { label: "Steam protection", sub: "Farris Series 4700 safety valve" },
+        { label: "Flagship relief", sub: "Farris Series 2600 relief valve" },
+        { label: "Pilot valve assembly", sub: "Farris Series 3800 relief valve" },
+        { label: "Process control", sub: "Dyna-Flo 4000 Series controller" },
+        { label: "Valve actuation", sub: "Dyna-Flo DFN pneumatic actuator" },
+        { label: "Valve positioning", sub: "Dyna-Flo Model 760 positioner" },
+        { label: "Digital positioning", sub: "Siemens PS2 digital positioner" },
+        { label: "Signal conversion", sub: "Dyna-Flo T950XP I/P transducer" },
+        { label: "Level control", sub: "Dyna-Flo 5000 level controller" },
+        { label: "Linear actuation", sub: "Dyna-Flo DFC/DFO actuators" },
+        { label: "Quarter-turn actuation", sub: "Dyna-Flo DFRP piston actuator" },
+        { label: "High-force actuation", sub: "Dyna-Flo DFLP piston actuator" },
+        { label: "Fail-safe actuation", sub: "Dyna-Flo DFR rotary actuator" },
+        { label: "Field services", sub: "EST heat-exchanger tube cleaning" },
+        { label: "Proven results", sub: "EST tube bundle, before & after" },
+        { label: "Tube plugging", sub: "EST Smart Ram Plus installation kit" },
+        { label: "Installation tooling", sub: "EST plug installation kit" },
+        { label: "Hot work isolation", sub: "EST double block & bleed plug" },
+        { label: "Permanent sealing", sub: "EST CPI/Perma tube plug" },
+        { label: "Installation hardware", sub: "EST Pop-A-Plug Ram package" },
+        { label: "Pressure test isolation", sub: "EST GripTight Elbow test plug" },
       ],
     },
     cta: {
-      eyebrow: "Start a conversation",
-      title: "Let's talk about your next project",
+      title: "Start the Conversation",
+      subtitle: "Let's talk about your next project",
       lede: "A project, an application question, or an urgent maintenance need. Our engineers are ready.",
       quote: "Request a quote",
       contactUs: "Contact us",
