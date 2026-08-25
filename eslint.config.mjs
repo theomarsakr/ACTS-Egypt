@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored agent tooling, not site code. These ship their own bundled
+    // and minified scripts (modern-screenshot.umd.js alone accounted for 78
+    // no-unused-expressions warnings), which drowned the real findings.
+    ".agents/**",
+    ".claude/**",
   ]),
 ]);
 
