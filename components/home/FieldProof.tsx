@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { useOnscreen } from "@/lib/hooks";
 
 export type FieldProofItem = {
   slug: string;
@@ -29,9 +30,17 @@ export default function FieldProof({
   labels?: { confidential: string; seeWho: string };
 }) {
   const [[index, dir], setIndex] = useState<[number, number]>([0, 1]);
+  // Explicit, persistent pause (the actual WCAG 2.2.2 control — this
+  // autoplays every 5.2s, past the 5s threshold that requires one).
+  const [manuallyPaused, setManuallyPaused] = useState(false);
   const reduced = useReducedMotion();
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-  const hovering = useRef(false);
+  // Transient courtesy pause — pointer over, keyboard focus inside, or
+  // mid-drag — checked inside the tick rather than tearing the interval
+  // down, so it doesn't reset the 5.2s phase on every hover in and out.
+  const paused = useRef(false);
+  const hostRef = useRef<HTMLDivElement>(null);
+  const { onscreen } = useOnscreen(hostRef);
 
   const go = useCallback(
     (delta: number) =>
@@ -40,21 +49,26 @@ export default function FieldProof({
   );
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || manuallyPaused || !onscreen) return;
     timer.current = setInterval(() => {
-      if (!hovering.current) go(1);
+      if (!paused.current) go(1);
     }, 5200);
     return () => {
       if (timer.current) clearInterval(timer.current);
     };
-  }, [go, reduced]);
+  }, [go, reduced, manuallyPaused, onscreen]);
 
   const item = items[index];
 
   return (
     <div
-      onMouseEnter={() => (hovering.current = true)}
-      onMouseLeave={() => (hovering.current = false)}
+      ref={hostRef}
+      onPointerEnter={() => (paused.current = true)}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") paused.current = false;
+      }}
+      onFocus={() => (paused.current = true)}
+      onBlur={() => (paused.current = false)}
       className="relative"
     >
       <div
@@ -82,7 +96,9 @@ export default function FieldProof({
             drag={reduced ? false : "x"}
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.15}
+            onDragStart={() => (paused.current = true)}
             onDragEnd={(_, info) => {
+              paused.current = false;
               if (info.offset.x < -60) go(1);
               else if (info.offset.x > 60) go(-1);
             }}
@@ -138,6 +154,23 @@ export default function FieldProof({
           ))}
         </div>
         <div className="flex gap-2">
+          {/* The actual WCAG 2.2.2 pause mechanism — persists regardless of
+              hover/focus, unlike the transient `paused` ref above, and
+              works identically for a mouse or a touch visitor. */}
+          {!reduced && (
+            <button
+              onClick={() => setManuallyPaused((p) => !p)}
+              aria-pressed={manuallyPaused}
+              aria-label={manuallyPaused ? "Resume autoplay" : "Pause autoplay"}
+              className={`w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full flex items-center justify-center transition-all hover:-translate-y-0.5 ${
+                dark
+                  ? "glass-dark border border-white/15 text-white/80 hover:border-amber/50 hover:text-amber"
+                  : "border border-gray-200 bg-white text-navy shadow-sm hover:border-brand/50 hover:text-brand"
+              }`}
+            >
+              {manuallyPaused ? <Play size={16} /> : <Pause size={16} />}
+            </button>
+          )}
           {[
             { delta: -1, label: "Previous", Icon: ChevronLeft },
             { delta: 1, label: "Next", Icon: ChevronRight },
