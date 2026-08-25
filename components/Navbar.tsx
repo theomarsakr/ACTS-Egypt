@@ -101,19 +101,23 @@ export default function Navbar({
           which reads as broken, not responsive. The hamburger menu covers
           that whole range instead, all the way from phone widths up to
           where the full row actually fits. */}
-      {/* Utility bar */}
-      <div className="bg-ink text-white/80 text-[13px] hidden xl:block">
-        <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between">
-          <div className="flex items-center gap-6">
+      {/* Utility bar. Visible at every width — the phone/email/tagline it
+          carries used to be `hidden xl:block` with no mobile-menu fallback,
+          so below 1280px they were simply gone. Below `sm` there's no room
+          for the desktop's single row, so it stacks into two: contact links,
+          then the tagline; `sm:` up collapses back to one row like before. */}
+      <div className="bg-ink text-white/80 text-[13px]">
+        <div className="max-w-7xl mx-auto px-6 py-2 sm:h-9 sm:py-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
-              className="inline-flex items-center gap-1.5 hover:text-white transition-colors"
+              className="tap-target inline-flex items-center gap-1.5 hover:text-white transition-colors"
             >
               <Phone size={13} /> <span className="ltr-inline">{contact.phone}</span>
             </a>
             <a
               href={`mailto:${contact.salesEmail}`}
-              className="inline-flex items-center gap-1.5 hover:text-white transition-colors"
+              className="tap-target inline-flex items-center gap-1.5 hover:text-white transition-colors"
             >
               <Mail size={13} /> {contact.salesEmail}
             </a>
@@ -306,7 +310,13 @@ export default function Navbar({
             a containing block for `position: fixed` descendants. Left nested
             here, this panel's `bottom-0` would resolve against the navbar's
             own ~68px box instead of the viewport (same trap <Dock> already
-            works around by portaling). */}
+            works around by portaling).
+
+            `top-[var(--header-h)]` (not the old hard-coded `top-17`): the
+            utility bar above is visible at every width now instead of only
+            >=1280px, so the header's real height varies with viewport width
+            and locale. Anchoring to the published height keeps the panel
+            flush under the header instead of overlapping it. */}
         {mounted && createPortal(
           <AnimatePresence>
             {open && (
@@ -315,7 +325,7 @@ export default function Navbar({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="xl:hidden fixed inset-x-0 top-17 bottom-0 z-50 overflow-y-auto border-t border-gray-100 bg-white"
+                className="xl:hidden fixed inset-x-0 top-(--header-h,4.25rem) bottom-0 z-50 overflow-y-auto border-t border-gray-100 bg-white"
               >
               <div className="px-6 py-3 flex flex-col">
                 <motion.div variants={menuItem} initial="hidden" animate="show" custom={0}>
@@ -429,6 +439,33 @@ export default function Navbar({
                   >
                     {t.requestQuote}
                   </Link>
+                </motion.div>
+
+                {/* Mirrors the utility bar's contact links + tagline right
+                    by the CTA, so they're reachable at the point of decision
+                    without the visitor scrolling back up to the header. */}
+                <motion.div
+                  variants={menuItem}
+                  initial="hidden"
+                  animate="show"
+                  custom={links.length + 4}
+                  className="mt-1 pt-4 border-t border-gray-100 flex flex-col gap-2.5"
+                >
+                  <a
+                    href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                    className="tap-target inline-flex items-center gap-2 text-[14px] font-semibold text-gray-600 hover:text-navy transition-colors"
+                  >
+                    <Phone size={15} /> <span className="ltr-inline">{contact.phone}</span>
+                  </a>
+                  <a
+                    href={`mailto:${contact.salesEmail}`}
+                    className="tap-target inline-flex items-center gap-2 text-[14px] font-semibold text-gray-600 hover:text-navy transition-colors"
+                  >
+                    <Mail size={15} /> {contact.salesEmail}
+                  </a>
+                  <div className="text-[11px] text-gray-400 tracking-[0.14em] uppercase">
+                    {t.tagline}
+                  </div>
                 </motion.div>
               </div>
               </motion.div>
