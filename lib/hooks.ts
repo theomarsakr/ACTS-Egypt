@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState, useSyncExternalStore, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 
 // Never fires: the "store" here has exactly two values (server: false,
 // client: true) and transitions between them once, when React hydrates.
@@ -160,6 +161,59 @@ export function useMediaQuery(query: string): boolean {
 
 export function useReducedMotion(): boolean {
   return useMediaQuery("(prefers-reduced-motion: reduce)");
+}
+
+/**
+ * Swipe-to-navigate via Pointer Events — one horizontal-drag gesture shared
+ * by every image lightbox on the site (ProductHub's, FieldGallery's),
+ * instead of each reimplementing its own threshold and each behaving
+ * slightly differently. Pointer Events unify mouse-drag and touch-drag in
+ * one listener, so this needs no device branch.
+ *
+ * Deliberately release-triggered rather than live-tracking (no dragElastic-
+ * style follow): it fires once, on pointerup, past `threshold` — simple
+ * enough to spread onto a plain element (a lightbox <Image>, say) with no
+ * animation library required. A mostly-vertical gesture (a scroll attempt)
+ * is ignored rather than mis-read as a swipe.
+ */
+export function useSwipe({
+  onSwipeLeft,
+  onSwipeRight,
+  threshold = 60,
+}: {
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
+  threshold?: number;
+}): {
+  onPointerDown: (e: ReactPointerEvent) => void;
+  onPointerUp: (e: ReactPointerEvent) => void;
+  onPointerCancel: () => void;
+} {
+  const start = useRef<{ x: number; y: number } | null>(null);
+
+  const onPointerDown = useCallback((e: ReactPointerEvent) => {
+    start.current = { x: e.clientX, y: e.clientY };
+  }, []);
+
+  const onPointerUp = useCallback(
+    (e: ReactPointerEvent) => {
+      const s = start.current;
+      start.current = null;
+      if (!s) return;
+      const dx = e.clientX - s.x;
+      const dy = e.clientY - s.y;
+      if (Math.abs(dx) < threshold || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx < 0) onSwipeLeft?.();
+      else onSwipeRight?.();
+    },
+    [onSwipeLeft, onSwipeRight, threshold]
+  );
+
+  const onPointerCancel = useCallback(() => {
+    start.current = null;
+  }, []);
+
+  return { onPointerDown, onPointerUp, onPointerCancel };
 }
 
 export function useCoarsePointer(): boolean {

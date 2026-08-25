@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import DocCard from "./DocCard";
 import type { HubProduct, HubDoc, HubGroup, HubVideo } from "@/lib/brandHub";
+import { useSwipe } from "@/lib/hooks";
 
 type ProductWithDocs = HubProduct & { docs: HubDoc[] };
 
@@ -403,6 +404,10 @@ export function Gallery({ images, name }: { images: string[]; name: string }) {
       setActive((i) => (i + delta + images.length) % images.length),
     [images.length]
   );
+  const swipe = useSwipe({
+    onSwipeLeft: () => go(1),
+    onSwipeRight: () => go(-1),
+  });
 
   // Keyboard nav + scroll lock while the lightbox is up.
   useEffect(() => {
@@ -505,10 +510,11 @@ export function Gallery({ images, name }: { images: string[]; name: string }) {
                 </div>
 
                 <div
-                  className="relative flex-1 min-h-0"
+                  className="relative flex-1 min-h-0 touch-pan-y"
                   onClick={(e) => {
                     if (e.target === e.currentTarget) close();
                   }}
+                  {...swipe}
                 >
                   <Image
                     src={images[active]}

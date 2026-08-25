@@ -22,7 +22,10 @@ export default function SpotlightCard({
 } & React.HTMLAttributes<HTMLDivElement>) {
   const ref = useRef<HTMLDivElement>(null);
 
-  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
+  // pointermove (not mousemove): fires during a touch drag too, so the glow
+  // tracks a dragging finger the same way it tracks a mouse instead of never
+  // appearing for touch at all.
+  function handleMove(e: React.PointerEvent<HTMLDivElement>) {
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -33,7 +36,7 @@ export default function SpotlightCard({
   return (
     <div
       ref={ref}
-      onMouseMove={handleMove}
+      onPointerMove={handleMove}
       style={{ "--spot-color": color } as React.CSSProperties}
       className={`spotlight-card ${className}`}
       {...rest}

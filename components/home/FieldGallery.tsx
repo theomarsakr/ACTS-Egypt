@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import { useSwipe } from "@/lib/hooks";
 
 export type FieldGalleryItem = {
   src: string;
@@ -78,6 +79,13 @@ export default function FieldGallery({
       setActive(([i]) => [(i + delta + visible.length) % visible.length, delta]),
     [visible.length]
   );
+  // Shared with ProductHub's lightbox (lib/hooks.ts) rather than this
+  // component's own Framer `drag="x"` + dragConstraints + onDragEnd
+  // threshold, so the two lightboxes on the site behave identically.
+  const swipe = useSwipe({
+    onSwipeLeft: () => go(1),
+    onSwipeRight: () => go(-1),
+  });
 
   // Keyboard: arrows navigate, Escape closes, Tab cycles inside the dialog.
   useEffect(() => {
@@ -237,10 +245,11 @@ export default function FieldGallery({
 
                 {/* Stage */}
                 <div
-                  className="relative flex-1 min-h-0"
+                  className="relative flex-1 min-h-0 touch-pan-y"
                   onClick={(e) => {
                     if (e.target === e.currentTarget) close();
                   }}
+                  {...swipe}
                 >
                   <AnimatePresence custom={dir}>
                     <motion.div
@@ -251,14 +260,7 @@ export default function FieldGallery({
                       animate="center"
                       exit="exit"
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                      drag={reduced ? false : "x"}
-                      dragConstraints={{ left: 0, right: 0 }}
-                      dragElastic={0.15}
-                      onDragEnd={(_, info) => {
-                        if (info.offset.x < -60) go(1);
-                        else if (info.offset.x > 60) go(-1);
-                      }}
-                      className="absolute inset-y-0 inset-x-2 md:inset-x-16 cursor-grab active:cursor-grabbing"
+                      className="absolute inset-y-0 inset-x-2 md:inset-x-16"
                     >
                       <Image
                         src={item.src}
