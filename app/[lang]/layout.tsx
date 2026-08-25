@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans, Cairo } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
@@ -90,6 +90,28 @@ export async function generateMetadata({
     },
   };
 }
+
+// No `viewport` export existed before this — Next was falling back to its
+// default `width=device-width, initial-scale=1`, which is harmless but
+// leaves `viewportFit` unset. Without "cover", `env(safe-area-inset-*)`
+// resolves to 0 on iOS, which is what <Dock> and <FloatingNav> had silently
+// been getting despite reading those insets for their bottom padding.
+// Pairs with the `.px-safe` gutter (components/layout/Container.tsx): once
+// the layout viewport extends under the notch, every inline gutter has to
+// max() against the inset or landscape content slides beneath it.
+//
+// Never add maximumScale or userScalable: false here — that disables pinch
+// zoom, a WCAG 1.4.4 failure that @axe-core/playwright's meta-viewport rule
+// catches (see tests/responsive.spec.ts).
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a1628" },
+  ],
+};
 
 // Organization structured data — helps search engines and AI answer surfaces
 // resolve ACTS as a real entity with verifiable contact + location details.

@@ -121,6 +121,7 @@ function Dock({ children, className, wrapperClassName, label = "Quick navigation
   return createPortal(
     <div
       ref={wrapperRef}
+      data-pinned-chrome
       className={cn(
         "fixed inset-x-0 bottom-4 z-40 flex flex-col items-center px-4 pb-[env(safe-area-inset-bottom)] sm:bottom-6",
         wrapperClassName

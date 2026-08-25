@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useSyncExternalStore, type RefObject } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore, type RefObject } from "react";
 
 // Never fires: the "store" here has exactly two values (server: false,
 // client: true) and transitions between them once, when React hydrates.
@@ -81,4 +81,198 @@ export function usePublishFloatingNavHeight(
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, ...deps]);
+}
+
+/**
+ * Publishes the header's real rendered height as `--header-h` on <html>, so
+ * anything positioned or offset against it (`.scroll-anchor`, a hero's top
+ * padding) tracks the header's actual height instead of a hard-coded guess.
+ * That guess goes stale the moment the header's content changes across a
+ * render — e.g. the utility bar becoming visible at every width instead of
+ * only >=1280px — and six unrelated files would need updating by hand.
+ *
+ * Exact mirror of usePublishFloatingNavHeight above: same ResizeObserver +
+ * resize listener + cleanup shape, reporting a bottom-edge distance there and
+ * a top-edge height here.
+ */
+export function usePublishHeaderHeight(ref: RefObject<HTMLElement | null>): void {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const root = document.documentElement;
+
+    const publish = () => {
+      root.style.setProperty("--header-h", `${Math.round(el.getBoundingClientRect().height)}px`);
+    };
+
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(el);
+    window.addEventListener("resize", publish);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", publish);
+    };
+  }, [ref]);
+}
+
+// ---------------------------------------------------------------------------
+// Device- and user-signal hooks.
+//
+// Everything below answers "what can this device/connection/user handle",
+// never "how wide is the viewport". That distinction is load-bearing: this
+// codebase eliminates viewport-based feature gating (a `hidden md:block` that
+// removes content, a `matchMedia("(max-width: 767px)")` that turns an effect
+// off) in favour of fluid CSS and an on-screen activation system, precisely
+// so a phone and a desktop run the same experience. Device/user signals are
+// different — they're the visitor's own hardware or explicit preference, not
+// a guess based on how much horizontal space happens to be available.
+//
+// There is deliberately no `useIsMobile()` / `useBreakpoint()` here. Adding
+// one invites exactly the viewport-gated branching this file exists to
+// replace. If a layout needs to change at a width, that's a CSS breakpoint
+// or a container query — not a JS branch.
+// ---------------------------------------------------------------------------
+
+/**
+ * Live `matchMedia` read via useSyncExternalStore, modelled on the one
+ * correct implementation of this pattern already in the repo
+ * (components/brands/BrandHeroVideo.tsx). Both callbacks are memoized on
+ * `query` — an inline subscribe resubscribes every render, and an unstable
+ * getSnapshot loops React — and the subscription means a tablet rotated
+ * across a query's threshold re-evaluates, unlike the several mount-once
+ * `matchMedia` reads elsewhere in this codebase (Parallax, Counter,
+ * RotatingEarth) that this hook supersedes.
+ */
+export function useMediaQuery(query: string): boolean {
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      const mql = window.matchMedia(query);
+      mql.addEventListener("change", onStoreChange);
+      return () => mql.removeEventListener("change", onStoreChange);
+    },
+    [query]
+  );
+  const getSnapshot = useCallback(() => window.matchMedia(query).matches, [query]);
+  return useSyncExternalStore(subscribe, getSnapshot, onServer);
+}
+
+export function useReducedMotion(): boolean {
+  return useMediaQuery("(prefers-reduced-motion: reduce)");
+}
+
+export function useCoarsePointer(): boolean {
+  return useMediaQuery("(pointer: coarse)");
+}
+
+export function useHoverCapable(): boolean {
+  return useMediaQuery("(hover: hover)");
+}
+
+type NetworkInformation = {
+  saveData?: boolean;
+  effectiveType?: string;
+  addEventListener?: (type: "change", listener: () => void) => void;
+  removeEventListener?: (type: "change", listener: () => void) => void;
+};
+
+function readSaveData(): boolean {
+  const connection = (navigator as Navigator & { connection?: NetworkInformation })
+    .connection;
+  // Chromium-only API. Must fail OPEN — Safari/Firefox visitors have no
+  // `connection` object at all, and defaulting them to "save data" would
+  // silently degrade the experience for browsers this can't actually detect.
+  if (!connection) return false;
+  return Boolean(connection.saveData) || /(^|-)2g$/.test(connection.effectiveType ?? "");
+}
+
+/**
+ * True when the visitor has Data-Saver on, or is on a 2G-class connection.
+ * Subscribes to the Network Information API's "change" event where present;
+ * a browser without the API simply never fires a change and stays `false`.
+ */
+export function useSaveData(): boolean {
+  const subscribe = useCallback((onStoreChange: () => void) => {
+    const connection = (navigator as Navigator & { connection?: NetworkInformation })
+      .connection;
+    connection?.addEventListener?.("change", onStoreChange);
+    return () => connection?.removeEventListener?.("change", onStoreChange);
+  }, []);
+  return useSyncExternalStore(subscribe, readSaveData, onServer);
+}
+
+/**
+ * Single call site for "should this component mount its full experience
+ * (autoplay video, a WebGL scene) or fall back to a still image": "full"
+ * unless the visitor asked for less motion or is save-data-constrained.
+ */
+export function useMediaBudget(): "full" | "still" {
+  const reduced = useReducedMotion();
+  const saveData = useSaveData();
+  return reduced || saveData ? "still" : "full";
+}
+
+type OnscreenOptions = {
+  /** Margin used to flip "prepare" — mount, fetch, warm up — before the
+   *  element is actually visible, so nothing pops in or starts mid-stutter. */
+  prepareMargin?: string;
+};
+
+/**
+ * Sets `data-onscreen="true"|"false"` on the ref'd element via
+ * IntersectionObserver, at two granularities:
+ *  - a wide prepareMargin (default 400px) so expensive setup — building a
+ *    WebGL scene, fetching GeoJSON, loading video metadata — finishes before
+ *    the section arrives;
+ *  - a tight, 0-margin crossing that flips the instant the element actually
+ *    leaves the viewport, which is what `.motion-ambient` in globals.css and
+ *    any rAF loop / <video> playback should gate on.
+ *
+ * Both states are exposed on the DOM node (rather than only returned) so
+ * plain CSS — `[data-onscreen="false"] .motion-ambient` — can react without
+ * a re-render, and so multiple descendants can key off one observed ancestor.
+ */
+export function useOnscreen<T extends HTMLElement>(
+  ref: RefObject<T | null>,
+  { prepareMargin = "400px" }: OnscreenOptions = {}
+): { prepared: boolean; onscreen: boolean } {
+  const [prepared, setPrepared] = useState(false);
+  const [onscreen, setOnscreen] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const prepareIo = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPrepared(true);
+          prepareIo.disconnect();
+        }
+      },
+      { rootMargin: `${prepareMargin} 0px` }
+    );
+    prepareIo.observe(el);
+
+    const activateIo = new IntersectionObserver(
+      ([entry]) => {
+        // Set on the element itself, not just in React state, so plain CSS
+        // ([data-onscreen="false"] .motion-ambient) can react without
+        // waiting on a render, and sibling/descendant selectors work without
+        // threading the boolean through props.
+        el.dataset.onscreen = String(entry.isIntersecting);
+        setOnscreen(entry.isIntersecting);
+      },
+      { threshold: 0.01 }
+    );
+    activateIo.observe(el);
+
+    return () => {
+      prepareIo.disconnect();
+      activateIo.disconnect();
+    };
+  }, [ref, prepareMargin]);
+
+  return { prepared: prepared || onscreen, onscreen };
 }

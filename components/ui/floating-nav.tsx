@@ -156,6 +156,7 @@ export default function FloatingNav({
     <nav
       ref={wrapperRef}
       aria-label="Page sections"
+      data-pinned-chrome
       className="fixed bottom-4 sm:bottom-5 left-1/2 z-40 flex -translate-x-1/2 flex-col items-center px-3 pb-[env(safe-area-inset-bottom)]"
     >
       {/* Collapse handle. <Dock> has had one of these on every other page;

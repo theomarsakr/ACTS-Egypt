@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, Phone, Mail, ChevronDown, ArrowRight } from "lucide-react";
 import { contact, brands } from "@/lib/data";
 import { localeHref, stripLocale, type Locale } from "@/lib/i18n/routing";
-import { useHydrated } from "@/lib/hooks";
+import { useHydrated, usePublishHeaderHeight } from "@/lib/hooks";
 import type { Dict } from "@/lib/i18n/en";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -41,6 +41,12 @@ export default function Navbar({
   const path = stripLocale(pathname);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ticking = useRef(false);
+  const headerRef = useRef<HTMLElement>(null);
+  // Publishes --header-h so .scroll-anchor and anything else offset against
+  // the header tracks its real height instead of a hard-coded guess — which
+  // matters once the utility bar's `hidden xl:block` comes off (see 3.A) and
+  // the header's height starts differing across renders.
+  usePublishHeaderHeight(headerRef);
 
   const links = [
     { href: "/about", label: t.about },
@@ -88,7 +94,7 @@ export default function Navbar({
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header ref={headerRef} className="sticky top-0 z-50">
       {/* Every breakpoint below is xl (1280px), not the usual md — the full
           link row (logo + 6 links + language switcher + CTA) genuinely needs
           that much width. Below it, down to md, the row wraps onto a second
@@ -147,6 +153,7 @@ export default function Navbar({
           on screen against a continuously moving background the way
           persistent nav chrome is. */}
       <nav
+        data-pinned-chrome
         className={`transition-all duration-300 ${
           scrolled
             ? "bg-white shadow-lg shadow-navy/8 border-b border-gray-200/60"
