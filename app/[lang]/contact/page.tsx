@@ -9,6 +9,7 @@ import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
 import MapEmbed from "@/components/MapEmbed";
+import Container from "@/components/layout/Container";
 import { contact, team, departments } from "@/lib/data";
 import { getDict, localeHref, type Locale } from "@/lib/i18n";
 
@@ -56,7 +57,7 @@ export default async function ContactPage({ params }: PageProps) {
             it this div shrink-wraps to its content and mx-auto centres the
             copy instead of aligning it to the max-w-6xl column the rest of the
             site's page heroes use. */}
-        <div className="relative w-full max-w-6xl mx-auto px-6 pt-40 pb-16 md:pt-56 md:pb-20">
+        <Container className="relative w-full pt-40 pb-16 md:pt-56 md:pb-20">
           {/* Category label leads, statement second, lede last -- the same
               stepped-down hierarchy the engagement cards use. */}
           <Reveal>
@@ -79,11 +80,11 @@ export default async function ContactPage({ params }: PageProps) {
               .
             </p>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
-      <section id="office" className="scroll-mt-28 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="office" className="scroll-anchor py-16">
+        <Container>
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-4">
               <Reveal>
@@ -191,18 +192,18 @@ export default async function ContactPage({ params }: PageProps) {
               </div>
             </Reveal>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Reach the right team */}
-      <section id="departments" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="departments" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+        <Container>
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
               <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
                 {c.deptChip}
               </div>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy">
+              <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
                 {c.deptTitle}
               </h2>
             </div>
@@ -274,20 +275,23 @@ export default async function ContactPage({ params }: PageProps) {
               }))}
             />
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Let's connect */}
-      <section id="connect" className="scroll-mt-28 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="connect" className="scroll-anchor py-16">
+        <Container>
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-10">
-              <h2 className="text-3xl font-extrabold tracking-tight text-navy">
+              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
                 {c.connectTitle}
               </h2>
             </div>
           </Reveal>
-          <div className="grid sm:grid-cols-3 gap-5">
+          {/* sm:grid-cols-3 with no intermediate stage packed each card into
+              ~190px in the 640-767px band, holding an email at 15px with no
+              wrap escape — break-all below is the other half of that fix. */}
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-5">
             <Reveal delay={60}>
               <a
                 href={`mailto:${contact.infoEmail}`}
@@ -300,7 +304,7 @@ export default async function ContactPage({ params }: PageProps) {
                   <div className="text-[13px] font-semibold text-brand">
                     {c.emailLabel}
                   </div>
-                  <div className="text-[15px] font-medium text-navy">
+                  <div className="text-[15px] font-medium text-navy break-all">
                     {contact.infoEmail}
                   </div>
                 </div>
@@ -345,7 +349,7 @@ export default async function ContactPage({ params }: PageProps) {
               </a>
             </Reveal>
           </div>
-        </div>
+        </Container>
       </section>
 
       <SiteDock

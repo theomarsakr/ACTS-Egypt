@@ -17,6 +17,7 @@ import SpotlightCard from "@/components/ui/SpotlightCard";
 import { ShineBorder } from "@/components/ui/ShineBorder";
 import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
+import Container from "@/components/layout/Container";
 
 const pillarIcons = [Gauge, Settings2, Thermometer, Briefcase];
 
@@ -187,8 +188,8 @@ export default function ProductsPage() {
       />
 
       {/* Pillars */}
-      <section id="explore-products" className="scroll-mt-28 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="explore-products" className="scroll-anchor py-16">
+        <Container>
           <Reveal>
             <Tabs
               items={[
@@ -284,7 +285,7 @@ export default function ProductsPage() {
                           downtime, and a move toward service driven by data
                           rather than by the calendar.
                         </p>
-                        <div className="mt-6 grid sm:grid-cols-3 gap-5">
+                        <div className="mt-6 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-5">
                           {groups.map((g) => (
                             <SpotlightCard
                               key={g.title}
@@ -311,18 +312,18 @@ export default function ProductsPage() {
               ]}
             />
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       {/* Integrated approach */}
-      <section id="approach" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="approach" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+        <Container>
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
               <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
                 Our integrated approach
               </div>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy">
+              <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
                 One partner, every discipline
               </h2>
             </div>
@@ -348,16 +349,16 @@ export default function ProductsPage() {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* CTA */}
       <section className="py-16">
-        <div className="max-w-6xl mx-auto px-6">
+        <Container>
           <Reveal>
             <div className="border-beam relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h3 className="text-2xl font-extrabold text-white">
+                <h3 className="text-fluid-h4 font-extrabold text-white">
                   Need one of these products or services?
                 </h3>
                 <p className="mt-2 text-[15px] text-white/75 max-w-lg">
@@ -387,7 +388,7 @@ export default function ProductsPage() {
               </div>
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       <SiteDock

@@ -7,6 +7,7 @@ import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import BrandResourceCard from "@/components/brands/BrandResourceCard";
 import DocumentLibrary from "@/components/brands/DocumentLibrary";
+import Container from "@/components/layout/Container";
 import { brands, pastManufacturers } from "@/lib/data";
 import { brandCardImages, brandSlugToFolder } from "@/lib/brandProductImages";
 import { getBrandDocuments } from "@/lib/documents";
@@ -46,14 +47,14 @@ export default function BrandsPage() {
 
       {/* Brand sections */}
       <section className="py-16">
-        <div className="max-w-6xl mx-auto px-6 space-y-10">
+        <Container className="space-y-10">
           {brands.map((b, i) => {
             const docs = docsBySlug.get(b.slug);
             // Same normalized product tiles as the homepage brand cards —
             // every frame is the product centered on an identical white canvas.
             const folder = brandSlugToFolder[b.slug];
             return (
-              <div key={b.slug} id={b.slug} className="scroll-mt-28">
+              <div key={b.slug} id={b.slug} className="scroll-anchor">
                 <Reveal>
                   <BrandResourceCard
                     brand={{
@@ -78,15 +79,15 @@ export default function BrandsPage() {
               </div>
             );
           })}
-        </div>
+        </Container>
       </section>
 
       {/* Past project experience */}
-      <section id="past-experience" className="scroll-mt-28 py-16 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="past-experience" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+        <Container>
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl font-extrabold tracking-tight text-navy">
+              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
                 Past Project Experience
               </h2>
               <p className="mt-4 text-lg text-gray-600">
@@ -97,7 +98,10 @@ export default function BrandsPage() {
               </p>
             </div>
           </Reveal>
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {/* Was grid-cols-2 md:grid-cols-4 — a jump straight from 2 to 4
+              columns with no sm/lg stage in between, the only sizing this
+              file had past its default. */}
+          <div className="mt-10 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {pastManufacturers.map((s, i) => (
               <Reveal key={s.name} delay={i * 70}>
                 <SpotlightCard className="card-lift bg-white rounded-xl border border-gray-200 p-6 text-center shadow-sm">
@@ -107,20 +111,20 @@ export default function BrandsPage() {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Document library */}
       <section
         id="document-library"
-        className="scroll-mt-20 py-16 md:py-20 border-t border-gray-200"
+        className="scroll-anchor py-16 md:py-20 border-t border-gray-200"
       >
-        <div className="max-w-6xl mx-auto px-6">
+        <Container>
           <Reveal>
             <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
               <Library size={15} /> Resource center
             </div>
-            <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-navy">
+            <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
               Document Library
             </h2>
             <p className="mt-4 text-lg text-gray-600 max-w-3xl">
@@ -142,7 +146,7 @@ export default function BrandsPage() {
               <DocumentLibrary brands={brandDocs} />
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       <SiteDock
