@@ -1432,8 +1432,31 @@ export function groupGalleryByCategory(items: GalleryItem[]) {
   return Array.from(groups, ([category, items]) => ({ category, items }));
 }
 
+/** Maps a `Brand["sectors"]` entry to the `Industry["slug"]` it belongs to,
+ *  so sector pills (Farris's hero, brand cards) can link straight to that
+ *  industry's tab on /industries instead of sitting as inert text. There is
+ *  no /industries/[slug] route — every industry lives on one page behind a
+ *  client-side <Tabs> switcher (components/Tabs.tsx) — so the link opens
+ *  the right tab via `?sector=`, which the page reads server-side and hands
+ *  to <Tabs initialId>. "Refining" has no tab of its own — it's a process
+ *  stage inside Oil & Gas (see that industry's tagline) — so it resolves
+ *  there too. */
+const sectorIndustrySlug: Record<string, string> = {
+  "Oil & Gas": "oil-gas",
+  Refining: "oil-gas",
+  Petrochemical: "petrochemical",
+  "Power Generation": "power-generation",
+  "Water Treatment": "water-treatment",
+  Fertilizers: "fertilizers",
+  "General Industrial": "general-industrial",
+};
+
+export function sectorHref(sector: string): string {
+  const slug = sectorIndustrySlug[sector];
+  return slug ? `/industries?sector=${slug}#explore-industries` : "/industries";
+}
+
 export const pastManufacturers = [
-  { name: "Solent & Pratt", sub: "High-performance butterfly valves" },
   { name: "ALCO Valves Group", sub: "Industrial valves" },
   { name: "Control Seal", sub: "Severe-service valves" },
   { name: "Flowserve", sub: "Flow control" },

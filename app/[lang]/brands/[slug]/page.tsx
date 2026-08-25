@@ -24,6 +24,7 @@ import {
   getBrand,
   groupGalleryByCategory,
   productLineAnchorId,
+  sectorHref,
 } from "@/lib/data";
 import {
   HUB_BRANDS,
@@ -312,14 +313,19 @@ export default async function BrandPage({ params }: Props) {
             <p className="mt-6 text-lg text-white/85 leading-relaxed max-w-2xl">
               {brand.description}
             </p>
-            <div className="mt-7 flex flex-wrap gap-2">
-              {brand.sectors.map((s) => (
-                <span
+            <div
+              className="mt-7 flex flex-wrap gap-2"
+              style={{ "--chip-count": brand.sectors.length } as React.CSSProperties}
+            >
+              {brand.sectors.map((s, i) => (
+                <Link
                   key={s}
-                  className="text-[13px] font-medium text-white/85 bg-white/10 border border-white/20 backdrop-blur rounded-full px-3 py-1"
+                  href={sectorHref(s)}
+                  style={{ "--i": i } as React.CSSProperties}
+                  className="sector-chip-dark text-[13px] font-medium border backdrop-blur rounded-full px-3 py-1 transition-colors"
                 >
                   {s}
-                </span>
+                </Link>
               ))}
             </div>
           </Reveal>

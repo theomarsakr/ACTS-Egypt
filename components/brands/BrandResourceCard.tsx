@@ -12,6 +12,7 @@ import {
   Library,
 } from "lucide-react";
 import AutoRotateImage from "@/components/home/AutoRotateImage";
+import { sectorHref } from "@/lib/data";
 
 export type CardDoc = {
   title: string;
@@ -107,14 +108,19 @@ export default function BrandResourceCard({
               <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
                 {brand.description}
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {brand.sectors.map((s) => (
-                  <span
+              <div
+                className="mt-4 flex flex-wrap gap-2"
+                style={{ "--chip-count": brand.sectors.length } as React.CSSProperties}
+              >
+                {brand.sectors.map((s, i) => (
+                  <Link
                     key={s}
-                    className="text-[13px] font-medium text-navy/70 bg-gray-100 rounded-full px-3 py-1"
+                    href={sectorHref(s)}
+                    style={{ "--i": i } as React.CSSProperties}
+                    className="sector-chip-light text-[13px] font-medium border border-transparent rounded-full px-3 py-1 transition-colors hover:border-amber"
                   >
                     {s}
-                  </span>
+                  </Link>
                 ))}
               </div>
               <div className="mt-7 flex flex-wrap gap-3">

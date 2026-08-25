@@ -14,8 +14,18 @@ export type TabItem = {
   content: ReactNode;
 };
 
-export default function Tabs({ items }: { items: TabItem[] }) {
-  const [active, setActive] = useState(0);
+export default function Tabs({
+  items,
+  initialId,
+}: {
+  items: TabItem[];
+  /** Selects the starting tab by TabItem["id"] (e.g. from a deep-linking
+   *  query param) instead of always opening the first one. Falls back to 0
+   *  when absent or unmatched. */
+  initialId?: string;
+}) {
+  const initialIndex = initialId ? items.findIndex((it) => it.id === initialId) : -1;
+  const [active, setActive] = useState(initialIndex >= 0 ? initialIndex : 0);
   const current = items[active];
 
   return (

@@ -201,7 +201,12 @@ const supportIcons: Record<string, LucideIcon> = {
   est: Thermometer,
 };
 
-export default function IndustriesPage() {
+export default async function IndustriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sector?: string }>;
+}) {
+  const { sector } = await searchParams;
   return (
     <>
       {/* Page hero */}
@@ -217,6 +222,8 @@ export default function IndustriesPage() {
         <Container>
           <Reveal>
             <Tabs
+              key={sector}
+              initialId={sector}
               items={industries.map((ind): TabItem => {
                 const Icon = industryIcons[ind.slug] ?? Factory;
                 return {

@@ -1202,6 +1202,57 @@ html.intro-pending body {
   animation-delay: calc(var(--i, 0) * 1.6s);
 }
 
+/* Sector/department pills (brand hero + brand cards on /brands): the same
+   chase as .hero-brand-chip above, themed per background so the glow reads
+   against either a dark navy hero or a white/gray card instead of one of
+   the two disappearing into its surroundings. --chip-count/--i come from
+   the JSX exactly like the brand chips do. */
+@keyframes sector-spotlight-dark {
+  0%,
+  3%,
+  97%,
+  100% {
+    background-color: rgba(240, 196, 25, 0.24);
+    border-color: rgba(240, 196, 25, 0.6);
+    box-shadow: 0 0 24px -2px rgba(240, 196, 25, 0.55);
+    color: #fff;
+  }
+  12%,
+  88% {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+.sector-chip-dark {
+  animation: sector-spotlight-dark calc(var(--chip-count, 1) * 1.6s) ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 1.6s);
+}
+
+@keyframes sector-spotlight-light {
+  0%,
+  3%,
+  97%,
+  100% {
+    background-color: var(--color-brand-light);
+    border-color: var(--color-amber);
+    box-shadow: 0 0 0 3px rgba(240, 196, 25, 0.2);
+    color: var(--color-navy);
+  }
+  12%,
+  88% {
+    background-color: var(--color-gray-100, #f3f4f6);
+    border-color: transparent;
+    box-shadow: none;
+    color: rgba(10, 22, 40, 0.7);
+  }
+}
+.sector-chip-light {
+  animation: sector-spotlight-light calc(var(--chip-count, 1) * 1.6s) ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 1.6s);
+}
+
 /* Eight stops around an ellipse (0.707 = cos/sin 45°), so the path is a
    smooth continuous arc rather than the diamond a four-stop version traces.
    `linear` keeps the traversal speed constant the whole way round: an
@@ -1443,7 +1494,9 @@ html.intro-pending body {
     transform: none;
     animation: none !important;
   }
-  .hero-brand-chip {
+  .hero-brand-chip,
+  .sector-chip-dark,
+  .sector-chip-light {
     animation: none !important;
   }
   .stat-rule {

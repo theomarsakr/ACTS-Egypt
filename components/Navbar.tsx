@@ -49,7 +49,6 @@ export default function Navbar({
   usePublishHeaderHeight(headerRef);
 
   const links = [
-    { href: "/about", label: t.about },
     { href: "/industries", label: t.industries },
     { href: "/products", label: t.products },
     { href: "/projects", label: t.projects },
@@ -192,6 +191,15 @@ export default function Navbar({
                 {t.home}
               </Link>
 
+              <Link
+                href={localeHref(lang, "/about")}
+                className={`nav-underline text-[15px] font-semibold transition-colors ${
+                  path.startsWith("/about") ? "text-navy active" : "text-gray-600 hover:text-navy"
+                }`}
+              >
+                {t.about}
+              </Link>
+
               <div
                 className="relative"
                 onMouseEnter={openProducts}
@@ -322,11 +330,23 @@ export default function Navbar({
                   </Link>
                 </motion.div>
 
+                <motion.div variants={menuItem} initial="hidden" animate="show" custom={1}>
+                  <Link
+                    href={localeHref(lang, "/about")}
+                    onClick={() => setOpen(false)}
+                    className={`block py-3 text-[15px] font-semibold border-b border-gray-100 ${
+                      path.startsWith("/about") ? "text-navy" : "text-gray-600"
+                    }`}
+                  >
+                    {t.about}
+                  </Link>
+                </motion.div>
+
                 <motion.div
                   variants={menuItem}
                   initial="hidden"
                   animate="show"
-                  custom={1}
+                  custom={2}
                   className="border-b border-gray-100"
                 >
                   <button
@@ -383,7 +403,7 @@ export default function Navbar({
                     variants={menuItem}
                     initial="hidden"
                     animate="show"
-                    custom={i + 2}
+                    custom={i + 3}
                   >
                     <Link
                       href={localeHref(lang, l.href)}
@@ -400,7 +420,7 @@ export default function Navbar({
                   variants={menuItem}
                   initial="hidden"
                   animate="show"
-                  custom={links.length + 2}
+                  custom={links.length + 3}
                 >
                   <Link
                     href={localeHref(lang, "/quote")}
