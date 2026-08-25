@@ -124,22 +124,33 @@ export default function RFQForm({
       <h2 className="text-xl font-extrabold text-navy">{t.title}</h2>
       <p className="mt-1 text-sm text-gray-600 mb-6">{t.lede}</p>
 
-      {/* Stepper */}
-      <ol className="flex items-center mb-8" aria-label={t.progress}>
+      {/* Stepper — grid, not a flex row: the label sits under its circle
+          rather than beside it, so it has the column's full width to wrap
+          into instead of fighting the circle for a shrinking flex row (that
+          was the `hidden sm:block` this replaces). Each circle carries its
+          own connector half-segments (before/after) rather than one element
+          between items, since a between-items element can no longer line up
+          with the circles once the label moves below them. */}
+      <ol className="grid grid-cols-3 mb-8" aria-label={t.progress}>
         {steps.map((label, i) => {
           const Icon = stepIcons[i] ?? Send;
           const done = i < step;
           const active = i === step;
+          const beforeFilled = i > 0 && i <= step;
           return (
-            <li
-              key={label}
-              className="flex items-center"
-              style={{ flex: i < steps.length - 1 ? "1 1 0%" : "0 0 auto" }}
-            >
-              <div className="flex items-center gap-2.5">
+            <li key={label} className="flex flex-col items-center gap-2 text-center">
+              <div className="relative flex w-full items-center justify-center">
+                {i > 0 && (
+                  <span
+                    aria-hidden
+                    className={`absolute top-1/2 left-0 h-0.5 w-[calc(50%-1.125rem)] -translate-y-1/2 rounded-full transition-colors ${
+                      beforeFilled ? "bg-brand" : "bg-gray-200"
+                    }`}
+                  />
+                )}
                 <span
                   aria-current={active ? "step" : undefined}
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-[13px] font-bold transition-colors ${
+                  className={`relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-[13px] font-bold transition-colors ${
                     done
                       ? "bg-brand border-brand text-white"
                       : active
@@ -149,21 +160,22 @@ export default function RFQForm({
                 >
                   {done ? <Check size={16} /> : <Icon size={16} />}
                 </span>
-                <span
-                  className={`hidden sm:block text-[13px] font-semibold transition-colors ${
-                    active ? "text-navy" : done ? "text-brand" : "text-gray-600"
-                  }`}
-                >
-                  {label}
-                </span>
+                {i < steps.length - 1 && (
+                  <span
+                    aria-hidden
+                    className={`absolute top-1/2 right-0 h-0.5 w-[calc(50%-1.125rem)] -translate-y-1/2 rounded-full transition-colors ${
+                      done ? "bg-brand" : "bg-gray-200"
+                    }`}
+                  />
+                )}
               </div>
-              {i < steps.length - 1 && (
-                <span
-                  className={`mx-3 h-0.5 flex-1 rounded-full transition-colors ${
-                    done ? "bg-brand" : "bg-gray-200"
-                  }`}
-                />
-              )}
+              <span
+                className={`text-[11px] sm:text-[13px] font-semibold text-balance transition-colors ${
+                  active ? "text-navy" : done ? "text-brand" : "text-gray-600"
+                }`}
+              >
+                {label}
+              </span>
             </li>
           );
         })}
