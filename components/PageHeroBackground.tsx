@@ -28,7 +28,7 @@ export default function PageHeroBackground({
           width={1310}
           height={422}
           priority={priority}
-          className="pointer-events-none select-none absolute end-gutter top-1/2 -translate-y-1/2 w-[40%] max-w-md opacity-20 max-lg:hidden"
+          className="pointer-events-none select-none absolute end-gutter top-1/2 -translate-y-1/2 w-[min(45%,22rem)] opacity-20"
         />
       </Container>
       <div className="dark-vignette" />

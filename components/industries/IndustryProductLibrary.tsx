@@ -58,24 +58,26 @@ export default function IndustryProductLibrary({
                 <span className="mt-0.5 block text-[13px] leading-snug text-gray-500">
                   {entry.lineName}
                 </span>
+                {/* A count only when the PDFs are this line's own. Where
+                    they are the brand's overview instead, "1 PDF" would
+                    read as a datasheet that doesn't exist. Was a badge
+                    beside the title, `hidden ... sm:inline-flex` — moved
+                    into this inline meta row instead of removed, so it
+                    doesn't compete with the title for width at any size. */}
+                {entry.docTotal > 0 && (
+                  <span className="mt-1.5 inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-bold text-gray-600">
+                    <FileText size={12} aria-hidden />
+                    {entry.brandLevelDocs ? (
+                      "In catalog"
+                    ) : (
+                      <>
+                        <span className="tabular-nums">{entry.docTotal}</span>
+                        PDF{entry.docTotal === 1 ? "" : "s"}
+                      </>
+                    )}
+                  </span>
+                )}
               </span>
-
-              {/* A count only when the PDFs are this line's own. Where they
-                  are the brand's overview instead, "1 PDF" would read as a
-                  datasheet that doesn't exist. */}
-              {entry.docTotal > 0 && (
-                <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-bold text-gray-600 sm:inline-flex">
-                  <FileText size={12} aria-hidden />
-                  {entry.brandLevelDocs ? (
-                    "In catalog"
-                  ) : (
-                    <>
-                      <span className="tabular-nums">{entry.docTotal}</span>
-                      PDF{entry.docTotal === 1 ? "" : "s"}
-                    </>
-                  )}
-                </span>
-              )}
 
               <ChevronDown
                 size={18}

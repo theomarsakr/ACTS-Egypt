@@ -4,16 +4,19 @@ import { useEffect, useRef } from "react";
 
 /**
  * ScrollRail — a hairline that fills with brass as the reader moves through the
- * section it sits in. On the desktop two-column layout it pairs with a sticky
- * rail: while the headline holds still and the cards move past it, this is
- * the only cue for how much is left.
+ * section it sits in. On the desktop two-column layout it's a vertical rail
+ * paired with a sticky column: while the headline holds still and the cards
+ * move past it, this is the only cue for how much is left.
  *
- * That pairing is the whole point, so the one caller hides it below `lg:`,
- * where the layout stacks and the column stops being sticky. The math here is
- * layout-agnostic and would keep working — but a progress indicator you can
- * only see for the first 5% of the thing it measures isn't reporting progress,
- * and it costs 160px of column to say so. Nothing in this component assumes
- * either layout; the decision lives at the call site.
+ * Below `lg:`, where the layout stacks and that column stops being sticky, a
+ * *vertical* rail would only ever show its first ~5% before scrolling out of
+ * view — not reporting progress, just costing 160px of column to say so. The
+ * progress math itself is layout-agnostic (it reads live section geometry,
+ * not the sticky column), so rather than hide it there, it renders as a
+ * horizontal bar instead — the orientation a single stacked reading column
+ * actually suits. Both bars are always in the DOM and driven by the same
+ * scroll handler; Tailwind's `lg:` swaps which one is visible, matching the
+ * layout's own reflow at that breakpoint rather than removing content at it.
  *
  * Finds its own section rather than taking a ref, so it can be dropped into
  * server-rendered markup with no wiring.
@@ -34,12 +37,14 @@ import { useEffect, useRef } from "react";
  */
 export default function ScrollRail({ className = "" }: { className?: string }) {
   const hostRef = useRef<HTMLDivElement>(null);
-  const fillRef = useRef<HTMLSpanElement>(null);
+  const fillRefV = useRef<HTMLSpanElement>(null);
+  const fillRefH = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const section = hostRef.current?.closest("section");
-    const fill = fillRef.current;
-    if (!section || !fill) return;
+    const fillV = fillRefV.current;
+    const fillH = fillRefH.current;
+    if (!section || !fillV || !fillH) return;
 
     let frame = 0;
     let last = -1;
@@ -57,7 +62,8 @@ export default function ScrollRail({ className = "" }: { className?: string }) {
       const next = Math.round(progress * 1000) / 1000;
       if (next === last) return;
       last = next;
-      fill.style.transform = `scaleY(${next})`;
+      fillV.style.transform = `scaleY(${next})`;
+      fillH.style.transform = `scaleX(${next})`;
     };
     const onScroll = () => {
       cancelAnimationFrame(frame);
@@ -95,9 +101,18 @@ export default function ScrollRail({ className = "" }: { className?: string }) {
 
   return (
     <div ref={hostRef} className={className} aria-hidden>
-      <span className="relative block h-28 w-[3px] overflow-hidden rounded-full bg-navy/10">
+      {/* Horizontal, below `lg:` — the stacked single-column layout. */}
+      <span className="relative block h-[3px] w-full overflow-hidden rounded-full bg-navy/10 lg:hidden">
         <span
-          ref={fillRef}
+          ref={fillRefH}
+          className="absolute inset-0 origin-left rounded-full bg-linear-to-r from-brand to-amber"
+          style={{ transform: "scaleX(0)" }}
+        />
+      </span>
+      {/* Vertical, `lg:` up — paired with the sticky column beside it. */}
+      <span className="relative hidden h-28 w-[3px] overflow-hidden rounded-full bg-navy/10 lg:block">
+        <span
+          ref={fillRefV}
           className="absolute inset-0 origin-top rounded-full bg-linear-to-b from-brand to-amber"
           style={{ transform: "scaleY(0)" }}
         />

@@ -592,14 +592,11 @@ export default async function Home({
                     <ArrowRight size={16} className={arrowNudge} />
                   </Link>
                 </div>
-                {/* Desktop only. The rail reports how far through the section
-                    you are, which is worth 160px of column exactly as long as
-                    it stays on screen long enough to be watched filling —
-                    i.e. while the rail beside it is sticky. In the stacked
-                    layout below `lg:` it sits at the seam between argument and
-                    evidence, shows ~5% fill, and is gone within one swipe: 160px
-                    of blank column for an indicator nobody sees finish. */}
-                <ScrollRail className="mt-12 hidden lg:block" />
+                {/* Renders as a horizontal bar below `lg:` and a vertical
+                    one paired with the sticky column from `lg:` up — see
+                    ScrollRail's own doc comment for why the orientation
+                    itself has to change, not just show/hide. */}
+                <ScrollRail className="mt-12" />
               </Reveal>
             </div>
 

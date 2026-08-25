@@ -528,16 +528,16 @@ export default function AboutPage() {
                     <div className="min-w-0 flex-1">
                       {/* The mark shares the title's line here rather than
                           the icon's, because on these cards the icon sits in
-                          its own column — and it is dropped below `lg`, where
-                          the 104px it takes out of that line turns titles
-                          this long into three wrapped lines. The hero
-                          watermark is hidden at those widths for the same
-                          reason. Vertical cards elsewhere on the page keep
-                          their mark at every width, because there the mark
-                          has a line of its own. */}
+                          its own column — at a fixed 104px that crowded
+                          titles this long into three wrapped lines below
+                          `lg`. Fluid instead of dropped: it shrinks with the
+                          row rather than disappearing from it. Vertical
+                          cards elsewhere on the page keep the fixed 104px
+                          mark at every width, because there it has a line
+                          of its own. */}
                       <div className="flex items-start justify-between gap-4">
                         <h3 className="text-lg font-bold text-navy">{h.title}</h3>
-                        <CardLogoMark className="max-lg:hidden" />
+                        <CardLogoMark width="min(35%, 12rem)" />
                       </div>
                       <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
                         {h.text}

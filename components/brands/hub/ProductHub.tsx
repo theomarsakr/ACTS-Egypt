@@ -207,17 +207,21 @@ function ProductRow({
           <p className="mt-0.5 text-[13.5px] text-gray-500 line-clamp-1">
             {p.tagline}
           </p>
-        </div>
-        <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
-          {p.docs.length > 0 && (
-            <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-brand">
-              <FileText size={13} /> {p.docs.length} doc
-              {p.docs.length === 1 ? "" : "s"}
+          {/* Doc/feature counts — was a column beside the title, `hidden
+              sm:flex`, so gone below 640px. Moved inline under the tagline
+              instead of removed, so it's not fighting the title for width
+              on a narrow card at any width. */}
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+            {p.docs.length > 0 && (
+              <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-brand">
+                <FileText size={13} /> {p.docs.length} doc
+                {p.docs.length === 1 ? "" : "s"}
+              </span>
+            )}
+            <span className="text-[12px] font-semibold text-gray-400">
+              {p.features.length} feature{p.features.length === 1 ? "" : "s"}
             </span>
-          )}
-          <span className="text-[12px] font-semibold text-gray-400">
-            {p.features.length} feature{p.features.length === 1 ? "" : "s"}
-          </span>
+          </div>
         </div>
         <span
           className={`shrink-0 grid place-items-center w-9 h-9 rounded-full border transition-all ${

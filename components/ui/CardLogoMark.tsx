@@ -24,24 +24,33 @@ export default function CardLogoMark({
   className = "",
 }: {
   surface?: "light" | "dark";
-  /** Rendered width in px. 104 is the standard card corner mark; drop it on a
-   *  narrow card (the quote page's step tiles sit in a max-w-2xl column) where
-   *  the full-size mark would outweigh the label it sits beside. */
-  width?: number;
+  /** Rendered width in px, or a CSS width expression (e.g.
+   *  `"min(35%, 12rem)"`) for a card whose header row can't spare a fixed
+   *  104px at every width — the box then sizes off `aspect-ratio` instead
+   *  of a computed px height, since a CSS expression's resolved width isn't
+   *  known here. 104 is the standard card corner mark; a smaller fixed
+   *  number is for a narrow card (the quote page's step tiles sit in a
+   *  max-w-2xl column) where the full-size mark would outweigh the label it
+   *  sits beside. */
+  width?: number | string;
   /** For cards that only have room for the mark at some widths. */
   className?: string;
 }) {
   const dark = surface === "dark";
+  const fluid = typeof width === "string";
   // The lockup renders 422/1330 as tall as it is wide; the box is shorter than
   // that on purpose, cropping the strapline off the bottom. Derived from
-  // `width` so the crop stays proportional at any size.
-  const height = Math.round((width * 27) / 104);
+  // `width` (or held as a matching aspect-ratio for a fluid width) so the
+  // crop stays proportional at any size.
+  const boxStyle = fluid
+    ? { width, aspectRatio: "104 / 27" }
+    : { width, height: Math.round((width * 27) / 104) };
   return (
     <div
       className={`pointer-events-none shrink-0 select-none overflow-hidden ${
         dark ? "opacity-60" : "opacity-75"
       } ${className}`}
-      style={{ width, height }}
+      style={boxStyle}
       aria-hidden
     >
       <Image
@@ -49,7 +58,7 @@ export default function CardLogoMark({
         alt=""
         width={dark ? 1310 : 1330}
         height={422}
-        style={{ width }}
+        style={{ width: fluid ? "100%" : width }}
         className="max-w-none"
       />
     </div>
