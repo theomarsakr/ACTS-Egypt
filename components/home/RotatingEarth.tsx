@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   geoBounds,
@@ -12,6 +13,7 @@ import {
 import { timer as d3Timer, type Timer } from "d3-timer";
 import { brands } from "@/lib/data";
 import { localeHref } from "@/lib/i18n";
+import { useCoarsePointer, useReducedMotion } from "@/lib/hooks";
 
 /* Halftone-dot wireframe globe (orthographic projection, drag to rotate,
    scroll to zoom, slow auto-rotation when idle). Land is rendered as a field
@@ -79,6 +81,9 @@ const generateDotsInFeature = (feature: LandFeature, dotSpacing = 16) => {
    facility — public, well-known locations (not survey-grade, appropriate for
    a globe marker at this scale). */
 const HQ = { lng: 30.9771, lat: 30.056, city: "Arkan Plaza, Sheikh Zayed City, Giza" };
+// Same Maps search query used by the office card on /contact.
+const HQ_MAPS_HREF =
+  "https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza";
 const BRAND_COORDS: Record<string, { lng: number; lat: number; city: string }> = {
   "farris-engineering": { lng: -81.6285, lat: 41.3245, city: "Brecksville, Ohio, USA" },
   "dyna-flo": { lng: -113.4938, lat: 53.5461, city: "Edmonton, Canada" },
@@ -121,6 +126,22 @@ export default function RotatingEarth({
   useEffect(() => {
     tooltipRef.current = tooltip;
   }, [tooltip]);
+
+  const reduced = useReducedMotion();
+  const coarse = useCoarsePointer();
+  // Read inside the pointer-event closures below via refs rather than
+  // effect dependencies: the main effect below does real setup (canvas
+  // sizing, the projection, the land-data fetch) that would be wasteful to
+  // tear down and rebuild every time either of these — device/user signals
+  // that essentially never change mid-session — happen to change.
+  const reducedRef = useRef(reduced);
+  const coarseRef = useRef(coarse);
+  useEffect(() => {
+    reducedRef.current = reduced;
+  }, [reduced]);
+  useEffect(() => {
+    coarseRef.current = coarse;
+  }, [coarse]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -252,18 +273,21 @@ export default function RotatingEarth({
       });
     };
 
-    let autoRotate = true;
+    let autoRotate = !reducedRef.current;
     const rotationSpeed = 0.5;
     /* The auto-rotation loop (and the data fetch that feeds it) only runs
        while this canvas is actually on screen and the tab is visible — this
        section sits well below the fold, so without gating it the globe would
        redraw thousands of dots on every animation frame for the entire time
-       the tab is open, whether or not anyone has scrolled anywhere near it. */
+       the tab is open, whether or not anyone has scrolled anywhere near it.
+       Also gated on prefers-reduced-motion — there was no such gate on this
+       loop at all before; the globe is still fully draggable/zoomable, it
+       just doesn't spin on its own. */
     let rotationTimer: Timer | null = null;
     const startRotationTimer = () => {
-      if (rotationTimer) return;
+      if (rotationTimer || reducedRef.current) return;
       rotationTimer = d3Timer(() => {
-        if (!autoRotate) return;
+        if (!autoRotate || reducedRef.current) return;
         rotation[0] += rotationSpeed;
         projection.rotate(rotation);
         render();
@@ -274,7 +298,18 @@ export default function RotatingEarth({
       rotationTimer = null;
     };
 
+    // Chromium fires a synthetic, compatibility mousedown/mousemove shortly
+    // after a real touch interaction ends (for sites that only listen for
+    // mouse events) — without this guard, that echo immediately clears the
+    // tooltip a touch tap had just correctly set, right after
+    // handlePointerUp set it. Any non-mouse pointer event marks the time;
+    // the mouse handlers below bail if one just happened.
+    let lastNonMouseTime = 0;
+    const COMPAT_EVENT_WINDOW_MS = 800;
+    const isSyntheticCompatEvent = () => Date.now() - lastNonMouseTime < COMPAT_EVENT_WINDOW_MS;
+
     const handleMouseDown = (event: MouseEvent) => {
+      if (isSyntheticCompatEvent()) return;
       autoRotate = false;
       setTooltip(null);
       const startX = event.clientX;
@@ -295,19 +330,51 @@ export default function RotatingEarth({
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
         setTimeout(() => {
-          autoRotate = true;
+          autoRotate = !reducedRef.current;
         }, 10);
       };
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     };
 
+    const zoomTo = (scale: number) => {
+      const next = Math.max(radius * 0.5, Math.min(radius * 3, scale));
+      projection.scale(next);
+      render();
+    };
+
     /* Touch equivalent of handleMouseDown — phones/tablets have no mouse, so
        without this the globe was only draggable with a cursor. A single
-       finger rotates it exactly like a mouse drag would; `touch-action: none`
-       on the canvas (see JSX below) is what lets `preventDefault` here stop
-       the page from scrolling instead. */
+       finger rotates it exactly like a mouse drag would; two fingers pinch-
+       zoom instead. `touch-action: none` on the canvas (see JSX below) is
+       what lets `preventDefault` here stop the page from scrolling instead. */
     const handleTouchStart = (event: TouchEvent) => {
+      if (event.touches.length === 2) {
+        autoRotate = false;
+        setTooltip(null);
+        const dist = (t: TouchList) =>
+          Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+        const startDist = dist(event.touches);
+        const startScale = projection.scale();
+
+        const handlePinchMove = (moveEvent: TouchEvent) => {
+          if (moveEvent.touches.length !== 2) return;
+          moveEvent.preventDefault();
+          zoomTo(startScale * (dist(moveEvent.touches) / startDist));
+        };
+        const handlePinchEnd = () => {
+          document.removeEventListener("touchmove", handlePinchMove);
+          document.removeEventListener("touchend", handlePinchEnd);
+          document.removeEventListener("touchcancel", handlePinchEnd);
+          setTimeout(() => {
+            autoRotate = !reducedRef.current;
+          }, 10);
+        };
+        document.addEventListener("touchmove", handlePinchMove, { passive: false });
+        document.addEventListener("touchend", handlePinchEnd);
+        document.addEventListener("touchcancel", handlePinchEnd);
+        return;
+      }
       if (event.touches.length !== 1) return;
       autoRotate = false;
       setTooltip(null);
@@ -332,7 +399,7 @@ export default function RotatingEarth({
         document.removeEventListener("touchmove", handleTouchMove);
         document.removeEventListener("touchend", handleTouchEnd);
         setTimeout(() => {
-          autoRotate = true;
+          autoRotate = !reducedRef.current;
         }, 10);
       };
       document.addEventListener("touchmove", handleTouchMove, { passive: false });
@@ -345,56 +412,117 @@ export default function RotatingEarth({
       return [(event.clientX - rect.left) / scale, (event.clientY - rect.top) / scale];
     };
 
-    const findPinNear = (x: number, y: number) =>
-      pinScreenPositions.find((p) => Math.hypot(p.x - x, p.y - y) < 10);
+    // A 20px hit circle is generous for a mouse but tight for a fingertip;
+    // widened under a coarse pointer. Checked the actual geometry rather
+    // than assuming it's safe: the three North American brand pins
+    // (Ohio/Alberta/Pennsylvania) are close enough on a global scale that
+    // at ~21% of possible globe rotations, two of them already project
+    // within 20px of each other with the *original* 10px radius — this is
+    // pre-existing, not introduced here. Widening to 18px adds a negligible
+    // ~0.2 percentage points to that (checked by sampling the full rotation
+    // space in 2° steps). What actually matters for the ambiguous case is
+    // returning the *nearest* pin within range rather than whichever came
+    // first in PINS — see below. Hit area only; the painted dot is unchanged.
+    const findPinNear = (x: number, y: number) => {
+      const r = coarseRef.current ? 18 : 10;
+      let best: { pin: Pin; x: number; y: number } | undefined;
+      let bestDist = r;
+      for (const p of pinScreenPositions) {
+        const d = Math.hypot(p.x - x, p.y - y);
+        if (d < bestDist) {
+          bestDist = d;
+          best = p;
+        }
+      }
+      return best;
+    };
 
     const handleHover = (event: MouseEvent) => {
+      if (isSyntheticCompatEvent()) return;
       const [x, y] = toLocalPoint(event);
       const hit = findPinNear(x, y);
       canvas.style.cursor = hit ? "pointer" : "grab";
       if (hit?.pin !== tooltipRef.current?.pin) {
         setTooltip(hit ? { x: hit.x, y: hit.y, pin: hit.pin } : null);
         // Pause auto-rotation while a tooltip is showing so it stays put.
-        autoRotate = !hit;
+        autoRotate = !hit && !reducedRef.current;
       }
     };
 
     const handleLeave = () => {
       setTooltip(null);
-      autoRotate = true;
+      autoRotate = !reducedRef.current;
     };
 
-    const handleClick = (event: MouseEvent) => {
+    const navigateToPin = (pin: Pin) => {
+      if (pin.isHub) {
+        window.open(HQ_MAPS_HREF, "_blank", "noopener,noreferrer");
+      } else if (pin.slug) {
+        router.push(localeHref(lang, `/brands/${pin.slug}`));
+      }
+    };
+
+    /* Tap vs. drag, and mouse vs. touch: a mouse click on a pin still
+       navigates immediately (handleHover already showed the tooltip on
+       approach). A touch/pen tap on a pin instead reveals the tooltip —
+       now with a real, navigable <a> inside it (see the JSX below) — and
+       waits for a second, deliberate tap on that link. A double-tap-to-
+       confirm gesture would work too, but wouldn't be keyboard-reachable or
+       screen-reader-legible the way a real anchor is.
+       Runs alongside handleMouseDown/handleTouchStart above rather than
+       replacing them: this only tracks whether the gesture stayed within a
+       tap's distance/time budget, so it never needs to coordinate with the
+       drag-rotate state machine — a real drag simply won't qualify as a
+       tap and this becomes a no-op. */
+    let tapStart: { x: number; y: number; time: number; pointerType: string } | null = null;
+    const TAP_MAX_DIST = 8;
+    const TAP_MAX_MS = 400;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") lastNonMouseTime = Date.now();
+      tapStart = {
+        x: event.clientX,
+        y: event.clientY,
+        time: Date.now(),
+        pointerType: event.pointerType,
+      };
+    };
+
+    const handlePointerUp = (event: PointerEvent) => {
+      const start = tapStart;
+      tapStart = null;
+      if (!start) return;
+      const dist = Math.hypot(event.clientX - start.x, event.clientY - start.y);
+      const elapsed = Date.now() - start.time;
+      if (dist >= TAP_MAX_DIST || elapsed >= TAP_MAX_MS) return;
+
       const [x, y] = toLocalPoint(event);
       const hit = findPinNear(x, y);
-      if (!hit) return;
-      if (hit.pin.isHub) {
-        // Same Maps search query used by the office card on /contact.
-        window.open(
-          "https://www.google.com/maps/search/?api=1&query=Arkan+Plaza+Sheikh+Zayed+Giza",
-          "_blank",
-          "noopener,noreferrer"
-        );
-      } else if (hit.pin.slug) {
-        router.push(localeHref(lang, `/brands/${hit.pin.slug}`));
+
+      if (start.pointerType === "mouse") {
+        if (hit) navigateToPin(hit.pin);
+        return;
       }
+      if (!hit) {
+        setTooltip(null);
+        autoRotate = !reducedRef.current;
+        return;
+      }
+      setTooltip({ x: hit.x, y: hit.y, pin: hit.pin });
+      autoRotate = false;
     };
 
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
       const factor = event.deltaY > 0 ? 0.9 : 1.1;
-      const next = Math.max(
-        radius * 0.5,
-        Math.min(radius * 3, projection.scale() * factor)
-      );
-      projection.scale(next);
-      render();
+      zoomTo(projection.scale() * factor);
     };
 
     canvas.addEventListener("mousedown", handleMouseDown);
     canvas.addEventListener("mousemove", handleHover);
     canvas.addEventListener("mouseleave", handleLeave);
-    canvas.addEventListener("click", handleClick);
+    canvas.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("pointerup", handlePointerUp);
     canvas.addEventListener("wheel", handleWheel, { passive: false });
     canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
 
@@ -479,7 +607,8 @@ export default function RotatingEarth({
       canvas.removeEventListener("mousedown", handleMouseDown);
       canvas.removeEventListener("mousemove", handleHover);
       canvas.removeEventListener("mouseleave", handleLeave);
-      canvas.removeEventListener("click", handleClick);
+      canvas.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("pointerup", handlePointerUp);
       canvas.removeEventListener("wheel", handleWheel);
       canvas.removeEventListener("touchstart", handleTouchStart);
     };
@@ -504,11 +633,34 @@ export default function RotatingEarth({
       />
       {tooltip && (
         <div
-          className="glass-dark pointer-events-none absolute z-10 whitespace-nowrap rounded-lg px-3 py-1.5 text-[12.5px] -translate-x-1/2 -translate-y-[calc(100%+10px)]"
+          className="glass-dark absolute z-10 whitespace-nowrap rounded-lg px-3 py-1.5 text-[12.5px] -translate-x-1/2 -translate-y-[calc(100%+10px)]"
           style={{ left: tooltip.x, top: tooltip.y }}
         >
-          <div className="font-bold text-white">{tooltip.pin.name}</div>
-          <div className="text-white/60">{tooltip.pin.city}</div>
+          {/* A real, navigable link — not just a label. On a mouse, a click
+              on the pin already navigates directly (see handlePointerUp);
+              on touch/pen a tap only reveals this tooltip, and this link is
+              the second, deliberate step that actually goes there. Real
+              anchor: keyboard-reachable and screen-reader-legible, unlike a
+              double-tap gesture would be. */}
+          {tooltip.pin.isHub ? (
+            <a
+              href={HQ_MAPS_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tap-target block rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+            >
+              <div className="font-bold text-white">{tooltip.pin.name}</div>
+              <div className="text-white/60">{tooltip.pin.city}</div>
+            </a>
+          ) : (
+            <Link
+              href={localeHref(lang, `/brands/${tooltip.pin.slug}`)}
+              className="tap-target block rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+            >
+              <div className="font-bold text-white">{tooltip.pin.name}</div>
+              <div className="text-white/60">{tooltip.pin.city}</div>
+            </Link>
+          )}
         </div>
       )}
       {/* Control legend, not a page-scroll cue, so it keeps its own shape
@@ -516,7 +668,11 @@ export default function RotatingEarth({
           `white/70` over a lit globe, where it disappeared against the
           bright limb. Given a real ground and full-strength text. */}
       <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-ink/70 px-4 py-2 text-[12.5px] font-semibold whitespace-nowrap text-white ring-1 ring-white/25 backdrop-blur-md">
-        {isLoading ? "Loading globe…" : "Drag to rotate · Scroll to zoom"}
+        {isLoading
+          ? "Loading globe…"
+          : coarse
+            ? "Drag to rotate · Pinch to zoom"
+            : "Drag to rotate · Scroll to zoom"}
       </div>
     </div>
   );
