@@ -88,7 +88,7 @@ export default function DocumentLibrary({ brands }: Props) {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search brochures, catalogs, procedures, doc codes…"
               aria-label="Search documents"
-              className="w-full rounded-xl border border-gray-300 bg-gray-50 pl-11 pr-4 py-3 text-base md:text-[15px] text-navy placeholder:text-gray-400 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition"
+              className="w-full rounded-xl border border-gray-300 bg-gray-50 pl-11 pr-4 py-3 text-base pointer-fine:text-[15px] text-navy placeholder:text-gray-400 outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition"
             />
           </div>
 
@@ -102,7 +102,7 @@ export default function DocumentLibrary({ brands }: Props) {
               value={langFilter}
               onChange={(e) => setLangFilter(e.target.value)}
               aria-label="Filter by language"
-              className="appearance-none rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-9 py-3 text-base md:text-[14px] font-semibold text-navy outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition cursor-pointer"
+              className="appearance-none rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-9 py-3 text-base pointer-fine:text-[14px] font-semibold text-navy outline-none focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/20 transition cursor-pointer"
             >
               <option value="all">All languages</option>
               <option value={NEUTRAL}>English</option>

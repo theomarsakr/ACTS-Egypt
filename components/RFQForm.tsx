@@ -8,10 +8,15 @@ import type { Dict } from "@/lib/i18n/en";
 
 // Base size is 16px (`text-base`), not the 15px this reads everywhere else on
 // desktop: any input font under 16px makes Safari auto-zoom the viewport on
-// focus, an iOS-only side effect that never fires on desktop. `md:text-[15px]`
-// restores the original desktop size exactly.
+// focus. `pointer-fine:text-[15px]` restores the original desktop size for a
+// mouse/trackpad — a DEVICE signal, not a viewport breakpoint. `md:` was tried
+// first and genuinely regressed: Tailwind's md is `min-width: 768px`, which
+// is the iPad Mini's own portrait width, so a real touch tablet at exactly
+// that width got the 15px desktop size and the zoom-on-focus bug this exists
+// to prevent. pointer:fine only matches an actual mouse/trackpad, so a touch
+// device is never caught by it regardless of its viewport width.
 const fieldClass =
-  "w-full bg-white border border-gray-300 rounded-lg text-gray-900 text-base md:text-[15px] px-4 py-3 outline-none transition-shadow placeholder:text-gray-500 focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "w-full bg-white border border-gray-300 rounded-lg text-gray-900 text-base pointer-fine:text-[15px] px-4 py-3 outline-none transition-shadow placeholder:text-gray-500 focus:border-brand focus:ring-2 focus:ring-brand/20";
 const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
 
 const stepIcons = [UserRound, ClipboardList, Send];

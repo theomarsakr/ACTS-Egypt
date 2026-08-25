@@ -7,6 +7,7 @@ import Reveal from "@/components/Reveal";
 import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import CardLogoMark from "@/components/ui/CardLogoMark";
+import Container from "@/components/layout/Container";
 import { getBrand } from "@/lib/data";
 import { getDict, type Locale } from "@/lib/i18n";
 
@@ -64,7 +65,7 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
             it this div shrink-wraps to its content and mx-auto centres the
             copy instead of aligning it to the max-w-6xl column the rest of the
             site's page heroes use. */}
-        <div className="relative w-full max-w-6xl mx-auto px-6 pt-40 pb-16 md:pt-56 md:pb-20">
+        <Container className="relative w-full pt-40 pb-16 md:pt-56 md:pb-20">
           {/* Category label leads, statement second, lede last -- the same
               stepped-down hierarchy the engagement cards use. */}
           <Reveal>
@@ -80,22 +81,31 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
               {q.lede}
             </p>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
-      <section id="form" className="scroll-mt-28 py-16">
-        <div className="max-w-2xl mx-auto px-6">
+      <section
+        id="form"
+        // The dock is a fixed bottom-4 panel; on a short viewport its
+        // footprint can sit over the form's last field otherwise. Reads the
+        // dock's real published height (lib/hooks.ts's
+        // usePublishFloatingNavHeight, read by <Dock>) rather than a fixed
+        // guess, so it tracks the dock through its own open/collapse states
+        // and at every viewport — not just below one hard-coded breakpoint.
+        className="scroll-anchor py-16 pb-[calc(var(--floating-nav-h,0px)+1.5rem)]"
+      >
+        <Container className="max-w-2xl">
           <Reveal>
             <RFQForm initialBrand={brand?.name} initialEmail={email} t={dict.rfq} />
           </Reveal>
-        </div>
+        </Container>
       </section>
 
-      <section id="next-steps" className="scroll-mt-28 pb-16">
-        <div className="max-w-2xl mx-auto px-6">
+      <section id="next-steps" className="scroll-anchor pb-16">
+        <Container className="max-w-2xl">
           <Reveal>
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-extrabold tracking-tight text-navy">
+              <h2 className="text-fluid-h4 font-extrabold tracking-tight text-navy">
                 {q.nextTitle}
               </h2>
             </div>
@@ -120,12 +130,11 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       <SiteDock
         lang={lang}
-        hideOnMobile
         sections={[
           { id: "form", label: dict.rfq.title, icon: <ClipboardCheck className="h-full w-full" strokeWidth={2.25} /> },
           { id: "next-steps", label: q.nextTitle, icon: <ListChecks className="h-full w-full" strokeWidth={2.25} /> },

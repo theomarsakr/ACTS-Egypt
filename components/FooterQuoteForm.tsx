@@ -40,7 +40,7 @@ export default function FooterQuoteForm({
         onChange={(e) => setEmail(e.target.value)}
         placeholder={emailPlaceholder}
         dir="ltr"
-        className="flex-1 glass-dark rounded-xl px-4 py-3.5 text-base md:text-[15px] text-white placeholder:text-white/50 outline-none transition-all focus:border-amber/60 focus:bg-white/10"
+        className="flex-1 glass-dark rounded-xl px-4 py-3.5 text-base pointer-fine:text-[15px] text-white placeholder:text-white/50 outline-none transition-all focus:border-amber/60 focus:bg-white/10"
       />
       <button type="submit" className="btn btn-primary px-6 py-3.5 text-[15px] group shrink-0">
         {startQuote}

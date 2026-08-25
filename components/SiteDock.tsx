@@ -35,16 +35,9 @@ export type DockSection = {
 export default function SiteDock({
   lang = "en",
   sections,
-  hideOnMobile = false,
 }: {
   lang?: Locale;
   sections: DockSection[];
-  /** Suppresses the dock below `md`. For pages where the floating dock's
-      own position collides with primary page content on short mobile
-      viewports (see the /quote page: the panel can overlap the form's
-      first field on load there) — the dock stays exactly as-is everywhere
-      else, including this same page at `md` and up. */
-  hideOnMobile?: boolean;
 }) {
   const dict = getDict(lang);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -76,10 +69,7 @@ export default function SiteDock({
   }, [sections]);
 
   return (
-    <Dock
-      label={lang === "ar" ? "تصفح سريع" : "Quick navigation"}
-      wrapperClassName={hideOnMobile ? "max-md:hidden" : undefined}
-    >
+    <Dock label={lang === "ar" ? "تصفح سريع" : "Quick navigation"}>
       {sections.map((s) => (
         <DockItem key={s.id} href={`#${s.id}`} label={s.label} active={activeId === s.id}>
           <DockIcon>{s.icon}</DockIcon>
