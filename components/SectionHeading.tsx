@@ -5,28 +5,44 @@ import { cn } from "@/lib/utils";
    Replaces ~40 hand-rolled header blocks that previously rendered the
    relationship backwards — a 14px uppercase label as the "title" and a full
    sentence as the giant heading beneath it. Title is always the largest,
-   boldest element in the block. */
+   boldest element in the block.
+
+   Title tiers use the text-fluid-* tokens (app/globals.css): hero and xl both
+   used to be 3-step md:/lg: chains that stopped adapting past 1024px and
+   jumped visibly at each breakpoint — display (36->72) and h2 (36->56) match
+   their old endpoints exactly, but scale continuously between. lg/md map to
+   h3/h4 on the same basis. Line-height rides along automatically: Tailwind
+   v4 pairs a `--text-fluid-*--line-height` token with its `text-fluid-*`
+   utility, so no separate leading-[...] class is needed here.
+
+   Subtitle only gets the fluid treatment for hero/xl, where the old chain
+   also reached to lg: (20->28) and text-fluid-subtitle (18->28) matches the
+   endpoint. lg/md subtitles were already a contained 2-step base->md chain
+   with no lg: stage — not the "stops adapting" defect this fixes — so they
+   keep their original classes rather than being force-fit onto a token with
+   a mismatched line-height.
+
+   Lede was already a single fixed size per tier (18/18/17/15px, no chain at
+   all) so there was nothing to "fix" here either — collapsed to one fluid
+   token anyway since a single shared class is simpler than four near-
+   identical fixed ones, and it lifts the smallest tier (15px) to a slightly
+   more comfortable mobile floor (16px). */
 
 const titleTier = {
-  hero: "text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] leading-[1.02]",
-  xl: "text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.025em] leading-[1.05]",
-  lg: "text-3xl md:text-4xl font-extrabold tracking-[-0.02em] leading-[1.08]",
-  md: "text-2xl md:text-3xl font-extrabold tracking-[-0.02em] leading-[1.1]",
+  hero: "text-fluid-display font-extrabold tracking-[-0.03em]",
+  xl: "text-fluid-h2 font-extrabold tracking-[-0.025em]",
+  lg: "text-fluid-h3 font-extrabold tracking-[-0.02em]",
+  md: "text-fluid-h4 font-extrabold tracking-[-0.02em]",
 } as const;
 
 const subtitleTier = {
-  hero: "text-xl md:text-2xl lg:text-[1.75rem] font-semibold leading-snug",
-  xl: "text-xl md:text-2xl font-semibold leading-snug",
+  hero: "text-fluid-subtitle font-semibold",
+  xl: "text-fluid-subtitle font-semibold",
   lg: "text-lg md:text-xl font-semibold leading-snug",
   md: "text-base md:text-lg font-semibold leading-snug",
 } as const;
 
-const ledeTier = {
-  hero: "text-lg leading-relaxed",
-  xl: "text-lg leading-relaxed",
-  lg: "text-[17px] leading-relaxed",
-  md: "text-[15px] leading-relaxed",
-} as const;
+const LEDE_CLASS = "text-fluid-lede leading-relaxed";
 
 const tone = {
   light: { title: "text-navy", subtitle: "text-navy/75", lede: "text-gray-600" },
@@ -71,7 +87,7 @@ export default function SectionHeading({
         </p>
       )}
       {lede && (
-        <p className={cn("mt-6", ledeTier[tier], c.lede)}>{lede}</p>
+        <p className={cn("mt-6", LEDE_CLASS, c.lede)}>{lede}</p>
       )}
     </div>
   );

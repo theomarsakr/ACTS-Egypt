@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Container from "@/components/layout/Container";
 
 /* Shared dark-hero backdrop: blueprint grid + brass glow + the full ACTS logo,
    tagline and brand colours included, aligned to the content column so it reads
@@ -20,16 +21,16 @@ export default function PageHeroBackground({
     <div className="absolute inset-0" aria-hidden>
       <div className="absolute inset-0 blueprint opacity-50" />
       <div className="mesh mesh-brass w-152 h-152 top-1/2 -translate-y-1/2 -right-24 opacity-60" />
-      <div className="absolute inset-0 max-w-6xl mx-auto px-6">
+      <Container className="absolute inset-0">
         <Image
           src="/images/acts-logo-watermark.png"
           alt=""
           width={1310}
           height={422}
           priority={priority}
-          className="pointer-events-none select-none absolute end-6 top-1/2 -translate-y-1/2 w-[40%] max-w-md opacity-20 max-lg:hidden"
+          className="pointer-events-none select-none absolute end-gutter top-1/2 -translate-y-1/2 w-[40%] max-w-md opacity-20 max-lg:hidden"
         />
-      </div>
+      </Container>
       <div className="dark-vignette" />
     </div>
   );

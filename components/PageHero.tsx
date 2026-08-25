@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import Reveal from "@/components/Reveal";
 import PageHeroBackground from "@/components/PageHeroBackground";
+import Container from "@/components/layout/Container";
 
 /* The one page-hero pattern, shared by every top-level section page.
    Before this, each page hand-rolled its own: two different heading scales,
@@ -24,12 +25,18 @@ export default function PageHero({
   return (
     <section
       id={id}
-      className={cn("relative overflow-hidden bg-navy", id && "scroll-mt-28")}
+      className={cn("relative overflow-hidden bg-navy", id && "scroll-anchor")}
     >
       <PageHeroBackground />
-      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-28">
+      {/* py-24 md:py-28 kept as-is — this hero band's own hand-tuned rhythm,
+          not the generic section spacing scale (Section's `space` prop),
+          so migrating onto Container only replaces the max-w/gutter chain. */}
+      <Container className="relative py-24 md:py-28">
         <Reveal>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] leading-[1.03] text-white text-balance">
+          {/* text-fluid-h1 (36->60) matches this heading's old three-step
+              chain (text-4xl md:text-5xl lg:text-6xl) at both endpoints,
+              scaling continuously between instead of jumping twice. */}
+          <h1 className="text-fluid-h1 font-extrabold tracking-[-0.03em] text-white text-balance">
             {title}
           </h1>
           {subtitle && (
@@ -40,12 +47,12 @@ export default function PageHero({
         </Reveal>
         {lede && (
           <Reveal delay={120}>
-            <p className="mt-6 max-w-xl text-[17px] md:text-lg leading-relaxed text-white/60">
+            <p className="mt-6 max-w-xl text-fluid-lede leading-relaxed text-white/60">
               {lede}
             </p>
           </Reveal>
         )}
-      </div>
+      </Container>
     </section>
   );
 }
