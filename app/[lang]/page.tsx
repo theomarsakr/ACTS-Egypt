@@ -297,8 +297,8 @@ export default async function Home({
       </section>
 
       {/* ============ WHAT WE DO ============ */}
-      <section id="what-we-do" className="scroll-mt-28 py-20 md:py-24 lg:py-28">
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="what-we-do" className="scroll-anchor py-20 md:py-24 lg:py-28">
+        <div className="max-w-7xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="max-w-2xl"
@@ -344,8 +344,8 @@ export default async function Home({
       </section>
 
       {/* ============ BRANDS ============ */}
-      <section id="brands" className="scroll-mt-28 py-20 md:py-24 lg:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="brands" className="scroll-anchor py-20 md:py-24 lg:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
+        <div className="max-w-7xl mx-auto px-safe">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <SectionHeading
@@ -487,13 +487,13 @@ export default async function Home({
       </section>
 
       {/* ============ GLOBAL REACH ============ */}
-      <section id="global-reach" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
+      <section id="global-reach" className="scroll-anchor relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <div
           className="mesh mesh-brass w-96 h-96 -top-40 -left-24 opacity-50"
           aria-hidden
         />
-        <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+        <div className="relative max-w-7xl mx-auto px-safe grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <Reveal>
             <SectionHeading
               tier="xl"
@@ -535,9 +535,9 @@ export default async function Home({
       {/* `overflow-x-clip`, never `overflow-hidden`: hidden would make this
           section the scroll container for the sticky rail inside it, and the
           rail would silently stop sticking. `clip` isn't a scroll container. */}
-      <section id="why-acts" className="why-section scroll-mt-28 relative overflow-x-clip py-24 md:py-28 lg:py-32">
+      <section id="why-acts" className="why-section scroll-anchor relative overflow-x-clip py-24 md:py-28 lg:py-32">
         <div className="why-backdrop" aria-hidden />
-        <div className="relative max-w-7xl mx-auto px-6">
+        <div className="relative max-w-7xl mx-auto px-safe">
           <ContainerScroll>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.6fr)] lg:gap-16">
             {/* ---------- Narrative rail ---------- */}
@@ -670,7 +670,7 @@ export default async function Home({
               <Parallax speed={12}>
                 <Reveal delay={80} className="h-full">
                   <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-8">
-                    <div className="stat-numeral text-[3.4rem] leading-none font-extrabold tracking-tight tabular-nums">
+                    <div className="stat-numeral text-fluid-stat font-extrabold tracking-tight tabular-nums">
                       <span className="digit-rise">
                         {hm.why.fast.big.split("").map((d, i) => (
                           <span key={i} style={{ "--i": i } as React.CSSProperties}>
@@ -720,7 +720,7 @@ export default async function Home({
               <Parallax speed={-12}>
                 <Reveal delay={200} className="h-full">
                   <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-8">
-                    <div className="stat-numeral text-[3.4rem] leading-none font-extrabold tracking-tight tabular-nums">
+                    <div className="stat-numeral text-fluid-stat font-extrabold tracking-tight tabular-nums">
                       <span className="digit-rise">
                         {hm.why.since.big.split("").map((d, i) => (
                           <span key={i} style={{ "--i": i } as React.CSSProperties}>
@@ -869,7 +869,7 @@ export default async function Home({
           with the engagements that back them up, in the same visual language
           as the hero. The translucent carousel card lets the band's blueprint
           grid run through it, so the section reads as one continuous surface. */}
-      <section id="proven" className="scroll-mt-28 relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
+      <section id="proven" className="scroll-anchor relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <div
           className="mesh mesh-steel w-[30rem] h-[30rem] -top-44 -right-28 opacity-60"
@@ -879,7 +879,7 @@ export default async function Home({
           className="mesh mesh-brass w-96 h-96 -bottom-48 -left-28 opacity-50"
           aria-hidden
         />
-        <div className="relative max-w-7xl mx-auto px-6">
+        <div className="relative max-w-7xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
               className="max-w-2xl"
@@ -918,8 +918,8 @@ export default async function Home({
       {/* {lang !== "ar" && <TestimonialCarousel />} */}
 
       {/* ============ COMPANY GALLERY ============ */}
-      <section id="gallery" className="scroll-mt-28 pb-20 md:pb-24 lg:pb-28 pt-20 md:pt-24 lg:pt-28">
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="gallery" className="scroll-anchor pb-20 md:pb-24 lg:pb-28 pt-20 md:pt-24 lg:pt-28">
+        <div className="max-w-7xl mx-auto px-safe">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div className="max-w-2xl">
@@ -972,7 +972,7 @@ export default async function Home({
           <div className="mesh mesh-steel w-96 h-96 -top-48 -right-24 opacity-60" />
           <div className="dark-vignette" />
         </div>
-        <div className="relative max-w-4xl mx-auto px-6 py-24 md:py-28 lg:py-32 text-center">
+        <div className="relative max-w-4xl mx-auto px-safe py-24 md:py-28 lg:py-32 text-center">
           <Reveal>
             <SectionHeading
               tier="hero"
