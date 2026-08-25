@@ -18,6 +18,58 @@
   --shadow-elevated: 0 18px 44px -14px rgba(10, 22, 40, 0.22);
   --shadow-glow: 0 0 44px -14px rgba(138, 106, 48, 0.3);
 
+  /* ---- Fluid type ---------------------------------------------------------
+     One clamp per tier, replacing the md:/lg: step chains that stopped
+     adapting past 1024px and jumped visibly at each breakpoint. Range is
+     360px -> 1440px. A `text-fluid-*` sub-namespace, not a redefinition of
+     the stock `--text-*` ramp: the codebase leans on the stock sizes for UI
+     copy (78x text-[15px], 71x text-[13px], 35x text-[11px]), and touching
+     those would ripple unpredictably.
+
+     Every clamp keeps a rem component in the middle term (`1.75rem + 2.222vw`,
+     never a bare `vw`) — a pure-vw middle term stops growing on browser zoom,
+     which is a WCAG 1.4.4 failure. */
+  --text-fluid-display: clamp(2.25rem, 1.5rem + 3.333vw, 4.5rem); /* 36 -> 72 */
+  --text-fluid-display--line-height: 1.02;
+  --text-fluid-h1: clamp(2.25rem, 1.75rem + 2.222vw, 3.75rem); /* 36 -> 60 */
+  --text-fluid-h1--line-height: 1.05;
+  --text-fluid-h2: clamp(2.25rem, 1.833rem + 1.852vw, 3.5rem); /* 36 -> 56 */
+  --text-fluid-h2--line-height: 1.06;
+  --text-fluid-h3: clamp(1.75rem, 1.583rem + 0.741vw, 2.25rem); /* 28 -> 36 */
+  --text-fluid-h3--line-height: 1.1;
+  --text-fluid-h4: clamp(1.375rem, 1.208rem + 0.741vw, 1.875rem); /* 22 -> 30 */
+  --text-fluid-h4--line-height: 1.15;
+  --text-fluid-stat: clamp(2rem, 1.533rem + 2.074vw, 3.4rem); /* 32 -> 54.4 */
+  --text-fluid-stat--line-height: 1;
+  --text-fluid-subtitle: clamp(1.125rem, 0.917rem + 0.926vw, 1.75rem); /* 18 -> 28 */
+  --text-fluid-subtitle--line-height: 1.35;
+  --text-fluid-lede: clamp(1rem, 0.958rem + 0.185vw, 1.125rem); /* 16 -> 18 */
+  --text-fluid-lede--line-height: 1.65;
+  --text-fluid-eyebrow: clamp(0.6875rem, 0.625rem + 0.278vw, 0.875rem); /* 11 -> 14 */
+
+  /* ---- Fluid spacing -------------------------------------------------------
+     Named entries in the --spacing-* namespace so they feed EVERY spacing
+     utility (px-gutter, gap-gutter, mt-section, end-gutter, p-card) — that
+     matters because decorations positioned against the gutter (a watermark's
+     end offset, a timeline rail's start offset) must track it rather than
+     re-hard-coding 24px. */
+  --spacing-gutter: clamp(1rem, 0.667rem + 1.481vw, 2rem); /* 16 -> 32 */
+  --spacing-section-sm: clamp(2.5rem, 1.667rem + 3.704vw, 5rem); /* 40 -> 80 */
+  --spacing-section: clamp(3rem, 1.667rem + 5.926vw, 7rem); /* 48 -> 112 */
+  --spacing-section-lg: clamp(4rem, 2rem + 8.889vw, 10rem); /* 64 -> 160 */
+  --spacing-card: clamp(1.25rem, 0.75rem + 2.222vw, 2.5rem); /* 20 -> 40 */
+
+  /* ---- Breakpoints ----------------------------------------------------------
+     ADDITIVE ONLY. sm/md/lg/xl/2xl keep their stock values: the header's xl:
+     (1280) is a measured decision (the full desktop nav row needs ~1240px)
+     and the dock's lg: is another (the labelled dock measures 826px and
+     clipped the CTA at 768/820) — shifting either value out from under that
+     code silently breaks both. The one real gap is below sm: nothing
+     distinguishes a 360px phone from a 600px one, which is exactly where
+     every grid-cols-2/3 runs out of room. Tailwind v4 sorts by value, so xs
+     lands before sm automatically. */
+  --breakpoint-xs: 26.5rem; /* 424px */
+
   /* Premium, restrained palette: deep navy for structure, a single brass/gold
      accent (two lightness tiers — muted brand for buttons/links, brighter
      amber for kickers on dark backgrounds) for everything else. "Ink" is the
@@ -256,6 +308,100 @@ p {
   background-attachment: local, local, scroll, scroll;
 }
 
+/* ---- Safe-area gutter ---------------------------------------------------
+   The one inline gutter. `max()` against the safe-area insets is mandatory
+   once `viewport-fit: cover` is set on the viewport meta (see the `viewport`
+   export in app/[lang]/layout.tsx): cover extends the layout viewport under
+   the notch, so a plain padding lets landscape content slide beneath it.
+   Logical properties, so it mirrors automatically in RTL. */
+.px-safe {
+  padding-inline-start: max(var(--spacing-gutter), env(safe-area-inset-left));
+  padding-inline-end: max(var(--spacing-gutter), env(safe-area-inset-right));
+}
+
+/* ---- Scroll anchor --------------------------------------------------------
+   Replaces every hard-coded `scroll-mt-*` / `scroll-margin-top: Nrem`. Those
+   were fixed at every width despite the header being shorter on mobile than
+   desktop; this reads the header's real published height instead. Falls back
+   to the desktop header height (4.25rem = 68px) before the value is published
+   on first paint. --header-h comes from usePublishHeaderHeight in lib/hooks.ts. */
+.scroll-anchor {
+  scroll-margin-top: calc(var(--header-h, 4.25rem) + 1.5rem);
+}
+
+/* ---- Ambient motion activation -------------------------------------------
+   The single mechanism that lets every decorative loop on the site stay
+   fully enabled at every viewport: it runs while its section is on screen
+   and goes quiet the moment it isn't, so the page never runs more than the
+   visible section's worth of animation at once. Driven by data-onscreen,
+   published by useOnscreen in lib/hooks.ts (an IntersectionObserver, not a
+   viewport check — this is a visibility signal, not a breakpoint).
+
+   `animation-play-state: paused` (not `animation: none`) resumes a looping
+   CSS animation in phase when the section comes back into view, rather than
+   restarting it — and costs less than tearing the animation down. */
+@media (prefers-reduced-motion: reduce) {
+  .motion-ambient {
+    animation: none !important;
+  }
+}
+[data-onscreen="false"] .motion-ambient {
+  animation-play-state: paused;
+}
+
+/* ---- Pinned-chrome guard ---------------------------------------------------
+   `position: fixed`/`sticky` elements must never carry `backdrop-filter`.
+   Blurring a backdrop that scrolls underneath a pinned element desyncs on
+   real tablet browsers (reproduced on <Navbar>'s <nav>) — and a
+   backdrop-filter also makes its element a containing block for fixed
+   descendants, which is the exact trap that forced the mobile nav panel and
+   <Dock> to portal to document.body. Applied to Navbar's <nav>, Dock's
+   portal wrapper and FloatingNav's <nav> via the data-pinned-chrome
+   attribute. Do not remove without understanding why those three exist. */
+[data-pinned-chrome] .glass-dark,
+[data-pinned-chrome].glass-dark,
+[data-pinned-chrome] .btn-ghost-dark {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* Filterless twin of .glass-dark for surfaces sitting on a flat dark band
+   (footer social chips, a lightbox's expand chip) where a blurred backdrop
+   is visually indistinguishable from a flat translucent fill — same
+   translucency and hairline border, no blur layer, at every viewport. */
+.glass-dark-flat {
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* ---- Touch target: icon buttons -------------------------------------------
+   40px painted (matches the site's existing icon-button sizing), 44px hit
+   area under a coarse pointer via the .tap-target overlay pattern above.
+   One class instead of patching `pointer-coarse:w-11 pointer-coarse:h-11`
+   at each of the ~8 call sites, so it can't drift out of sync. */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+@media (pointer: coarse) {
+  .icon-btn {
+    position: relative;
+  }
+  .icon-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* Display face on headings + kickers; body copy stays Inter. */
 h1,
 h2,
@@ -276,7 +422,7 @@ h4,
    sections. Color comes from the text color utility. No leading rule/dash —
    the weight, size and letter-spacing already read as a label on their own. */
 .eyebrow {
-  font-size: 14px;
+  font-size: var(--text-fluid-eyebrow);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
