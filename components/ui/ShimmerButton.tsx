@@ -1,7 +1,8 @@
 "use client";
 
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useRef } from "react";
 import Link from "next/link";
+import { useOnscreen } from "@/lib/hooks";
 
 /**
  * ShimmerButton — a continuous conic-gradient "spark" travels around the border
@@ -11,6 +12,10 @@ import Link from "next/link";
  * `.shine-border`); this wrapper only feeds it CSS variables and the layer
  * structure. Renders a Next.js <Link> when `href` is set (so nav CTAs stay real
  * anchors), otherwise a <button>. Honors prefers-reduced-motion (spark holds).
+ *
+ * Self-observes via useOnscreen: the track and glint carry `.motion-ambient`,
+ * so the blurred spark pauses — same button, every width — the instant this
+ * button (used on CTAs throughout the site) scrolls off screen.
  */
 
 const BRAND_BG = "linear-gradient(135deg, #a37d3a 0%, #8a6a30 55%, #6e5426 100%)";
@@ -48,6 +53,16 @@ export function ShimmerButton({
   onClick,
   "aria-label": ariaLabel,
 }: ShimmerButtonProps) {
+  // A shared ref works for both branches below, but <Link> and <button>
+  // each type their `ref` prop to their own element — a callback ref (whose
+  // parameter type is a supertype of both) satisfies both, where a single
+  // RefObject typed to the union does not.
+  const elRef = useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
+  const setRef = (node: HTMLAnchorElement | HTMLButtonElement | null) => {
+    elRef.current = node;
+  };
+  useOnscreen(elRef);
+
   const style = {
     "--shimmer-color": shimmerColor,
     "--shimmer-cut": shimmerSize,
@@ -61,8 +76,8 @@ export function ShimmerButton({
       {/* traveling spark: a container query sets the lane, the track slides
           across it, and the glint (a conic wedge) spins inside the track. */}
       <span className="shimmer-btn__spark" aria-hidden>
-        <span className="shimmer-btn__track">
-          <span className="shimmer-btn__glint" />
+        <span className="shimmer-btn__track motion-ambient">
+          <span className="shimmer-btn__glint motion-ambient" />
         </span>
       </span>
       <span className="shimmer-btn__label">{children}</span>
@@ -77,13 +92,27 @@ export function ShimmerButton({
 
   if (href) {
     return (
-      <Link href={href} className={cls} style={style} aria-label={ariaLabel} onClick={onClick}>
+      <Link
+        ref={setRef}
+        href={href}
+        className={cls}
+        style={style}
+        aria-label={ariaLabel}
+        onClick={onClick}
+      >
         {inner}
       </Link>
     );
   }
   return (
-    <button className={cls} style={style} type={type} aria-label={ariaLabel} onClick={onClick}>
+    <button
+      ref={setRef}
+      className={cls}
+      style={style}
+      type={type}
+      aria-label={ariaLabel}
+      onClick={onClick}
+    >
       {inner}
     </button>
   );

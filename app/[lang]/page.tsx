@@ -32,6 +32,8 @@ import SpotlightCard from "@/components/ui/SpotlightCard";
 import CardLogoMark from "@/components/ui/CardLogoMark";
 import Magnetic from "@/components/ui/Magnetic";
 import ShimmerButton from "@/components/ui/ShimmerButton";
+import MeshBlob from "@/components/ui/MeshBlob";
+import BorderBeam from "@/components/ui/BorderBeam";
 // Re-enable together with the render site further down (search CLIENT TESTIMONIALS).
 // import TestimonialCarousel from "@/components/TestimonialCarousel";
 import {
@@ -489,10 +491,7 @@ export default async function Home({
       {/* ============ GLOBAL REACH ============ */}
       <section id="global-reach" className="scroll-anchor relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
-        <div
-          className="mesh mesh-brass w-96 h-96 -top-40 -left-24 opacity-50"
-          aria-hidden
-        />
+        <MeshBlob variant="brass" className="w-96 h-96 -top-40 -left-24 opacity-50" />
         <div className="relative max-w-7xl mx-auto px-safe grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <Reveal>
             <SectionHeading
@@ -606,9 +605,9 @@ export default async function Home({
                   named — "three divisions" only means something once you can
                   see which three. */}
               <Reveal className="sm:col-span-2">
-                <div className="border-beam glow-hover relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-ink p-7 text-white md:p-9">
+                <BorderBeam className="glow-hover relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-ink p-7 text-white md:p-9">
                   <div className="absolute inset-0 blueprint opacity-70" aria-hidden />
-                  <div className="mesh mesh-brass -right-24 -bottom-32 h-80 w-80" aria-hidden />
+                  <MeshBlob variant="brass" className="-right-24 -bottom-32 h-80 w-80" />
                   <div className="dark-vignette" aria-hidden />
 
                   <div className="relative flex items-start justify-between gap-4">
@@ -618,7 +617,7 @@ export default async function Home({
                       title={hm.why.exclusive.title}
                       subtitle={hm.why.exclusive.subtitle}
                     />
-                    <span className="sheen shrink-0 rounded-xl bg-white px-3 py-2 shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
+                    <span className="sheen motion-ambient shrink-0 rounded-xl bg-white px-3 py-2 shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
                       <Image
                         src="/images/curtiss-wright-logo.png"
                         alt="Curtiss-Wright"
@@ -660,7 +659,7 @@ export default async function Home({
                       </Link>
                     ))}
                   </div>
-                </div>
+                </BorderBeam>
               </Reveal>
 
               {/* Numeral card: 24h */}
@@ -868,14 +867,8 @@ export default async function Home({
           grid run through it, so the section reads as one continuous surface. */}
       <section id="proven" className="scroll-anchor relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
-        <div
-          className="mesh mesh-steel w-[30rem] h-[30rem] -top-44 -right-28 opacity-60"
-          aria-hidden
-        />
-        <div
-          className="mesh mesh-brass w-96 h-96 -bottom-48 -left-28 opacity-50"
-          aria-hidden
-        />
+        <MeshBlob variant="steel" className="w-[30rem] h-[30rem] -top-44 -right-28 opacity-60" />
+        <MeshBlob variant="brass" className="w-96 h-96 -bottom-48 -left-28 opacity-50" />
         <div className="relative max-w-7xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -965,8 +958,8 @@ export default async function Home({
                 "radial-gradient(ellipse 70% 90% at 50% 100%, black 20%, transparent 75%)",
             }}
           />
-          <div className="mesh mesh-brass w-[40rem] h-[40rem] -bottom-72 left-1/2 -translate-x-1/2" />
-          <div className="mesh mesh-steel w-96 h-96 -top-48 -right-24 opacity-60" />
+          <MeshBlob variant="brass" className="w-[40rem] h-[40rem] -bottom-72 left-1/2 -translate-x-1/2" />
+          <MeshBlob variant="steel" className="w-96 h-96 -top-48 -right-24 opacity-60" />
           <div className="dark-vignette" />
         </div>
         <div className="relative max-w-4xl mx-auto px-safe py-24 md:py-28 lg:py-32 text-center">

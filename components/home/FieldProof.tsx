@@ -79,8 +79,10 @@ export default function FieldProof({
         {!dark && (
           <>
             <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
+            {/* hostRef above already tracks onscreen for this whole card, so
+                the blob just needs the pause class — no separate observer. */}
             <div
-              className="mesh mesh-steel w-96 h-96 -top-40 -right-24 opacity-70"
+              className="mesh motion-ambient mesh-steel w-96 h-96 -top-40 -right-24 opacity-70"
               aria-hidden
             />
           </>

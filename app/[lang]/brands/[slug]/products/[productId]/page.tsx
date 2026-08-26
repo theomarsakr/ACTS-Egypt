@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/ui/Magnetic";
+import BorderBeam from "@/components/ui/BorderBeam";
 import DocCard from "@/components/brands/hub/DocCard";
 import { Gallery, VideoCard } from "@/components/brands/hub/ProductHub";
 import { getBrand } from "@/lib/data";
@@ -425,7 +426,7 @@ export default async function ProductDetailPage({ params }: Props) {
       <section className="pb-16">
         <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
-            <div className="border-beam relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <BorderBeam className="relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <h2 className="text-fluid-h4 font-extrabold text-white">
                   Need a {p.name.split(" ")[0]} for your project?
@@ -455,7 +456,7 @@ export default async function ProductDetailPage({ params }: Props) {
                   <Layers size={16} /> See the full {brand.name} range
                 </Link>
               </div>
-            </div>
+            </BorderBeam>
           </Reveal>
         </div>
       </section>

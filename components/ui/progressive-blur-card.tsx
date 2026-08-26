@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronDown, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import MeshBlob from "@/components/ui/MeshBlob";
 
 /**
  * ProgressiveBlurCard — a media-led profile card built on the "progressive
@@ -111,15 +112,13 @@ export function ProgressiveBlurCard({
                give it something to act on until a real portrait lands. */
             <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-linear-to-br from-navy-700 via-navy to-ink">
               <div className="blueprint absolute inset-0 opacity-50" aria-hidden />
-              <div
-                className="mesh mesh-brass"
+              <MeshBlob
+                variant="brass"
                 style={{ width: "60%", height: "90%", bottom: "-20%", left: "55%" }}
-                aria-hidden
               />
-              <div
-                className="mesh mesh-steel"
+              <MeshBlob
+                variant="steel"
                 style={{ width: "55%", height: "80%", top: "-20%", left: "-10%" }}
-                aria-hidden
               />
               <span className="font-display relative select-none text-[5.5rem] leading-none font-extrabold tracking-tight text-white/90 sm:text-[6.5rem]">
                 {initials}

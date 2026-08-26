@@ -19,6 +19,7 @@ import ProductFlipCard from "@/components/ProductFlipCard";
 import CountUp from "@/components/CountUp";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
+import BorderBeam from "@/components/ui/BorderBeam";
 import {
   brands,
   getBrand,
@@ -563,7 +564,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           <Reveal>
-            <div className="border-beam mt-14 relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15">
+            <BorderBeam className="mt-14 relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15">
               <div className="absolute inset-0" aria-hidden>
                 <Image
                   src="/images/refinery-blue.jpg"
@@ -606,7 +607,7 @@ export default async function BrandPage({ params }: Props) {
                   </a>
                 </div>
               </div>
-            </div>
+            </BorderBeam>
           </Reveal>
         </div>
       </section>

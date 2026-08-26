@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Container from "@/components/layout/Container";
+import MeshBlob from "@/components/ui/MeshBlob";
 
 /* Shared dark-hero backdrop: blueprint grid + brass glow + the full ACTS logo,
    tagline and brand colours included, aligned to the content column so it reads
@@ -20,7 +21,7 @@ export default function PageHeroBackground({
   return (
     <div className="absolute inset-0" aria-hidden>
       <div className="absolute inset-0 blueprint opacity-50" />
-      <div className="mesh mesh-brass w-152 h-152 top-1/2 -translate-y-1/2 -right-24 opacity-60" />
+      <MeshBlob variant="brass" className="w-152 h-152 top-1/2 -translate-y-1/2 -right-24 opacity-60" />
       <Container className="absolute inset-0">
         <Image
           src="/images/acts-logo-watermark.png"

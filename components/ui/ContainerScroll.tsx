@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { useOnscreen } from "@/lib/hooks";
 
 /**
  * ContainerScroll — a device-style bezel (dark frame + three-dot chrome bar)
@@ -24,6 +25,12 @@ import { useEffect, useRef, type ReactNode } from "react";
  * `transform: none` ends with the computed value actually being `none` once
  * settled, so anything sticky nested inside works normally the moment the
  * tilt-in finishes.
+ *
+ * This is also the shared ancestor for every ambient loop inside WHY ACTS —
+ * the badge sheen, the status-light pulse, the border-beam arc on the anchor
+ * card. useOnscreen publishes data-onscreen on this same node, so all three
+ * (each marked `.motion-ambient` where they're rendered) pause together the
+ * instant the section scrolls off screen, at every width.
  */
 export function ContainerScroll({
   label,
@@ -36,6 +43,7 @@ export function ContainerScroll({
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  useOnscreen(ref);
 
   useEffect(() => {
     const el = ref.current;
@@ -68,7 +76,7 @@ export function ContainerScroll({
       {/* Chrome bar — instrument-panel lights, not a browser mockup: one
           lit amber ("powered on"), two dormant. */}
       <div className="flex items-center gap-1.5 px-3 pt-2 pb-2.5 md:px-4">
-        <span className="device-light device-light--live h-2.5 w-2.5" aria-hidden />
+        <span className="device-light device-light--live motion-ambient h-2.5 w-2.5" aria-hidden />
         <span className="device-light h-2.5 w-2.5" aria-hidden />
         <span className="device-light h-2.5 w-2.5" aria-hidden />
         {label && (

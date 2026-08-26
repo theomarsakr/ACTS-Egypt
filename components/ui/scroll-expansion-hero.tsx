@@ -4,6 +4,7 @@ import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import Image from "next/image";
 import { useReducedMotion } from "motion/react";
 import ScrollHint from "@/components/ui/ScrollHint";
+import MeshBlob from "@/components/ui/MeshBlob";
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
@@ -326,8 +327,8 @@ export default function ScrollExpandMedia({
           the stage's ancestors. */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
         <div className="absolute inset-0 blueprint opacity-50" />
-        <div className="mesh mesh-brass -top-40 -left-24 h-lg w-lg opacity-40" />
-        <div className="mesh mesh-steel -right-24 -bottom-40 h-96 w-96 opacity-40" />
+        <MeshBlob variant="brass" className="-top-40 -left-24 h-lg w-lg opacity-40" />
+        <MeshBlob variant="steel" className="-right-24 -bottom-40 h-96 w-96 opacity-40" />
         <div className="dark-vignette" />
       </div>
 

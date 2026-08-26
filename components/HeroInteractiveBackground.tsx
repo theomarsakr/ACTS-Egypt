@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
+import MeshBlob from "@/components/ui/MeshBlob";
 
 /* ------------------------------------------------------------------ *
  * HeroInteractiveBackground
@@ -299,8 +300,8 @@ export default function HeroInteractiveBackground() {
         }}
       />
       {/* Drifting glows: warm amber bottom-left, cool steel top-right. */}
-      <div className="mesh mesh-brass w-152 h-152 -bottom-64 -left-48" />
-      <div className="mesh mesh-steel w-184 h-184 -top-56 -right-40" />
+      <MeshBlob variant="brass" className="w-152 h-152 -bottom-64 -left-48" />
+      <MeshBlob variant="steel" className="w-184 h-184 -top-56 -right-40" />
 
       {/* The live interactive dot-mesh field. */}
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />

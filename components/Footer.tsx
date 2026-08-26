@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Phone, Mail, MapPin, MessageCircle, Clock } from "lucide-react";
 import { brands, contact, offices, industries, officeHours } from "@/lib/data";
 import FooterQuoteForm from "@/components/FooterQuoteForm";
+import MeshBlob from "@/components/ui/MeshBlob";
 import { getDict, localeHref, type Dict, type Locale } from "@/lib/i18n";
 
 export default function Footer({
@@ -57,7 +58,7 @@ export default function Footer({
   return (
     <footer className="relative bg-ink text-white overflow-hidden">
       <div className="absolute inset-0 blueprint opacity-40" aria-hidden />
-      <div className="mesh mesh-steel w-136 h-136 -top-72 -left-40 opacity-50" aria-hidden />
+      <MeshBlob variant="steel" className="w-136 h-136 -top-72 -left-40 opacity-50" />
       <div className="dark-vignette" aria-hidden />
 
       <div className="relative max-w-7xl mx-auto px-6">

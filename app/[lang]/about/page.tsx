@@ -35,6 +35,7 @@ import CardLogoMark from "@/components/ui/CardLogoMark";
 import { ProgressiveBlurCard } from "@/components/ui/progressive-blur-card";
 import { ShineBorder } from "@/components/ui/ShineBorder";
 import FlipDiskMatrixLazy from "@/components/ui/flip-disk-matrix-lazy";
+import MeshBlob from "@/components/ui/MeshBlob";
 import { timeline, mission, values, offices, forwardDirection } from "@/lib/data";
 
 /** One icon per timeline entry, in order: Farris agency, second branch,
@@ -651,7 +652,7 @@ export default function AboutPage() {
                 "radial-gradient(ellipse 70% 90% at 50% 50%, black 20%, transparent 75%)",
             }}
           />
-          <div className="mesh mesh-brass w-152 h-152 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+          <MeshBlob variant="brass" className="w-152 h-152 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           <div className="dark-vignette" />
         </div>
         <div className="relative max-w-6xl mx-auto px-safe flex justify-center">

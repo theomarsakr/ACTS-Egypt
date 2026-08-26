@@ -341,11 +341,23 @@ p {
    CSS animation in phase when the section comes back into view, rather than
    restarting it — and costs less than tearing the animation down. */
 @media (prefers-reduced-motion: reduce) {
-  .motion-ambient {
+  .motion-ambient,
+  .motion-ambient::before,
+  .motion-ambient::after {
     animation: none !important;
   }
 }
-[data-onscreen="false"] .motion-ambient {
+/* Both forms are needed: some consumers (MeshBlob, BorderBeam, ContainerScroll)
+   observe themselves and carry data-onscreen directly; others (FieldProof's
+   host) observe an ancestor and the loop lives on a descendant. The ::before/
+   ::after variants cover effects driven by a pseudo-element (.sheen::after's
+   glint, .border-beam::after's arc) rather than the classed element itself. */
+[data-onscreen="false"] .motion-ambient,
+[data-onscreen="false"] .motion-ambient::before,
+[data-onscreen="false"] .motion-ambient::after,
+.motion-ambient[data-onscreen="false"],
+.motion-ambient[data-onscreen="false"]::before,
+.motion-ambient[data-onscreen="false"]::after {
   animation-play-state: paused;
 }
 
@@ -630,19 +642,16 @@ html[lang="ar"] .ltr-inline {
   }
 }
 
-/* Below `lg` the blobs also hold still. The drift is a slow ambient detail on a
-   wide dark band; on a phone the band is a third of the width, the blob is
-   mostly off-canvas, and nobody tracks a 26-second cycle on a screen they are
-   swiping through. Dropping the animation there also drops nine composited
-   layers' worth of GPU memory on exactly the devices with least of it. */
-@media (max-width: 1023.98px) {
-  .mesh {
-    will-change: auto;
-  }
-  .mesh-steel,
-  .mesh-brass {
-    animation: none;
-  }
+/* The drift now holds still by visibility, not viewport: <MeshBlob> (used by
+   every consumer of this class) self-observes and carries data-onscreen, so
+   `.motion-ambient` (declared above) pauses the animation the moment its own
+   section leaves the screen, at every width — the blob on a phone gets the
+   same full-fidelity drift a desktop sees, just not while nobody can see it.
+   The promoted layer is released with it, rather than held for the life of
+   the page — the actual cost this used to buy by dropping the effect below
+   1024px, without dropping the effect. */
+.motion-ambient.mesh[data-onscreen="false"] {
+  will-change: auto;
 }
 
 /* Glass chip on dark surfaces */
@@ -1005,9 +1014,15 @@ html.intro-pending body {
 }
 
 /* The "screen" sits recessed behind the bezel, like glass rather than a flat
-   cutout — an inset shadow along its inner edge sells the depth. */
+   cutout — an inset shadow along its inner edge sells the depth. `contain:
+   paint` bounds repaint to this box: without it, an inset box-shadow painted
+   over a 3781px-tall element repaints the whole thing on any change inside,
+   which is the actual cost the touch-only override below used to buy by
+   thinning the shadow instead — containment gets the same saving without
+   dropping fidelity anywhere. */
 .device-screen {
   position: relative;
+  contain: paint;
 }
 .device-screen::after {
   content: "";
@@ -1021,65 +1036,18 @@ html.intro-pending body {
     inset 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
-/* ---- WHY ACTS on touch-sized screens: the same composition, minus the parts
-   that cost a repaint per frame. -------------------------------------------
-
-   This section is ~4.5 viewports tall, so anything here that forces work on
-   every frame is paid over a long, deliberate scroll — which is precisely the
-   moment the section is asking to be read. Each rule below removes per-frame
-   cost while leaving the layout and the reading order untouched. ---------- */
-@media (max-width: 1023.98px) {
-  /* The bento's shared vanishing point. Once the cards have revealed their
-     transforms are `none`, but `perspective` keeps a 3D rendering context
-     alive over the full height of the grid for the life of the page, which
-     forces its subtree onto its own rasterisation path. The cards still rise
-     and fade in — they just do it flat, which at this width is all that ever
-     read anyway: the tilt is only legible across a wide multi-column grid. */
-  .why-bento {
-    perspective: none;
-  }
-  .why-bento .reveal {
-    transform: translateY(46px);
-  }
-
-  /* Five stacked shadow layers, the widest an 80px blur spread over 149px of
-     offset, on a frame that is as tall as the section. Two layers carry the
-     same lift at a fraction of the fill rate. */
-  .device-frame {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 10px 24px rgba(0, 0, 0, 0.28),
-      0 30px 60px -30px rgba(0, 0, 0, 0.45);
-  }
-
-  /* An inset shadow painted over the full area of a 3781px-tall element. The
-     hairline alone still separates screen from bezel. */
-  .device-screen::after {
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
-  }
-
-  /* Both are infinite loops on decorative chrome: a 6s specular sweep across
-     the manufacturer badge and a 3.2s pulse on the status light. Neither is
-     what anyone is scrolling this section to see, and both keep their layers
-     repainting the entire time it is on screen. */
-  .sheen::after {
-    content: none;
-  }
-  .device-light--live {
-    animation: none;
-  }
-
-  /* Hover-only, and there is no hover here. `isolation: isolate` forces a
-     stacking context on every card regardless, and the ::before keeps a
-     full-card gradient layer alive underneath the content to be revealed by a
-     pointer that never arrives. */
-  .spotlight-card {
-    isolation: auto;
-  }
-  .spotlight-card::before {
-    content: none;
-  }
-}
+/* ---- WHY ACTS composition, at every width -------------------------------
+   This used to thin itself out below 1024px (flatten the perspective, drop
+   two shadow layers, kill the badge sheen and status-light pulse, disable
+   the spotlight glow) because the section is ~4.5 viewports tall and a
+   repaint-per-frame cost is paid over a long, deliberate scroll. The same
+   saving now comes from visibility rather than viewport: `.sheen` and
+   `.device-light--live` below carry `.motion-ambient`, and ContainerScroll
+   (their shared ancestor) publishes data-onscreen, so both loops pause the
+   instant the section leaves the screen — at every width, not just >=1024.
+   `.device-screen`'s containment above absorbs the shadow-layer cost, and
+   `.spotlight-card`'s glow only ever ran on `:hover`/pointermove, so it was
+   never a per-frame cost to begin with. */
 
 /* Numerals wipe up from behind a mask, digit by digit. */
 .digit-rise {
@@ -1843,18 +1811,14 @@ html.intro-pending body {
   }
 }
 
-/* The beam is a desktop-only flourish. Animating a registered custom property
-   inside a `conic-gradient` is not a compositor animation: the gradient has to
-   be re-generated and the `mask-composite` ring re-cut on the CPU every frame,
-   across the element's whole area — and this sits on the largest card in WHY
-   ACTS. It runs forever, so on a phone it burns a fixed slice of every frame
-   budget whether or not anyone is looking at it. The card keeps its static
-   border; only the travelling arc goes. */
-@media (max-width: 1023.98px) {
-  .border-beam::after {
-    content: none;
-  }
-}
+/* Animating a registered custom property inside a `conic-gradient` is not a
+   compositor animation: the gradient has to be re-generated and the
+   `mask-composite` ring re-cut on the CPU every frame, across the element's
+   whole area — expensive enough that it used to be dropped below 1024px
+   outright. <BorderBeam> (the only way this class is used) self-observes and
+   carries `.motion-ambient`, so the pause rule above stops the CPU work the
+   instant the card scrolls off screen, at every width, rather than trading
+   away the arc on the narrower ones. */
 
 /* Shimmering gradient rim (Magic UI "shine border" genre, tuned brass→amber). A
    masked ::before paints only the border ring, and a drifting radial gradient
@@ -1943,6 +1907,13 @@ html.intro-pending body {
   container-type: size;
   pointer-events: none;
 }
+/* .motion-ambient on both: the rotation is a compositor transform and costs
+   essentially nothing on its own, but the parent's 2px blur turns each frame
+   into a re-rasterise rather than a re-composite — expensive enough that the
+   blur used to be dropped below 1024px outright. ShimmerButton observes its
+   own root and carries data-onscreen, so the pause rule above stops the
+   re-rasterise loop the instant the button scrolls off screen, restoring the
+   blur at every width without the per-frame cost that removal used to buy. */
 .shimmer-btn__track {
   position: absolute;
   inset: 0;
@@ -1961,18 +1932,6 @@ html.intro-pending body {
     transparent var(--shimmer-spread)
   );
   animation: spin-around calc(var(--shimmer-speed, 3s) * 2) infinite linear;
-}
-
-/* The glint keeps turning on touch screens — it is on the primary CTA and it
-   should — but without the 2px softening pass. The rotation itself is a
-   compositor transform and costs essentially nothing; the blur is what makes
-   it expensive, because a filtered layer has to be re-rasterised every frame
-   rather than just re-composited, forever, on a button that is on screen for
-   most of the page. The conic gradient's own falloff keeps the edge soft. */
-@media (max-width: 1023.98px) {
-  .shimmer-btn__spark {
-    filter: none;
-  }
 }
 .shimmer-btn__label {
   position: relative;

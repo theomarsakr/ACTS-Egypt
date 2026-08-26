@@ -16,6 +16,7 @@ import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import { ShineBorder } from "@/components/ui/ShineBorder";
 import Magnetic from "@/components/ui/Magnetic";
+import BorderBeam from "@/components/ui/BorderBeam";
 import SpecSheet from "@/components/SpecSheet";
 import Container from "@/components/layout/Container";
 
@@ -356,7 +357,7 @@ export default function ProductsPage() {
       <section className="py-16">
         <Container>
           <Reveal>
-            <div className="border-beam relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <BorderBeam className="relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <h3 className="text-fluid-h4 font-extrabold text-white">
                   Need one of these products or services?
@@ -386,7 +387,7 @@ export default function ProductsPage() {
                   Request a quote
                 </Link>
               </div>
-            </div>
+            </BorderBeam>
           </Reveal>
         </Container>
       </section>
