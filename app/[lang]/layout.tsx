@@ -178,13 +178,25 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       <body className="min-h-full flex flex-col">
         {/* Runs before first paint so the intro curtain is up from frame one,
             rather than dropping over an already-visible hero once React
-            hydrates. See `html.intro-pending` in globals.css. The timeout is
-            the failsafe: if the bundle never arrives, the curtain clears
-            itself and the site is usable. */}
+            hydrates. See `html.intro-pending` in globals.css.
+
+            IntroOverlay normally takes the curtain back down itself on its
+            very first animation frame (see dropCurtain calls there), so in
+            the ordinary case this is up for well under a second. The 2500ms
+            timeout is the failsafe for when that never happens — a slow
+            connection where the JS bundle itself is still the bottleneck —
+            and it's paired with a `load` listener so a page that finishes
+            loading sooner isn't held to the full 2500ms regardless: whichever
+            comes first wins. Previously a 6000ms-only failsafe, which on a
+            genuinely slow connection meant up to 6 seconds of a static,
+            unanimated dark screen — the worst perceived-performance moment
+            on the site. Also skips the curtain (and, via IntroOverlay's own
+            saveData check, the animated intro itself) under Save-Data/2G:
+            pure branding is the first thing worth cutting there. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(localStorage.getItem('acts-intro-seen')!=='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var e=document.documentElement;e.classList.add('intro-pending');setTimeout(function(){e.classList.remove('intro-pending')},6000)}}catch(_){}",
+              "try{var c=navigator.connection,sd=c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||''));if(localStorage.getItem('acts-intro-seen')!=='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sd){var e=document.documentElement;e.classList.add('intro-pending');var clear=function(){e.classList.remove('intro-pending')};setTimeout(clear,2500);addEventListener('load',clear,{once:true})}}catch(_){}",
           }}
         />
         <IntroOverlay />

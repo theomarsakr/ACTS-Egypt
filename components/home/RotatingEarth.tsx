@@ -3,13 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  geoBounds,
-  geoDistance,
-  geoGraticule,
-  geoOrthographic,
-  geoPath,
-} from "d3-geo";
+import { geoDistance, geoGraticule, geoOrthographic, geoPath } from "d3-geo";
 import { timer as d3Timer, type Timer } from "d3-timer";
 import { brands } from "@/lib/data";
 import { localeHref } from "@/lib/i18n";
@@ -17,11 +11,14 @@ import { useCoarsePointer, useReducedMotion } from "@/lib/hooks";
 
 /* Halftone-dot wireframe globe (orthographic projection, drag to rotate,
    scroll to zoom, slow auto-rotation when idle). Land is rendered as a field
-   of dots rather than filled shapes — the position of each dot is computed
-   once via a point-in-polygon scan over a low-res (110m) land outline, fetched
-   client-side since the dataset is only needed for this one visual. Everything
-   after that runs on a single canvas 2D context for performance (no per-dot
-   DOM nodes, no SVG).
+   of dots rather than filled shapes — the dot positions are precomputed at
+   build time (scripts/generate-land-dots.mjs, run over the same low-res
+   110m land outline) into public/geo/land-dots.json, fetched alongside the
+   outline itself rather than recomputed via a point-in-polygon scan on every
+   visitor's device: the outline and dot spacing are both fixed, so the scan
+   produces byte-identical output every time — the only thing that changed is
+   who pays for it. Everything after that runs on a single canvas 2D context
+   for performance (no per-dot DOM nodes, no SVG).
 
    Pins mark ACTS (Giza) and each represented brand's home facility, joined by
    great-circle supply arcs back to Giza. Pin hit-testing is done by hand on
@@ -38,44 +35,6 @@ type LandFeature = {
   geometry: LandGeometry;
 };
 type LandCollection = { type: "FeatureCollection"; features: LandFeature[] };
-
-const pointInRing = (point: GeoPosition, ring: GeoPosition[]): boolean => {
-  const [x, y] = point;
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, yi] = ring[i];
-    const [xj, yj] = ring[j];
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
-      inside = !inside;
-    }
-  }
-  return inside;
-};
-
-const pointInFeature = (point: GeoPosition, feature: LandFeature): boolean => {
-  const { geometry } = feature;
-  const polygons =
-    geometry.type === "Polygon" ? [geometry.coordinates] : geometry.coordinates;
-  for (const rings of polygons) {
-    if (!pointInRing(point, rings[0])) continue;
-    const inHole = rings.slice(1).some((ring) => pointInRing(point, ring));
-    if (!inHole) return true;
-  }
-  return false;
-};
-
-const generateDotsInFeature = (feature: LandFeature, dotSpacing = 16) => {
-  const dots: GeoPosition[] = [];
-  const [[minLng, minLat], [maxLng, maxLat]] = geoBounds(feature);
-  const step = dotSpacing * 0.08;
-  for (let lng = minLng; lng <= maxLng; lng += step) {
-    for (let lat = minLat; lat <= maxLat; lat += step) {
-      const point: GeoPosition = [lng, lat];
-      if (pointInFeature(point, feature)) dots.push(point);
-    }
-  }
-  return dots;
-};
 
 /* City-level coordinates for ACTS and each represented brand's home
    facility — public, well-known locations (not survey-grade, appropriate for
@@ -148,23 +107,37 @@ export default function RotatingEarth({
     const context = canvas?.getContext("2d");
     if (!canvas || !context) return;
 
-    const containerWidth = Math.min(width, window.innerWidth - 40);
-    const containerHeight = Math.min(height, containerWidth);
-    const radius = Math.min(containerWidth, containerHeight) / 2.4;
+    // Mutable, not const: `resize()` below recomputes all four on window
+    // resize/orientation change, which used to only ever run once at mount.
+    let containerWidth = Math.min(width, window.innerWidth - 40);
+    let containerHeight = Math.min(height, containerWidth);
+    let radius = Math.min(containerWidth, containerHeight) / 2.4;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    // Capped at 2x — an uncapped DPR on a 3x/4x phone would triple the canvas'
-    // pixel area (and every arc/fill call in `render`) for no visible gain.
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = containerWidth * dpr;
-    canvas.height = containerHeight * dpr;
-    canvas.style.width = `${containerWidth}px`;
-    canvas.style.height = `${containerHeight}px`;
-    context.scale(dpr, dpr);
+    const projection = geoOrthographic().clipAngle(90);
 
-    const projection = geoOrthographic()
-      .scale(radius)
-      .translate([containerWidth / 2, containerHeight / 2])
-      .clipAngle(90);
+    // Sizes the canvas to the current viewport and rescales the projection,
+    // preserving whatever zoom ratio the user had dialed in (a resize
+    // shouldn't silently reset a manual zoom back to 1x).
+    const resize = () => {
+      const zoomRatio = radius > 0 ? projection.scale() / radius : 1;
+      containerWidth = Math.min(width, window.innerWidth - 40);
+      containerHeight = Math.min(height, containerWidth);
+      radius = Math.min(containerWidth, containerHeight) / 2.4;
+      // Capped at 2x — an uncapped DPR on a 3x/4x phone would triple the
+      // canvas' pixel area (and every arc/fill call in `render`) for no
+      // visible gain.
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = containerWidth * dpr;
+      canvas.height = containerHeight * dpr;
+      canvas.style.width = `${containerWidth}px`;
+      canvas.style.height = `${containerHeight}px`;
+      // setTransform, not scale: scale() compounds on every call, and this
+      // now runs more than once.
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      projection.translate([containerWidth / 2, containerHeight / 2]).scale(radius * zoomRatio);
+    };
+    resize();
     const path = geoPath(projection, context);
     const graticule = geoGraticule();
     const arcs = PINS.filter((p) => !p.isHub).map((p) => ({
@@ -527,8 +500,7 @@ export default function RotatingEarth({
     canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
 
     // Fetched once, the first time the globe becomes visible — not on mount —
-    // so a visitor who never scrolls this far never pays for the request or
-    // for the point-in-polygon scan that turns it into dots.
+    // so a visitor who never scrolls this far never pays for either request.
     let landDataRequested = false;
     const landDataAbort = new AbortController();
     const loadLandData = () => {
@@ -537,26 +509,32 @@ export default function RotatingEarth({
       (async () => {
         try {
           setIsLoading(true);
-          // Served from our own origin (public/geo/), not raw.githubusercontent.com.
-          // A cross-origin fetch here put the hero visual at the mercy of ad
-          // blockers, privacy extensions, corporate proxies, and GitHub's
-          // rate limits, and would be blocked outright by connect-src 'self'.
-          // Source: github.com/martynafford/natural-earth-geojson (MIT), from
-          // Natural Earth 110m physical land (public domain).
-          const response = await fetch("/geo/ne_110m_land.json", {
-            signal: landDataAbort.signal,
-          });
-          if (!response.ok) {
-            throw new Error(`land data responded ${response.status}`);
+          // Both served from our own origin (public/geo/), not
+          // raw.githubusercontent.com. A cross-origin fetch here put the hero
+          // visual at the mercy of ad blockers, privacy extensions, corporate
+          // proxies, and GitHub's rate limits, and would be blocked outright
+          // by connect-src 'self'. Outline source: github.com/martynafford/
+          // natural-earth-geojson (MIT), from Natural Earth 110m physical
+          // land (public domain). land-dots.json is the same outline's dots,
+          // precomputed by scripts/generate-land-dots.mjs — see that file
+          // for why the scan itself doesn't run here anymore.
+          const [outlineRes, dotsRes] = await Promise.all([
+            fetch("/geo/ne_110m_land.json", { signal: landDataAbort.signal }),
+            fetch("/geo/land-dots.json", { signal: landDataAbort.signal }),
+          ]);
+          if (!outlineRes.ok) {
+            throw new Error(`land outline responded ${outlineRes.status}`);
           }
-          const collection = (await response.json()) as LandCollection;
+          if (!dotsRes.ok) {
+            throw new Error(`land dots responded ${dotsRes.status}`);
+          }
+          const collection = (await outlineRes.json()) as LandCollection;
           if (!collection?.features?.length) {
             throw new Error("land data contained no features");
           }
+          const dots = (await dotsRes.json()) as GeoPosition[];
           landFeatures = collection;
-          landFeatures.features.forEach((feature) => {
-            allDots.push(...generateDotsInFeature(feature));
-          });
+          allDots.push(...dots);
           render();
           setIsLoading(false);
         } catch (err) {
@@ -597,6 +575,19 @@ export default function RotatingEarth({
     io.observe(canvas);
     document.addEventListener("visibilitychange", onVisibility);
 
+    // Window resize / orientation change — rAF-throttled so a drag-resize
+    // doesn't re-layout the canvas every intermediate pixel.
+    let resizeFrame: number | null = null;
+    const onResize = () => {
+      if (resizeFrame !== null) return;
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = null;
+        resize();
+        render();
+      });
+    };
+    window.addEventListener("resize", onResize);
+
     render();
 
     return () => {
@@ -604,6 +595,8 @@ export default function RotatingEarth({
       landDataAbort.abort();
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("resize", onResize);
+      if (resizeFrame !== null) cancelAnimationFrame(resizeFrame);
       canvas.removeEventListener("mousedown", handleMouseDown);
       canvas.removeEventListener("mousemove", handleHover);
       canvas.removeEventListener("mouseleave", handleLeave);

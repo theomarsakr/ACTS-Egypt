@@ -34,6 +34,15 @@ const HOLD_MS = 2800;
 const BLANK_MS = 700;
 /* Per-column flip delay — the sweep that makes it read as mechanical. */
 const STAGGER_MS = 10;
+/* Below this, letting the 49 columns keep shrinking to fit stops being a
+   crisp reflow and starts being illegible — at 360px each disk is ~5-6px, a
+   smear rather than a letterform. Reducing COLS would be content removal
+   (the board is genuinely 49 wide); this is the floor per disk instead, with
+   the board panning horizontally under it. Matches the 3px gap ceiling used
+   below (see MIN_GRID_WIDTH). */
+const MIN_DISK_PX = 8;
+const GAP_PX = 3;
+const MIN_GRID_WIDTH = COLS * MIN_DISK_PX + (COLS - 1) * GAP_PX;
 
 const WORDS = ["ADVANCED", "COMPANY", "FOR", "TRADING", "SERVICES", "ACTS"];
 
@@ -173,15 +182,23 @@ export function FlipDiskMatrix({ className = "" }: { className?: string }) {
     <div
       role="img"
       aria-label="ACTS — Advanced Company for Trading Services"
-      className={`relative w-full max-w-6xl rounded-3xl border border-navy-700 bg-linear-to-b from-navy-700 to-navy p-3 shadow-[inset_0_4px_20px_rgba(0,0,0,0.8),0_30px_70px_-15px_rgba(0,0,0,0.7),0_0_80px_-20px_rgba(138,106,48,0.35)] md:p-8 ${className}`}
+      className={`relative w-full max-w-6xl rounded-3xl border border-navy-700 bg-linear-to-b from-navy-700 to-navy p-3 shadow-[inset_0_4px_20px_rgba(0,0,0,0.8),0_30px_70px_-15px_rgba(0,0,0,0.7),0_0_80px_-20px_rgba(138,106,48,0.35)] [content-visibility:auto] md:p-8 ${className}`}
     >
-      <div className="relative rounded-xl bg-black p-3 shadow-[inset_0_2px_14px_rgba(0,0,0,1)] md:p-5">
+      {/* Below MIN_GRID_WIDTH the board scrolls rather than shrinking the
+          disks past legibility — same overflow-x-auto + .scroll-fade-x
+          pattern as the dock/tab scrollers, with --scroll-fade-bg set to
+          match this panel's black rather than the default white. */}
+      <div
+        className="scroll-fade-x relative overflow-x-auto rounded-xl bg-black p-3 shadow-[inset_0_2px_14px_rgba(0,0,0,1)] [scrollbar-width:none] md:p-5 [&::-webkit-scrollbar]:hidden"
+        style={{ "--scroll-fade-bg": "#000" } as React.CSSProperties}
+      >
         <div
           aria-hidden
-          className="grid w-full"
+          className="grid"
           style={{
-            gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))`,
-            gap: "min(0.3vw, 3px)",
+            gridTemplateColumns: `repeat(${COLS}, minmax(${MIN_DISK_PX}px, 1fr))`,
+            gap: `${GAP_PX}px`,
+            minWidth: `${MIN_GRID_WIDTH}px`,
           }}
         >
           {bits.map((row, y) =>

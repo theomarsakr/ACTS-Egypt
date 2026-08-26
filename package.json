@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:links": "node scripts/check-product-links.mjs",
+    "generate:land-dots": "node scripts/generate-land-dots.mjs",
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:responsive": "playwright test tests/responsive.spec.ts",
     "test:visual": "playwright test tests/visual.spec.ts",

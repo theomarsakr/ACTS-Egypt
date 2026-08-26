@@ -86,11 +86,16 @@ export function ProgressiveBlurCard({
              panel's edges, so the panel sits in its own colour glow. Clipped
              by the card's overflow-hidden. */
           <div className="absolute inset-0 scale-110" aria-hidden>
+            {/* blur-3xl destroys all detail finer than a big soft colour
+                blob, so this can't tell a 672px fetch from a 64px one apart
+                — a full-res copy was paying for resolution nobody could
+                ever see. */}
             <Image
               src={photoSrc}
               alt=""
               fill
-              sizes="(max-width: 640px) 100vw, 672px"
+              sizes="64px"
+              quality={20}
               className="scale-110 object-cover opacity-60 blur-3xl brightness-150"
             />
           </div>

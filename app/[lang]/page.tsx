@@ -34,8 +34,6 @@ import Magnetic from "@/components/ui/Magnetic";
 import ShimmerButton from "@/components/ui/ShimmerButton";
 import MeshBlob from "@/components/ui/MeshBlob";
 import BorderBeam from "@/components/ui/BorderBeam";
-// Re-enable together with the render site further down (search CLIENT TESTIMONIALS).
-// import TestimonialCarousel from "@/components/TestimonialCarousel";
 import {
   brands,
   pastManufacturers,
@@ -892,20 +890,6 @@ export default async function Home({
           </div>
         </div>
       </section>
-
-      {/* ============ CLIENT TESTIMONIALS ============ */}
-      {/* Off until real quotes exist. The component still holds its two seed
-          records verbatim — "[CLIENT NAME]", "[Job Title]", "[Add client
-          testimonial quote here…]" — and those were rendering into the served
-          HTML of the English homepage, brackets and all, along with a "[Client
-          Photo]" avatar and four social links pointing at `href="#"`.
-
-          A section that is visibly unfinished costs more trust than the missing
-          section does, so it stays out of the page rather than shipping as
-          scaffolding. Flip this back on — and swap the seed records in
-          <TestimonialCarousel> for real ones, including the social URLs — the
-          moment there are quotes to run. */}
-      {/* {lang !== "ar" && <TestimonialCarousel />} */}
 
       {/* ============ COMPANY GALLERY ============ */}
       <section id="gallery" className="scroll-anchor pb-20 md:pb-24 lg:pb-28 pt-20 md:pt-24 lg:pt-28">

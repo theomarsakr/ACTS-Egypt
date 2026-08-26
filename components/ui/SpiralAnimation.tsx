@@ -89,11 +89,30 @@ export function SpiralAnimation() {
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(host);
-    raf = requestAnimationFrame(frame);
+
+    // IntroOverlay is always either fullscreen or unmounted, so the usual
+    // IntersectionObserver "off screen" gate doesn't apply here — the one
+    // real blind spot is a hidden tab (alt-tab away mid-intro), which this
+    // loop otherwise keeps redrawing 540 dots into for nothing.
+    const play = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(frame);
+    };
+    const pause = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") play();
+      else pause();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    play();
 
     return () => {
-      cancelAnimationFrame(raf);
+      pause();
       ro.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 

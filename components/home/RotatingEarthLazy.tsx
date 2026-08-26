@@ -15,8 +15,13 @@ const RotatingEarth = dynamic(() => import("@/components/home/RotatingEarth"), {
  * a component that *is* server-rendered still has its client chunk fetched
  * during hydration, whether or not it's ever scrolled into view — the actual
  * deferral comes from not rendering the real component at all until this
- * IntersectionObserver fires. The placeholder reserves the same 520×520
- * footprint so nothing shifts when it swaps in.
+ * IntersectionObserver fires. The placeholder reserves the same footprint so
+ * nothing shifts when it swaps in — `aspect-square` with only `maxWidth`
+ * capped, not a fixed height: the real canvas is always square (its own
+ * `maxWidth: 100%, height: auto`), so a fixed height here that doesn't
+ * shrink with the clamped width reserves a box taller than the globe that
+ * actually mounts — on a 390px phone, ~170px of dead space above whatever
+ * follows, which is exactly the CLS this is supposed to prevent.
  */
 export default function RotatingEarthLazy({
   width = 520,
@@ -57,8 +62,8 @@ export default function RotatingEarthLazy({
   return (
     <div
       ref={ref}
-      style={{ width, height, maxWidth: "100%" }}
-      className={`rounded-full bg-navy-800 ${className}`}
+      style={{ maxWidth: width }}
+      className={`aspect-square w-full rounded-full bg-navy-800 ${className}`}
     />
   );
 }

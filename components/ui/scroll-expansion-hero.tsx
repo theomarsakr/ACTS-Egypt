@@ -1,16 +1,23 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Image from "next/image";
 import { useReducedMotion } from "motion/react";
 import ScrollHint from "@/components/ui/ScrollHint";
 import MeshBlob from "@/components/ui/MeshBlob";
+import { useMediaBudget } from "@/lib/hooks";
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
   mediaSrc: string;
   /** Describes the expanding photo/video for assistive tech; omit if purely atmospheric. */
   mediaAlt?: string;
+  /**
+   * For `mediaType: "video"`: the base layer, visible immediately and — for
+   * Save-Data/2G/reduced-motion visitors, who never mount a <video> at all —
+   * permanently. Effectively required for any real video usage even though
+   * it's typed optional (an image-only caller has no use for it).
+   */
   posterSrc?: string;
   /**
    * Ties the video's playhead to the expansion progress instead of letting it
@@ -104,6 +111,10 @@ export default function ScrollExpandMedia({
   // Reduced motion pins progress at 1, so there is no gesture to scrub with —
   // fall back to ordinary playback rather than freezing on the last frame.
   const scrubbing = scrubOnScroll && mediaType === "video" && !reduced;
+  // Save-Data/2G visitors get the poster and nothing else — see the
+  // mount-gating effect below for why "nothing else" also means the <video>
+  // tag itself never exists in the tree for them, not just an unset src.
+  const budget = useMediaBudget();
 
   const sectionRef = useRef<HTMLElement>(null);
   const runwayRef = useRef<HTMLDivElement>(null);
@@ -115,6 +126,35 @@ export default function ScrollExpandMedia({
   // Installed by the scrub effect below; called from the scroll loop so both
   // share one frame's worth of work.
   const seekRef = useRef<(() => void) | null>(null);
+  // Gates when the <video> element itself is first mounted (see the effect
+  // below) — kept separate from `budget` so a still-budget visitor never
+  // flips this at all.
+  const [videoReady, setVideoReady] = useState(false);
+  const showVideo = mediaType === "video" && budget === "full" && videoReady;
+
+  // The poster/establishing shot are this stage's real content and are
+  // already `priority`-loaded; a multi-megabyte scrub video does not need to
+  // join that same first round of requests. Not rendering the <video> tag at
+  // all until the stage is about to be seen means the browser's preload
+  // scanner — which reads the raw HTML before any JS runs — never has a
+  // `preload="auto"` video source to race against the page's actual LCP
+  // candidate in the first place. `rootMargin` matches useOnscreen's
+  // "prepare" convention elsewhere on the site.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || mediaType !== "video" || budget !== "full") return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVideoReady(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, [mediaType, budget]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -203,6 +243,10 @@ export default function ScrollExpandMedia({
   // entirely. `seeked` is what tells us the decoder is free again.
   useEffect(() => {
     const video = videoRef.current;
+    // Also re-runs once `showVideo` flips true: before that the <video> tag
+    // doesn't exist yet (see the mount-gating effect above), so the first
+    // pass through here is always a no-op for anything but a still-budget
+    // visitor, who never mounts one at all.
     if (!video) return;
     if (!scrubbing) {
       // `autoPlay` is only consulted when the element is created, and
@@ -245,7 +289,7 @@ export default function ScrollExpandMedia({
       video.removeEventListener("seeked", onSeeked);
       video.removeEventListener("loadedmetadata", seek);
     };
-  }, [scrubbing]);
+  }, [scrubbing, showVideo]);
 
   // Split at the word boundary closest to the title's midpoint (by character
   // count) rather than always "first word vs. the rest" — a title longer than
@@ -283,20 +327,35 @@ export default function ScrollExpandMedia({
   const media =
     mediaType === "video" ? (
       <div className="relative h-full w-full pointer-events-none">
-        <video
-          ref={videoRef}
-          src={mediaSrc}
-          poster={posterSrc}
-          autoPlay={!scrubbing}
-          muted
-          loop={!scrubbing}
-          playsInline
-          preload="auto"
-          className="h-full w-full object-cover"
-          controls={false}
-          disablePictureInPicture
-          disableRemotePlayback
-        />
+        {/* Poster base layer — visible immediately (it's what a still-budget
+            visitor sees permanently, since they never get a <video> at
+            all), and what fills this frame in the gap between mount and
+            `showVideo` flipping true for everyone else. */}
+        {posterSrc && (
+          <Image
+            src={posterSrc}
+            alt=""
+            fill
+            priority
+            sizes="95vw"
+            className="object-cover"
+          />
+        )}
+        {showVideo && (
+          <video
+            ref={videoRef}
+            src={mediaSrc}
+            autoPlay={!scrubbing}
+            muted
+            loop={!scrubbing}
+            playsInline
+            preload="auto"
+            className="absolute inset-0 h-full w-full object-cover"
+            controls={false}
+            disablePictureInPicture
+            disableRemotePlayback
+          />
+        )}
         <div className="absolute inset-0" style={cardScrim} />
       </div>
     ) : (

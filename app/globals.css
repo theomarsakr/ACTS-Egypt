@@ -821,8 +821,9 @@ html[lang="ar"] .ltr-inline {
    first paint and puts `intro-pending` on <html>; this rule paints the curtain
    with the very first frame, and the React overlay simply arrives on top of an
    already-dark screen (it sits at z-100, this at z-99). The script also arms a
-   timeout to clear the class, so a failed JS bundle can never leave the curtain
-   stuck over the site. */
+   2500ms failsafe (plus a `load` listener, whichever comes first) to clear the
+   class, so a slow or failed JS bundle can never leave a static curtain over
+   the site for long — see the script's own doc comment in layout.tsx. */
 html.intro-pending::before {
   content: "";
   position: fixed;

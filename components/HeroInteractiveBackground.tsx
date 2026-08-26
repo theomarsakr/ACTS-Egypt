@@ -36,6 +36,17 @@ function smoothstep(edge0: number, edge1: number, x: number) {
   return t * t * (3 - 2 * t);
 }
 
+// Linear-interpolates y for x in [x0, x1], clamped flat outside that range.
+// Used below for dot spacing / cursor radius: both used to be a two-step
+// function of viewport width (a jump at 640px, another at 1024px), which
+// read as a visible snap on a resize or an in-between device. The density
+// itself is legitimate — parity means the same content and effects, not the
+// same dot count — it's the discontinuity that was the actual defect.
+function lerpClamp(x: number, x0: number, x1: number, y0: number, y1: number) {
+  const t = Math.min(1, Math.max(0, (x - x0) / (x1 - x0)));
+  return y0 + (y1 - y0) * t;
+}
+
 export default function HeroInteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
@@ -83,9 +94,10 @@ export default function HeroInteractiveBackground() {
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Denser dots on wider viewports; keep the count sane on phones.
-      spacing = width < 640 ? 30 : width < 1024 ? 27 : 24;
-      radius = width < 640 ? 120 : 180;
+      // Denser dots on wider viewports; keep the count sane on phones. A
+      // continuous ramp, not a step, so there's no visible snap mid-resize.
+      spacing = lerpClamp(width, 360, 1280, 30, 24);
+      radius = lerpClamp(width, 360, 960, 120, 180);
       // One dot-row of bleed on every side so ridges never clip at the edge.
       cols = Math.ceil(width / spacing) + 2;
       rows = Math.ceil(height / spacing) + 2;

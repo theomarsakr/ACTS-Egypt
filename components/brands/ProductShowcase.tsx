@@ -20,6 +20,24 @@ import ScrollHint from "@/components/ui/ScrollHint";
  * (scroll scrub, projection, docking, lifecycle) is shared. Rendering is
  * client-only, DPR-clamped, paused off-screen, disposed on unmount;
  * prefers-reduced-motion gets the static installed view.
+ *
+ * The render loop only does a full WebGL render on frames where `progress`
+ * actually changed (see `lastRendered` below) — the loop itself still runs
+ * at rAF cadence while the track is on screen, but re-renders an unchanged
+ * scene only while the user is mid-scroll, not for the (much more common)
+ * time spent reading a callout or paused between phases.
+ *
+ * Two other angles considered and deliberately skipped: pinning
+ * `shadow.autoUpdate = false` would freeze the product's cast shadow at
+ * whatever rotation it last rendered — wrong the instant the product turns
+ * again, since none of these parts are actually radially symmetric (the
+ * lever, the outlet pipe). The progress-gating above already gets the same
+ * saving on the frames that matter (the shadow only needs to be
+ * recomputed exactly when the scene changes, which is exactly when this
+ * now renders). And caching the PMREM environment texture at module scope
+ * doesn't hold up across mounts: it's generated against one renderer's GL
+ * context, and only one showcase is ever mounted at a time, so there's
+ * nothing to actually share it with.
  */
 
 const PHASE_SPLIT = 0.55;
@@ -408,8 +426,13 @@ export default function ProductShowcase({ slug }: { slug: string }) {
     const track = trackRef.current;
     if (!host || !track || !config) return;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // MSAA buys nothing visible once the device is already supersampling via
+    // DPR — on a 3x phone the geometry edges are already smoother than the
+    // antialiasing pass could add, so it's pure GPU cost with no visible
+    // difference there.
+    const dpr = Math.min(window.devicePixelRatio, 2);
+    const renderer = new THREE.WebGLRenderer({ antialias: dpr < 2, alpha: true });
+    renderer.setPixelRatio(dpr);
     renderer.shadowMap.enabled = true;
     // PCFSoftShadowMap is deprecated as of three r185 and already falls back
     // to this internally, so naming it directly keeps the identical output
@@ -478,8 +501,21 @@ export default function ProductShowcase({ slug }: { slug: string }) {
       return Math.min(1, Math.max(0, -rect.top / scrollable));
     };
 
+    // A full-frame WebGL render (shadow pass + PBR shading, over an h-[420vh]
+    // track) is the expensive part of this loop, not reading scroll position
+    // — and `progress` only actually changes while the user is mid-scroll.
+    // The rest of the time (reading a callout, paused between phases, tab
+    // scrolled to this section and left alone) every frame was re-rendering
+    // an unchanged scene, forever, for as long as the track stayed on
+    // screen. -1 forces the first call through regardless.
+    let lastRendered = -1;
+    const PROGRESS_EPSILON = 0.0005;
+
     const render = () => {
       if (!reduced) progress = readProgress();
+      if (Math.abs(progress - lastRendered) < PROGRESS_EPSILON) return;
+      lastRendered = progress;
+
       const pA = Math.min(1, progress / PHASE_SPLIT);
       const pB = smoothstep(
         Math.min(1, Math.max(0, (progress - PHASE_SPLIT) / (1 - PHASE_SPLIT)))
@@ -526,7 +562,15 @@ export default function ProductShowcase({ slug }: { slug: string }) {
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       cancelAnimationFrame(raf);
-      if (visible) raf = requestAnimationFrame(loop);
+      if (!visible) return;
+      if (reduced) {
+        // No scroll-driven state to poll: the installed view is the whole
+        // story, so it's one render on arrival rather than a loop that would
+        // otherwise just re-confirm the same frame forever.
+        render();
+      } else {
+        raf = requestAnimationFrame(loop);
+      }
     });
     io.observe(track);
 
@@ -543,6 +587,11 @@ export default function ProductShowcase({ slug }: { slug: string }) {
       });
       pmrem.dispose();
       renderer.dispose();
+      // Browsers cap live WebGL contexts (commonly 8-16); without an
+      // explicit release, a few showcase page visits in a row (or a fast
+      // back/forward through several brand pages) can exhaust that budget
+      // and leave the *next* context creation failing outright.
+      renderer.forceContextLoss();
       host.removeChild(renderer.domElement);
     };
   }, [reduced, config]);

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import SpiralAnimation from "@/components/ui/SpiralAnimation";
+import { useSaveData } from "@/lib/hooks";
 
 /* ------------------------------------------------------------------ *
  * IntroOverlay
@@ -10,9 +11,10 @@ import SpiralAnimation from "@/components/ui/SpiralAnimation";
  * A once-ever brand intro that doubles as the site's loading screen: an amber
  * spiral forms behind the ACTS wordmark while a brass progress rule fills,
  * then the whole thing hands off to the hero. Shown only on a visitor's first
- * visit (remembered in localStorage) and never under prefers-reduced-motion.
- * Skippable — click anywhere, press Esc, or hit "Skip" — and locks page scroll
- * while visible.
+ * visit (remembered in localStorage), never under prefers-reduced-motion, and
+ * never under Save-Data/2G — pure branding is the first thing worth cutting
+ * on a constrained connection. Skippable — click anywhere, press Esc, or hit
+ * "Skip" — and locks page scroll while visible.
  *
  * The progress is REAL, not a scripted timer. It tracks two signals that
  * actually decide whether the hero behind it will look finished when it lifts:
@@ -72,6 +74,7 @@ function dropCurtain() {
 
 export default function IntroOverlay() {
   const reduced = useReducedMotion();
+  const saveData = useSaveData();
   const [show, setShow] = useState(false);
   const [closing, setClosing] = useState(false);
 
@@ -83,14 +86,19 @@ export default function IntroOverlay() {
   const doneTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const closingRef = useRef(false);
 
-  // First-visit + motion check (client-only → no SSR mismatch). Mark as seen
-  // immediately so a refresh mid-intro doesn't replay it.
+  // First-visit + motion/data check (client-only → no SSR mismatch). Mark as
+  // seen immediately so a refresh mid-intro doesn't replay it.
   useEffect(() => {
     // The pre-paint script is deliberately cheap and can raise the curtain in
     // cases this component then declines. Clearing it on every path that does
     // NOT go on to show the intro is what guarantees the curtain always has an
     // owner to take it down.
-    if (reduced) {
+    //
+    // saveData is treated exactly like reduced motion, not marked as
+    // permanently seen either: the intro is pure branding, and someone on a
+    // constrained connection shouldn't pay for it — but if they're back on a
+    // normal connection next visit, they should still get to see it once.
+    if (reduced || saveData) {
       dropCurtain();
       return;
     }
@@ -115,7 +123,7 @@ export default function IntroOverlay() {
     // the intro is a deliberate post-mount setState, not a cascading render.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setShow(true);
-  }, [reduced]);
+  }, [reduced, saveData]);
 
   const dismiss = useCallback(() => {
     if (closingRef.current) return;
