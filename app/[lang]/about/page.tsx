@@ -138,6 +138,7 @@ export default function AboutPage() {
       <ScrollExpandMedia
         mediaType="video"
         mediaSrc="/videos/Ceo-scrub.mp4"
+        mediaSrcMobile="/videos/Ceo-scrub-mobile.mp4"
         posterSrc="/videos/Ceo-poster.jpg"
         mediaAlt="ACTS company film"
         scrubOnScroll

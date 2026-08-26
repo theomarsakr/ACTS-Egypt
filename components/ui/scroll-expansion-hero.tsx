@@ -10,6 +10,13 @@ import { useMediaBudget } from "@/lib/hooks";
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
   mediaSrc: string;
+  /**
+   * Smaller encode served under a 767px viewport (resolution-matching, like
+   * `<Image sizes>` — same content, not a feature dropped). This stage's
+   * frame never exceeds 95vw, so a phone has no use for the desktop file's
+   * full pixel width.
+   */
+  mediaSrcMobile?: string;
   /** Describes the expanding photo/video for assistive tech; omit if purely atmospheric. */
   mediaAlt?: string;
   /**
@@ -97,6 +104,7 @@ function splitTitleBalanced(title?: string): [string, string] {
 export default function ScrollExpandMedia({
   mediaType = "image",
   mediaSrc,
+  mediaSrcMobile,
   mediaAlt = "",
   posterSrc,
   scrubOnScroll = false,
@@ -344,7 +352,6 @@ export default function ScrollExpandMedia({
         {showVideo && (
           <video
             ref={videoRef}
-            src={mediaSrc}
             autoPlay={!scrubbing}
             muted
             loop={!scrubbing}
@@ -354,7 +361,16 @@ export default function ScrollExpandMedia({
             controls={false}
             disablePictureInPicture
             disableRemotePlayback
-          />
+          >
+            {/* The browser's own resource-selection algorithm picks the
+                first matching <source> once, at load — resolution-matching,
+                the same allowance <Image sizes> already gets, not a
+                viewport-gated feature. */}
+            {mediaSrcMobile && (
+              <source src={mediaSrcMobile} media="(max-width: 767px)" type="video/mp4" />
+            )}
+            <source src={mediaSrc} type="video/mp4" />
+          </video>
         )}
         <div className="absolute inset-0" style={cardScrim} />
       </div>
