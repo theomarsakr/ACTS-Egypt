@@ -38,13 +38,22 @@ export default function SpecSheet({ records }: { records: SpecRecord[] }) {
       transition: { staggerChildren: reduced ? 0 : 0.08 },
     },
   };
+  // Under reduced motion the entrance is instant, not merely un-staggered.
+  // This previously kept `hidden: { opacity: 0 }` and the 0.55s fade, which
+  // contradicts the contract in the docblock above — a half-second opacity
+  // ramp is still motion, and it is the part vestibular-sensitive users are
+  // most likely to notice on a nine-row datasheet. It also made the a11y gate
+  // non-deterministic: axe samples computed color, so a row caught mid-fade
+  // reports the blended value (#987c49) rather than the --color-brand token
+  // (#8a6a30), failing contrast at 3.95:1 even though the token itself clears
+  // 4.5:1 at rest (5.02:1 on white, and gray-500 at 5.98:1).
   const row: Variants = {
-    hidden: reduced ? { opacity: 0 } : { opacity: 0, y: 18, filter: "blur(6px)" },
+    hidden: reduced ? { opacity: 1 } : { opacity: 0, y: 18, filter: "blur(6px)" },
     show: {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+      transition: reduced ? { duration: 0 } : { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
@@ -80,7 +89,7 @@ export default function SpecSheet({ records }: { records: SpecRecord[] }) {
                 {rec.tag}
               </div>
             )}
-            <h4 className="text-[17px] font-bold text-navy leading-snug">
+            <h4 className="text-fluid-h5 font-bold text-navy leading-snug">
               {rec.title}
             </h4>
             <dl className="mt-3 grid gap-x-8 gap-y-3 sm:grid-cols-2">

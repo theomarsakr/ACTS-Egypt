@@ -89,13 +89,15 @@ export function ProgressiveBlurCard({
             {/* blur-3xl destroys all detail finer than a big soft colour
                 blob, so this can't tell a 672px fetch from a 64px one apart
                 — a full-res copy was paying for resolution nobody could
-                ever see. */}
+                ever see. (There was a `quality={20}` here too; it never took
+                effect, because 20 is not in `images.qualities` and Next snaps
+                an unlisted quality to the nearest allowed one. `sizes` is what
+                does the work.) */}
             <Image
               src={photoSrc}
               alt=""
               fill
               sizes="64px"
-              quality={20}
               className="scale-110 object-cover opacity-60 blur-3xl brightness-150"
             />
           </div>
@@ -109,7 +111,6 @@ export function ProgressiveBlurCard({
               fill
               sizes="(max-width: 640px) 100vw, 672px"
               className="object-cover"
-              priority
             />
           ) : (
             /* Monogram stand-in. A progressive blur dissolves *detail*, so
@@ -183,7 +184,7 @@ export function ProgressiveBlurCard({
             The reference's one-line "title … metadata" row suits an album,
             where the metadata is a list of facts of equal weight; a person's
             title is subordinate to their name, so it reads better stacked. */}
-        <h3 className="font-display text-[1.75rem] leading-none font-bold tracking-tight text-white sm:text-[2.125rem]">
+        <h3 className="font-display text-fluid-h3 leading-none font-bold tracking-[-0.02em] text-white">
           {name}
         </h3>
         <p className="eyebrow mt-2.5 text-[11px] text-amber">{role}</p>

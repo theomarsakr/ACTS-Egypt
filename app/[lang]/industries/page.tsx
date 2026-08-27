@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowRight,
   ClipboardList,
@@ -35,6 +34,7 @@ import {
 import Reveal from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
+import SectorPanel from "@/components/SectorPanel";
 import SiteDock from "@/components/SiteDock";
 import Tabs, { type TabItem } from "@/components/Tabs";
 import SpotlightCard from "@/components/ui/SpotlightCard";
@@ -106,7 +106,7 @@ function ApplicationCard({
           <Icon size={20} />
         </div>
         <div className="min-w-0">
-          <h4 className="text-[17px] font-bold text-navy">{app.area}</h4>
+          <h4 className="text-fluid-h5 font-bold text-navy">{app.area}</h4>
           <p className="mt-0.5 text-[13px] text-gray-500">{app.scope}</p>
         </div>
       </div>
@@ -237,29 +237,20 @@ export default async function IndustriesPage({
                       className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden card-lift"
                     >
                       <div className="grid lg:grid-cols-5">
-                        <div className="img-zoom relative min-h-56 lg:col-span-2">
-                          <Image
-                            src={ind.image}
-                            alt={ind.imageAlt}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 40vw"
-                            className="object-cover"
-                          />
-                          <div className="absolute inset-0 bg-linear-to-t from-navy/50 to-transparent" />
-                          <div className="absolute top-4 left-4 flex items-center justify-center w-11 h-11 rounded-xl bg-brand shadow-lg">
-                            <Icon size={20} className="text-white" strokeWidth={2.25} />
-                          </div>
-                        </div>
+                        <SectorPanel
+                          src={ind.image}
+                          alt={ind.imageAlt}
+                          artwork={ind.artwork}
+                          imageSize={ind.imageSize}
+                          icon={Icon}
+                        />
                         <div className="lg:col-span-3 p-5 sm:p-8 lg:p-10">
-                          <div className="text-sm font-semibold text-brand">
-                            {ind.tagline}
-                          </div>
-                          <h2 className="mt-1.5 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                            {ind.name}
-                          </h2>
-                          <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
-                            {ind.intro}
-                          </p>
+                          <SectionHeading
+                            tier="md"
+                            title={ind.name}
+                            subtitle={ind.tagline}
+                            lede={ind.intro}
+                          />
 
                           {/* Compact capability summary — the TL;DR "Key
                               applications" spells out in full below. Icon per
@@ -369,11 +360,13 @@ export default async function IndustriesPage({
       <section id="at-a-glance" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
-                At a glance
-              </h2>
-            </div>
+            <SectionHeading
+              align="center"
+              className="mx-auto max-w-2xl"
+              title="At a Glance"
+              subtitle="Every sector, side by side"
+              lede="The key challenges each industry brings us, how we solve them, and the product lines behind each answer."
+            />
           </Reveal>
           <div className="mt-10">
             <SpecSheet
@@ -407,14 +400,15 @@ export default async function IndustriesPage({
           <Reveal>
             <BorderBeam className="rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
               <div>
-                <h3 className="text-fluid-h4 font-extrabold text-white">
-                  See the brands behind these solutions
-                </h3>
-                <p className="mt-2 text-[15px] text-white/75 max-w-lg">
-                  Every application above is backed by our exclusive
-                  Curtiss-Wright agencies: Farris Engineering, Dyna-Flo, and
-                  EST.
-                </p>
+                <SectionHeading
+                  as="h3"
+                  tier="md"
+                  tone="dark"
+                  title="See the Brands Behind These Solutions"
+                  subtitle="Farris Engineering, Dyna-Flo, and EST"
+                  lede="Every application above is backed by one of our exclusive Curtiss-Wright agencies."
+                  ledeClassName="max-w-lg"
+                />
               </div>
               <div className="relative flex flex-wrap gap-3 shrink-0">
                 <Magnetic>

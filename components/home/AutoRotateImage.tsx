@@ -69,7 +69,10 @@ function AutoRotateImage({
         transition={{ duration: reduced ? 0 : 0.3, ease: "easeInOut" }}
         className="absolute inset-0"
       >
-        <Image src={src} alt={alt} fill sizes={sizes} className={cls} priority={index === 0} />
+        {/* No `priority`/`preload`: these cards sit well below the fold, and
+            preloading three of them raced the hero for bandwidth on arrival.
+            Lazy is right — by the time one scrolls in, it has loaded. */}
+        <Image src={src} alt={alt} fill sizes={sizes} className={cls} />
       </motion.div>
     </AnimatePresence>
   );

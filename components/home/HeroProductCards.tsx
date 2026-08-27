@@ -34,22 +34,32 @@ import { brandProductImages } from "@/lib/brandProductImages";
  *     over it" state, so without the hold a touch user reaching for the
  *     card would be chasing a moving target the instant they touch it.
  *
- *  4. Image preview and navigation are two separate controls, not one, at
- *     every width — no device branch. The image stack is a <button> that
- *     advances through that brand's public/images/<brand>/ folder on click
- *     (works for touch) and additionally on mouse hover (`pointerType ===
- *     "mouse"`, which also reverts to the lead image on leave — the browse
- *     behavior a touch tap has no equivalent for). A dot row shows position.
- *     A separate, persistent CTA chip at the card's foot is the actual
- *     <Link> to the brand page. Only `active` and the next image in
- *     sequence are ever mounted — not the full range — so advancing is an
- *     instant crossfade (the next frame is already loaded) without paying
- *     for every image up front.
+ *  4. Browsing the range. Every shot in public/images/<brand>/ carries a
+ *     baked-in brand band across its bottom fifth (brand, product name, ACTS
+ *     logo, "Sole Agent, Egypt"), so nothing may float over the image foot —
+ *     the CTA and the position dots both live in a rail *below* the image,
+ *     and the image area is left entirely to the photograph.
+ *
+ *     Pointing at a card walks that brand's range in catalogue order — frame
+ *     0, 1, 2, … and round again — the order the lines are listed in
+ *     brandProductImages, so a reader watching the band can follow the range
+ *     as a sequence rather than as a slideshow that jumps about. Pointer-enter
+ *     steps one frame immediately, and holding the pointer there keeps
+ *     stepping every BROWSE_MS. The cursor survives pointerleave — only the
+ *     *displayed* frame falls back to the lead image — so a second and third
+ *     visit carry on down the range instead of replaying frame one. Touch has
+ *     no hover, so a tap on the image steps the same run by one. Only the lead
+ *     frame, the current frame and the one queued next are ever mounted —
+ *     never the full range — so each step is an instant crossfade without
+ *     paying for every image up front.
  *
  * Stacking order is fixed at rest (center on top, via baseZ) and only
  * changes when a card is engaged — it never reorders on its own.
- * Respects prefers-reduced-motion (no float, no engagement motion, instant
- * image swap, entrance is opacity-only).
+ * Respects prefers-reduced-motion (no float, no engagement motion, no timed
+ * stepping — pointing still advances one frame — instant image swap, and an
+ * entrance that crosses to its resting frame instantly rather than being
+ * skipped: what the reduced branch changes is the `transition`, never a value
+ * that reaches the server-rendered markup. See the note at the entrance.)
  * ------------------------------------------------------------------ */
 
 type Card = {
@@ -129,6 +139,11 @@ const HOVER_SPRING = { stiffness: 260, damping: 26, mass: 0.6 };
 // orbit once you've moved on.
 const TOUCH_ENGAGE_MS = 2500;
 
+// How long each frame holds while the pointer stays on a card. Slow enough to
+// read the product name in the band, quick enough to get well into a
+// twenty-frame range within one unhurried hover.
+const BROWSE_MS = 1200;
+
 export default function HeroProductCards() {
   const reduced = useReducedMotion();
   const [engagedIndex, setEngagedIndex] = useState<number | null>(null);
@@ -170,14 +185,38 @@ function ProductCard({
   onEngageStart: () => void;
   onEngageEnd: () => void;
 }) {
-  // Index 0 is the resting/lead image; advancing cycles through the rest.
-  const [active, setActive] = useState(0);
-  const many = card.images.length > 1;
+  const count = card.images.length;
+  const many = count > 1;
+
+  /* How far into the range this card has been walked. Frames are visited in
+     catalogue order, so the cursor *is* the frame index — there is no
+     separate order to hold.
+
+     It deliberately survives pointerleave — that is what makes the second and
+     third visit carry on down the range rather than replaying frame one —
+     while the displayed frame falls back to the lead whenever nothing is
+     pointing at the card. */
+  const [cursor, setCursor] = useState(0);
+  const [browsing, setBrowsing] = useState(false);
+
   const touchEngageTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const browseTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  /* Whether a mouse run is already going, mirrored in a ref because it gates a
+     pointer handler and must not read a render-old value.
+
+     It is load-bearing, not a tidy-up: stepping swaps the <img> under the
+     cursor, and Chrome re-runs its hover hit test whenever the DOM beneath a
+     stationary pointer changes — so every step dispatches a fresh
+     pointerenter (57 of them in 9s, measured, with no matching pointerleave).
+     Ungated, enter -> step -> swap -> enter is a runaway loop that walks the
+     range at frame rate instead of at BROWSE_MS. pointerleave never fires
+     spuriously, so one flag closes it. */
+  const running = useRef(false);
 
   useEffect(() => {
     return () => {
       if (touchEngageTimer.current) clearTimeout(touchEngageTimer.current);
+      if (browseTimer.current) clearInterval(browseTimer.current);
     };
   }, []);
 
@@ -187,17 +226,46 @@ function ProductCard({
       touchEngageTimer.current = null;
     }
   }
+  function stopBrowseTimer() {
+    if (browseTimer.current) {
+      clearInterval(browseTimer.current);
+      browseTimer.current = null;
+    }
+  }
+  function step() {
+    setCursor((c) => (c + 1) % count);
+  }
+  function startBrowsing() {
+    if (!many || running.current) return;
+    running.current = true;
+    setBrowsing(true);
+    step();
+    if (reduced) return;
+    stopBrowseTimer();
+    browseTimer.current = setInterval(step, BROWSE_MS);
+  }
+  function stopBrowsing() {
+    running.current = false;
+    stopBrowseTimer();
+    setBrowsing(false);
+  }
+
   function engage() {
     clearTouchEngageTimer();
     onEngageStart();
   }
-  function handlePointerEnter() {
+  function handlePointerEnter(e: ReactPointerEvent) {
     engage();
+    // Mouse only: a touch "enter" fires around a tap and would start a run
+    // the finger is already leaving. Touch steps the run by tapping instead.
+    if (e.pointerType === "mouse") startBrowsing();
   }
   function handlePointerLeave(e: ReactPointerEvent) {
     // A held touch keeps the card engaged for TOUCH_ENGAGE_MS regardless of
     // this pointerleave (which fires almost immediately around a tap).
-    if (e.pointerType === "mouse") onEngageEnd();
+    if (e.pointerType !== "mouse") return;
+    onEngageEnd();
+    stopBrowsing();
   }
   function handleFocus() {
     engage();
@@ -212,53 +280,58 @@ function ProductCard({
     }
   }
 
+  /** Click / Enter on the image — the touch and keyboard equivalent of one
+      hover step, advancing the same sequence by one. */
   function advance() {
     if (!many) return;
-    setActive((cur) => (cur + 1) % card.images.length);
-  }
-  function handleImagePointerEnter(e: ReactPointerEvent) {
-    // Mouse hover keeps its original "browse the range" behavior; touch
-    // advances on click instead (handled below), since it has no hover.
-    if (e.pointerType === "mouse") advance();
-  }
-  function handleImagePointerLeave(e: ReactPointerEvent) {
-    if (e.pointerType === "mouse") setActive(0);
+    setBrowsing(true);
+    step();
   }
 
-  const nextIdx = many ? (active + 1) % card.images.length : active;
-  // Only the current frame and the one that advancing would show next are
-  // ever mounted — never the full range — so the crossfade is instant
-  // without paying to preload every image up front.
-  const visibleIdx = Array.from(new Set([active, nextIdx]));
+  const active = browsing ? cursor : 0;
+  const upcoming = (cursor + 1) % count;
+  // Only the resting frame, the current one and the one a step would show
+  // next are ever mounted — never the full range — so stepping is an instant
+  // crossfade (the next frame is already loaded) without paying for every
+  // image up front.
+  const visibleIdx = Array.from(new Set([0, active, upcoming]));
 
-  const orbitStyle = reduced
-    ? undefined
-    : ({
-        "--orb-x": `${card.orbitX}px`,
-        "--orb-y": `${card.orbitY}px`,
-        "--orb-dur": `${card.orbitDuration}s`,
-        "--orb-delay": `${card.orbitDelay}s`,
-        animationPlayState: isEngaged ? "paused" : "running",
-      } as CSSProperties);
+  // Not gated on `reduced` — see the note on the Layer A entrance below. The
+  // reduced-motion rule in globals.css already sets `animation: none` on
+  // .hero-card-orbit, which leaves every one of these custom properties inert,
+  // so branching here would change the server-rendered markup to buy nothing.
+  const orbitStyle = {
+    "--orb-x": `${card.orbitX}px`,
+    "--orb-y": `${card.orbitY}px`,
+    "--orb-dur": `${card.orbitDuration}s`,
+    "--orb-delay": `${card.orbitDelay}s`,
+    animationPlayState: isEngaged ? "paused" : "running",
+  } as CSSProperties;
 
   return (
     // Layer A — home position + z-index + one-time entrance "deal".
     <motion.div
-      initial={
+      // `initial` and `animate` are deliberately NOT branched on `reduced`.
+      // Both are written into the server-rendered HTML by motion, and
+      // useReducedMotion() reports false during SSR but the reader's real OS
+      // setting on the client's first render — so a branch here renders one
+      // markup on the server and another on the client, which is a hydration
+      // mismatch (React #418) that discards and re-renders this whole subtree
+      // for exactly the readers who asked for less work. The reduced-motion
+      // contract is honoured on `transition` instead: same start and end
+      // frames, crossed instantly. Anything that reaches the SSR markup must
+      // stay identical in both branches; only post-hydration values may differ.
+      initial={{ opacity: 0, y: 44, scale: 0.94, rotate: card.baseRotate * 0.35 }}
+      animate={{ opacity: 1, y: 0, scale: 1, rotate: card.baseRotate }}
+      transition={
         reduced
-          ? { opacity: 0 }
-          : { opacity: 0, y: 44, scale: 0.94, rotate: card.baseRotate * 0.35 }
+          ? { duration: 0, delay: 0 }
+          : {
+              duration: 0.85,
+              delay: 0.2 + card.dealOrder * 0.12,
+              ease: [0.16, 1, 0.3, 1],
+            }
       }
-      animate={
-        reduced
-          ? { opacity: 1 }
-          : { opacity: 1, y: 0, scale: 1, rotate: card.baseRotate }
-      }
-      transition={{
-        duration: 0.85,
-        delay: 0.2 + card.dealOrder * 0.12,
-        ease: [0.16, 1, 0.3, 1],
-      }}
       style={{ zIndex }}
       className={`absolute ${card.position}`}
     >
@@ -266,18 +339,27 @@ function ProductCard({
           Paused while this card is engaged, so the lift is uncontested and
           the card is not a moving target the moment you reach for it. */}
       <div
-        className={reduced ? undefined : "hero-card-orbit"}
+        className="hero-card-orbit"
         style={orbitStyle}
       >
         {/* Layer B — engagement response: lift + straighten + come forward,
             or recede slightly if a sibling is engaged. Rotate values here
             are corrections against Layer A's base rotate (they compose),
             tuned so an engaged card lands near level rather than fully
-            upright. */}
+            upright.
+
+            The pointer handlers sit on the whole card, not on the image
+            alone, so reaching for the CTA in the rail below does not read as
+            leaving the card and cut the run short. */}
         <motion.div
           animate={
+            // The resting pose, not `undefined`: with no `initial` prop motion
+            // server-renders `animate`, and on the server this branch is the
+            // un-engaged case below. Spelling the reduced case out identically
+            // keeps the SSR markup byte-for-byte the same either way, while
+            // still refusing every engagement move.
             reduced
-              ? undefined
+              ? { y: 0, scale: 1, rotate: 0, opacity: 1 }
               : isEngaged
                 ? {
                     y: -10,
@@ -297,20 +379,18 @@ function ProductCard({
           onBlur={handleBlur}
           className="relative rounded-2xl bg-white shadow-2xl shadow-black/60 ring-1 ring-white/15 transition-shadow duration-300 hover:shadow-black/70 hover:ring-amber/60"
         >
-          {/* Image stack — previews the brand's product range. Click (and
-              mouse hover) advances; navigation lives on the CTA chip below,
-              not here, so the same interaction works at every width. */}
+          {/* Image stack — nothing is drawn over it, so the brand band baked
+              into the foot of every shot stays legible. Click (or Enter)
+              steps the run by one, for touch and keyboard. */}
           <button
             type="button"
             onClick={advance}
-            onPointerEnter={handleImagePointerEnter}
-            onPointerLeave={handleImagePointerLeave}
             aria-label={
               many
-                ? `Next ${card.brand} image, ${active + 1} of ${card.images.length}`
+                ? `Next ${card.brand} image, ${active + 1} of ${count}`
                 : card.brand
             }
-            className="block w-full cursor-pointer overflow-hidden rounded-2xl focus-visible:ring-2 focus-visible:ring-amber focus-visible:outline-none"
+            className="block w-full cursor-pointer overflow-hidden rounded-t-2xl focus-visible:ring-2 focus-visible:ring-amber focus-visible:outline-none"
           >
             <div className="relative aspect-3/4 w-full">
               {visibleIdx.map((idx) => (
@@ -320,52 +400,65 @@ function ProductCard({
                   alt=""
                   fill
                   sizes="(max-width: 1024px) 240px, 288px"
-                  priority={card.center && idx === 0}
+                  // `preload` is the Next 16 spelling of the deprecated
+                  // `priority`. Only the centre card's resting frame gets it:
+                  // it is the one image the fold is built around, and the two
+                  // flanking cards would just split the preload budget.
+                  preload={card.center && idx === 0}
                   className="object-cover transition-opacity ease-in-out"
                   style={{
                     opacity: idx === active ? 1 : 0,
                     zIndex: idx === active ? 1 : 0,
-                    transitionDuration: reduced ? "0ms" : "130ms",
+                    // Constant for the same SSR-parity reason as above;
+                    // globals.css zeroes it under reduced motion, where a
+                    // CSS !important rule outranks this inline value.
+                    transitionDuration: "130ms",
                   }}
                 />
               ))}
             </div>
           </button>
 
-          {/* Dot row — shows position in the range for touch users, who
-              have no hover state to reveal it incidentally. Decorative: the
-              button's aria-label already states position in words.
-              z-10: the active <Image> inside the button carries its own
-              inline z-index (to crossfade above its sibling frame), which
-              is a positioned descendant of the SAME stacking context as
-              this row and the chip below — without an explicit z-index
-              here, the image's z-index:1 would silently outrank both. */}
-          {many && (
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-11 z-10 flex justify-center gap-1"
-              aria-hidden
-            >
-              {card.images.map((_, idx) => (
-                <span
-                  key={idx}
-                  className={`h-1 rounded-full transition-all duration-300 ${
-                    idx === active ? "w-3.5 bg-white" : "w-1 bg-white/50"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+          {/* Foot rail — the card's own strip under the photograph. Both the
+              position dots and the CTA live here rather than floating over
+              the image, which is what had the chip sitting on top of the
+              baked-in "Sole Agent, Egypt" line. */}
+          <div className="px-2 pt-1.5 pb-2">
+            {/* Dot row — position in the range for touch users, who have no
+                hover state to reveal it incidentally. Decorative: the
+                button's aria-label already states position in words. */}
+            {many && (
+              <div className="mb-1.5 flex justify-center gap-[3px]" aria-hidden>
+                {card.images.map((_, idx) => (
+                  <span
+                    key={idx}
+                    className={`h-1 rounded-full transition-all duration-300 ${
+                      idx === active ? "w-3 bg-navy" : "w-1 bg-navy/25"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
 
-          {/* Persistent CTA chip — the card's only navigation affordance.
-              z-10 for the same reason as the dot row above. */}
-          <Link
-            href={`/brands/${card.slug}`}
-            aria-label={`${card.brand}, view brand page`}
-            className="tap-target absolute inset-x-3 bottom-3 z-10 flex items-center justify-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-bold text-navy shadow-md backdrop-blur transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber"
-          >
-            View products
-            <ArrowRight size={12} />
-          </Link>
+            {/* The card's only navigation affordance, in the site's brass —
+                the same bg-brand/text-white pairing every primary button on
+                the site uses (5.0:1, clears AA), so the three cards read as
+                one CTA family with "Request a quote" in the nav above them
+                rather than as a fourth navy element in a navy hero.
+
+                Focus ring goes navy with it: --focus-ring is amber only on
+                the bg-navy/bg-ink surfaces, and amber-on-brass is far too
+                close in value to see. Navy reads against both the brass pill
+                and the white rail it sits on. */}
+            <Link
+              href={`/brands/${card.slug}`}
+              aria-label={`${card.brand}, view brand page`}
+              className="tap-target flex items-center justify-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-[11px] font-bold leading-none text-white transition-colors hover:bg-brand-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy"
+            >
+              View products
+              <ArrowRight size={12} />
+            </Link>
+          </div>
         </motion.div>
       </div>
     </motion.div>

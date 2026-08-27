@@ -202,6 +202,7 @@ export default function AboutPage() {
               align="center"
               title="Our Journey"
               subtitle="From trading firm to sole-agency partner"
+              lede="Founded in Sixth of October City in 2006, incorporated in 2016, and headquartered at Arkan Plaza since 2025."
             />
           </Reveal>
           <div className="mt-14 relative">
@@ -255,6 +256,7 @@ export default function AboutPage() {
               align="center"
               title="Leadership"
               subtitle="Who leads ACTS today"
+              lede="Operations and technical partnerships sit with one general manager, so decisions do not queue behind a committee."
             />
           </Reveal>
           <Reveal delay={100}>
@@ -329,6 +331,7 @@ export default function AboutPage() {
               tone="dark"
               title="Our Goals"
               subtitle="What we're working toward"
+              lede="Four commitments that decide what we invest in and what we turn down."
             />
           </Reveal>
           {/* Two by two, not three across. There are four goals, and a
@@ -351,7 +354,7 @@ export default function AboutPage() {
                       </div>
                       <CardLogoMark surface="dark" />
                     </div>
-                    <h3 className="mt-4 text-lg font-bold">{m.title}</h3>
+                    <h3 className="mt-4 text-fluid-h5 font-bold">{m.title}</h3>
                     <p className="mt-2 text-[15px] text-white/65">
                       {m.description}
                     </p>
@@ -388,7 +391,7 @@ export default function AboutPage() {
                       </span>
                       <CardLogoMark />
                     </div>
-                    <h3 className="mt-4 text-lg font-bold text-navy">{f.title}</h3>
+                    <h3 className="mt-4 text-fluid-h5 font-bold text-navy">{f.title}</h3>
                     <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
                       {f.description}
                     </p>
@@ -417,6 +420,7 @@ export default function AboutPage() {
               align="center"
               title="Our Values"
               subtitle="How our values show up in the work"
+              lede="Five principles, each written as the behaviour it produces rather than the word on the wall."
             />
           </Reveal>
           {/* Five values, three over two, as cards rather than as loose
@@ -447,7 +451,7 @@ export default function AboutPage() {
                     </span>
                     <CardLogoMark />
                   </div>
-                  <h3 className="mt-4 text-lg font-bold text-navy">{v.name}</h3>
+                  <h3 className="mt-4 text-fluid-h5 font-bold text-navy">{v.name}</h3>
                   <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
                     {v.description}
                   </p>
@@ -516,6 +520,7 @@ export default function AboutPage() {
               align="center"
               title="How We Operate"
               subtitle="Advisory-led, not just transactional"
+              lede="What working with ACTS actually looks like, from first enquiry through to delivery and beyond."
             />
           </Reveal>
           <div className="mt-14 grid sm:grid-cols-2 gap-5">
@@ -538,7 +543,7 @@ export default function AboutPage() {
                           mark at every width, because there it has a line
                           of its own. */}
                       <div className="flex items-start justify-between gap-4">
-                        <h3 className="text-lg font-bold text-navy">{h.title}</h3>
+                        <h3 className="text-fluid-h5 font-bold text-navy">{h.title}</h3>
                         <CardLogoMark width="min(35%, 12rem)" />
                       </div>
                       <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
@@ -562,6 +567,7 @@ export default function AboutPage() {
                 <SectionHeading
                   title="Our Headquarters"
                   subtitle="Where to find us"
+                  lede="Arkan Plaza, Sheikh Zayed City, Giza — our base since 2025."
                 />
               </Reveal>
               <div className="mt-8 space-y-5">

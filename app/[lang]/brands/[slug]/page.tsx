@@ -38,6 +38,7 @@ import FloatingNav, {
 } from "@/components/ui/floating-nav";
 import ProductHub from "@/components/brands/hub/ProductHub";
 import ResourceCenter from "@/components/brands/hub/ResourceCenter";
+import SectionHeading from "@/components/SectionHeading";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -266,7 +267,7 @@ export default async function BrandPage({ params }: Props) {
               src={brand.image}
               alt=""
               fill
-              priority
+              preload
               sizes="100vw"
               className="object-cover opacity-45 animate-slow-zoom"
             />
@@ -300,18 +301,18 @@ export default async function BrandPage({ params }: Props) {
             </Link>
           </Reveal>
           <Reveal delay={100}>
-            <div className="mt-8 text-[13px] font-bold text-amber uppercase tracking-[0.2em]">
-              {brand.no} · {brand.origin.split("·")[0].trim()}
-            </div>
-            <h1 className="mt-3 text-[2.6rem] leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">
-              {brand.name}
-            </h1>
-            <div className="mt-4 text-lg font-semibold text-amber">
-              {brand.category}
-            </div>
+            <SectionHeading
+              as="h1"
+              tier="hero"
+              tone="dark"
+              className="mt-8 [&>h1]:drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]"
+              eyebrow={`${brand.no} · ${brand.origin.split("·")[0].trim()}`}
+              title={brand.name}
+              subtitle={brand.category}
+            />
           </Reveal>
           <Reveal delay={200}>
-            <p className="mt-6 text-lg text-white/85 leading-relaxed max-w-2xl">
+            <p className="mt-7 text-fluid-lede text-white/70 max-w-2xl">
               {brand.description}
             </p>
             <div
@@ -358,12 +359,13 @@ export default async function BrandPage({ params }: Props) {
         <div className="max-w-6xl mx-auto px-safe">
           <div id="products" className="scroll-anchor">
             <Reveal>
-              <div className="text-[13px] font-bold uppercase tracking-widest text-brand">
-                Product range
-              </div>
-              <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                {brand.productLines.length} product lines available through ACTS
-              </h2>
+              <SectionHeading
+                eyebrow="Product range"
+                title="Product Lines"
+                subtitle={`${brand.productLines.length} ${brand.name} series available through ACTS`}
+                lede="Each line links through to its own products, specifications and documents."
+                ledeClassName="max-w-2xl"
+              />
             </Reveal>
           </div>
           <div
@@ -391,17 +393,17 @@ export default async function BrandPage({ params }: Props) {
           {hub && (
             <div id="engineering-hub" className="mt-20 scroll-anchor">
               <Reveal>
-                <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
-                  <Layers size={15} /> Engineering hub
-                </div>
-                <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                  Explore the full {brand.name} range
-                </h2>
-                <p className="mt-2 text-[15px] text-gray-500 max-w-2xl">
-                  Open any product for its overview, key features, engineering
-                  benefits, technical specifications, certifications and every
-                  matching brochure, catalog and manual, grouped in one place.
-                </p>
+                <SectionHeading
+                  eyebrow={
+                    <>
+                      <Layers size={15} /> Engineering hub
+                    </>
+                  }
+                  title="Engineering Hub"
+                  subtitle={`Explore the full ${brand.name} range`}
+                  lede="Open any product for its overview, key features, engineering benefits, technical specifications, certifications and every matching brochure, catalog and manual, grouped in one place."
+                  ledeClassName="max-w-2xl"
+                />
               </Reveal>
               <div className="mt-9">
                 <ProductHub
@@ -417,16 +419,17 @@ export default async function BrandPage({ params }: Props) {
           {brand.gallery && (
             <div id="gallery" className="mt-20 scroll-anchor">
               <Reveal>
-                <div className="text-[13px] font-bold uppercase tracking-widest text-brand">
-                  Product gallery
-                </div>
-                <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                  <CountUp value={brand.gallery.length} className="tabular-nums" /> real{" "}
-                  {brand.name} products, supplied by ACTS
-                </h2>
-                <p className="mt-2 text-[15px] text-gray-500">
-                  Tap a photo to flip it and see valve details.
-                </p>
+                <SectionHeading
+                  eyebrow="Product gallery"
+                  title="From the Field"
+                  subtitle={
+                    <>
+                      <CountUp value={brand.gallery.length} className="tabular-nums" />{" "}
+                      real {brand.name} products, supplied by ACTS
+                    </>
+                  }
+                  lede="Tap a photo to flip it and see valve details."
+                />
               </Reveal>
               <div className="mt-9 space-y-12">
                 {groupGalleryByCategory(brand.gallery).map((group) => (
@@ -481,15 +484,17 @@ export default async function BrandPage({ params }: Props) {
           {tools && (
             <div id="tools-support" className="mt-20 scroll-anchor">
               <Reveal>
-                <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
-                  <Wrench size={15} /> Software, services &amp; support
-                </div>
-                <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                  {tools.heading}
-                </h2>
-                <p className="mt-2 text-[15px] text-gray-500 max-w-2xl">
-                  {tools.blurb}
-                </p>
+                <SectionHeading
+                  eyebrow={
+                    <>
+                      <Wrench size={15} /> Tools &amp; support
+                    </>
+                  }
+                  title="Software, Services & Support"
+                  subtitle={tools.heading}
+                  lede={tools.blurb}
+                  ledeClassName="max-w-2xl"
+                />
               </Reveal>
               <div className="mt-9 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {tools.cards.map((tool, i) => (
@@ -505,7 +510,7 @@ export default async function BrandPage({ params }: Props) {
                         />
                       </div>
                       <div className="p-5">
-                        <h3 className="text-[16px] font-bold text-navy">
+                        <h3 className="text-fluid-h5 font-bold text-navy">
                           {tool.title}
                         </h3>
                         <p className="mt-1.5 text-[13.5px] text-gray-500 leading-relaxed">
@@ -541,17 +546,17 @@ export default async function BrandPage({ params }: Props) {
           {hub && (
             <div id="engineering-resources" className="mt-20 scroll-anchor">
               <Reveal>
-                <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
-                  <Layers size={15} /> Engineering resource center
-                </div>
-                <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                  {hub.totalDocs} {brand.name} engineering documents
-                </h2>
-                <p className="mt-2 text-[15px] text-gray-500 max-w-2xl">
-                  Every brochure, catalog, bulletin, manual, technical procedure
-                  and certification, searchable and filterable by product and
-                  type. View or download instantly.
-                </p>
+                <SectionHeading
+                  eyebrow={
+                    <>
+                      <Layers size={15} /> Resource center
+                    </>
+                  }
+                  title="Engineering Documents"
+                  subtitle={`${hub.totalDocs} ${brand.name} PDFs, searchable and filterable`}
+                  lede="Every brochure, catalog, bulletin, manual, technical procedure and certification, filterable by product and type. View or download instantly."
+                  ledeClassName="max-w-2xl"
+                />
               </Reveal>
               <div className="mt-9">
                 <ResourceCenter
@@ -576,13 +581,15 @@ export default async function BrandPage({ params }: Props) {
               </div>
               <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                  <h3 className="text-fluid-h4 font-extrabold text-white">
-                    Interested in {brand.name} products?
-                  </h3>
-                  <p className="mt-2 text-[15px] text-white/75 max-w-lg">
-                    Send us your requirement (series, size and service
-                    conditions) and we&apos;ll come back with a quotation.
-                  </p>
+                  <SectionHeading
+                    as="h3"
+                    tier="md"
+                    tone="dark"
+                    title={`Interested in ${brand.name}?`}
+                    subtitle="Tell us the series, size and service conditions"
+                    lede="Send us your requirement and we'll come back with a quotation, typically within 24 hours."
+                    ledeClassName="max-w-lg"
+                  />
                 </div>
                 <div className="flex flex-wrap gap-3 shrink-0">
                   <Magnetic>

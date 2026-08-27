@@ -84,11 +84,18 @@ export default function BrandHeroVideo({
 
   return (
     <div className={`absolute inset-0 ${dim ?? ""}`} aria-hidden>
-      {/* Poster base layer — visible immediately and for poster-only visitors */}
+      {/* Poster base layer — visible immediately and for poster-only visitors.
+          Plain <img>, not next/image: the poster is already a right-sized,
+          re-encoded still, so putting it through the optimizer would buy
+          nothing and cost a transformation per width. `fetchPriority` is what
+          next/image would have given it — this fills the hero on arrival, so
+          it is the LCP element on every brand page that has a film. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={poster}
         alt=""
+        fetchPriority="high"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
       {activeSrc && (

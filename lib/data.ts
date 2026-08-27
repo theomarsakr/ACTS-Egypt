@@ -1722,6 +1722,22 @@ export type IndustryProductLines = {
   lines: { tag: string; note: string }[];
 };
 
+/** Which of the two kinds of picture a sector's artwork is, which decides how
+ *  <SectorPanel> renders it: a photograph fills the panel edge to edge under
+ *  the navy gradient, while an emblem (square line-art/3D icon) is held
+ *  object-contain on cream, because object-cover in a column that tall would
+ *  crop it to a vertical slice of itself. Defaults to "photo" when omitted.
+ *  Both kinds are produced by scripts/normalize-sector-images.mjs. */
+export type SectorArtwork = "photo" | "emblem";
+
+/** Intrinsic pixel size of a sector photograph, so <SectorPanel> can reserve
+ *  the exact box the file will occupy. The panel renders a photo at its own
+ *  proportions rather than cropping it to the column (see the component), so
+ *  without this the reserved box would be a guessed ratio and the card would
+ *  visibly resize the moment the image decoded. Emblems don't need it: they
+ *  are all square, which the component already assumes. */
+export type SectorImageSize = { width: number; height: number };
+
 export type Industry = {
   slug: string;
   name: string;
@@ -1732,6 +1748,9 @@ export type Industry = {
   productLines: IndustryProductLines[];
   image: string;
   imageAlt: string;
+  artwork?: SectorArtwork;
+  /** Required for `artwork: "photo"`; see SectorImageSize. */
+  imageSize?: SectorImageSize;
 };
 
 export const industries: Industry[] = [
@@ -1905,8 +1924,9 @@ export const industries: Industry[] = [
         ],
       },
     ],
-    image: "/images/offshore-rig.jpg",
-    imageAlt: "Offshore jack-up drilling rig with gas flare",
+    image: "/images/sectors/oil-gas.jpg",
+    imageAlt: "Pumpjack in an oil field with refinery distillation columns behind it",
+    imageSize: { width: 1600, height: 900 },
   },
   {
     slug: "petrochemical",
@@ -2038,8 +2058,9 @@ export const industries: Industry[] = [
         ],
       },
     ],
-    image: "/images/gas-plant.jpg",
-    imageAlt: "Natural gas wellhead with valve handwheels",
+    image: "/images/sectors/petrochemicals.jpg",
+    imageAlt: "Petrochemical plant lit at dusk, distillation columns and stacks against an orange sky",
+    imageSize: { width: 1264, height: 843 },
   },
   {
     slug: "power-generation",
@@ -2204,8 +2225,9 @@ export const industries: Industry[] = [
         ],
       },
     ],
-    image: "/images/power-station.jpg",
-    imageAlt: "Power station at night",
+    image: "/images/sectors/power-generation.jpg",
+    imageAlt: "Power generation emblem: a relief valve and pressure gauge inside a gear, crossed by a lightning bolt",
+    artwork: "emblem",
   },
   {
     slug: "water-treatment",
@@ -2328,8 +2350,9 @@ export const industries: Industry[] = [
         ],
       },
     ],
-    image: "/images/refinery-blue.jpg",
-    imageAlt: "Oil refinery at blue hour",
+    image: "/images/sectors/water-treatment.jpg",
+    imageAlt: "Coastal water treatment and desalination plant with an aeration basin and storage tanks",
+    imageSize: { width: 1368, height: 768 },
   },
   {
     slug: "fertilizers",
@@ -2483,8 +2506,9 @@ export const industries: Industry[] = [
         ],
       },
     ],
-    image: "/images/gas-plant.jpg",
-    imageAlt: "Natural gas wellhead with valve handwheels",
+    image: "/images/sectors/fertilizers.jpg",
+    imageAlt: "Valve and pump manifold feeding a fertigation line in a growing house",
+    imageSize: { width: 572, height: 395 },
   },
   {
     slug: "general-industrial",
@@ -2627,8 +2651,9 @@ export const industries: Industry[] = [
         ],
       },
     ],
-    image: "/images/power-station.jpg",
-    imageAlt: "Power station at night",
+    image: "/images/sectors/general-industrial.jpg",
+    imageAlt: "General industrial emblem: a factory and gate valve inside a gear, topped by a pressure gauge",
+    artwork: "emblem",
   },
 ];
 
@@ -2679,6 +2704,9 @@ export type ProjectClientGroup = {
   short: string;
   image: string;
   imageAlt: string;
+  artwork?: SectorArtwork;
+  /** Required for `artwork: "photo"`; see SectorImageSize. */
+  imageSize?: SectorImageSize;
   entries: { name: string; sector: string }[];
 };
 
@@ -2687,8 +2715,9 @@ export const projectClients: ProjectClientGroup[] = [
     slug: "upstream",
     category: "Oil & Gas: Upstream & Exploration",
     short: "Upstream",
-    image: "/images/upstream-drilling-rig.jpg",
-    imageAlt: "Land drilling rig at an upstream oil field",
+    image: "/images/sectors/upstream.jpg",
+    imageAlt: "Upstream emblem: a pumpjack behind a flanged gate valve and pressure gauge",
+    artwork: "emblem",
     entries: [
       { name: "Khalda Petroleum Company", sector: "Upstream, Western Desert operations" },
       { name: "Belayim Petroleum Company (Petrobel)", sector: "Upstream, Gulf of Suez & Sinai" },
@@ -2703,8 +2732,9 @@ export const projectClients: ProjectClientGroup[] = [
     slug: "midstream",
     category: "Oil & Gas: Midstream, Refining & LNG",
     short: "Midstream",
-    image: "/images/refinery-blue.jpg",
-    imageAlt: "Oil refinery at blue hour",
+    image: "/images/sectors/midstream.jpg",
+    imageAlt: "Midstream emblem: a pumpjack and pipeline valve inside a gear roundel with a pressure gauge",
+    artwork: "emblem",
     entries: [
       { name: "Cairo Oil Refining Company (CORC)", sector: "Refining, Cairo" },
       { name: "Suez Oil Processing Company (SOPC)", sector: "Refining, Suez" },
@@ -2718,8 +2748,9 @@ export const projectClients: ProjectClientGroup[] = [
     slug: "epc",
     category: "EPC, Engineering & Project Management",
     short: "EPC",
-    image: "/images/power-station.jpg",
-    imageAlt: "Power station at night",
+    image: "/images/sectors/epc.jpg",
+    imageAlt: "EPC emblem: a hard-hatted engineer behind a flanged valve and pipe spool",
+    artwork: "emblem",
     entries: [
       {
         name: "ENPPI (Engineering for the Petroleum and Process Industries)",
@@ -2735,8 +2766,9 @@ export const projectClients: ProjectClientGroup[] = [
     slug: "petrochemicals",
     category: "Petrochemicals & Chemicals",
     short: "Petrochemicals",
-    image: "/images/petrochemical-plant.jpg",
-    imageAlt: "Petrochemical plant with process towers and steam plumes",
+    image: "/images/sectors/petrochemicals.jpg",
+    imageAlt: "Petrochemical plant lit at dusk, distillation columns and stacks against an orange sky",
+    imageSize: { width: 1264, height: 843 },
     entries: [
       {
         name: "The Egyptian Ethylene and Derivatives Company (ETHYDCO)",
@@ -2761,8 +2793,9 @@ export const projectClients: ProjectClientGroup[] = [
     slug: "fertilizers",
     category: "Fertilizers",
     short: "Fertilizers",
-    image: "/images/gas-plant.jpg",
-    imageAlt: "Natural gas wellhead with valve handwheels",
+    image: "/images/sectors/fertilizers.jpg",
+    imageAlt: "Valve and pump manifold feeding a fertigation line in a growing house",
+    imageSize: { width: 572, height: 395 },
     entries: [
       { name: "Misr Fertilizers Production Company (MOPCO)", sector: "Fertilizers, ammonia & urea" },
       { name: "Birla Carbon", sector: "Fertilizers & carbon black" },

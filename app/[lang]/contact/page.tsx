@@ -10,6 +10,7 @@ import Magnetic from "@/components/ui/Magnetic";
 import SpecSheet from "@/components/SpecSheet";
 import MapEmbed from "@/components/MapEmbed";
 import Container from "@/components/layout/Container";
+import SectionHeading from "@/components/SectionHeading";
 import { contact, team, departments } from "@/lib/data";
 import { getDict, localeHref, type Locale } from "@/lib/i18n";
 
@@ -58,18 +59,23 @@ export default async function ContactPage({ params }: PageProps) {
             copy instead of aligning it to the max-w-6xl column the rest of the
             site's page heroes use. */}
         <Container className="relative w-full pt-40 pb-16 md:pt-56 md:pb-20">
-          {/* Category label leads, statement second, lede last -- the same
-              stepped-down hierarchy the engagement cards use. */}
+          {/* Eyebrow -> title -> subtitle -> lede, on <PageHero>'s own tier.
+              This hero used to run that backwards: a 36->60px amber category
+              label above a 24->30px <h1>, so the page's most important line
+              was its third-largest. */}
           <Reveal>
-            <div className="hero-copy-shadow font-display text-4xl md:text-6xl font-extrabold uppercase leading-[1.02] tracking-[-0.02em] text-amber">
-              {c.heroChip}
-            </div>
-            <h1 className="hero-copy-shadow mt-3 text-2xl md:text-3xl font-bold tracking-tight text-white/90">
-              {c.heroTitle}
-            </h1>
+            <SectionHeading
+              as="h1"
+              tier="page"
+              tone="dark"
+              className="hero-copy-shadow max-w-3xl"
+              eyebrow={c.heroChip}
+              title={c.heroTitle}
+              subtitle={c.heroSubtitle}
+            />
           </Reveal>
           <Reveal delay={120}>
-            <p className="hero-copy-shadow mt-5 text-base md:text-[17px] text-white/70 max-w-xl leading-relaxed">
+            <p className="hero-copy-shadow mt-6 text-fluid-lede text-white/65 max-w-xl">
               {c.lede}{" "}
               <Link
                 href={localeHref(lang, "/quote")}
@@ -199,14 +205,14 @@ export default async function ContactPage({ params }: PageProps) {
       <section id="departments" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                {c.deptChip}
-              </div>
-              <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
-                {c.deptTitle}
-              </h2>
-            </div>
+            <SectionHeading
+              align="center"
+              className="mx-auto max-w-2xl"
+              eyebrow={c.deptChip}
+              title={c.deptTitle}
+              subtitle={c.deptSubtitle}
+              lede={c.deptLede}
+            />
           </Reveal>
           <div className="mt-10">
             <SpecSheet
@@ -282,11 +288,13 @@ export default async function ContactPage({ params }: PageProps) {
       <section id="connect" className="scroll-anchor py-16">
         <Container>
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
-                {c.connectTitle}
-              </h2>
-            </div>
+            <SectionHeading
+              align="center"
+              className="mx-auto mb-10 max-w-2xl"
+              title={c.connectTitle}
+              subtitle={c.connectSubtitle}
+              lede={c.connectLede}
+            />
           </Reveal>
           {/* sm:grid-cols-3 with no intermediate stage packed each card into
               ~190px in the 640-767px band, holding an email at 15px with no

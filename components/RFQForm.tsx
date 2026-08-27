@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Check, CheckCircle2, UserRound, ClipboardList, S
 import { serviceNeeds, brandOptions, contact } from "@/lib/data";
 import { fill } from "@/lib/i18n/routing";
 import type { Dict } from "@/lib/i18n/en";
+import SectionHeading from "@/components/SectionHeading";
 
 // Base size is 16px (`text-base`), not the 15px this reads everywhere else on
 // desktop: any input font under 16px makes Safari auto-zoom the viewport on
@@ -99,7 +100,7 @@ export default function RFQForm({
         <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto">
           <CheckCircle2 size={26} />
         </div>
-        <h3 className="mt-4 text-xl font-bold text-gray-900">{t.successTitle}</h3>
+        <h3 className="mt-4 text-fluid-h4 font-bold text-navy">{t.successTitle}</h3>
         <p className="mt-2 text-[15px] text-gray-600">
           {t.successBody}{" "}
           <a
@@ -121,8 +122,7 @@ export default function RFQForm({
       onSubmit={onSubmit}
       className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8"
     >
-      <h2 className="text-xl font-extrabold text-navy">{t.title}</h2>
-      <p className="mt-1 text-sm text-gray-600 mb-6">{t.lede}</p>
+      <SectionHeading tier="md" className="mb-6" title={t.title} lede={t.lede} />
 
       {/* Stepper — grid, not a flex row: the label sits under its circle
           rather than beside it, so it has the column's full width to wrap

@@ -218,7 +218,7 @@ export default function ResourceCenter({
                     <Icon size={19} />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[16px] sm:text-[17px] font-extrabold text-navy">
+                    <h3 className="text-fluid-h5 font-extrabold text-navy">
                       {c.label}
                     </h3>
                     <p className="text-[12.5px] text-gray-400 tabular-nums">

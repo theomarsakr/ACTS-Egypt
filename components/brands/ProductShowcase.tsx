@@ -6,6 +6,7 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { RotateCcw } from "lucide-react";
 import ScrollHint from "@/components/ui/ScrollHint";
+import SectionHeading from "@/components/SectionHeading";
 
 /**
  * ProductShowcase — scroll-driven 3D product viewer, one flagship per brand.
@@ -43,16 +44,33 @@ import ScrollHint from "@/components/ui/ScrollHint";
 const PHASE_SPLIT = 0.55;
 const smoothstep = (t: number) => t * t * (3 - 2 * t);
 
+type CalloutPlace = "beside" | "above" | "below";
+
 type Callout = {
   anchor: [number, number, number];
   band: [number, number];
   title: string;
   text: string;
+  /** Which way the card hangs off its dot. Defaults to beside it. */
+  place?: CalloutPlace;
+};
+
+/**
+ * "above"/"below" hang the card off the anchor vertically, for a product
+ * whose body runs along the horizon and would sit under a card placed
+ * beside it. Their anchors belong on the silhouette rather than on the
+ * axis, so the same small gap reads for all three.
+ */
+const CALLOUT_PLACE: Record<CalloutPlace, string> = {
+  beside: "start-3 top-0 -translate-y-1/2",
+  above: "bottom-10 start-0 -translate-x-1/2",
+  below: "top-10 start-0 -translate-x-1/2",
 };
 
 type ShowcaseConfig = {
   eyebrow: string;
   title: string;
+  subtitle: string;
   caption: string;
   install: { label: string; text: string };
   /** Resting Y rotation — context is built in this frame so docking aligns. */
@@ -269,6 +287,41 @@ function buildDynaContext(): THREE.Group {
 
 /* ── EST — Pop-A-Plug P2 + exchanger tubesheet ────────────────────────── */
 
+/**
+ * Where the channel-side face of the tubesheet sits, measured in the plug's
+ * own axis (local X, nose at +X). At 0.11 the tapered nose and the innermost
+ * sealing ring are already home in the tube while the three outer rings, the
+ * breakaway end and the pull pin stay proud of the face — the exact moment
+ * the install caption describes, and the only depth at which the seal and the
+ * tube it seals both read in one frame.
+ */
+const EST_FACE = 0.11;
+/** Tube ID. The plug's 0.15 shell is a slip fit until the rings swage out. */
+const EST_BORE_R = 0.155;
+/** 30° triangular pitch — the standard bundle layout — with a real ligament. */
+const EST_PITCH = 0.42;
+/** Outer tube limit, then the tubesheet OD outside it. */
+const EST_FIELD_R = 1.18;
+const EST_SHEET_R = 1.42;
+const EST_SHEET_T = 0.26;
+
+/** Tube centres as [y, z] in the face plane, inside the outer tube limit. */
+function estTubeField(): [number, number][] {
+  const rowH = (EST_PITCH * Math.sqrt(3)) / 2;
+  const out: [number, number][] = [];
+  for (let row = -3; row <= 3; row++) {
+    const y = row * rowH;
+    const stagger = row % 2 === 0 ? 0 : EST_PITCH / 2;
+    for (let col = -3; col <= 3; col++) {
+      const z = col * EST_PITCH + stagger;
+      if (Math.hypot(y, z) <= EST_FIELD_R) out.push([y, z]);
+    }
+  }
+  return out;
+}
+
+const isPlugTube = ([y, z]: [number, number]) => y === 0 && z === 0;
+
 function buildEstPlug(): THREE.Group {
   const brass = mat.brass();
   const steel = mat.steel();
@@ -293,42 +346,117 @@ function buildEstPlug(): THREE.Group {
 
 function buildEstContext(): THREE.Group {
   const navy = mat.navy();
-  const dark = mat.darkSteel();
-  const brass = mat.brass();
+  const steel = mat.steel();
+  const plate = new THREE.MeshStandardMaterial({
+    color: 0x9aa4af,
+    roughness: 0.5,
+    metalness: 0.78,
+  });
+  // Rendered BackSide, a closed cylinder is the *inside* of a blind hole: the
+  // near wall and near cap cull away and the far wall and far cap survive, so
+  // one mesh per bore gives a tube that actually recedes. Dark discs laid on
+  // a solid plate — the cheap way — read as painted dots, and cast little
+  // shadows onto the plate that give the trick away outright.
+  const insideBore = new THREE.MeshStandardMaterial({
+    color: 0x2a313a,
+    roughness: 0.95,
+    metalness: 0.15,
+    side: THREE.BackSide,
+  });
   const g = new THREE.Group();
   const add = (m: THREE.Mesh) => (shadowed(m), g.add(m), m);
 
-  // Exchanger channel: tubesheet disc facing the plug + shell behind
-  add(xCyl(1.7, 1.7, 0.18, mat.pipe())).position.set(0.72, 0.8, 0);
-  add(xCyl(1.82, 1.82, 0.14, navy)).position.set(0.87, 0.8, 0);
-  add(xCyl(1.72, 1.72, 0.7, navy)).position.set(1.3, 0.8, 0);
-  // Tube field: dark bores on a square grid; a few already-plugged neighbours
-  const bore = new THREE.CylinderGeometry(0.14, 0.14, 0.1, 24);
-  const plugged = new THREE.CylinderGeometry(0.1, 0.1, 0.08, 6);
-  let n = 0;
-  for (let iy = -3; iy <= 3; iy++) {
-    for (let iz = -3; iz <= 3; iz++) {
-      const y = 0.8 + iy * 0.42;
-      const z = iz * 0.42;
-      if (Math.hypot(y - 0.8, z) > 1.45) continue;
-      if (iy === 0 && iz === 0) continue; // the plug's own tube
-      const b = shadowed(new THREE.Mesh(bore, dark));
-      b.rotation.z = Math.PI / 2;
-      b.position.set(0.615, y, z);
-      g.add(b);
-      // Sprinkle a few completed repairs
-      if (n % 9 === 4) {
-        const p = shadowed(new THREE.Mesh(plugged, brass));
-        p.rotation.z = Math.PI / 2;
-        p.position.set(0.58, y, z);
-        g.add(p);
-      }
-      n++;
-    }
+  const field = estTubeField();
+
+  /* The tubesheet, actually drilled: extruded from a disc shape carrying one
+     hole per tube, so every bore has EST_SHEET_T of wall to shade and the
+     plug goes *through* the plate rather than hovering in front of it. */
+  const outline = new THREE.Shape();
+  outline.absarc(0, 0, EST_SHEET_R, 0, Math.PI * 2, false);
+  for (const t of field) {
+    const hole = new THREE.Path();
+    hole.absarc(t[1], t[0], isPlugTube(t) ? 0.171 : EST_BORE_R, 0, Math.PI * 2, true);
+    outline.holes.push(hole);
   }
-  // The plug's own tube bore, dead ahead
-  const own = add(xCyl(0.16, 0.16, 0.12, dark));
-  own.position.set(0.615, 0.8, 0);
+  const sheetGeo = new THREE.ExtrudeGeometry(outline, {
+    depth: EST_SHEET_T,
+    bevelEnabled: false,
+    curveSegments: 22,
+  });
+  // Extrudes along +Z from the shape's XY plane; this stands it up on the
+  // tube axis, face toward the plug. The field is symmetric in Z, so the
+  // shape-X-to-world-minus-Z flip the rotation brings costs nothing.
+  sheetGeo.rotateY(Math.PI / 2);
+  const sheet = shadowed(new THREE.Mesh(sheetGeo, plate));
+  sheet.position.set(EST_FACE, 0.8, 0);
+  g.add(sheet);
+
+  /* One blind tube behind each hole, set back far enough that the drilled
+     wall shades before the darkness starts. */
+  const boreGeo = new THREE.CylinderGeometry(EST_BORE_R - 0.004, EST_BORE_R - 0.004, 1.0, 18);
+  boreGeo.rotateZ(Math.PI / 2);
+  const others = field.filter((t) => !isPlugTube(t));
+  const bores = new THREE.InstancedMesh(boreGeo, insideBore, others.length);
+  const m4 = new THREE.Matrix4();
+  others.forEach((t, i) =>
+    bores.setMatrixAt(i, m4.makeTranslation(EST_FACE + 0.54, 0.8 + t[0], t[1]))
+  );
+  bores.instanceMatrix.needsUpdate = true;
+  g.add(bores);
+
+  // The leaking tube, wider than the rest only because the plug is in it.
+  const own = new THREE.Mesh(new THREE.CylinderGeometry(0.167, 0.167, 1.0, 20), insideBore);
+  own.rotation.z = Math.PI / 2;
+  own.position.set(EST_FACE + 0.54, 0.8, 0);
+  g.add(own);
+
+  /* Repairs this bundle has already had: P2s seated, breakaway ends snapped
+     off, sitting a hair proud of the face the way a finished one does. */
+  const seatedGeo = new THREE.CylinderGeometry(0.132, 0.132, 0.22, 6);
+  seatedGeo.rotateZ(Math.PI / 2);
+  const done = others.filter((_, i) => i % 5 === 2);
+  const seated = new THREE.InstancedMesh(seatedGeo, mat.brass(), done.length);
+  seated.castShadow = true;
+  seated.receiveShadow = true;
+  done.forEach((t, i) =>
+    seated.setMatrixAt(i, m4.makeTranslation(EST_FACE + 0.09, 0.8 + t[0], t[1]))
+  );
+  seated.instanceMatrix.needsUpdate = true;
+  g.add(seated);
+
+  /* Girth flange and its stud ring, with the channel cover off — which is
+     exactly the access a P2 install gets, and what puts the tubesheet in
+     open air instead of behind a head. */
+  add(xCyl(EST_SHEET_R + 0.2, EST_SHEET_R + 0.2, 0.2, navy)).position.set(
+    EST_FACE + EST_SHEET_T + 0.1,
+    0.8,
+    0
+  );
+  const studs = hexBoltRing(26, EST_SHEET_R + 0.1, 0.05, 0.5, steel);
+  studs.rotation.z = Math.PI / 2;
+  studs.position.set(EST_FACE + EST_SHEET_T + 0.04, 0.8, 0);
+  g.add(studs);
+
+  // Shell running away behind the tubesheet, its far girth ring, and the
+  // channel nozzle — enough of the exchanger to place the repair.
+  add(xCyl(1.5, 1.5, 2.0, navy)).position.set(EST_FACE + 1.46, 0.8, 0);
+  add(xCyl(1.56, 1.56, 0.14, navy)).position.set(EST_FACE + 2.4, 0.8, 0);
+  add(new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.52, 32), mat.pipe())).position.set(
+    EST_FACE + 1.15,
+    2.4,
+    0
+  );
+  add(new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.1, 32), mat.pipe())).position.set(
+    EST_FACE + 1.15,
+    2.71,
+    0
+  );
+
+  // Saddles onto the ground plane, so the shell has weight and a shadow.
+  for (const x of [EST_FACE + 0.95, EST_FACE + 2.15]) {
+    add(new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.8, 1.2), navy)).position.set(x, -1.1, 0);
+    add(new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.1, 1.5), navy)).position.set(x, -1.45, 0);
+  }
   return g;
 }
 
@@ -336,8 +464,9 @@ function buildEstContext(): THREE.Group {
 
 const CONFIGS: Record<string, ShowcaseConfig> = {
   "farris-engineering": {
-    eyebrow: "Interactive 360°: 2600 Series",
-    title: "The workhorse of the Farris line",
+    eyebrow: "Interactive 360°",
+    title: "2600 Series",
+    subtitle: "The workhorse of the Farris line",
     caption: "API 526 full-nozzle process relief valve. Scroll to walk around it.",
     install: {
       label: "In service",
@@ -360,8 +489,9 @@ const CONFIGS: Record<string, ShowcaseConfig> = {
     buildContext: buildFarrisContext,
   },
   "dyna-flo": {
-    eyebrow: "Interactive 360°: Sliding-Stem Series",
-    title: "Flow control, to the millimeter",
+    eyebrow: "Interactive 360°",
+    title: "Sliding-Stem Series",
+    subtitle: "Flow control, to the millimeter",
     caption: "Cage-guided globe control valve with spring & diaphragm actuator. Scroll to walk around it.",
     install: {
       label: "In the loop",
@@ -384,8 +514,9 @@ const CONFIGS: Record<string, ShowcaseConfig> = {
     buildContext: buildDynaContext,
   },
   est: {
-    eyebrow: "Interactive 360°: Pop-A-Plug® P2",
-    title: "The weld-free tube repair",
+    eyebrow: "Interactive 360°",
+    title: "Pop-A-Plug® P2",
+    subtitle: "The weld-free tube repair",
     caption: "High-pressure mechanical tube plug. Scroll to walk around it.",
     install: {
       label: "In the exchanger",
@@ -395,15 +526,22 @@ const CONFIGS: Record<string, ShowcaseConfig> = {
     // where the plug goes in — is what the pulled-back camera looks at.
     restAngle: 2.3,
     camA: [1.45, 1.2, 1.95],
-    camB: [3.4, 2.1, 4.8],
+    // Phase B swings ~30° further off the tubesheet's axis than phase A and
+    // pulls back to frame the whole channel. Square-on to the face (where
+    // this used to end up) is the one angle that flattens a drilled plate
+    // back into a disc of dots: no bore shows its wall, and the shell behind
+    // hides entirely inside the tubesheet's own silhouette.
+    camB: [0.72, 2.79, 6.25],
     lookA: [0, 0.82, 0],
-    lookB: [-0.3, 0.85, -0.3],
-    contextFrom: [3.6, 0, 0],
-    groundDrop: 1.1,
+    lookB: [-0.5, 0.95, -0.55],
+    contextFrom: [4.2, 0, 0],
+    groundDrop: 1.5,
+    // The plug lies along the horizon, so a card hung off its side lands on
+    // the body itself; these clear it vertically instead.
     callouts: [
-      { anchor: [0, 0.97, 0], band: [0.02, 0.33], title: "Serrated sealing rings", text: "Permanent weld-free seal, rated 7,000 PsiG (483 BarG)." },
-      { anchor: [0.54, 0.8, 0], band: [0.33, 0.66], title: "Ring-and-pin design", text: "Metallurgy-matched to the tube, resisting ejection and thermal cycling." },
-      { anchor: [-0.55, 0.8, 0], band: [0.66, 1.0], title: "Breakaway installation end", text: "Fits tube IDs 0.400\" to 1.460\", helium leak-tight, ISO 9001 manufactured." },
+      { anchor: [0, 0.97, 0], band: [0.02, 0.33], place: "above", title: "Serrated sealing rings", text: "Permanent weld-free seal, rated 7,000 PsiG (483 BarG)." },
+      { anchor: [0.44, 0.64, 0], band: [0.33, 0.66], place: "below", title: "Ring-and-pin design", text: "Metallurgy-matched to the tube, resisting ejection and thermal cycling." },
+      { anchor: [-0.44, 0.91, 0], band: [0.66, 1.0], place: "above", title: "Breakaway installation end", text: "Fits tube IDs 0.400\" to 1.460\", helium leak-tight, ISO 9001 manufactured." },
     ],
     build: buildEstPlug,
     buildContext: buildEstContext,
@@ -451,8 +589,13 @@ export default function ProductShowcase({ slug }: { slug: string }) {
     key.position.set(2.5, 4.5, 2.5);
     key.castShadow = true;
     key.shadow.mapSize.set(1024, 1024);
-    key.shadow.camera.left = key.shadow.camera.bottom = -3;
-    key.shadow.camera.right = key.shadow.camera.top = 3;
+    // Wide enough for the largest phase-B scene (the EST exchanger's shell
+    // and saddles reach ~2.6 out from the origin, and their shadows fall
+    // further still) — at ±3 that scene's ground shadow was sliced off along
+    // a hard diagonal where the frustum ended. The lost texel density is
+    // covered by the blur radius below.
+    key.shadow.camera.left = key.shadow.camera.bottom = -4.5;
+    key.shadow.camera.right = key.shadow.camera.top = 4.5;
     key.shadow.radius = 6;
     scene.add(key);
     scene.add(new THREE.AmbientLight(0xffffff, 0.25));
@@ -610,13 +753,18 @@ export default function ProductShowcase({ slug }: { slug: string }) {
           aria-hidden
         />
         <div className="relative w-full max-w-3xl px-6 pt-10 text-center">
-          <div className="flex items-center justify-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
-            <RotateCcw size={15} /> {config.eyebrow}
-          </div>
-          <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-            {config.title}
-          </h2>
-          <p className="mt-2 text-[15px] text-gray-500">{config.caption}</p>
+          <SectionHeading
+            align="center"
+            tier="md"
+            eyebrow={
+              <>
+                <RotateCcw size={15} /> {config.eyebrow}
+              </>
+            }
+            title={config.title}
+            subtitle={config.subtitle}
+            lede={config.caption}
+          />
         </div>
 
         {/* 3D stage + projected callouts — wide so the install scene has room */}
@@ -633,7 +781,11 @@ export default function ProductShowcase({ slug }: { slug: string }) {
               <span className="absolute -translate-x-1/2 -translate-y-1/2">
                 <span className="block h-2.5 w-2.5 rounded-full border-2 border-white bg-brand shadow-md" />
               </span>
-              <div className="absolute start-3 top-0 w-52 -translate-y-1/2 rounded-xl border border-gray-200 bg-white/95 p-3 text-start shadow-lg shadow-navy/10 backdrop-blur">
+              <div
+                className={`absolute w-52 rounded-xl border border-gray-200 bg-white/95 p-3 text-start shadow-lg shadow-navy/10 backdrop-blur ${
+                  CALLOUT_PLACE[c.place ?? "beside"]
+                }`}
+              >
                 <div className="text-[12.5px] font-bold text-navy">{c.title}</div>
                 <p className="mt-0.5 text-[11.5px] leading-snug text-gray-500">{c.text}</p>
               </div>

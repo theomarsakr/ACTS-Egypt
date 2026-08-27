@@ -141,8 +141,8 @@ export default function ScrollExpandMedia({
   const showVideo = mediaType === "video" && budget === "full" && videoReady;
 
   // The poster/establishing shot are this stage's real content and are
-  // already `priority`-loaded; a multi-megabyte scrub video does not need to
-  // join that same first round of requests. Not rendering the <video> tag at
+  // already eagerly loaded (the establishing shot preloaded); a multi-megabyte
+  // scrub video does not need to join that same first round of requests. Not rendering the <video> tag at
   // all until the stage is about to be seen means the browser's preload
   // scanner — which reads the raw HTML before any JS runs — never has a
   // `preload="auto"` video source to race against the page's actual LCP
@@ -344,7 +344,11 @@ export default function ScrollExpandMedia({
             src={posterSrc}
             alt=""
             fill
-            priority
+            /* Eager, but deliberately not preloaded: the establishing shot
+               below is the LCP element, and two `<link rel=preload>`s for the
+               same fold just split the connection between them. */
+            loading="eager"
+            fetchPriority="high"
             sizes="95vw"
             className="object-cover"
           />
@@ -380,7 +384,8 @@ export default function ScrollExpandMedia({
           src={mediaSrc}
           alt={mediaAlt}
           fill
-          priority
+          loading="eager"
+          fetchPriority="high"
           sizes="95vw"
           className="object-cover"
         />
@@ -434,7 +439,10 @@ export default function ScrollExpandMedia({
               src={bgImageSrc}
               alt=""
               fill
-              priority
+              /* `preload`, not the deprecated `priority`: this fills the pinned
+                 stage edge to edge on arrival, so it is the LCP element and the
+                 only image on this fold worth a preload link. */
+              preload
               sizes="100vw"
               className="scale-[1.04] object-cover object-center blur-[2px]"
             />

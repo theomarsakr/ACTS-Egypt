@@ -8,6 +8,7 @@ import SiteDock from "@/components/SiteDock";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import CardLogoMark from "@/components/ui/CardLogoMark";
 import Container from "@/components/layout/Container";
+import SectionHeading from "@/components/SectionHeading";
 import { getBrand } from "@/lib/data";
 import { getDict, type Locale } from "@/lib/i18n";
 
@@ -66,18 +67,23 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
             copy instead of aligning it to the max-w-6xl column the rest of the
             site's page heroes use. */}
         <Container className="relative w-full pt-40 pb-16 md:pt-56 md:pb-20">
-          {/* Category label leads, statement second, lede last -- the same
-              stepped-down hierarchy the engagement cards use. */}
+          {/* Eyebrow -> title -> subtitle -> lede, on <PageHero>'s own tier.
+              This hero used to run that backwards: a 36->60px amber category
+              label above a 24->30px <h1>, so the page's most important line
+              was its third-largest. */}
           <Reveal>
-            <div className="hero-copy-shadow font-display text-4xl md:text-6xl font-extrabold uppercase leading-[1.02] tracking-[-0.02em] text-amber">
-              {q.heroChip}
-            </div>
-            <h1 className="hero-copy-shadow mt-3 text-2xl md:text-3xl font-bold tracking-tight text-white/90">
-              {q.heroTitle}
-            </h1>
+            <SectionHeading
+              as="h1"
+              tier="page"
+              tone="dark"
+              className="hero-copy-shadow max-w-3xl"
+              eyebrow={q.heroChip}
+              title={q.heroTitle}
+              subtitle={q.heroSubtitle}
+            />
           </Reveal>
           <Reveal delay={120}>
-            <p className="hero-copy-shadow mt-5 text-base md:text-[17px] text-white/70 max-w-xl leading-relaxed">
+            <p className="hero-copy-shadow mt-6 text-fluid-lede text-white/65 max-w-xl">
               {q.lede}
             </p>
           </Reveal>
@@ -104,11 +110,13 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
       <section id="next-steps" className="scroll-anchor pb-16">
         <Container className="max-w-2xl">
           <Reveal>
-            <div className="text-center mb-8">
-              <h2 className="text-fluid-h4 font-extrabold tracking-tight text-navy">
-                {q.nextTitle}
-              </h2>
-            </div>
+            <SectionHeading
+              align="center"
+              tier="md"
+              className="mb-8"
+              title={q.nextTitle}
+              subtitle={q.nextSubtitle}
+            />
           </Reveal>
           <div className="grid sm:grid-cols-2 gap-4">
             {q.steps.map((s, i) => (

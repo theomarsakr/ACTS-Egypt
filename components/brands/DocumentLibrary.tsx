@@ -179,7 +179,7 @@ export default function DocumentLibrary({ brands }: Props) {
           {filtered.map((b) => (
             <section key={b.slug} id={b.anchor} className="scroll-mt-24">
               <div className="flex items-baseline gap-3 border-b border-gray-200 pb-3">
-                <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-navy">
+                <h3 className="text-fluid-h4 font-extrabold tracking-[-0.02em] text-navy">
                   {b.name}
                 </h3>
                 <span className="text-[13px] font-semibold text-gray-400 tabular-nums">

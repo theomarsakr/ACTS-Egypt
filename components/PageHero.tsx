@@ -3,24 +3,36 @@ import { cn } from "@/lib/utils";
 import Reveal from "@/components/Reveal";
 import PageHeroBackground from "@/components/PageHeroBackground";
 import Container from "@/components/layout/Container";
+import SectionHeading from "@/components/SectionHeading";
 
 /* The one page-hero pattern, shared by every top-level section page.
    Before this, each page hand-rolled its own: two different heading scales,
    two different heading components, an amber kicker on one page only, and a
-   six-line body paragraph standing in for a lede. The structure here is fixed
-   at title -> subtitle -> lede so the pages read as one system; the lede stays
-   a short column (max-w-xl) because a hero lede that wraps six times stops
-   being a lede. */
+   six-line body paragraph standing in for a lede. The structure is fixed at
+   eyebrow -> title -> subtitle -> lede and rendered by <SectionHeading>, so
+   the hero steps down on exactly the scale every section below it uses.
+   The lede stays a short column (max-w-xl) because a hero lede that wraps six
+   times stops being a lede.
+
+   The contact and quote heroes stand on a photograph rather than on
+   PageHeroBackground's lockup, so they keep their own <section> — but they
+   render their copy through the same <SectionHeading> tier. Being off this
+   pattern is how both ended up rendering the hierarchy backwards: a 60px
+   amber category label above a 30px <h1>. */
 export default function PageHero({
   id,
+  eyebrow,
   title,
   subtitle,
   lede,
+  className,
 }: {
   id?: string;
-  title: string;
-  subtitle?: string;
+  eyebrow?: ReactNode;
+  title: ReactNode;
+  subtitle?: ReactNode;
   lede?: ReactNode;
+  className?: string;
 }) {
   return (
     <section
@@ -31,25 +43,21 @@ export default function PageHero({
       {/* py-24 md:py-28 kept as-is — this hero band's own hand-tuned rhythm,
           not the generic section spacing scale (Section's `space` prop),
           so migrating onto Container only replaces the max-w/gutter chain. */}
-      <Container className="relative py-24 md:py-28">
+      <Container className={cn("relative py-24 md:py-28", className)}>
         <Reveal>
-          {/* text-fluid-h1 (36->60) matches this heading's old three-step
-              chain (text-4xl md:text-5xl lg:text-6xl) at both endpoints,
-              scaling continuously between instead of jumping twice. */}
-          <h1 className="text-fluid-h1 font-extrabold tracking-[-0.03em] text-white text-balance">
-            {title}
-          </h1>
-          {subtitle && (
-            <p className="font-display mt-4 max-w-2xl text-xl md:text-2xl font-semibold leading-snug text-white/70 text-balance">
-              {subtitle}
-            </p>
-          )}
+          <SectionHeading
+            as="h1"
+            tier="page"
+            tone="dark"
+            eyebrow={eyebrow}
+            title={title}
+            subtitle={subtitle}
+            className="max-w-3xl"
+          />
         </Reveal>
         {lede && (
           <Reveal delay={120}>
-            <p className="mt-6 max-w-xl text-fluid-lede leading-relaxed text-white/60">
-              {lede}
-            </p>
+            <p className="mt-6 max-w-xl text-fluid-lede text-white/65">{lede}</p>
           </Reveal>
         )}
       </Container>

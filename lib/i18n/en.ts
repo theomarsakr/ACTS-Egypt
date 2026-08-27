@@ -99,6 +99,7 @@ export const en = {
     brands: {
       title: "Represented Brands",
       subtitle: "Three world-class manufacturers. One local partner.",
+      lede: "Farris Engineering, Dyna-Flo, and EST — all Curtiss-Wright divisions, all supplied and supported in Egypt by ACTS alone.",
       allBrands: "All brands",
       featured: "Featured products in Egypt",
       viewProducts: "View products",
@@ -206,7 +207,8 @@ export const en = {
     },
     gallery: {
       chip: "Company gallery",
-      title: "Where our equipment works",
+      title: "Company Gallery",
+      subtitle: "Where our equipment works",
       lede: "Farris safety valves, Dyna-Flo control equipment, and EST heat-exchanger tooling and field service — a closer look at the brands we support. Tap any photo to view it full-screen.",
       projectsBtn: "Projects & clients",
       allPhotos: "All photos",
@@ -267,7 +269,8 @@ export const en = {
     metaDescription:
       "Get in touch with ACTS' sales & technical team, headquartered at Arkan Plaza, Sheikh Zayed City, Giza, Egypt.",
     heroChip: "Contact",
-    heroTitle: "Get in touch",
+    heroTitle: "Get in Touch",
+    heroSubtitle: "Sales, technical, and general enquiries",
     lede: "Have a technical question, need a quote, or want to discuss a project? Our team is ready to help. Looking for pricing?",
     quoteInstead: "Request a quote instead",
     office: {
@@ -291,7 +294,9 @@ export const en = {
     mapLoad: "Load map",
     mapHint: "Loads Google Maps",
     deptChip: "Reach the right team",
-    deptTitle: "Departments & direct lines",
+    deptTitle: "Departments & Direct Lines",
+    deptSubtitle: "Straight through to the desk that handles it",
+    deptLede: "Phone, mobile, fax, and email for each team. Tap any number to call it directly.",
     departmentNames: {
       "Quotes & Sales": "Quotes & Sales",
       "General Inquiries": "General Inquiries",
@@ -299,6 +304,8 @@ export const en = {
     } as Record<string, string>,
     specLabels: { phone: "Phone", mobile: "Mobile", fax: "Fax", email: "Email" },
     connectTitle: "Let's Connect",
+    connectSubtitle: "Email, phone, or come and see us",
+    connectLede: "Whichever way suits you, one of our engineers picks it up.",
     emailLabel: "Email",
     phoneLabel: "Phone",
     locationLabel: "Location",
@@ -310,9 +317,11 @@ export const en = {
     metaDescription:
       "Request a quote for Farris Engineering, Dyna-Flo, and EST products in Egypt. Our application engineers typically respond within 24 hours.",
     heroChip: "Request a quote",
-    heroTitle: "Get a quotation",
+    heroTitle: "Get a Quotation",
+    heroSubtitle: "Priced, checked, and back with you inside a day",
     lede: "Complete the form below and one of our application engineers will respond with a formal quote, typically within 24 hours.",
     nextTitle: "What Happens Next?",
+    nextSubtitle: "Four steps, from submission to follow-up",
     steps: [
       { step: "1. Acknowledgment", text: "You'll receive an auto-confirmation of your submission" },
       { step: "2. Technical Review", text: "Our engineering team reviews your requirements" },

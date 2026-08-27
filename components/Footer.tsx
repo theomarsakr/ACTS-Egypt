@@ -65,10 +65,12 @@ export default function Footer({
         {/* RFQ fast lane */}
         <div className="py-12 md:py-14 flex flex-col lg:flex-row lg:items-center gap-7 border-b border-white/10">
           <div className="flex-1">
-            <h3 className="text-2xl md:text-[1.7rem] font-extrabold tracking-tight">
+            <h3 className="text-fluid-h4 font-extrabold tracking-[-0.02em]">
               {t.rfqTitle}
             </h3>
-            <p className="mt-2 text-[15px] text-white/60 max-w-lg">{t.rfqText}</p>
+            <p className="mt-2 max-w-lg text-fluid-lede-sm text-white/60">
+              {t.rfqText}
+            </p>
           </div>
           <FooterQuoteForm
             lang={lang}

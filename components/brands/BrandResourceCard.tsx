@@ -12,6 +12,7 @@ import {
   Library,
 } from "lucide-react";
 import AutoRotateImage from "@/components/home/AutoRotateImage";
+import SectionHeading from "@/components/SectionHeading";
 import { sectorHref } from "@/lib/data";
 
 export type CardDoc = {
@@ -99,15 +100,12 @@ export default function BrandResourceCard({
               </div>
             )}
             <div className="lg:col-span-3 p-8 md:p-10">
-              <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                {brand.name}
-              </h2>
-              <div className="mt-1.5 text-sm font-semibold text-brand">
-                {brand.category} · {brand.origin.split("·")[0].trim()}
-              </div>
-              <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
-                {brand.description}
-              </p>
+              <SectionHeading
+                tier="md"
+                title={brand.name}
+                subtitle={`${brand.category} · ${brand.origin.split("·")[0].trim()}`}
+                lede={brand.description}
+              />
               <div
                 className="mt-4 flex flex-wrap gap-2"
                 style={{ "--chip-count": brand.sectors.length } as React.CSSProperties}
@@ -168,10 +166,8 @@ export default function BrandResourceCard({
               <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest text-amber">
                 <Library size={14} /> Document library
               </div>
-              <h3 className="mt-1.5 text-xl md:text-2xl font-extrabold">
-                {brand.name}
-              </h3>
-              <p className="text-[13px] text-white/60">
+              <h3 className="mt-1.5 text-fluid-h4 font-extrabold">{brand.name}</h3>
+              <p className="mt-0.5 text-fluid-lede-sm text-white/60">
                 {`${total} brochures, catalogs & technical PDFs`}
               </p>
             </div>

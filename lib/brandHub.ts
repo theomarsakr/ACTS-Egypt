@@ -1,7 +1,9 @@
 // Server-only enrichment layer that powers the "Engineering Hub" + "Engineering
 // Resource Center" for every brand that has a product catalog here. Product
-// facts are transcribed verbatim from public/Data/<brand>/*-Data.md (and the
-// curated gallery specs in lib/data for EST) — no specifications are invented.
+// facts are transcribed verbatim from the manufacturer notes in
+// 2026-08-14/data-notes/<brand>-Data.md (kept out of public/ — they are
+// provenance for this file, not site content) and the curated gallery specs in
+// lib/data for EST — no specifications are invented.
 // Each product is joined to every matching PDF in its brand's document library
 // (via lib/documents.ts). Never import this into a client component; the page
 // computes the data server-side and passes plain data down.

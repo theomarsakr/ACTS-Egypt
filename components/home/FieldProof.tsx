@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
-import { useOnscreen } from "@/lib/hooks";
+import { useOnscreen, useReducedMotion } from "@/lib/hooks";
 
 export type FieldProofItem = {
   slug: string;
@@ -32,7 +32,17 @@ export default function FieldProof({
   const [[index, dir], setIndex] = useState<[number, number]>([0, 1]);
   // Explicit, persistent pause (the actual WCAG 2.2.2 control — this
   // autoplays every 5.2s, past the 5s threshold that requires one).
-  const [manuallyPaused, setManuallyPaused] = useState(false);
+  // `null` = the reader has not chosen yet, so follow their OS preference:
+  // reduced motion arrives paused, everyone else arrives playing. Derived
+  // rather than written from an effect so there is no cascading render, and
+  // safe to derive because the hook below reports false through hydration.
+  const [pauseOverride, setPauseOverride] = useState<boolean | null>(null);
+  // NOT motion/react's useReducedMotion — that one reports false on the server
+  // and the reader's real setting on the client's first render, and this
+  // component used to gate the pause BUTTON on it (`{!reduced && ...}`), which
+  // put a different control in the SSR markup than in the hydration render and
+  // regenerated this whole subtree (React #418). The local hook is
+  // useSyncExternalStore-based with a server snapshot, so both passes agree.
   const reduced = useReducedMotion();
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   // Transient courtesy pause — pointer over, keyboard focus inside, or
@@ -42,6 +52,8 @@ export default function FieldProof({
   const hostRef = useRef<HTMLDivElement>(null);
   const { onscreen } = useOnscreen(hostRef);
 
+  const autoplayPaused = pauseOverride ?? reduced;
+
   const go = useCallback(
     (delta: number) =>
       setIndex(([i]) => [(i + delta + items.length) % items.length, delta]),
@@ -49,14 +61,14 @@ export default function FieldProof({
   );
 
   useEffect(() => {
-    if (reduced || manuallyPaused || !onscreen) return;
+    if (autoplayPaused || !onscreen) return;
     timer.current = setInterval(() => {
       if (!paused.current) go(1);
     }, 5200);
     return () => {
       if (timer.current) clearInterval(timer.current);
     };
-  }, [go, reduced, manuallyPaused, onscreen]);
+  }, [go, autoplayPaused, onscreen]);
 
   const item = items[index];
 
@@ -91,11 +103,23 @@ export default function FieldProof({
           <motion.figure
             key={item.slug}
             custom={dir}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, x: 48 * dir }}
+            // `initial` and `drag` are both written into the server-rendered
+            // markup (`drag` contributes touch-action, user-select and
+            // draggable), so neither may branch on `reduced` — the server
+            // cannot know the reader's OS setting, and disagreeing with the
+            // client's first render is a hydration mismatch. The reduced
+            // contract is met on `transition`: same frames, crossed instantly.
+            // Drag stays available either way; it is direct manipulation the
+            // reader asks for by hand, not motion inflicted on them.
+            initial={{ opacity: 0, x: 48 * dir }}
             animate={{ opacity: 1, x: 0 }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, x: -48 * dir }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            drag={reduced ? false : "x"}
+            exit={{ opacity: 0, x: -48 * dir }}
+            transition={
+              reduced
+                ? { duration: 0 }
+                : { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+            }
+            drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.15}
             onDragStart={() => (paused.current = true)}
@@ -159,20 +183,18 @@ export default function FieldProof({
           {/* The actual WCAG 2.2.2 pause mechanism — persists regardless of
               hover/focus, unlike the transient `paused` ref above, and
               works identically for a mouse or a touch visitor. */}
-          {!reduced && (
-            <button
-              onClick={() => setManuallyPaused((p) => !p)}
-              aria-pressed={manuallyPaused}
-              aria-label={manuallyPaused ? "Resume autoplay" : "Pause autoplay"}
-              className={`w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full flex items-center justify-center transition-all hover:-translate-y-0.5 ${
-                dark
-                  ? "glass-dark border border-white/15 text-white/80 hover:border-amber/50 hover:text-amber"
-                  : "border border-gray-200 bg-white text-navy shadow-sm hover:border-brand/50 hover:text-brand"
-              }`}
-            >
-              {manuallyPaused ? <Play size={16} /> : <Pause size={16} />}
-            </button>
-          )}
+          <button
+            onClick={() => setPauseOverride(!autoplayPaused)}
+            aria-pressed={autoplayPaused}
+            aria-label={autoplayPaused ? "Resume autoplay" : "Pause autoplay"}
+            className={`w-10 h-10 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full flex items-center justify-center transition-all hover:-translate-y-0.5 ${
+              dark
+                ? "glass-dark border border-white/15 text-white/80 hover:border-amber/50 hover:text-amber"
+                : "border border-gray-200 bg-white text-navy shadow-sm hover:border-brand/50 hover:text-brand"
+            }`}
+          >
+            {autoplayPaused ? <Play size={16} /> : <Pause size={16} />}
+          </button>
           {[
             { delta: -1, label: "Previous", Icon: ChevronLeft },
             { delta: 1, label: "Next", Icon: ChevronRight },

@@ -1,7 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
+// NOT motion/react's useReducedMotion. That one reads the media query straight
+// into useState during render, so it reports false on the server and the
+// reader's real setting on the client's very first render — and this component
+// renders that value as TEXT, which made it a hydration mismatch (React #418,
+// "server rendered text didn't match"): 0 in the HTML, the final number on the
+// client, and the surrounding tree thrown away and rebuilt. The local hook is
+// useSyncExternalStore-based with a server snapshot, so server and hydration
+// render agree and the value only changes afterwards. It also tracks later
+// changes to the OS setting, which motion's one-shot version never does.
+import { useReducedMotion } from "@/lib/hooks";
 
 // Counts up from 0 to `value` once it scrolls into view.
 export default function CountUp({
@@ -14,9 +23,9 @@ export default function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   const reduced = useReducedMotion();
   const [counted, setCounted] = useState(0);
-  // Reduced motion shows the final number outright. Deriving it beats writing
-  // it from an effect: no second render pass, and it stays correct if the
-  // reader flips the OS setting while the page is open.
+  // Reduced motion shows the final number outright. Safe to derive during
+  // render with the hook above: it reports false through hydration, so this is
+  // `counted` (0) on both passes and only becomes `value` afterwards.
   const display = reduced ? value : counted;
 
   useEffect(() => {

@@ -202,7 +202,7 @@ function ProductRow({
               {p.family}
             </span>
           </div>
-          <h3 className="mt-1 text-lg sm:text-xl font-extrabold text-navy leading-tight">
+          <h3 className="mt-1 text-fluid-h5 font-extrabold text-navy leading-tight">
             {p.name}
           </h3>
           <p className="mt-0.5 text-[13.5px] text-gray-500 line-clamp-1">

@@ -19,6 +19,7 @@ import Magnetic from "@/components/ui/Magnetic";
 import BorderBeam from "@/components/ui/BorderBeam";
 import SpecSheet from "@/components/SpecSheet";
 import Container from "@/components/layout/Container";
+import SectionHeading from "@/components/SectionHeading";
 
 const pillarIcons = [Gauge, Settings2, Thermometer, Briefcase];
 
@@ -33,6 +34,7 @@ const pillars = [
   {
     no: "01",
     title: "Valves",
+    sub: "Safety relief, control, and isolation",
     intro:
       "We supply a comprehensive range of industrial valves for isolation, regulation, and overpressure protection, backed by application engineering, sizing, and selection support.",
     rows: [
@@ -69,6 +71,7 @@ const pillars = [
   {
     no: "02",
     title: "Actuators & Instrumentation",
+    sub: "Actuation, positioning, and process measurement",
     intro:
       "We provide complete actuation and control solutions for precise, reliable valve operation under demanding process conditions.",
     rows: [
@@ -102,6 +105,7 @@ const pillars = [
   {
     no: "03",
     title: "Heat Exchanger & Pressure Testing Equipment",
+    sub: "Tube plugging, test plugs, inspection, and sleeving",
     intro:
       "We deliver turnkey solutions for thermal asset integrity and pressure safety by combining engineered products with field services.",
     rows: [
@@ -202,22 +206,21 @@ export default function ProductsPage() {
                     icon: <Icon size={15} />,
                     content: (
                       <div>
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-light">
-                            <Icon size={20} className="text-brand" strokeWidth={2.25} />
-                          </div>
-                          <div>
-                            <div className="text-[13px] font-bold uppercase tracking-widest text-brand">
+                        <SectionHeading
+                          tier="md"
+                          eyebrow={
+                            <>
+                              <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-light">
+                                <Icon size={14} className="text-brand" strokeWidth={2.25} />
+                              </span>
                               Pillar {p.no}
-                            </div>
-                            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                              {p.title}
-                            </h2>
-                          </div>
-                        </div>
-                        <p className="mt-4 text-[15px] text-gray-600 leading-relaxed max-w-3xl">
-                          {p.intro}
-                        </p>
+                            </>
+                          }
+                          title={p.title}
+                          subtitle={p.sub}
+                          lede={p.intro}
+                          ledeClassName="max-w-3xl"
+                        />
 
                         <div className="mt-6">
                           <SpecSheet
@@ -267,25 +270,21 @@ export default function ProductsPage() {
                     icon: <Icon size={15} />,
                     content: (
                       <div>
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-light">
-                            <Icon size={20} className="text-brand" strokeWidth={2.25} />
-                          </div>
-                          <div>
-                            <div className="text-[13px] font-bold uppercase tracking-widest text-brand">
+                        <SectionHeading
+                          tier="md"
+                          eyebrow={
+                            <>
+                              <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-light">
+                                <Icon size={14} className="text-brand" strokeWidth={2.25} />
+                              </span>
                               Pillar 04
-                            </div>
-                            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy">
-                              Technical Advisory &amp; Aftermarket Services
-                            </h2>
-                          </div>
-                        </div>
-                        <p className="mt-4 text-[15px] text-gray-600 leading-relaxed max-w-3xl">
-                          Beyond equipment supply, we support customers with
-                          engineering advice, maintenance that reduces
-                          downtime, and a move toward service driven by data
-                          rather than by the calendar.
-                        </p>
+                            </>
+                          }
+                          title="Technical Advisory & Aftermarket Services"
+                          subtitle="Engineering advice, overhaul, and data-led maintenance"
+                          lede="Beyond equipment supply, we support customers with engineering advice, maintenance that reduces downtime, and a move toward service driven by data rather than by the calendar."
+                          ledeClassName="max-w-3xl"
+                        />
                         <div className="mt-6 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-5">
                           {groups.map((g) => (
                             <SpotlightCard
@@ -320,14 +319,13 @@ export default function ProductsPage() {
       <section id="approach" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-                Our integrated approach
-              </div>
-              <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
-                One partner, every discipline
-              </h2>
-            </div>
+            <SectionHeading
+              align="center"
+              className="mx-auto max-w-2xl"
+              title="Our Integrated Approach"
+              subtitle="One partner, every discipline"
+              lede="Four pillars handled by one team, so a multi-discipline requirement does not become a multi-supplier problem."
+            />
           </Reveal>
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {approach.map((a, i) => (
@@ -340,7 +338,7 @@ export default function ProductsPage() {
                   className="h-full w-full"
                 >
                   <SpotlightCard className="card-lift h-full w-full rounded-xl border border-brand/15 bg-white p-6 shadow-sm">
-                    <h3 className="text-lg font-bold text-navy">{a.title}</h3>
+                    <h3 className="text-fluid-h5 font-bold text-navy">{a.title}</h3>
                     <div className="mt-3 h-0.5 w-8 rounded-full bg-brand/70" />
                     <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
                       {a.text}
@@ -359,13 +357,15 @@ export default function ProductsPage() {
           <Reveal>
             <BorderBeam className="relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h3 className="text-fluid-h4 font-extrabold text-white">
-                  Need one of these products or services?
-                </h3>
-                <p className="mt-2 text-[15px] text-white/75 max-w-lg">
-                  See the brands behind our portfolio, or send us your
-                  requirement directly.
-                </p>
+                <SectionHeading
+                  as="h3"
+                  tier="md"
+                  tone="dark"
+                  title="Need One of These?"
+                  subtitle="Browse the brands, or skip straight to a quote"
+                  lede="See the manufacturers behind our portfolio, or send us your requirement directly."
+                  ledeClassName="max-w-lg"
+                />
               </div>
               <div className="relative flex flex-wrap gap-3 shrink-0">
                 <Magnetic>

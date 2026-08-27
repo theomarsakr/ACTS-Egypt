@@ -45,6 +45,11 @@ export default function CardLogoMark({
   const boxStyle = fluid
     ? { width, aspectRatio: "104 / 27" }
     : { width, height: Math.round((width * 27) / 104) };
+  /* Without this the browser only ever sees the lockup's *intrinsic* 1330px
+     and asks the optimizer for 1920w (and 3840w at 2x) — a full-resolution
+     transformation of a mark that paints at 72-192px, on five different pages.
+     `min(35%, 12rem)` tops out at 192px, so that is the fluid ceiling. */
+  const renderedWidth = fluid ? 192 : width;
   return (
     <div
       className={`pointer-events-none shrink-0 select-none overflow-hidden ${
@@ -58,6 +63,7 @@ export default function CardLogoMark({
         alt=""
         width={dark ? 1310 : 1330}
         height={422}
+        sizes={`${renderedWidth}px`}
         style={{ width: fluid ? "100%" : width }}
         className="max-w-none"
       />

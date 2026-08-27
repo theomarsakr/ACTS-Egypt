@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowRight,
   Briefcase,
@@ -21,6 +20,7 @@ import Reveal from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
 import PageHeroBackground from "@/components/PageHeroBackground";
 import SectionHeading from "@/components/SectionHeading";
+import SectorPanel from "@/components/SectorPanel";
 import SiteDock from "@/components/SiteDock";
 import Counter from "@/components/Counter";
 import Tabs, { type TabItem } from "@/components/Tabs";
@@ -126,12 +126,13 @@ export default function ProjectsPage() {
       <section id="portfolio" className="scroll-anchor py-16">
         <Container>
           <Reveal>
-            <div className="text-[13px] font-bold text-brand uppercase tracking-widest">
-              Our client portfolio
-            </div>
-            <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
-              Browse by sector
-            </h2>
+            <SectionHeading
+              eyebrow="Our client portfolio"
+              title="Browse by Sector"
+              subtitle="The operators who bring us their critical equipment"
+              lede="Pick a sector to see the companies we supply and support in it."
+              ledeClassName="max-w-2xl"
+            />
           </Reveal>
           <div className="mt-8">
             <Tabs
@@ -144,19 +145,13 @@ export default function ProjectsPage() {
                   content: (
                     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                       <div className="grid lg:grid-cols-5">
-                        <div className="img-zoom relative min-h-56 lg:col-span-2">
-                          <Image
-                            src={group.image}
-                            alt={group.imageAlt}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 40vw"
-                            className="object-cover"
-                          />
-                          <div className="absolute inset-0 bg-linear-to-t from-navy/50 to-transparent" />
-                          <div className="absolute top-4 left-4 flex items-center justify-center w-11 h-11 rounded-xl bg-brand shadow-lg">
-                            <Icon size={20} className="text-white" strokeWidth={2.25} />
-                          </div>
-                        </div>
+                        <SectorPanel
+                          src={group.image}
+                          alt={group.imageAlt}
+                          artwork={group.artwork}
+                          imageSize={group.imageSize}
+                          icon={Icon}
+                        />
                         <div className="lg:col-span-3 p-5 sm:p-8 lg:p-10">
                           <h3 className="text-fluid-h4 font-extrabold text-navy">
                             {group.category}
@@ -212,7 +207,7 @@ export default function ProjectsPage() {
                       </div>
                       <CardLogoMark />
                     </div>
-                    <h3 className="mt-4 text-lg font-bold text-navy">{h.title}</h3>
+                    <h3 className="mt-4 text-fluid-h5 font-bold text-navy">{h.title}</h3>
                     <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">
                       {h.text}
                     </p>
@@ -228,11 +223,13 @@ export default function ProjectsPage() {
       <section id="trust" className="scroll-anchor py-16">
         <Container>
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
-                What Our Clients Trust Us For
-              </h2>
-            </div>
+            <SectionHeading
+              align="center"
+              className="mx-auto max-w-2xl"
+              title="What Clients Trust Us For"
+              subtitle="Six reasons the same operators come back"
+              lede="Not a product list. These are the things procurement and maintenance teams tell us they buy from ACTS."
+            />
           </Reveal>
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {trust.map((t, i) => {
@@ -246,7 +243,7 @@ export default function ProjectsPage() {
                       </span>
                       <CardLogoMark />
                     </div>
-                    <h3 className="mt-4 text-lg font-bold text-navy">{t.title}</h3>
+                    <h3 className="mt-4 text-fluid-h5 font-bold text-navy">{t.title}</h3>
                     <p className="mt-1.5 text-[15px] text-gray-600 leading-relaxed">
                       {t.text}
                     </p>
@@ -267,21 +264,13 @@ export default function ProjectsPage() {
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-lg shadow-brand/25">
                   <Lock size={22} />
                 </span>
-                <div>
-                  <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand">
-                    Client confidentiality
-                  </div>
-                  <h2 className="mt-1 text-fluid-h4 font-extrabold tracking-tight text-navy">
-                    Confidentiality Statement
-                  </h2>
-                  <p className="mt-3 text-[15px] text-gray-600 leading-relaxed">
-                    We take our clients&apos; confidentiality seriously. Specific
-                    project details, technical data, and operational information
-                    are protected under non-disclosure agreements. For further
-                    references or detailed project information, please contact us
-                    directly.
-                  </p>
-                </div>
+                <SectionHeading
+                  tier="md"
+                  eyebrow="Client confidentiality"
+                  title="Confidentiality Statement"
+                  subtitle="Why you will not find project specifics on this page"
+                  lede="We take our clients' confidentiality seriously. Specific project details, technical data, and operational information are protected under non-disclosure agreements. For further references or detailed project information, please contact us directly."
+                />
               </div>
             </div>
           </Reveal>
@@ -299,21 +288,23 @@ export default function ProjectsPage() {
           it, and the brass primary now leads the button row as it does on the
           Products and Industries CTAs. */}
       <section className="relative overflow-hidden bg-navy">
-        <PageHeroBackground priority={false} />
+        <PageHeroBackground eager={false} />
         <Container className="relative py-20 md:py-24">
           <Reveal>
             <div className="max-w-xl lg:max-w-2xl">
-              <div className="flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.18em] text-amber">
-                <span className="h-px w-8 bg-amber/50" aria-hidden />
-                Work with ACTS
-              </div>
-              <h2 className="mt-4 text-fluid-h2 font-extrabold tracking-[-0.03em] text-white text-balance">
-                Ready to partner with us?
-              </h2>
-              <p className="mt-5 text-[17px] md:text-lg leading-relaxed text-white/65">
-                Join Egypt&apos;s most respected operators in choosing ACTS as
-                your trusted technical partner for critical process equipment.
-              </p>
+              <SectionHeading
+                tier="xl"
+                tone="dark"
+                eyebrow={
+                  <>
+                    <span className="h-px w-8 bg-amber/50" aria-hidden />
+                    Work with ACTS
+                  </>
+                }
+                title="Ready to Partner With Us?"
+                subtitle="One technical partner for critical process equipment"
+                lede="Join Egypt's most respected operators in choosing ACTS."
+              />
               {/* items-start, not the column default of stretch: Magnetic
                   wraps only the primary, so a stretched row would leave the
                   brass button sized to its label inside a full-width wrapper

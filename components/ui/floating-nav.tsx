@@ -157,7 +157,18 @@ export default function FloatingNav({
       ref={wrapperRef}
       aria-label="Page sections"
       data-pinned-chrome
-      className="fixed bottom-4 sm:bottom-5 left-1/2 z-40 flex -translate-x-1/2 flex-col items-center px-3 pb-[env(safe-area-inset-bottom)]"
+      /* `inset-x-0`, matching <Dock>, not the `left-1/2 + -translate-x-1/2`
+         this used to centre with. A fixed element centred that way has no
+         width constraint at all, so the column sized itself to its widest
+         child - the section scroller - and the scroller's own overflow-x-auto
+         never engaged. On a 393px viewport the bar measured 419px and hung
+         13px off both edges (caught by the overflow sweep in
+         tests/responsive.spec.ts on /brands/[slug], the only route that
+         renders this bar). Pinning both edges bounds the column to the
+         viewport, `items-center` keeps it centred, and the scroller below
+         gets `w-fit max-w-full` so it shrinks to its content but can never
+         exceed that bound - at which point it finally scrolls. */
+      className="fixed inset-x-0 bottom-4 sm:bottom-5 z-40 flex flex-col items-center px-3 pb-[env(safe-area-inset-bottom)]"
     >
       {/* Collapse handle. <Dock> has had one of these on every other page;
           this bar never did, so on the brand pages it sat permanently over
@@ -191,7 +202,7 @@ export default function FloatingNav({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden"
+            className="w-full overflow-hidden"
           >
       {/* No backdrop-blur — this is `fixed`, pinned through the whole scroll,
           same as <Dock> and <Navbar>'s nav. Bumped to bg-white/95 (from /90)
@@ -206,7 +217,7 @@ export default function FloatingNav({
           visual pill chrome can stay the one element. */}
       <div
         ref={containerRef}
-        className="scroll-fade-x relative flex snap-x snap-proximity items-center overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="scroll-fade-x relative mx-auto flex w-fit max-w-full snap-x snap-proximity items-center overflow-x-auto rounded-full border border-gray-200 bg-white/95 px-1.5 py-1.5 shadow-xl shadow-navy/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {sections.map((s, index) => {
           const isActive = active === s.id;

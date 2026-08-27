@@ -8,6 +8,7 @@ import SpotlightCard from "@/components/ui/SpotlightCard";
 import BrandResourceCard from "@/components/brands/BrandResourceCard";
 import DocumentLibrary from "@/components/brands/DocumentLibrary";
 import Container from "@/components/layout/Container";
+import SectionHeading from "@/components/SectionHeading";
 import { brands, pastManufacturers } from "@/lib/data";
 import { brandCardImages, brandSlugToFolder } from "@/lib/brandProductImages";
 import { getBrandDocuments } from "@/lib/documents";
@@ -86,17 +87,13 @@ export default function BrandsPage() {
       <section id="past-experience" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto">
-              <h2 className="text-fluid-h3 font-extrabold tracking-tight text-navy">
-                Past Project Experience
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                Beyond our current sole-agency brands, ACTS has supplied and
-                supported equipment from the following manufacturers on past
-                projects, giving our team broad, practical experience across
-                the wider valve and flow-control landscape.
-              </p>
-            </div>
+            <SectionHeading
+              align="center"
+              className="mx-auto max-w-2xl"
+              title="Past Project Experience"
+              subtitle="Manufacturers we have supplied and supported before"
+              lede="Beyond our current sole-agency brands, ACTS has worked with the equipment below on past projects, giving our team broad, practical experience across the wider valve and flow-control landscape."
+            />
           </Reveal>
           {/* Was grid-cols-2 md:grid-cols-4 — a jump straight from 2 to 4
               columns with no sm/lg stage in between, the only sizing this
@@ -121,25 +118,30 @@ export default function BrandsPage() {
       >
         <Container>
           <Reveal>
-            <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-brand">
-              <Library size={15} /> Resource center
-            </div>
-            <h2 className="mt-3 text-fluid-h3 font-extrabold tracking-tight text-navy">
-              Document Library
-            </h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-3xl">
-              Every brochure, series catalog, bulletin, installation manual and
-              technical procedure from Farris Engineering, Dyna-Flo and EST:{" "}
-              {totalDocs}{" "}PDFs in all. Search, filter by brand or language, and
-              open any document directly. Need something you can&apos;t find?{" "}
-              <Link
-                href="/contact"
-                className="font-semibold text-brand hover:underline"
-              >
-                Contact our team
-              </Link>
-              .
-            </p>
+            <SectionHeading
+              eyebrow={
+                <>
+                  <Library size={15} /> Resource center
+                </>
+              }
+              title="Document Library"
+              subtitle={`Every Farris, Dyna-Flo and EST PDF: ${totalDocs} in all`}
+              lede={
+                <>
+                  Brochures, series catalogs, bulletins, installation manuals and
+                  technical procedures. Search, filter by brand or language, and
+                  open any document directly. Need something you can&apos;t find?{" "}
+                  <Link
+                    href="/contact"
+                    className="font-semibold text-brand hover:underline"
+                  >
+                    Contact our team
+                  </Link>
+                  .
+                </>
+              }
+              ledeClassName="max-w-3xl"
+            />
           </Reveal>
           <Reveal delay={100}>
             <div className="mt-9">

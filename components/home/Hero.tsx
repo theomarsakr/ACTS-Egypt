@@ -182,12 +182,16 @@ export default function Hero({
           {/* Floating spec-card stack — tilts toward the cursor like an
               instrument panel. Cards orbit through front/middle/back, preview
               the brand's range on hover, and link to each brand's page (see
-              HeroProductCards) — interactive, so not aria-hidden. */}
+              HeroProductCards) — interactive, so not aria-hidden.
+              Heights clear the lowest card (EST, top-24) plus its foot rail
+              and orbit swing at every width; the sm/md steps exist because
+              that card is the only one that would otherwise run past the
+              stage into the stat strip below. */}
           <motion.div
             style={{ y: stackY, rotateX, rotateY, transformPerspective: 1000 }}
             onMouseMove={handleStackMouseMove}
             onMouseLeave={handleStackMouseLeave}
-            className="relative h-[360px] md:h-[420px] lg:h-[520px]"
+            className="relative h-[376px] sm:h-[420px] md:h-[464px] lg:h-[520px]"
           >
             <HeroProductCards />
           </motion.div>

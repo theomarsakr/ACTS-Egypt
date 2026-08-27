@@ -21,6 +21,7 @@ import Magnetic from "@/components/ui/Magnetic";
 import BorderBeam from "@/components/ui/BorderBeam";
 import DocCard from "@/components/brands/hub/DocCard";
 import { Gallery, VideoCard } from "@/components/brands/hub/ProductHub";
+import SectionHeading from "@/components/SectionHeading";
 import { getBrand } from "@/lib/data";
 import { HUB_BRANDS, getBrandHubData, type HubDoc, type HubProduct } from "@/lib/brandHub";
 
@@ -135,13 +136,16 @@ export default async function ProductDetailPage({ params }: Props) {
               aria-label="Breadcrumb"
               className="flex flex-wrap items-center gap-1.5 text-[13px] font-medium text-white/50"
             >
-              <Link href="/brands" className="hover:text-white transition-colors">
+              <Link
+                href="/brands"
+                className="inline-flex items-center pointer-coarse:min-h-11 hover:text-white transition-colors"
+              >
                 Brands
               </Link>
               <span aria-hidden>/</span>
               <Link
                 href={`/brands/${slug}`}
-                className="hover:text-white transition-colors"
+                className="inline-flex items-center pointer-coarse:min-h-11 hover:text-white transition-colors"
               >
                 {brand.name}
               </Link>
@@ -175,12 +179,14 @@ export default async function ProductDetailPage({ params }: Props) {
                 {p.family}
               </span>
             </div>
-            <h1 className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-              {p.name}
-            </h1>
-            <p className="mt-4 text-lg text-white/75 leading-relaxed max-w-2xl">
-              {p.tagline}
-            </p>
+            <SectionHeading
+              as="h1"
+              tier="page"
+              tone="dark"
+              className="mt-3"
+              title={p.name}
+              subtitle={p.tagline}
+            />
           </Reveal>
         </div>
       </section>
@@ -428,13 +434,14 @@ export default async function ProductDetailPage({ params }: Props) {
           <Reveal>
             <BorderBeam className="relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h2 className="text-fluid-h4 font-extrabold text-white">
-                  Need a {p.name.split(" ")[0]} for your project?
-                </h2>
-                <p className="mt-2 text-[15px] text-white/75 max-w-lg">
-                  Send us your requirement and one of our application engineers
-                  will follow up, typically within 24 hours.
-                </p>
+                <SectionHeading
+                  tier="md"
+                  tone="dark"
+                  title={`Need a ${p.name.split(" ")[0]} for your project?`}
+                  subtitle="Sized, quoted, and answered by an engineer"
+                  lede="Send us your requirement and one of our application engineers will follow up, typically within 24 hours."
+                  ledeClassName="max-w-lg"
+                />
               </div>
               <div className="relative flex flex-wrap gap-3 shrink-0">
                 <Magnetic>

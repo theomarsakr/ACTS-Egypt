@@ -331,7 +331,7 @@ export default async function Home({
                       </div>
                       <CardLogoMark />
                     </div>
-                    <h3 className="mt-5 text-lg font-bold text-navy">{w.title}</h3>
+                    <h3 className="mt-5 text-fluid-h5 font-bold text-navy">{w.title}</h3>
                     <p className="mt-2.5 text-[15px] text-gray-600 leading-relaxed">
                       {w.text}
                     </p>
@@ -353,6 +353,7 @@ export default async function Home({
                 tier="xl"
                 title={hm.brands.title}
                 subtitle={hm.brands.subtitle}
+                lede={hm.brands.lede}
               />
               <Link
                 href="/brands"
@@ -423,7 +424,7 @@ export default async function Home({
                         clear of the image link above it, and the line below is
                         a plain category label, not a target. */}
                     <Link href={`/brands/${b.slug}`} className="tap-target block">
-                      <h3 className="text-lg font-extrabold text-navy transition-colors group-hover:text-brand">
+                      <h3 className="text-fluid-h5 font-extrabold text-navy transition-colors group-hover:text-brand">
                         {b.name}
                       </h3>
                     </Link>
@@ -497,10 +498,9 @@ export default async function Home({
               tone="dark"
               title={hm.global.title}
               subtitle={hm.global.subtitle}
+              lede={hm.global.lede}
+              ledeClassName="max-w-lg"
             />
-            <p className="mt-5 text-lg text-white/70 leading-relaxed max-w-lg">
-              {hm.global.lede}
-            </p>
             <div
               className="mt-8 flex flex-wrap gap-2.5"
               style={{ "--chip-count": brands.length } as React.CSSProperties}
@@ -567,10 +567,9 @@ export default async function Home({
                   tier="xl"
                   title={hm.why.title}
                   subtitle={hm.why.subtitle}
+                  lede={hm.why.lede}
+                  ledeClassName="max-w-md"
                 />
-                <p className="mt-6 max-w-md text-lg leading-relaxed text-gray-600">
-                  {hm.why.lede}
-                </p>
                 <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
                   <Magnetic>
                     <ShimmerButton
@@ -614,6 +613,8 @@ export default async function Home({
                       tone="dark"
                       title={hm.why.exclusive.title}
                       subtitle={hm.why.exclusive.subtitle}
+                      lede={hm.why.exclusive.text}
+                      ledeClassName="max-w-lg"
                     />
                     <span className="sheen motion-ambient shrink-0 rounded-xl bg-white px-3 py-2 shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
                       <Image
@@ -625,10 +626,6 @@ export default async function Home({
                       />
                     </span>
                   </div>
-                  <p className="relative mt-4 max-w-lg text-[15.5px] leading-relaxed text-white/60">
-                    {hm.why.exclusive.text}
-                  </p>
-
                   <div className="relative mt-8 border-t border-white/10">
                     {brands.map((b, i) => (
                       <Link
@@ -680,7 +677,7 @@ export default async function Home({
                         its taller neighbour reads composed, not top-heavy. */}
                     <div className="mt-auto pt-7">
                       <span className="stat-rule mb-4 block h-px bg-brand/45" aria-hidden />
-                      <h3 className="text-[17px] font-bold text-navy">
+                      <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.fast.title}
                       </h3>
                       <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
@@ -699,7 +696,7 @@ export default async function Home({
                       <Wrench size={21} />
                     </div>
                     <div className="mt-auto pt-7">
-                      <h3 className="text-[17px] font-bold text-navy">
+                      <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.engineers.title}
                       </h3>
                       <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
@@ -725,7 +722,7 @@ export default async function Home({
                     </div>
                     <div className="mt-auto pt-7">
                       <span className="stat-rule mb-4 block h-px bg-brand/45" aria-hidden />
-                      <h3 className="text-[17px] font-bold text-navy">
+                      <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.since.title}
                       </h3>
                       <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
@@ -744,7 +741,7 @@ export default async function Home({
                       <ShieldCheck size={21} />
                     </div>
                     <div className="mt-auto pt-7">
-                      <h3 className="text-[17px] font-bold text-navy">
+                      <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.genuine.title}
                       </h3>
                       <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
@@ -761,7 +758,7 @@ export default async function Home({
                   <div className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-light px-3.5 py-1.5 text-[12.5px] font-bold tracking-[0.14em] text-brand-dark uppercase">
                     {hm.why.industriesTile.chip}
                   </div>
-                  <h3 className="mt-4 text-[17px] font-bold text-navy">
+                  <h3 className="mt-4 text-fluid-h5 font-bold text-navy">
                     {hm.why.industriesTile.title}
                   </h3>
                   <div className="mt-5 flex flex-wrap gap-2">
@@ -805,7 +802,7 @@ export default async function Home({
                           <MapPin size={21} />
                         </div>
                         <div className="min-w-0">
-                          <h3 className="text-[17px] font-bold text-navy">
+                          <h3 className="text-fluid-h5 font-bold text-navy">
                             {hm.why.locationTile.title}
                           </h3>
                           <p className="mt-2 text-[14.5px] leading-relaxed text-gray-600">
@@ -897,13 +894,10 @@ export default async function Home({
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div className="max-w-2xl">
-                <div className="inline-flex items-center gap-2 text-[12.5px] font-bold text-brand-dark uppercase tracking-[0.14em] bg-brand-light rounded-full px-3.5 py-1.5">
-                  {hm.gallery.chip}
-                </div>
                 <SectionHeading
-                  className="mt-4"
                   tier="xl"
                   title={hm.gallery.title}
+                  subtitle={hm.gallery.subtitle}
                   lede={hm.gallery.lede}
                 />
               </div>
@@ -954,10 +948,9 @@ export default async function Home({
               align="center"
               title={hm.cta.title}
               subtitle={hm.cta.subtitle}
+              lede={hm.cta.lede}
+              ledeClassName="mx-auto max-w-xl"
             />
-            <p className="mt-6 text-lg md:text-xl text-white/70 max-w-xl mx-auto">
-              {hm.cta.lede}
-            </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Magnetic>
                 <ShimmerButton

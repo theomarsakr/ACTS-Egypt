@@ -105,19 +105,29 @@ export default function Navbar({
           carries used to be `hidden xl:block` with no mobile-menu fallback,
           so below 1280px they were simply gone. Below `sm` there's no room
           for the desktop's single row, so it stacks into two: contact links,
-          then the tagline; `sm:` up collapses back to one row like before. */}
+          then the tagline; `sm:` up collapses back to one row like before.
+
+          `sm:min-h-9`, not `sm:h-9`: at 36px fixed the bar was shorter than
+          the 44px .tap-target overlay on the two links, so the bottom of that
+          overlay fell outside the bar and was painted over by the nav row
+          below it (a later sibling, so it wins the stacking order). The links
+          were reachable across ~36px, not 44 — which is what the coarse-pointer
+          sweep in tests/responsive.spec.ts hit-tests for, and why it failed on
+          every route at tablet width but not at phone width, where the bar
+          already stacks taller. The links carry `pointer-coarse:min-h-11` and
+          the bar grows to fit them; fine-pointer widths are unchanged. */}
       <div className="bg-ink text-white/80 text-[13px]">
-        <div className="max-w-7xl mx-auto px-6 py-2 sm:h-9 sm:py-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
+        <div className="max-w-7xl mx-auto px-6 py-2 sm:min-h-9 sm:py-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
-              className="tap-target inline-flex items-center gap-1.5 hover:text-white transition-colors"
+              className="tap-target inline-flex items-center pointer-coarse:min-h-11 gap-1.5 hover:text-white transition-colors"
             >
               <Phone size={13} /> <span className="ltr-inline">{contact.phone}</span>
             </a>
             <a
               href={`mailto:${contact.salesEmail}`}
-              className="tap-target inline-flex items-center gap-1.5 hover:text-white transition-colors"
+              className="tap-target inline-flex items-center pointer-coarse:min-h-11 gap-1.5 hover:text-white transition-colors"
             >
               <Mail size={13} /> {contact.salesEmail}
             </a>
@@ -181,7 +191,10 @@ export default function Navbar({
                 width={124}
                 height={41}
                 className="h-9 w-auto"
-                priority
+                /* Chrome, not content: it wants to be there on first paint but
+                   it is never the LCP, so it loads eagerly without taking a
+                   preload slot from the page's own hero. */
+                loading="eager"
               />
             </Link>
 
