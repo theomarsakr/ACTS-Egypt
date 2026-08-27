@@ -91,6 +91,31 @@ const securityHeaders = [
  * change the picture** (or purge with `vercel cache invalidate --srcimg`).
  * `immutable` is deliberately not set, so a hard reload still revalidates.
  */
+/* The PDF library is 255 manufacturer documents, ~440MB, under public/Data.
+ *
+ * Every one of them is Curtiss-Wright's own literature, published verbatim by
+ * the manufacturer and by every other distributor worldwide — so ACTS's copies
+ * are duplicates that will not outrank the original, and left indexable they
+ * compete with the HTML product pages that ARE meant to rank ("Make important
+ * HTML product pages the primary SEO landing pages"). A PDF that wins the
+ * query is a worse result too: it drops the reader into a datasheet with no
+ * ACTS contact route, no Egypt context and no way through to a quote.
+ *
+ * `noindex` rather than a robots.txt Disallow, deliberately. Disallow would
+ * stop Google reading them at all, which severs the product-page → document
+ * relationship that gives those pages their topical depth; noindex keeps them
+ * crawled, linked and downloadable while keeping them out of the results.
+ * `nofollow` is NOT set — PDFs are leaves, but the crawl should still count
+ * the pages pointing at them.
+ *
+ * Images under /Data/<brand>/images are deliberately NOT covered: product
+ * photography should be in Google Images, which is a real entry point for
+ * industrial hardware.
+ *
+ * To reverse: delete this block. Indexing resumes on the next recrawl.
+ */
+const pdfRobotsHeaders = [{ key: "X-Robots-Tag", value: "noindex" }];
+
 const THIRTY_ONE_DAYS = 2678400;
 const staticAssetHeaders = [
   { key: "Cache-Control", value: `public, max-age=${THIRTY_ONE_DAYS}` },
@@ -169,6 +194,9 @@ const nextConfig = {
       { source: "/images/:path*", headers: staticAssetHeaders },
       { source: "/videos/:path*", headers: staticAssetHeaders },
       { source: "/Data/:path*", headers: staticAssetHeaders },
+      // Must come after the Cache-Control rule above: Next merges headers from
+      // every matching rule, so this adds X-Robots-Tag without displacing it.
+      { source: "/:path*.pdf", headers: pdfRobotsHeaders },
       { source: "/geo/:path*", headers: staticAssetHeaders },
       { source: "/logo-transparent.png", headers: staticAssetHeaders },
       { source: "/apple-touch-icon.png", headers: staticAssetHeaders },

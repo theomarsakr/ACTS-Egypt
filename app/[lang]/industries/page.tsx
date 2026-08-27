@@ -51,13 +51,20 @@ import {
   productLineAnchorId,
 } from "@/lib/data";
 import { getIndustryLibrary } from "@/lib/industryLibrary";
+import {
+  breadcrumbSchema,
+  buildMetadata,
+  collectionPageSchema,
+  itemListSchema,
+} from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Industries we serve",
+export const metadata: Metadata = buildMetadata({
+  title: "Valves for Oil & Gas, Petrochemical & Power in Egypt",
   description:
-    "ACTS delivers engineered solutions, critical equipment, and technical support across Egypt's most demanding industrial sectors: Oil & Gas, Petrochemical, Power Generation, Water Treatment, Fertilizers, and General Industrial.",
-  alternates: { canonical: "/industries" },
-};
+    "Engineered valves, flow control and technical support for Egypt's oil & gas, petrochemical, power generation, water treatment and fertilizer plants, from ACTS.",
+  path: "/industries",
+});
 
 /** Every product line an industry lists, as compact linked chips — used by
  *  the "At a glance" table below. A flatter, brand-unlabeled rendering than
@@ -208,8 +215,27 @@ export default async function IndustriesPage({
   searchParams: Promise<{ sector?: string }>;
 }) {
   const { sector } = await searchParams;
+
+  const schema = [
+    collectionPageSchema({
+      name: "Valves for Oil & Gas, Petrochemical & Power in Egypt",
+      description:
+        "The Egyptian industrial sectors ACTS supplies valves, flow control and technical support to.",
+      path: "/industries",
+    }),
+    breadcrumbSchema([{ name: "Industries", path: "/industries" }]),
+    itemListSchema(
+      "Industries ACTS serves in Egypt",
+      industries.map((i) => ({
+        name: i.name,
+        path: `/industries?sector=${i.slug}`,
+      }))
+    ),
+  ];
+
   return (
     <>
+      <JsonLd schema={schema} />
       {/* Page hero */}
       <PageHero
         id="overview"

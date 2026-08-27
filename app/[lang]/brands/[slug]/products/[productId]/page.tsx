@@ -22,11 +22,17 @@ import BorderBeam from "@/components/ui/BorderBeam";
 import DocCard from "@/components/brands/hub/DocCard";
 import { Gallery, VideoCard } from "@/components/brands/hub/ProductHub";
 import SectionHeading from "@/components/SectionHeading";
-import { getBrand } from "@/lib/data";
+import JsonLd from "@/components/JsonLd";
+import { getBrand, sectorHref } from "@/lib/data";
 import { HUB_BRANDS, getBrandHubData, type HubDoc, type HubProduct } from "@/lib/brandHub";
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.actsegypt.com";
+import { productSeo } from "@/lib/productSeo";
+import {
+  SITE_URL as siteUrl,
+  brandEntitySchema,
+  breadcrumbSchema,
+  buildMetadata,
+  fullTitle,
+} from "@/lib/seo";
 
 type Props = {
   params: Promise<{ slug: string; productId: string }>;
@@ -53,16 +59,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const found = lookup(slug, productId);
   if (!found) return {};
   const { brand, product } = found;
-  const description =
-    `${product.tagline} ACTS is ${brand.name}'s exclusive representative in Egypt, supplying and supporting the ${product.name}.`.slice(
-      0,
-      300
-    );
-  return {
-    title: `${product.name} — ${brand.name}`,
-    description,
-    alternates: { canonical: `/brands/${slug}/products/${productId}` },
-  };
+  // Search-intent title + description live in lib/productSeo, one entry per
+  // product. The old generated pair ("2600 & 2600L Series — Farris
+  // Engineering", plus a 300-character description Google truncated at ~155)
+  // led with the series and never said what the product is or where to get it.
+  const seo = productSeo(slug, brand.name, product);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    path: `/brands/${slug}/products/${productId}`,
+    image: product.images[0] ?? brand.image,
+    imageAlt: `${product.name} — ${brand.name}, supplied in Egypt by ACTS`,
+  });
 }
 
 export default async function ProductDetailPage({ params }: Props) {
@@ -75,16 +83,52 @@ export default async function ProductDetailPage({ params }: Props) {
     .map((id) => hub.products.find((x) => x.id === id))
     .filter((x): x is HubProduct & { docs: HubDoc[] } => Boolean(x));
 
+  const seo = productSeo(slug, brand.name, p);
+  const url = `${siteUrl}/brands/${slug}/products/${productId}`;
+
+  // "2600 & 2600L Series" on its own is not what anyone types; "Farris 2600"
+  // is. See `productHeadingPrefix` in lib/data for why EST opts out.
+  const heading = brand.productHeadingPrefix
+    ? `${brand.productHeadingPrefix} ${p.name}`
+    : p.name;
+
+  /* Product + BreadcrumbList + WebPage.
+   *
+   * Deliberately NO `offers`, `aggregateRating` or `review`: ACTS quotes on
+   * request and publishes no price, stock or ratings, so emitting any of them
+   * to unlock a rich result would be fabricating the exact fields Google
+   * checks hardest. Everything below is visible on this page.
+   *
+   * `manufacturer` and `brand` share the `@id` the brand page and the layout's
+   * Organization node use, so a series page, its brand page and ACTS resolve
+   * to one entity chain — the relationship "curtiss-wright farris egypt" is
+   * actually asking about. */
+  const brandEntity = brandEntitySchema(slug);
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: p.name,
+    "@id": `${url}#product`,
+    // Matches the visible H1 exactly — structured data that disagrees with the
+    // page it describes is a manual-action risk, not a shortcut.
+    name: heading,
     description: p.overview,
     image: p.images.map((img) => `${siteUrl}${img}`),
+    url,
     sku: p.code,
     category: p.family,
-    brand: { "@type": "Brand", name: brand.name },
-    manufacturer: { "@type": "Organization", name: brand.name },
+    brand: brandEntity ?? { "@type": "Brand", name: brand.name },
+    manufacturer: brandEntity ?? { "@type": "Organization", name: brand.name },
+    ...(p.certifications?.length
+      ? {
+          // schema.org types hasCertification as Certification, not text — a
+          // bare string array validates as a type error rather than being
+          // ignored.
+          hasCertification: p.certifications.map((c) => ({
+            "@type": "Certification",
+            name: c,
+          })),
+        }
+      : {}),
     ...(p.specs?.length
       ? {
           additionalProperty: p.specs.map((s) => ({
@@ -94,39 +138,41 @@ export default async function ProductDetailPage({ params }: Props) {
           })),
         }
       : {}),
+    ...(related.length
+      ? {
+          isRelatedTo: related.map((r) => ({
+            "@type": "Product",
+            name: r.name,
+            url: `${siteUrl}/brands/${slug}/products/${r.id}`,
+          })),
+        }
+      : {}),
   };
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
-      { "@type": "ListItem", position: 2, name: "Brands", item: `${siteUrl}/brands` },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: brand.name,
-        item: `${siteUrl}/brands/${slug}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: p.name,
-        item: `${siteUrl}/brands/${slug}/products/${productId}`,
-      },
-    ],
-  };
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${url}#webpage`,
+      url,
+      name: fullTitle(seo.title),
+      description: seo.description,
+      inLanguage: "en",
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      mainEntity: { "@id": `${url}#product` },
+      provider: { "@id": `${siteUrl}/#organization` },
+    },
+    productSchema,
+    breadcrumbSchema([
+      { name: "Brands", path: "/brands" },
+      { name: brand.name, path: `/brands/${slug}` },
+      { name: p.name, path: `/brands/${slug}/products/${productId}` },
+    ]),
+  ];
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <JsonLd schema={schema} />
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-navy">
@@ -184,7 +230,7 @@ export default async function ProductDetailPage({ params }: Props) {
               tier="page"
               tone="dark"
               className="mt-3"
-              title={p.name}
+              title={heading}
               subtitle={p.tagline}
             />
           </Reveal>
@@ -197,7 +243,11 @@ export default async function ProductDetailPage({ params }: Props) {
           <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] gap-10">
             <Reveal>
               <div className="lg:sticky lg:top-28">
-                <Gallery images={p.images} name={p.name} />
+                <Gallery
+                  images={p.images}
+                  name={heading}
+                  alt={`${heading} ${p.family.toLowerCase()}`}
+                />
                 {p.externalUrl && (
                   <a
                     href={p.externalUrl}
@@ -216,6 +266,33 @@ export default async function ProductDetailPage({ params }: Props) {
                 <div>
                   <p className="text-[15.5px] text-gray-600 leading-relaxed">
                     {p.overview}
+                  </p>
+                  {/* Someone who searched "<series> egypt" landed here to find
+                      out whether they can actually buy and support this in
+                      country, and from whom. Answering it on the page — rather
+                      than making them find /contact first — is both the honest
+                      UX and what stops the visit bouncing straight back to the
+                      results. Every claim restates one the site already makes
+                      (sole agency, application engineering, 24h response). */}
+                  <p className="mt-3 text-[15.5px] text-gray-600 leading-relaxed">
+                    ACTS is{" "}
+                    <Link
+                      href={`/brands/${slug}`}
+                      className="font-semibold text-brand hover:text-brand-dark transition-colors"
+                    >
+                      {brand.name}&rsquo;s sole agent in Egypt
+                    </Link>
+                    , supplying the {p.name} to oil &amp; gas, petrochemical and
+                    power generation plants nationwide from our office in Sheikh
+                    Zayed City, Giza. Sizing and selection are handled by our own
+                    application engineers, with aftermarket support and{" "}
+                    <Link
+                      href="/products"
+                      className="font-semibold text-brand hover:text-brand-dark transition-colors"
+                    >
+                      technical services
+                    </Link>{" "}
+                    once the unit is in service.
                   </p>
                 </div>
 
@@ -285,6 +362,11 @@ export default async function ProductDetailPage({ params }: Props) {
                   )}
                 </div>
 
+                {/* Industry chips link through to that sector's tab on
+                    /industries. They were inert text before — 45 product pages
+                    x ~5 sectors is a lot of internal links to leave on the
+                    floor, and "safety relief valve oil and gas egypt" is
+                    exactly the long-tail this edge serves. */}
                 {brand.sectors.length > 0 && (
                   <div>
                     <SectionLabel icon={<Factory size={14} />}>
@@ -292,7 +374,13 @@ export default async function ProductDetailPage({ params }: Props) {
                     </SectionLabel>
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {brand.sectors.map((s) => (
-                        <Badge key={s}>{s}</Badge>
+                        <Link
+                          key={s}
+                          href={sectorHref(s)}
+                          className="tap-target rounded-full bg-gray-100 px-3 py-1 text-[12.5px] font-medium text-navy/75 transition-colors hover:bg-brand-light hover:text-brand-dark"
+                        >
+                          {s}
+                        </Link>
                       ))}
                     </div>
                   </div>

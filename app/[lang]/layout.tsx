@@ -6,7 +6,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import IntroOverlay from "@/components/IntroOverlay";
+import JsonLd from "@/components/JsonLd";
 import { getDict, locales, type Locale } from "@/lib/i18n";
+import {
+  BRAND_ENTITIES,
+  CURTISS_WRIGHT,
+  TITLE_SUFFIX,
+  fullTitle,
+} from "@/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -48,6 +55,17 @@ type LayoutProps = {
   params: Promise<{ lang: string }>;
 };
 
+/* Layout metadata is deliberately minimal.
+ *
+ * Anything set here is INHERITED by every page below it, and that is how the
+ * site ended up serving the homepage's og:title, og:description and og:url on
+ * all ~120 pages — Google was rendering "ACTS Egypt | Valves, Flow Control &
+ * Process Equipment" against /projects in its own results. So the layout now
+ * carries only what is genuinely site-wide (metadataBase, the title fallback,
+ * the app name); every page — the homepage included — builds its own title,
+ * description, canonical, hreflang and Open Graph through lib/seo's
+ * `buildMetadata`. Do not re-add `openGraph` or `alternates` here.
+ */
 export async function generateMetadata({
   params,
 }: {
@@ -55,39 +73,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   const dict = getDict(lang);
-  const isAr = lang === "ar";
   return {
     metadataBase: new URL(siteUrl),
+    // Only reached by a page that sets no title of its own; every page today
+    // sets an absolute one via `buildMetadata`.
     title: {
-      default: dict.meta.title,
-      template: "%s · ACTS Egypt",
+      default: fullTitle(dict.meta.title, lang),
+      template: `%s${TITLE_SUFFIX}`,
     },
     description: dict.meta.description,
     applicationName: "ACTS Egypt",
-    alternates: {
-      canonical: isAr ? "/ar" : "/",
-      languages: { en: "/", ar: "/ar", "x-default": "/" },
-    },
-    openGraph: {
-      type: "website",
-      siteName: "ACTS Egypt",
-      title: dict.meta.title,
-      description: dict.meta.description,
-      url: isAr ? `${siteUrl}/ar` : siteUrl,
-      locale: isAr ? "ar_EG" : "en_US",
-      images: [
-        {
-          url: "/images/refinery-blue.jpg",
-          alt: "ACTS, industrial process equipment supplier in Egypt",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: dict.meta.title,
-      description: dict.meta.description,
-      images: ["/images/refinery-blue.jpg"],
-    },
   };
 }
 
@@ -115,11 +110,18 @@ export const viewport: Viewport = {
 
 // Organization structured data — helps search engines and AI answer surfaces
 // resolve ACTS as a real entity with verifiable contact + location details.
+//
+// The `@id` is the anchor for the whole site: brand pages, product pages and
+// the index pages all reference `${siteUrl}/#organization` rather than
+// restating these details, so Google resolves one ACTS entity instead of a
+// dozen lookalikes. Every claim below is one the site already makes in visible
+// copy (see lib/data `contact`, the About page, and public/llms.txt).
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": ["Organization", "LocalBusiness"],
+  "@id": `${siteUrl}/#organization`,
   name: "Advanced Company for Trading Services (ACTS)",
-  alternateName: "ACTS Egypt",
+  alternateName: ["ACTS Egypt", "ACTS", "الشركة المتقدمة للخدمات التجارية"],
   url: siteUrl,
   logo: `${siteUrl}/logo-transparent.png`,
   image: `${siteUrl}/logo-transparent.png`,
@@ -146,14 +148,52 @@ const organizationSchema = {
       closes: "17:00",
     },
   ],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      telephone: "+202 3850 8135",
+      email: "sales@actsegypt.com",
+      areaServed: "EG",
+      availableLanguage: ["en", "ar"],
+    },
+  ],
   areaServed: { "@type": "Country", name: "Egypt" },
+  // The three manufacturers ACTS represents, each stated as the Curtiss-Wright
+  // division it actually is. This is the relationship the "Curtiss-Wright
+  // Egypt" / "Farris Egypt" queries are really asking about, so it is worth
+  // making machine-readable rather than leaving it to prose alone.
   knowsAbout: [
     "Safety relief valves",
+    "Pressure relief valves",
     "Control valves",
     "Actuators and instrumentation",
+    "Heat exchanger tube plugging",
+    "Hydrostatic testing and isolation",
     "Heat exchanger maintenance",
     "Pressure testing",
+    ...BRAND_ENTITIES.map((b) => b.name),
   ],
+  brand: BRAND_ENTITIES.map((b) => ({
+    "@type": "Organization",
+    "@id": `${siteUrl}/brands/${b.slug}#brand`,
+    name: b.name,
+    url: `${siteUrl}/brands/${b.slug}`,
+    parentOrganization: CURTISS_WRIGHT,
+  })),
+};
+
+// WebSite node — gives the site itself an identity separate from the company,
+// which is what `isPartOf` on every other page points at.
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  url: siteUrl,
+  name: "ACTS Egypt",
+  alternateName: "Advanced Company for Trading Services",
+  inLanguage: ["en", "ar-EG"],
+  publisher: { "@id": `${siteUrl}/#organization` },
 };
 
 export default async function RootLayout({ children, params }: LayoutProps) {
@@ -200,10 +240,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
           }}
         />
         <IntroOverlay />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
+        <JsonLd schema={[organizationSchema, websiteSchema]} />
         <a href="#main-content" className="skip-link">
           {dict.skipLink}
         </a>

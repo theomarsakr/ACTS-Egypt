@@ -29,13 +29,15 @@ import CardLogoMark from "@/components/ui/CardLogoMark";
 import Magnetic from "@/components/ui/Magnetic";
 import Container from "@/components/layout/Container";
 import { projectClients, engagementHighlights } from "@/lib/data";
+import { breadcrumbSchema, buildMetadata, collectionPageSchema } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Projects & clients",
+export const metadata: Metadata = buildMetadata({
+  title: "ACTS Projects & Clients in Egypt's Oil, Gas & Power Sector",
   description:
-    "For nearly two decades, ACTS has been the preferred technical partner for Egypt's most prominent operators in Oil & Gas, Petrochemicals, Power Generation, and Fertilizers.",
-  alternates: { canonical: "/projects" },
-};
+    "For nearly two decades ACTS has been the technical partner of choice for Egypt's largest operators in oil & gas, petrochemicals, power generation and fertilizers.",
+  path: "/projects",
+});
 
 const categoryIcons: Record<string, typeof Drill> = {
   upstream: Drill,
@@ -87,8 +89,19 @@ const portfolioStats = [
 ];
 
 export default function ProjectsPage() {
+  const schema = [
+    collectionPageSchema({
+      name: "ACTS Projects & Clients in Egypt's Oil, Gas & Power Sector",
+      description:
+        "Two decades of engagements with Egypt's largest operators in oil & gas, petrochemicals, power generation and fertilizers.",
+      path: "/projects",
+    }),
+    breadcrumbSchema([{ name: "Projects & clients", path: "/projects" }]),
+  ];
+
   return (
     <>
+      <JsonLd schema={schema} />
       {/* Page hero */}
       <PageHero
         id="overview"

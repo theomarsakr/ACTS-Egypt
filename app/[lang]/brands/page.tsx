@@ -12,21 +12,48 @@ import SectionHeading from "@/components/SectionHeading";
 import { brands, pastManufacturers } from "@/lib/data";
 import { brandCardImages, brandSlugToFolder } from "@/lib/brandProductImages";
 import { getBrandDocuments } from "@/lib/documents";
+import {
+  breadcrumbSchema,
+  buildMetadata,
+  collectionPageSchema,
+  itemListSchema,
+} from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Our brands",
+export const metadata: Metadata = buildMetadata({
+  // "Our brands" told a searcher nothing. The three manufacturer names are the
+  // queries this page can actually win, so they lead.
+  title: "Farris, Dyna-Flo & EST — Curtiss-Wright Brands in Egypt",
   description:
-    "Farris Engineering safety relief valves, Dyna-Flo control valves, and EST heat exchanger repair equipment, supplied in Egypt by ACTS as sole agent.",
-  alternates: { canonical: "/brands" },
-};
+    "ACTS is the sole agent in Egypt for three Curtiss-Wright divisions: Farris safety relief valves, Dyna-Flo control valves, and EST heat exchanger and test plugs.",
+  path: "/brands",
+});
 
 export default function BrandsPage() {
   const brandDocs = getBrandDocuments();
   const docsBySlug = new Map(brandDocs.map((b) => [b.slug, b]));
   const totalDocs = brandDocs.reduce((n, b) => n + b.total, 0);
 
+  /* A CollectionPage whose ItemList is the three brand hubs. This is the node
+     that tells Google /brands is the parent of the brand pages rather than
+     another page that happens to mention them. */
+  const schema = [
+    collectionPageSchema({
+      name: "Farris, Dyna-Flo & EST — Curtiss-Wright Brands in Egypt",
+      description:
+        "The three Curtiss-Wright divisions ACTS represents as sole agent in Egypt.",
+      path: "/brands",
+    }),
+    breadcrumbSchema([{ name: "Brands", path: "/brands" }]),
+    itemListSchema(
+      "Manufacturers represented by ACTS in Egypt",
+      brands.map((b) => ({ name: b.name, path: `/brands/${b.slug}` }))
+    ),
+  ];
+
   return (
     <>
+      <JsonLd schema={schema} />
       {/* Page hero */}
       <PageHero
         title="Our Brands"

@@ -6,10 +6,14 @@ import type { Dict } from "./en";
    Arabic equivalents are given alongside where it helps. */
 
 export const ar: Dict = {
+  /* Suffix-free, like the English title — lib/seo appends " | ACTS مصر".
+     Brand and series names stay in Latin script on purpose: that is how
+     Egyptian procurement actually types them into Google, so an all-Arabic
+     rendering would miss the queries it is meant to catch. */
   meta: {
-    title: "ACTS مصر | الصمامات ومعدات التحكم في التدفق والعمليات الصناعية",
+    title: "الصمامات الصناعية وصمامات التحكم ومعدات العمليات في مصر",
     description:
-      "ACTS الشريك الموثوق في مصر للصمامات والتحكم في التدفق ومعدات العمليات الحرجة في قطاعات النفط والغاز والبتروكيماويات وتوليد الطاقة ومعالجة المياه والأسمدة، والوكيل الحصري لـ Farris Engineering وDyna-Flo وEST (Curtiss-Wright).",
+      "الوكيل الحصري في مصر لصمامات الأمان Farris وصمامات التحكم Dyna-Flo ومعدات المبادلات الحرارية EST (Curtiss-Wright)، مع التوريد والدعم الفني من الجيزة.",
   },
 
   skipLink: "تخطَّ إلى المحتوى الرئيسي",
@@ -266,9 +270,9 @@ export const ar: Dict = {
   },
 
   contact: {
-    metaTitle: "اتصل بنا",
+    metaTitle: "تواصل مع ACTS — المبيعات والدعم الفني في مصر",
     metaDescription:
-      "تواصل مع فريق المبيعات والدعم الفني في ACTS، ومقرنا الرئيسي في أركان بلازا، مدينة الشيخ زايد، الجيزة، مصر.",
+      "تواصل مع فريق المبيعات وهندسة التطبيقات في ACTS بأركان بلازا، مدينة الشيخ زايد، الجيزة. الهاتف والبريد ومواعيد العمل لاستفسارات الصمامات في مصر.",
     heroChip: "اتصل بنا",
     heroTitle: "تواصل معنا",
     heroSubtitle: "استفسارات المبيعات والدعم الفني والاستفسارات العامة",
@@ -319,9 +323,9 @@ export const ar: Dict = {
   },
 
   quote: {
-    metaTitle: "اطلب عرض سعر",
+    metaTitle: "اطلب عرض سعر لصمامات Farris وDyna-Flo وEST في مصر",
     metaDescription:
-      "اطلب عرض سعر لمنتجات Farris Engineering وDyna-Flo وEST في مصر. عادةً ما يرد مهندسو التطبيقات لدينا خلال 24 ساعة.",
+      "اطلب عرض سعر لصمامات الأمان Farris أو صمامات التحكم Dyna-Flo أو سدادات الاختبار EST في مصر. يرد مهندسو التطبيقات في ACTS عادةً خلال 24 ساعة.",
     heroChip: "طلب عرض سعر",
     heroTitle: "احصل على عرض سعر",
     heroSubtitle: "عرض سعر مُسعّر ومراجَع يصلك خلال يوم واحد",

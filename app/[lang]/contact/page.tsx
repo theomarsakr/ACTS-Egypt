@@ -13,32 +13,48 @@ import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/SectionHeading";
 import { contact, team, departments } from "@/lib/data";
 import { getDict, localeHref, type Locale } from "@/lib/i18n";
+import { SITE_URL, breadcrumbSchema, buildMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
 type PageProps = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang } = await params;
   const c = getDict(lang).contact;
-  const isAr = lang === "ar";
-  return {
+  return buildMetadata({
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: {
-      canonical: isAr ? "/ar/contact" : "/contact",
-      languages: { en: "/contact", ar: "/ar/contact", "x-default": "/contact" },
-    },
-  };
+    path: "/contact",
+    lang,
+  });
 }
 
 export default async function ContactPage({ params }: PageProps) {
   const { lang: rawLang } = await params;
   const lang: Locale = rawLang === "ar" ? "ar" : "en";
   const c = getDict(lang).contact;
+  const isAr = lang === "ar";
   const arrowNudge =
     "transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1";
 
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "@id": `${SITE_URL}${isAr ? "/ar" : ""}/contact#webpage`,
+      url: `${SITE_URL}${isAr ? "/ar" : ""}/contact`,
+      name: c.metaTitle,
+      description: c.metaDescription,
+      inLanguage: isAr ? "ar-EG" : "en",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: { "@id": `${SITE_URL}/#organization` },
+    },
+    breadcrumbSchema([{ name: "Contact", path: "/contact" }]),
+  ];
+
   return (
     <>
+      <JsonLd schema={schema} />
       {/* Page hero */}
       <section className="relative overflow-hidden bg-navy flex items-center min-h-115 md:min-h-140">
         <div className="absolute inset-0 grain" aria-hidden>

@@ -37,6 +37,8 @@ import { ShineBorder } from "@/components/ui/ShineBorder";
 import FlipDiskMatrixLazy from "@/components/ui/flip-disk-matrix-lazy";
 import MeshBlob from "@/components/ui/MeshBlob";
 import { timeline, mission, values, offices, forwardDirection } from "@/lib/data";
+import { SITE_URL, breadcrumbSchema, buildMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
 /** One icon per timeline entry, in order: Farris agency, second branch,
  *  rebuild, incorporation, transformation, Dyna-Flo agency, new HQ, EST
@@ -56,12 +58,12 @@ const timelineIcons = [
 /** One icon per `forwardDirection` entry, in order. */
 const forwardIcons = [Gauge, Activity, RadioTower, FileText];
 
-export const metadata: Metadata = {
-  title: "About us",
+export const metadata: Metadata = buildMetadata({
+  title: "About ACTS — Industrial Valve Supplier in Giza, Egypt",
   description:
-    "Founded in 2006 in Sixth of October City, Giza, ACTS has grown into Egypt's trusted partner for valves, flow control, and critical process equipment.",
-  alternates: { canonical: "/about" },
-};
+    "Founded in 2006 in Sixth of October City, Giza, ACTS supplies and supports valves, flow control and critical process equipment across Egypt's industrial sector.",
+  path: "/about",
+});
 
 const aboutStats = [
   { value: 2006, label: "Founded in Giza", raw: true },
@@ -129,8 +131,26 @@ const howWeOperate = [
 ];
 
 export default function AboutPage() {
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "@id": `${SITE_URL}/about#webpage`,
+      url: `${SITE_URL}/about`,
+      name: "About ACTS — Industrial Valve Supplier in Giza, Egypt",
+      inLanguage: "en",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      // The About page is the canonical description of the company entity, so
+      // it points at the same Organization node the layout defines rather than
+      // restating the address and founding date in a second, forkable copy.
+      mainEntity: { "@id": `${SITE_URL}/#organization` },
+    },
+    breadcrumbSchema([{ name: "About us", path: "/about" }]),
+  ];
+
   return (
     <>
+      <JsonLd schema={schema} />
       {/* Page hero — a small "postcard" of the plant that grows to fill the
           screen as the visitor scrolls, then hands off into the rest of the
           page. Must stay the very first thing on the page: see the component

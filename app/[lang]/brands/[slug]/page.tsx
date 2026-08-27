@@ -39,6 +39,15 @@ import FloatingNav, {
 import ProductHub from "@/components/brands/hub/ProductHub";
 import ResourceCenter from "@/components/brands/hub/ResourceCenter";
 import SectionHeading from "@/components/SectionHeading";
+import JsonLd from "@/components/JsonLd";
+import {
+  SITE_URL,
+  brandEntitySchema,
+  breadcrumbSchema,
+  buildMetadata,
+  fullTitle,
+  itemListSchema,
+} from "@/lib/seo";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -169,11 +178,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const brand = getBrand(slug);
   if (!brand) return {};
-  return {
-    title: brand.name,
-    description: brand.description,
-    alternates: { canonical: `/brands/${slug}` },
-  };
+  return buildMetadata({
+    title: brand.seoTitle,
+    description: brand.seoDescription,
+    path: `/brands/${slug}`,
+    image: brand.image,
+    imageAlt: brand.imageAlt,
+  });
 }
 
 export default async function BrandPage({ params }: Props) {
@@ -246,8 +257,50 @@ export default async function BrandPage({ params }: Props) {
       : []),
   ];
 
+  /* Structured data for the brand landing page.
+   *
+   * `about` names the brand as the Curtiss-Wright division it actually is, and
+   * shares its `@id` with the layout's Organization node and every product
+   * page below it — so "Curtiss-Wright Egypt", "Farris Egypt" and a specific
+   * series page all resolve to one entity chain rather than three unrelated
+   * mentions. The ItemList publishes the catalog: without it the 45 product
+   * pages look like orphan leaves rather than a brand's range. No Offer is
+   * emitted anywhere — the site quotes on request and does not publish prices
+   * or stock, and inventing either would be a fabricated rich result. */
+  const brandSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/brands/${slug}#webpage`,
+      url: `${SITE_URL}/brands/${slug}`,
+      name: fullTitle(brand.seoTitle),
+      description: brand.seoDescription,
+      inLanguage: "en",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: brandEntitySchema(slug, brand.description),
+      provider: { "@id": `${SITE_URL}/#organization` },
+      primaryImageOfPage: `${SITE_URL}${brand.image}`,
+    },
+    breadcrumbSchema([
+      { name: "Brands", path: "/brands" },
+      { name: brand.name, path: `/brands/${slug}` },
+    ]),
+    ...(hub && hub.products.length
+      ? [
+          itemListSchema(
+            `${brand.name} products supplied in Egypt by ACTS`,
+            hub.products.map((p) => ({
+              name: p.name,
+              path: `/brands/${slug}/products/${p.id}`,
+            }))
+          ),
+        ]
+      : []),
+  ];
+
   return (
     <>
+      <JsonLd schema={brandSchema} />
       {/* Cinematic hero — brand-film loop (or still photo) behind a navy scrim */}
       <section
         id="overview"
@@ -307,7 +360,7 @@ export default async function BrandPage({ params }: Props) {
               tone="dark"
               className="mt-8 [&>h1]:drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]"
               eyebrow={`${brand.no} · ${brand.origin.split("·")[0].trim()}`}
-              title={brand.name}
+              title={brand.seoHeading}
               subtitle={brand.category}
             />
           </Reveal>

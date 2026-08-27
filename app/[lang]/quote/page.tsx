@@ -11,6 +11,8 @@ import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/SectionHeading";
 import { getBrand } from "@/lib/data";
 import { getDict, type Locale } from "@/lib/i18n";
+import { SITE_URL, breadcrumbSchema, buildMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
 type PageProps = {
   params: Promise<{ lang: string }>;
@@ -24,15 +26,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   const q = getDict(lang).quote;
-  const isAr = lang === "ar";
-  return {
+  return buildMetadata({
     title: q.metaTitle,
     description: q.metaDescription,
-    alternates: {
-      canonical: isAr ? "/ar/quote" : "/quote",
-      languages: { en: "/quote", ar: "/ar/quote", "x-default": "/quote" },
-    },
-  };
+    path: "/quote",
+    lang,
+  });
 }
 
 export default async function QuotePage({ params, searchParams }: PageProps) {
@@ -45,8 +44,25 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
   const q = dict.quote;
   const brand = brandSlug ? getBrand(brandSlug) : undefined;
 
+  const isAr = lang === "ar";
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${SITE_URL}${isAr ? "/ar" : ""}/quote#webpage`,
+      url: `${SITE_URL}${isAr ? "/ar" : ""}/quote`,
+      name: q.metaTitle,
+      description: q.metaDescription,
+      inLanguage: isAr ? "ar-EG" : "en",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: { "@id": `${SITE_URL}/#organization` },
+    },
+    breadcrumbSchema([{ name: "Request a quote", path: "/quote" }]),
+  ];
+
   return (
     <>
+      <JsonLd schema={schema} />
       {/* Page hero */}
       <section className="relative overflow-hidden bg-navy flex items-center min-h-115 md:min-h-140">
         <div className="absolute inset-0 grain" aria-hidden>

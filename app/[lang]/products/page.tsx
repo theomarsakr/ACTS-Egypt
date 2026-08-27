@@ -20,15 +20,22 @@ import BorderBeam from "@/components/ui/BorderBeam";
 import SpecSheet from "@/components/SpecSheet";
 import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/SectionHeading";
+import {
+  breadcrumbSchema,
+  buildMetadata,
+  collectionPageSchema,
+  itemListSchema,
+} from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
 const pillarIcons = [Gauge, Settings2, Thermometer, Briefcase];
 
-export const metadata: Metadata = {
-  title: "Products & services",
+export const metadata: Metadata = buildMetadata({
+  title: "Industrial Valves, Actuators & Process Equipment in Egypt",
   description:
-    "ACTS supplies, supports, and maintains critical process equipment across Egypt's Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: valves, actuators & instrumentation, heat exchanger & pressure testing equipment, and technical advisory & aftermarket services.",
-  alternates: { canonical: "/products" },
-};
+    "Safety relief and control valves, actuators and instrumentation, heat exchanger and pressure testing equipment, plus aftermarket services — supplied across Egypt by ACTS.",
+  path: "/products",
+});
 
 const pillars = [
   {
@@ -67,6 +74,18 @@ const pillars = [
       "API 526/527 compliance verification (safety relief)",
       "Actuator sizing and control loop stability analysis",
     ],
+    links: [
+      { label: "Farris safety relief valves", href: "/brands/farris-engineering" },
+      { label: "Dyna-Flo control valves", href: "/brands/dyna-flo" },
+      {
+        label: "Farris 2600 Series API 526 relief valve",
+        href: "/brands/farris-engineering/products/series-2600",
+      },
+      {
+        label: "Dyna-Flo DF400 eccentric rotary plug valve",
+        href: "/brands/dyna-flo/products/dyna-df400",
+      },
+    ],
   },
   {
     no: "02",
@@ -100,6 +119,21 @@ const pillars = [
       "Control loop configuration and tuning support",
       "Positioner calibration and commissioning",
       "Diagnostics setup for predictive maintenance programs",
+    ],
+    links: [
+      { label: "Dyna-Flo actuators & instrumentation", href: "/brands/dyna-flo" },
+      {
+        label: "Dyna-Flo DFC & DFO spring-diaphragm actuators",
+        href: "/brands/dyna-flo/products/dyna-dfc-dfo",
+      },
+      {
+        label: "Siemens PS2 & Dyna-Flo 760 positioners",
+        href: "/brands/dyna-flo/products/dyna-positioners",
+      },
+      {
+        label: "Control Air T950XP I/P transducer",
+        href: "/brands/dyna-flo/products/dyna-t950xp",
+      },
     ],
   },
   {
@@ -139,6 +173,21 @@ const pillars = [
       "Non-destructive evaluation (NDE) and inspection reporting",
       "Engineering recommendations (retube, sleeve, or plug)",
       "Hydrostatic/pneumatic testing with certification documentation",
+    ],
+    links: [
+      { label: "EST heat exchanger solutions", href: "/brands/est" },
+      {
+        label: "Pop-A-Plug® CPI & Perma tube plugs",
+        href: "/brands/est/products/est-cpi-perma",
+      },
+      {
+        label: "GripTight MAX® hydrostatic test plug",
+        href: "/brands/est/products/est-griptight-max",
+      },
+      {
+        label: "Hydra-Loc® tube sleeving",
+        href: "/brands/est/products/est-hydra-loc",
+      },
     ],
   },
 ];
@@ -182,8 +231,23 @@ const approach = [
 ];
 
 export default function ProductsPage() {
+  const schema = [
+    collectionPageSchema({
+      name: "Industrial Valves, Actuators & Process Equipment in Egypt",
+      description:
+        "The four capability pillars ACTS supplies and supports across Egyptian industry.",
+      path: "/products",
+    }),
+    breadcrumbSchema([{ name: "Products & services", path: "/products" }]),
+    itemListSchema(
+      "Products and services ACTS supplies in Egypt",
+      pillars.map((p) => ({ name: p.title, path: `/products#${p.no}` }))
+    ),
+  ];
+
   return (
     <>
+      <JsonLd schema={schema} />
       {/* Page hero */}
       <PageHero
         id="overview"
@@ -311,6 +375,53 @@ export default function ProductsPage() {
                 })(),
               ]}
             />
+          </Reveal>
+
+          {/* Deliberately OUTSIDE <Tabs>.
+              This page is where a generic query — "control valve supplier
+              egypt", "safety relief valve supplier egypt" — lands, and until
+              now it linked onward only to /brands and /quote, so none of that
+              reached the brand and series pages it spends the whole page
+              describing. Putting the links inside the tab panels would not
+              have fixed it: Tabs renders only the ACTIVE panel, so three of
+              the four pillars' links never appear in the HTML a crawler sees
+              (verified against the built /products output). Anchors are
+              descriptive rather than "learn more", so both a reader and a
+              crawler can tell where each one goes. */}
+          <Reveal>
+            <div className="mt-12 rounded-2xl border border-gray-200 bg-gray-50/70 p-6 sm:p-8">
+              <SectionHeading
+                tier="md"
+                eyebrow="Brands & series"
+                title="What we supply behind each pillar"
+                subtitle="Straight to the manufacturer catalogs and the individual series"
+              />
+              <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {pillars.map((p) => (
+                  <div key={p.no}>
+                    <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand">
+                      {p.title}
+                    </div>
+                    <ul className="mt-3 space-y-2">
+                      {p.links.map((l) => (
+                        <li key={l.href}>
+                          <Link
+                            href={l.href}
+                            className="tap-target group inline-flex items-start gap-1.5 text-[14px] font-semibold text-navy transition-colors hover:text-brand"
+                          >
+                            {l.label}
+                            <ArrowRight
+                              size={13}
+                              className="mt-1 shrink-0 text-gray-400 transition-colors group-hover:text-brand"
+                            />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
           </Reveal>
         </Container>
       </section>

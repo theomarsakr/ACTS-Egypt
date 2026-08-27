@@ -394,7 +394,21 @@ function ProductPanel({
   );
 }
 
-export function Gallery({ images, name }: { images: string[]; name: string }) {
+export function Gallery({
+  images,
+  name,
+  alt,
+}: {
+  images: string[];
+  name: string;
+  /* Product photography is a real entry point from Google Images for
+     industrial hardware, and `name` alone ("2600 & 2600L Series") describes
+     neither the object nor who makes it. `alt` carries the full description
+     for the image; `name` stays short for the button's aria-label, where a
+     screen-reader user does not want the whole phrase read twice. */
+  alt?: string;
+}) {
+  const imageAlt = alt ?? name;
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -436,7 +450,7 @@ export function Gallery({ images, name }: { images: string[]; name: string }) {
       >
         <Image
           src={images[active]}
-          alt={name}
+          alt={imageAlt}
           fill
           sizes="(max-width: 1024px) 100vw, 40vw"
           className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105"
@@ -518,7 +532,7 @@ export function Gallery({ images, name }: { images: string[]; name: string }) {
                 >
                   <Image
                     src={images[active]}
-                    alt={name}
+                    alt={imageAlt}
                     fill
                     sizes="100vw"
                     draggable={false}

@@ -39,6 +39,24 @@ export type Brand = {
   category: string;
   summary: string;
   description: string;
+  /** Search-result copy for the brand's landing page. `name` alone made a
+   *  weak title ("Farris Engineering | ACTS Egypt") — it says nothing about
+   *  what the brand makes or that ACTS supplies it here, which is exactly
+   *  what "farris valves egypt" is asking. Suffix-free; lib/seo appends it. */
+  seoTitle: string;
+  seoDescription: string;
+  /** Hero H1. The brand name alone ("Farris Engineering") is what every one of
+   *  this brand's global distributors uses; adding the country is what makes
+   *  this the page Google should return for "farris egypt". Kept as its own
+   *  field rather than `${name} in Egypt` so "EST" — ambiguous on its own —
+   *  can say "EST Group". */
+  seoHeading: string;
+  /** Prefixed to a product page's H1 when the product's own name is a bare
+   *  series number ("2600 & 2600L Series") that says nothing about who makes
+   *  it — "farris 2600" is the query, not "2600". Omitted for EST, whose
+   *  product names are already the trademarked terms people search for
+   *  (Pop-A-Plug®, GripTight®, Hydra-Loc®). */
+  productHeadingPrefix?: string;
   sectors: string[];
   productLines: ProductLine[];
   externalUrl: string;
@@ -57,6 +75,11 @@ export const brands: Brand[] = [
     name: "Farris Engineering",
     origin: "USA · Safety relief valves · Sole agent in Egypt",
     category: "Safety Relief Valves",
+    seoTitle: "Farris Engineering Safety Relief Valves in Egypt",
+    seoHeading: "Farris Engineering in Egypt",
+    productHeadingPrefix: "Farris",
+    seoDescription:
+      "ACTS is Egypt's sole agent for Farris Engineering (Curtiss-Wright) safety relief valves: API 526 process PRVs, steam safety valves and iNSURE® monitoring.",
     summary:
       "Direct-spring and pilot-operated safety relief valves protecting pressure systems for over 70 years, across oil & gas, refining, petrochemical and power generation.",
     description:
@@ -545,6 +568,11 @@ export const brands: Brand[] = [
     name: "Dyna-Flo Control Valve Services",
     origin: "Edmonton, Canada · Control valves · Sole agent in Egypt",
     category: "Control Valves, Actuators & Instrumentation",
+    seoTitle: "Dyna-Flo Control Valves & Actuators in Egypt",
+    seoHeading: "Dyna-Flo in Egypt",
+    productHeadingPrefix: "Dyna-Flo",
+    seoDescription:
+      "ACTS is Egypt's sole agent for Dyna-Flo (Curtiss-Wright) control valves: sliding-stem, rotary ball and DF400 eccentric plug, plus actuators and positioners.",
     summary:
       "Linear and rotary control valves, actuators and instrumentation for stable, accurate process control under high pressure drop.",
     description:
@@ -914,6 +942,10 @@ export const brands: Brand[] = [
     name: "EST",
     origin: "Hatfield, Pennsylvania, USA · Heat exchanger services · Sole agent in Egypt",
     category: "Heat Exchanger Repair & Pressure Testing",
+    seoTitle: "EST Curtiss-Wright Heat Exchanger Solutions in Egypt",
+    seoHeading: "EST Group in Egypt",
+    seoDescription:
+      "ACTS is Egypt's sole agent for EST Group (Curtiss-Wright): Pop-A-Plug® tube plugging, Hydra-Loc® sleeving and GripTight® hydrostatic test and isolation plugs.",
     summary:
       "Tube plugging, hydrostatic test & isolation equipment, and field services restoring thermal efficiency across refining, petrochemical and power plants.",
     description:

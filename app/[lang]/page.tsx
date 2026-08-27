@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -44,6 +45,8 @@ import {
 } from "@/lib/data";
 import { brandCardImages, brandSlugToFolder } from "@/lib/brandProductImages";
 import { fill, getDict, localeHref, type Locale } from "@/lib/i18n";
+import JsonLd from "@/components/JsonLd";
+import { SITE_URL, buildMetadata, itemListSchema } from "@/lib/seo";
 
 // Valves & instrumentation, heat exchanger & pressure testing, aftermarket.
 const whatWeDoIcons = [Gauge, Thermometer, Wrench];
@@ -229,6 +232,25 @@ const activityBase = [
   },
 ];
 
+/* The homepage sets its own metadata rather than leaning on the layout's.
+ * The layout's block is inherited by ~120 pages, so anything page-specific
+ * left there leaks everywhere — see the note above `generateMetadata` in
+ * app/[lang]/layout.tsx. */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const dict = getDict(lang);
+  return buildMetadata({
+    title: dict.meta.title,
+    description: dict.meta.description,
+    path: "/",
+    lang,
+  });
+}
+
 export default async function Home({
   params,
 }: {
@@ -258,8 +280,32 @@ export default async function Home({
   const arrowNudge =
     "transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1";
 
+  /* WebPage + the three brand hubs as an ItemList. The homepage is the entry
+     point Google crawls first, so naming the brand pages here — with the same
+     `@id`s the layout's Organization node references — is what ties the whole
+     ACTS → Curtiss-Wright → Farris/Dyna-Flo/EST → products chain together. */
+  const homeSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/#webpage`,
+      url: SITE_URL,
+      name: dict.meta.title,
+      description: dict.meta.description,
+      inLanguage: lang === "ar" ? "ar-EG" : "en",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: { "@id": `${SITE_URL}/#organization` },
+      primaryImageOfPage: `${SITE_URL}/images/refinery-blue.jpg`,
+    },
+    itemListSchema(
+      "Manufacturers represented by ACTS in Egypt",
+      brands.map((b) => ({ name: b.name, path: `/brands/${b.slug}` }))
+    ),
+  ];
+
   return (
     <>
+      <JsonLd schema={homeSchema} />
       <Hero t={hm.hero} lang={lang} />
 
       {/* ============ CLIENT MARQUEE ============ */}
@@ -393,7 +439,7 @@ export default async function Home({
                   >
                     <AutoRotateImage
                       images={galleryImages}
-                      alt={`${b.name} product`}
+                      alt={`${b.name} ${b.category.toLowerCase()}`}
                       sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
                       imgClassName={`object-cover ${hoverZoom}`}
                       intervalMs={8000}

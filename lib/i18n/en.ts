@@ -3,10 +3,17 @@
    conversion-path pages: home, contact, and quote. */
 
 export const en = {
+  /* Homepage title/description. The title is SUFFIX-FREE — lib/seo's
+     `fullTitle` appends " | ACTS Egypt" (or " | ACTS مصر"), so writing the
+     suffix here would double it. Leading with the category rather than the
+     company name is deliberate: "ACTS Egypt" already matches on the suffix,
+     while "industrial valves Egypt" and "control valves Egypt" only match if
+     those words are in the front of the title. The description is trimmed to
+     ~155 characters so Google shows all of it instead of cutting mid-clause. */
   meta: {
-    title: "ACTS Egypt | Valves, Flow Control & Process Equipment",
+    title: "Industrial Valves, Flow Control & Process Equipment in Egypt",
     description:
-      "ACTS is Egypt's trusted partner for valves, flow control, and critical process equipment across Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright).",
+      "Egypt's sole agent for Farris safety relief valves, Dyna-Flo control valves and EST (Curtiss-Wright) heat exchanger tooling. Supplied and supported from Giza.",
   },
 
   skipLink: "Skip to main content",
@@ -265,9 +272,9 @@ export const en = {
   },
 
   contact: {
-    metaTitle: "Contact",
+    metaTitle: "Contact ACTS — Sales & Technical Support in Egypt",
     metaDescription:
-      "Get in touch with ACTS' sales & technical team, headquartered at Arkan Plaza, Sheikh Zayed City, Giza, Egypt.",
+      "Reach the ACTS sales and application-engineering team at Arkan Plaza, Sheikh Zayed City, Giza. Phone, email and office hours for valve enquiries across Egypt.",
     heroChip: "Contact",
     heroTitle: "Get in Touch",
     heroSubtitle: "Sales, technical, and general enquiries",
@@ -313,9 +320,9 @@ export const en = {
   },
 
   quote: {
-    metaTitle: "Request a quote",
+    metaTitle: "Request a Quote — Farris, Dyna-Flo & EST in Egypt",
     metaDescription:
-      "Request a quote for Farris Engineering, Dyna-Flo, and EST products in Egypt. Our application engineers typically respond within 24 hours.",
+      "Request pricing for Farris safety relief valves, Dyna-Flo control valves or EST test plugs in Egypt. ACTS application engineers typically reply within 24 hours.",
     heroChip: "Request a quote",
     heroTitle: "Get a Quotation",
     heroSubtitle: "Priced, checked, and back with you inside a day",

@@ -73,7 +73,7 @@ export default function BrandResourceCard({
               <div className="relative min-h-56 lg:col-span-2 bg-white border-b lg:border-b-0 lg:border-r border-gray-100">
                 <AutoRotateImage
                   images={images}
-                  alt={`${brand.name} product`}
+                  alt={`${brand.name} ${brand.category.toLowerCase()}`}
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   imgClassName="object-contain"
                   intervalMs={8000}
