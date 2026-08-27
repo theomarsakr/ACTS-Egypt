@@ -93,7 +93,17 @@ export default function Navbar({
   }, [open]);
 
   return (
-    <header ref={headerRef} className="sticky top-0 z-50">
+    /* `-top-11` below `sm` is the utility bar's own height (min-h-11 = 44px,
+       pinned deterministically below), negated. A sticky element with a
+       negative top scrolls up by exactly that much before it pins, so on a
+       phone the ink contact bar rides off the top edge and the nav row alone
+       stays parked at y=0 — 44px of a 664px viewport handed back the moment
+       the reader scrolls, without the bar having to be deleted from the
+       markup or the nav having to move out of <header> (a sticky child only
+       sticks for as long as its own containing block is on screen, so a nav
+       left inside a header this short would unstick almost immediately).
+       `sm:top-0` from 640px up: desktop keeps the whole header pinned. */
+    <header ref={headerRef} className="sticky -top-11 sm:top-0 z-50">
       {/* Every breakpoint below is xl (1280px), not the usual md — the full
           link row (logo + 6 links + language switcher + CTA) genuinely needs
           that much width. Below it, down to md, the row wraps onto a second
@@ -101,11 +111,19 @@ export default function Navbar({
           which reads as broken, not responsive. The hamburger menu covers
           that whole range instead, all the way from phone widths up to
           where the full row actually fits. */}
-      {/* Utility bar. Visible at every width — the phone/email/tagline it
-          carries used to be `hidden xl:block` with no mobile-menu fallback,
-          so below 1280px they were simply gone. Below `sm` there's no room
-          for the desktop's single row, so it stacks into two: contact links,
-          then the tagline; `sm:` up collapses back to one row like before.
+      {/* Utility bar. Visible at every width — the phone/email it carries used
+          to be `hidden xl:block` with no mobile-menu fallback, so below
+          1280px they were simply gone. ONE row at every width: below `sm` it
+          used to stack into two (contact links, then the tagline) and that
+          stack, at 99px, was more than half the header on a phone. The
+          tagline now drops out below `sm` instead (see below) and the links
+          alone fit the single row they always fit at `sm:` and up.
+
+          `min-h-11` below `sm` is deliberate and load-bearing in two ways: it
+          is the 44px touch floor for the two links, AND it makes the bar a
+          known, pointer-independent height, which is what the header's
+          `-top-11` sticky offset is measured against. Do not let this bar's
+          phone height drift from that offset without changing both.
 
           `sm:min-h-9`, not `sm:h-9`: at 36px fixed the bar was shorter than
           the 44px .tap-target overlay on the two links, so the bottom of that
@@ -117,8 +135,16 @@ export default function Navbar({
           already stacks taller. The links carry `pointer-coarse:min-h-11` and
           the bar grows to fit them; fine-pointer widths are unchanged. */}
       <div className="bg-ink text-white/80 text-[13px]">
-        <div className="max-w-7xl mx-auto px-6 py-2 sm:min-h-9 sm:py-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+        <div className="max-w-7xl mx-auto px-4 xs:px-6 min-h-11 sm:min-h-9 flex items-center justify-between gap-1 sm:gap-0">
+          {/* `px-4 xs:px-6` on the row above and `gap-x-3` here are both for
+              320px (iPhone SE 1st gen, Galaxy Fold cover screen): at the
+              desktop 24px gutter and 20px gap the two links total ~276px
+              against 272px of room, wrap to a second line, and take the bar
+              to 92px — which then no longer matches the header's -top-11
+              sticky offset, leaving half the ink bar stranded on screen.
+              12px of gap and a 16px gutter below `xs` fit them on one line
+              with ~20px to spare; 424px and up is unchanged. */}
+          <div className="flex flex-wrap items-center gap-x-3 xs:gap-x-5 gap-y-1">
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
               className="tap-target inline-flex items-center pointer-coarse:min-h-11 gap-1.5 hover:text-white transition-colors"
@@ -132,7 +158,13 @@ export default function Navbar({
               <Mail size={13} /> {contact.salesEmail}
             </a>
           </div>
-          <div className="text-white/60 tracking-[0.14em] uppercase text-[11.5px]">
+          {/* `hidden sm:block`, not `sm:` sizing: below 640px this wraps to two
+              lines and was the single largest block of chrome on a phone —
+              and it is duplicated verbatim three times over, in the mobile
+              menu panel's footer (below), in the site footer, and on the
+              homepage in the hero badge directly beneath this bar. Nothing is
+              lost on a phone; a screenful is gained. */}
+          <div className="hidden sm:block text-white/60 tracking-[0.14em] uppercase text-[11.5px]">
             {t.tagline}
           </div>
         </div>
@@ -174,7 +206,7 @@ export default function Navbar({
         }`}
       >
         <div className="max-w-7xl mx-auto px-6">
-          <div className="h-17 flex items-center justify-between">
+          <div className="h-14 sm:h-17 flex items-center justify-between">
             {/* tap-target: the wordmark is 124×36 painted, and "home" is the
                 one destination present on every page at every width, so it is
                 worth the 8px of invisible height on touch. Isolated in the bar

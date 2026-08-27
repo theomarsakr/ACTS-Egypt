@@ -88,7 +88,7 @@ export default function Hero({
           a live particle canvas that lights up amber toward the cursor. */}
       <HeroInteractiveBackground />
 
-      <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-14 md:pt-24 md:pb-16 lg:pt-28">
+      <div className="relative max-w-7xl mx-auto px-6 pt-10 pb-10 sm:pt-16 sm:pb-14 md:pt-24 md:pb-16 lg:pt-28">
         {/* Badge sits in normal flow above the heading at every breakpoint —
             its own bottom margin is what keeps a clean gap above the H1. */}
         <motion.div
@@ -96,7 +96,7 @@ export default function Hero({
           initial="hidden"
           animate="show"
           custom={0}
-          className="mb-7"
+          className="mb-5 sm:mb-7"
         >
           <div className="inline-flex w-fit max-w-full items-center gap-2.5 text-[12.5px] font-semibold text-white uppercase tracking-[0.18em] glass-dark rounded-full px-4 py-2">
             <span className="relative flex w-1.5 h-1.5">
@@ -115,7 +115,14 @@ export default function Hero({
               initial="hidden"
               animate="show"
               custom={1}
-              className="text-[2.7rem] leading-[1.04] md:text-6xl lg:text-[4.35rem] tracking-[-0.03em] text-balance"
+              /* The base step is the phone step, and 2.7rem (43.2px) was a
+                 tablet measure applied to a 390px screen — it set this title
+                 four lines deep and pushed the lede and both CTAs below the
+                 fold. Two steps added below `sm` (32px on a 360-424px phone,
+                 36px on a large one); `sm:text-[2.7rem]` restores the previous
+                 base from 640px up, so every width this chain already covered
+                 renders exactly as it did. */
+              className="text-[2rem] xs:text-[2.25rem] sm:text-[2.7rem] leading-[1.04] md:text-6xl lg:text-[4.35rem] tracking-[-0.03em] text-balance"
             >
               <span className="font-medium text-white/80">{t.titleA}</span>{" "}
               <span className="font-extrabold text-shimmer">{t.titleB}</span>

@@ -194,6 +194,59 @@
   }
 }
 
+/* ---- Phone re-tune of the fluid ramps -------------------------------------
+   The clamps above were derived across 360px -> 1440px, which quietly made
+   360px the *design* width rather than the floor: at 390px (iPhone 12/13/14/
+   15, the single most common phone width there is) the middle term has barely
+   left the minimum, so a phone renders a 36.7px h1, a 36.6px h2, a 37px
+   display and 50px of section padding. Those are tablet numbers on a 390x664
+   screen — which is what "the whole site looks zoomed in on mobile" actually
+   is. Nothing was scaling *up* wrongly; the ramp simply never scaled *down*.
+
+   Every override below re-derives the same token as a line through the phone
+   target at 390px and the ORIGINAL curve's own value at 640px, so each one
+   rejoins the untouched desktop ramp to within 0.05px at the `sm` boundary —
+   there is no step at 640px, and nothing at or above it changes at all. The
+   `max-width: 39.9375rem` bound is 0.0625rem below `sm` so it can never
+   overlap the breakpoint it hands off to.
+
+   Same two invariants as the ramps above: a positive rem term stays in every
+   middle term (WCAG 1.4.4 — a bare or negative vw term stops growing, or
+   shrinks, under browser zoom), and the max is left on the desktop value so
+   the token is only ever re-shaped below `sm`, never re-capped.
+
+   Body copy is deliberately absent. --text-fluid-lede (16px), -lede-sm (15px)
+   and -eyebrow (11px) are already at their correct phone sizes; shrinking
+   running text is not what this is for, and 16px is also the floor below
+   which iOS auto-zooms a focused form field. */
+@media (max-width: 39.9375rem) {
+  :root {
+    /* Display / heading ramp — the tier that was reading as "zoomed in". */
+    --text-fluid-display: clamp(1.688rem, 0.54rem + 5.732vw, 4.5rem); /* 37 -> 31 @390 */
+    --text-fluid-h1: clamp(1.656rem, 0.683rem + 4.888vw, 3.75rem); /* 36.7 -> 30 @390 */
+    --text-fluid-h2: clamp(1.594rem, 0.625rem + 4.872vw, 3.5rem); /* 36.6 -> 29 @390 */
+    --text-fluid-h3: clamp(1.313rem, 0.748rem + 2.828vw, 2.25rem); /* 28.2 -> 23 @390 */
+    --text-fluid-h4: clamp(1.141rem, 0.773rem + 1.828vw, 1.875rem); /* 22.2 -> 19.5 @390 */
+    --text-fluid-h5: clamp(1rem, 0.893rem + 0.565vw, 1.25rem); /* 17.1 -> 16.5 @390 */
+    --text-fluid-stat: clamp(1.5rem, 0.634rem + 4.321vw, 3.4rem); /* 32.6 -> 27 @390 */
+
+    /* Subtitles step down with their titles, or the tier gaps the ramp above
+       exists to protect would close up again on phones. */
+    --text-fluid-subtitle-hero: clamp(1.016rem, 0.648rem + 1.828vw, 2rem); /* 20.2 -> 17.5 @390 */
+    --text-fluid-subtitle: clamp(0.984rem, 0.672rem + 1.539vw, 1.75rem); /* 18.3 -> 16.75 @390 */
+    --text-fluid-subtitle-lg: clamp(0.984rem, 0.758rem + 1.12vw, 1.438rem); /* 18.1 -> 16.5 @390 */
+
+    /* Vertical rhythm. 50px of padding above AND below every section is a
+       desktop measure; on a 664px-tall viewport it is most of a screenful of
+       nothing between each band. --spacing-gutter is untouched — its 16px
+       phone value was already right. */
+    --spacing-section-sm: clamp(1.844rem, 0.528rem + 6.551vw, 5rem); /* 41 -> 34 @390 */
+    --spacing-section: clamp(2.234rem, 0.422rem + 9.039vw, 7rem); /* 49.8 -> 42 @390 */
+    --spacing-section-lg: clamp(2.922rem, 0.293rem + 13.156vw, 10rem); /* 66.7 -> 56 @390 */
+    --spacing-card: clamp(0.984rem, 0.323rem + 3.288vw, 2.5rem); /* 20.7 -> 18 @390 */
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -344,6 +397,19 @@ p {
    on first paint. --header-h comes from usePublishHeaderHeight in lib/hooks.ts. */
 .scroll-anchor {
   scroll-margin-top: calc(var(--header-h, 4.25rem) + 1.5rem);
+}
+/* Below `sm` the header does not pin at its full height: Navbar's `-top-11`
+   lets the 2.75rem utility bar ride off the top edge and parks the nav row
+   alone at y=0 (see the comment on <header> there). --header-h is still the
+   header's real height — that is what it means and what ResizeObserver
+   measures — so the offset, not the published value, is what has to account
+   for the part that scrolls away. Without this an anchored section lands
+   44px lower than the chrome it needs to clear, which reads as a dead band
+   under the nav on every dock jump and every #hash landing. */
+@media (max-width: 39.9375rem) {
+  .scroll-anchor {
+    scroll-margin-top: calc(var(--header-h, 4.25rem) - 2.75rem + 1rem);
+  }
 }
 
 /* ---- Ambient motion activation -------------------------------------------

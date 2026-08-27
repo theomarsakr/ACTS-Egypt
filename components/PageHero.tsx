@@ -40,10 +40,17 @@ export default function PageHero({
       className={cn("relative overflow-hidden bg-navy", id && "scroll-anchor")}
     >
       <PageHeroBackground />
-      {/* py-24 md:py-28 kept as-is — this hero band's own hand-tuned rhythm,
-          not the generic section spacing scale (Section's `space` prop),
-          so migrating onto Container only replaces the max-w/gutter chain. */}
-      <Container className={cn("relative py-24 md:py-28", className)}>
+      {/* This hero band's own hand-tuned rhythm, not the generic section
+          spacing scale (Section's `space` prop), so migrating onto Container
+          only replaced the max-w/gutter chain.
+
+          `py-14` below `sm` is the one part that is not hand-tuned desktop
+          rhythm: 96px above AND below on a 664px-tall phone screen is 192px
+          — nearly a third of the viewport — of empty navy before the reader
+          reaches a single word, on every page but the homepage. 56px reads
+          as the same deliberate band at phone scale. `sm:py-24` restores the
+          original at 640px, so 640px and up is byte-identical to before. */}
+      <Container className={cn("relative py-14 sm:py-24 md:py-28", className)}>
         <Reveal>
           <SectionHeading
             as="h1"
