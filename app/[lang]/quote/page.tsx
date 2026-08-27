@@ -82,7 +82,7 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
             it this div shrink-wraps to its content and mx-auto centres the
             copy instead of aligning it to the max-w-6xl column the rest of the
             site's page heroes use. */}
-        <Container className="relative w-full pt-40 pb-16 md:pt-56 md:pb-20">
+        <Container className="relative w-full pt-20 pb-10 sm:pt-40 sm:pb-16 md:pt-56 md:pb-20">
           {/* Eyebrow -> title -> subtitle -> lede, on <PageHero>'s own tier.
               This hero used to run that backwards: a 36->60px amber category
               label above a 24->30px <h1>, so the page's most important line
@@ -114,7 +114,7 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
         // usePublishFloatingNavHeight, read by <Dock>) rather than a fixed
         // guess, so it tracks the dock through its own open/collapse states
         // and at every viewport — not just below one hard-coded breakpoint.
-        className="scroll-anchor py-16 pb-[calc(var(--floating-nav-h,0px)+1.5rem)]"
+        className="scroll-anchor py-10 sm:py-16 pb-[calc(var(--floating-nav-h,0px)+1.5rem)]"
       >
         <Container className="max-w-2xl">
           <Reveal>

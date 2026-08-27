@@ -530,13 +530,13 @@ export default function ScrollExpandMedia({
               aria-hidden
             >
               <span
-                className="font-display text-4xl font-extrabold tracking-tight text-white [text-shadow:0_2px_28px_rgba(6,13,28,0.55)] sm:text-5xl md:text-6xl lg:text-7xl"
+                className="font-display text-3xl xs:text-4xl font-extrabold tracking-tight text-white [text-shadow:0_2px_28px_rgba(6,13,28,0.55)] sm:text-5xl md:text-6xl lg:text-7xl"
                 style={{ transform: "translateX(calc(var(--p, 0) * var(--slide) * -1))" }}
               >
                 {titleLineA}
               </span>
               <span
-                className="font-display text-4xl font-extrabold tracking-tight text-white [text-shadow:0_2px_28px_rgba(6,13,28,0.55)] sm:text-5xl md:text-6xl lg:text-7xl"
+                className="font-display text-3xl xs:text-4xl font-extrabold tracking-tight text-white [text-shadow:0_2px_28px_rgba(6,13,28,0.55)] sm:text-5xl md:text-6xl lg:text-7xl"
                 style={{ transform: "translateX(calc(var(--p, 0) * var(--slide)))" }}
               >
                 {titleLineB}

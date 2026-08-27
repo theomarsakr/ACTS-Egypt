@@ -245,7 +245,7 @@ export default async function IndustriesPage({
       />
 
       {/* Industry tabs */}
-      <section id="explore-industries" className="scroll-anchor py-16">
+      <section id="explore-industries" className="scroll-anchor py-10 sm:py-16">
         <Container>
           <Reveal>
             <Tabs
@@ -383,7 +383,7 @@ export default async function IndustriesPage({
       </section>
 
       {/* Summary table */}
-      <section id="at-a-glance" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+      <section id="at-a-glance" className="scroll-anchor py-10 sm:py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
             <SectionHeading
@@ -421,7 +421,7 @@ export default async function IndustriesPage({
       </section>
 
       {/* CTA */}
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <Container>
           <Reveal>
             <BorderBeam className="rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">

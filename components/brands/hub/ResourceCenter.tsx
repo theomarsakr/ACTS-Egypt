@@ -177,7 +177,7 @@ export default function ResourceCenter({
 
       {/* Category accordions */}
       {filtered.length === 0 ? (
-        <div className="mt-8 text-center py-16 rounded-2xl border border-dashed border-gray-300 bg-gray-50">
+        <div className="mt-8 text-center py-10 sm:py-16 rounded-2xl border border-dashed border-gray-300 bg-gray-50">
           <Layers size={28} className="mx-auto text-gray-400" />
           <p className="mt-3 text-gray-600 font-semibold">
             No documents match your filters.

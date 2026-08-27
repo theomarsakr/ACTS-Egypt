@@ -214,9 +214,9 @@ export default function Hero({
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 + i * 0.08 }}
-              className="py-7 md:py-8 px-4 md:px-8"
+              className="py-5 sm:py-7 md:py-8 px-4 md:px-8"
             >
-              <div className="text-3xl md:text-[2.6rem] leading-none font-extrabold tracking-tight tabular-nums">
+              <div className="text-[1.625rem] xs:text-3xl md:text-[2.6rem] leading-none font-extrabold tracking-tight tabular-nums">
                 <Counter value={s.value} suffix={s.suffix} />
               </div>
               <div className="mt-2 text-[13px] text-white/50">{s.label}</div>

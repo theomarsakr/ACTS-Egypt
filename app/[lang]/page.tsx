@@ -309,7 +309,7 @@ export default async function Home({
       <Hero t={hm.hero} lang={lang} />
 
       {/* ============ CLIENT MARQUEE ============ */}
-      <section className="py-14 md:py-16 border-b border-gray-100">
+      <section className="py-9 sm:py-14 md:py-16 border-b border-gray-100">
         <Reveal>
           <p className="text-center text-[12px] font-bold text-gray-500 uppercase tracking-[0.22em]">
             {hm.marquee}
@@ -343,7 +343,7 @@ export default async function Home({
       </section>
 
       {/* ============ WHAT WE DO ============ */}
-      <section id="what-we-do" className="scroll-anchor py-20 md:py-24 lg:py-28">
+      <section id="what-we-do" className="scroll-anchor py-12 sm:py-20 md:py-24 lg:py-28">
         <div className="max-w-7xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -354,7 +354,7 @@ export default async function Home({
               lede={hm.whatWeDo.lede}
             />
           </Reveal>
-          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="mt-7 sm:mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {hm.whatWeDo.items.map((w, i) => {
               const Icon = whatWeDoIcons[i] ?? Gauge;
               return (
@@ -390,7 +390,7 @@ export default async function Home({
       </section>
 
       {/* ============ BRANDS ============ */}
-      <section id="brands" className="scroll-anchor py-20 md:py-24 lg:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
+      <section id="brands" className="scroll-anchor py-12 sm:py-20 md:py-24 lg:py-28 bg-[#f6f8fb] border-y border-gray-200/70">
         <div className="max-w-7xl mx-auto px-safe">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
@@ -417,7 +417,7 @@ export default async function Home({
               footer row wrapped "View products" and "Curtiss-Wright" onto two
               lines each. The 2-up stage gives them 348px at 768 and the third
               column arrives at `lg:`, where there is room for it (307px). */}
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-7 sm:mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {brands.map((b, i) => {
               // Auto-rotating gallery of normalized card tiles (lead cut-out
               // first) — every frame is the product centered on an identical
@@ -534,7 +534,7 @@ export default async function Home({
       </section>
 
       {/* ============ GLOBAL REACH ============ */}
-      <section id="global-reach" className="scroll-anchor relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
+      <section id="global-reach" className="scroll-anchor relative overflow-hidden bg-ink text-white py-12 sm:py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <MeshBlob variant="brass" className="w-96 h-96 -top-40 -left-24 opacity-50" />
         <div className="relative max-w-7xl mx-auto px-safe grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
@@ -578,7 +578,7 @@ export default async function Home({
       {/* `overflow-x-clip`, never `overflow-hidden`: hidden would make this
           section the scroll container for the sticky rail inside it, and the
           rail would silently stop sticking. `clip` isn't a scroll container. */}
-      <section id="why-acts" className="why-section scroll-anchor relative overflow-x-clip py-24 md:py-28 lg:py-32">
+      <section id="why-acts" className="why-section scroll-anchor relative overflow-x-clip py-14 sm:py-24 md:py-28 lg:py-32">
         <div className="why-backdrop" aria-hidden />
         <div className="relative max-w-7xl mx-auto px-safe">
           <ContainerScroll>
@@ -638,7 +638,7 @@ export default async function Home({
                     one paired with the sticky column from `lg:` up — see
                     ScrollRail's own doc comment for why the orientation
                     itself has to change, not just show/hide. */}
-                <ScrollRail className="mt-12" />
+                <ScrollRail className="mt-7 sm:mt-12" />
               </Reveal>
             </div>
 
@@ -906,7 +906,7 @@ export default async function Home({
           with the engagements that back them up, in the same visual language
           as the hero. The translucent carousel card lets the band's blueprint
           grid run through it, so the section reads as one continuous surface. */}
-      <section id="proven" className="scroll-anchor relative overflow-hidden bg-ink text-white py-20 md:py-24 lg:py-28">
+      <section id="proven" className="scroll-anchor relative overflow-hidden bg-ink text-white py-12 sm:py-20 md:py-24 lg:py-28">
         <div className="absolute inset-0 blueprint opacity-60" aria-hidden />
         <MeshBlob variant="steel" className="w-[30rem] h-[30rem] -top-44 -right-28 opacity-60" />
         <MeshBlob variant="brass" className="w-96 h-96 -bottom-48 -left-28 opacity-50" />
@@ -935,7 +935,7 @@ export default async function Home({
       </section>
 
       {/* ============ COMPANY GALLERY ============ */}
-      <section id="gallery" className="scroll-anchor pb-20 md:pb-24 lg:pb-28 pt-20 md:pt-24 lg:pt-28">
+      <section id="gallery" className="scroll-anchor pb-12 sm:pb-20 md:pb-24 lg:pb-28 pt-12 sm:pt-20 md:pt-24 lg:pt-28">
         <div className="max-w-7xl mx-auto px-safe">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
@@ -986,7 +986,7 @@ export default async function Home({
           <MeshBlob variant="steel" className="w-96 h-96 -top-48 -right-24 opacity-60" />
           <div className="dark-vignette" />
         </div>
-        <div className="relative max-w-4xl mx-auto px-safe py-24 md:py-28 lg:py-32 text-center">
+        <div className="relative max-w-4xl mx-auto px-safe py-14 sm:py-24 md:py-28 lg:py-32 text-center">
           <Reveal>
             <SectionHeading
               tier="hero"

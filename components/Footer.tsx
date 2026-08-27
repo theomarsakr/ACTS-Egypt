@@ -63,7 +63,7 @@ export default function Footer({
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* RFQ fast lane */}
-        <div className="py-12 md:py-14 flex flex-col lg:flex-row lg:items-center gap-7 border-b border-white/10">
+        <div className="py-8 sm:py-12 md:py-14 flex flex-col lg:flex-row lg:items-center gap-7 border-b border-white/10">
           <div className="flex-1">
             <h3 className="text-fluid-h4 font-extrabold tracking-[-0.02em]">
               {t.rfqTitle}
@@ -81,7 +81,7 @@ export default function Footer({
         </div>
 
         {/* Link columns */}
-        <div className="py-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-[1.35fr_0.8fr_1fr_1fr]">
+        <div className="py-9 sm:py-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-[1.35fr_0.8fr_1fr_1fr]">
           <div>
             <div className="bg-white rounded-xl p-2.5 inline-block">
               <Image

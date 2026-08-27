@@ -238,7 +238,7 @@ export default async function ProductDetailPage({ params }: Props) {
       </section>
 
       {/* Body */}
-      <section className="py-14 md:py-16">
+      <section className="py-9 sm:py-14 md:py-16">
         <div className="max-w-6xl mx-auto px-safe">
           <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] gap-10">
             <Reveal>

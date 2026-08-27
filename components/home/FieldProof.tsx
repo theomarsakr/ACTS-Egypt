@@ -128,9 +128,9 @@ export default function FieldProof({
               if (info.offset.x < -60) go(1);
               else if (info.offset.x > 60) go(-1);
             }}
-            className="relative p-8 md:p-12 cursor-grab active:cursor-grabbing"
+            className="relative p-6 sm:p-8 md:p-12 cursor-grab active:cursor-grabbing"
           >
-            <figcaption className="font-display text-3xl md:text-5xl font-extrabold uppercase leading-[1.05] text-amber">
+            <figcaption className="font-display text-2xl xs:text-3xl md:text-5xl font-extrabold uppercase leading-[1.05] text-amber">
               {item.sector}
             </figcaption>
             <blockquote className="mt-3 max-w-3xl">

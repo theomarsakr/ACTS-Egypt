@@ -74,7 +74,7 @@ export default async function ContactPage({ params }: PageProps) {
             it this div shrink-wraps to its content and mx-auto centres the
             copy instead of aligning it to the max-w-6xl column the rest of the
             site's page heroes use. */}
-        <Container className="relative w-full pt-40 pb-16 md:pt-56 md:pb-20">
+        <Container className="relative w-full pt-20 pb-10 sm:pt-40 sm:pb-16 md:pt-56 md:pb-20">
           {/* Eyebrow -> title -> subtitle -> lede, on <PageHero>'s own tier.
               This hero used to run that backwards: a 36->60px amber category
               label above a 24->30px <h1>, so the page's most important line
@@ -105,7 +105,7 @@ export default async function ContactPage({ params }: PageProps) {
         </Container>
       </section>
 
-      <section id="office" className="scroll-anchor py-16">
+      <section id="office" className="scroll-anchor py-10 sm:py-16">
         <Container>
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-4">
@@ -218,7 +218,7 @@ export default async function ContactPage({ params }: PageProps) {
       </section>
 
       {/* Reach the right team */}
-      <section id="departments" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+      <section id="departments" className="scroll-anchor py-10 sm:py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
             <SectionHeading
@@ -257,17 +257,26 @@ export default async function ContactPage({ params }: PageProps) {
                       </a>
                     ),
                   },
-                  {
-                    label: c.specLabels.mobile,
-                    value: (
-                      <a
-                        href={`tel:${d.mobile.replace(/\s/g, "")}`}
-                        className="tap-target hover:text-brand transition-colors"
-                      >
-                        <span className="ltr-inline">{d.mobile}</span>
-                      </a>
-                    ),
-                  },
+                  // Spread, not a plain entry: `mobile` is absent on the
+                  // departments whose second line was the same number as
+                  // `phone` (see the Department type in lib/data.ts), and a
+                  // row repeating the number just above it is worse than no
+                  // row at all.
+                  ...(d.mobile
+                    ? [
+                        {
+                          label: c.specLabels.mobile,
+                          value: (
+                            <a
+                              href={`tel:${d.mobile.replace(/\s/g, "")}`}
+                              className="tap-target hover:text-brand transition-colors"
+                            >
+                              <span className="ltr-inline">{d.mobile}</span>
+                            </a>
+                          ),
+                        },
+                      ]
+                    : []),
                   {
                     label: c.specLabels.fax,
                     value: <span className="ltr-inline">{d.fax}</span>,
@@ -301,7 +310,7 @@ export default async function ContactPage({ params }: PageProps) {
       </section>
 
       {/* Let's connect */}
-      <section id="connect" className="scroll-anchor py-16">
+      <section id="connect" className="scroll-anchor py-10 sm:py-16">
         <Container>
           <Reveal>
             <SectionHeading

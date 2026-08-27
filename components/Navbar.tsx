@@ -158,13 +158,24 @@ export default function Navbar({
               <Mail size={13} /> {contact.salesEmail}
             </a>
           </div>
-          {/* `hidden sm:block`, not `sm:` sizing: below 640px this wraps to two
-              lines and was the single largest block of chrome on a phone —
-              and it is duplicated verbatim three times over, in the mobile
-              menu panel's footer (below), in the site footer, and on the
-              homepage in the hero badge directly beneath this bar. Nothing is
-              lost on a phone; a screenful is gained. */}
-          <div className="hidden sm:block text-white/60 tracking-[0.14em] uppercase text-[11.5px]">
+          {/* `hidden lg:block`, and the breakpoint is measured, not chosen by
+              feel. This tagline needs ~475px at 0.14em tracking; the two
+              contact links beside it need ~287px, and the row's own gutter
+              takes 48px. That is ~810px of demand, so at 820px — iPad Air
+              portrait — it fit with 10px to spare, and the row silently
+              wrapped to two lines (bar height 44px -> 92px) the moment
+              anything grew. Swapping the company line for a number two
+              characters longer was enough to trigger exactly that. Below
+              1024px the tagline now simply steps aside, which makes the bar
+              a single row at EVERY width and its height deterministic —
+              the invariant the header's `-top-11` phone offset depends on.
+
+              Nothing is lost: the tagline is duplicated verbatim three times
+              over — in the mobile menu panel's footer (below), in the site
+              footer, and on the homepage in the hero badge directly beneath
+              this bar — whereas the phone and email links it was crowding
+              are the only tap-to-contact affordance in the header. */}
+          <div className="hidden lg:block text-white/60 tracking-[0.14em] uppercase text-[11.5px]">
             {t.tagline}
           </div>
         </div>

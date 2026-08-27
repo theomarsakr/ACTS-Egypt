@@ -136,7 +136,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Client portfolio */}
-      <section id="portfolio" className="scroll-anchor py-16">
+      <section id="portfolio" className="scroll-anchor py-10 sm:py-16">
         <Container>
           <Reveal>
             <SectionHeading
@@ -196,7 +196,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Where we add value */}
-      <section id="value" className="scroll-anchor py-16 bg-gray-50 border-y border-gray-200">
+      <section id="value" className="scroll-anchor py-10 sm:py-16 bg-gray-50 border-y border-gray-200">
         <Container>
           <Reveal>
             <SectionHeading
@@ -233,7 +233,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* What clients trust us for */}
-      <section id="trust" className="scroll-anchor py-16">
+      <section id="trust" className="scroll-anchor py-10 sm:py-16">
         <Container>
           <Reveal>
             <SectionHeading
@@ -269,7 +269,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Confidentiality */}
-      <section id="confidentiality" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+      <section id="confidentiality" className="scroll-anchor py-10 sm:py-16 bg-gray-50 border-t border-gray-200">
         <Container width="prose">
           <Reveal>
             <div className="relative overflow-hidden rounded-2xl border border-brand/30 bg-brand-light/60 p-7 md:p-9">
@@ -302,7 +302,7 @@ export default function ProjectsPage() {
           Products and Industries CTAs. */}
       <section className="relative overflow-hidden bg-navy">
         <PageHeroBackground eager={false} />
-        <Container className="relative py-20 md:py-24">
+        <Container className="relative py-12 sm:py-20 md:py-24">
           <Reveal>
             <div className="max-w-xl lg:max-w-2xl">
               <SectionHeading

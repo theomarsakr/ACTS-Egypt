@@ -340,7 +340,7 @@ export default async function BrandPage({ params }: Props) {
         />
         <div className="dark-vignette" aria-hidden />
 
-        <div className="relative w-full max-w-6xl mx-auto px-safe py-20 md:py-24 lg:py-28">
+        <div className="relative w-full max-w-6xl mx-auto px-safe py-12 sm:py-20 md:py-24 lg:py-28">
           <Reveal>
             <Link
               href="/brands"
@@ -408,7 +408,7 @@ export default async function BrandPage({ params }: Props) {
 
       {isHub && <FloatingNav sections={navSections} />}
 
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="max-w-6xl mx-auto px-safe">
           <div id="products" className="scroll-anchor">
             <Reveal>
@@ -444,7 +444,7 @@ export default async function BrandPage({ params }: Props) {
           <ProductShowcase slug={brand.slug} />
 
           {hub && (
-            <div id="engineering-hub" className="mt-20 scroll-anchor">
+            <div id="engineering-hub" className="mt-10 sm:mt-20 scroll-anchor">
               <Reveal>
                 <SectionHeading
                   eyebrow={
@@ -470,7 +470,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           {brand.gallery && (
-            <div id="gallery" className="mt-20 scroll-anchor">
+            <div id="gallery" className="mt-10 sm:mt-20 scroll-anchor">
               <Reveal>
                 <SectionHeading
                   eyebrow="Product gallery"
@@ -535,7 +535,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           {tools && (
-            <div id="tools-support" className="mt-20 scroll-anchor">
+            <div id="tools-support" className="mt-10 sm:mt-20 scroll-anchor">
               <Reveal>
                 <SectionHeading
                   eyebrow={
@@ -597,7 +597,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           {hub && (
-            <div id="engineering-resources" className="mt-20 scroll-anchor">
+            <div id="engineering-resources" className="mt-10 sm:mt-20 scroll-anchor">
               <Reveal>
                 <SectionHeading
                   eyebrow={
@@ -622,7 +622,7 @@ export default async function BrandPage({ params }: Props) {
           )}
 
           <Reveal>
-            <BorderBeam className="mt-14 relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15">
+            <BorderBeam className="mt-8 sm:mt-14 relative overflow-hidden rounded-2xl bg-navy p-6 sm:p-8 md:p-12 shadow-xl shadow-navy/15">
               <div className="absolute inset-0" aria-hidden>
                 <Image
                   src="/images/refinery-blue.jpg"

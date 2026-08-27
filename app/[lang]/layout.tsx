@@ -128,7 +128,7 @@ const organizationSchema = {
   description:
     "ACTS is Egypt's trusted partner for valves, flow control, and critical process equipment across Oil & Gas, Petrochemical, Power Generation, Water Treatment, and Fertilizer industries: sole agent for Farris Engineering, Dyna-Flo, and EST (Curtiss-Wright).",
   email: "sales@actsegypt.com",
-  telephone: "+202 3850 8135",
+  telephone: "+20 122 730 0010",
   foundingDate: "2006",
   address: {
     "@type": "PostalAddress",
@@ -152,7 +152,7 @@ const organizationSchema = {
     {
       "@type": "ContactPoint",
       contactType: "sales",
-      telephone: "+202 3850 8135",
+      telephone: "+20 122 730 0010",
       email: "sales@actsegypt.com",
       areaServed: "EG",
       availableLanguage: ["en", "ar"],

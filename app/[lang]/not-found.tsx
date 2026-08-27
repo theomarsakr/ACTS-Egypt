@@ -4,7 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 
 export default function NotFound() {
   return (
-    <section className="py-32 text-center">
+    <section className="py-16 sm:py-32 text-center">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeading
           align="center"

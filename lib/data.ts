@@ -1653,32 +1653,58 @@ export const offices = [
 ];
 
 export const contact = {
-  phone: "+202 3850 8135",
+  // The company line. Sitewide: this single field feeds the header utility
+  // bar, the mobile menu, the footer, both homepage CTAs, the RFQ form and
+  // the contact page's own hero, so the number is stated in exactly one
+  // place. The old Arkan Plaza landline (+202 3850 8135) survives only as
+  // `fax` on the departments below — it is still a working fax line, it is
+  // just no longer the number to call.
+  phone: "+20 122 730 0010",
   salesEmail: "sales@actsegypt.com",
   infoEmail: "info@actsegypt.com",
 };
 
 export const team = [{ role: "General Manager", name: "Ayman El-Mohamady" }];
 
-export const departments = [
+/** One contact route on the /contact datasheet.
+ *
+ *  `mobile` is optional and omitted wherever a department has no second line
+ *  distinct from `phone`. It used to carry +20 122 730 0010 on two of the
+ *  three, which is now the main `phone` — listing it in both rows would print
+ *  the same number twice in one card and imply a fallback that does not
+ *  exist. The renderer drops the row when it is absent rather than repeating
+ *  it (see app/[lang]/contact/page.tsx).
+ *
+ *  `fax` is deliberately still the Arkan Plaza landline. It is a real,
+ *  working fax line — tender and procurement paperwork in this sector still
+ *  moves that way — and a fax field is the one place that number is a fact
+ *  rather than a stale phone number. Do not "fix" it to match `phone`: a
+ *  mobile line cannot receive a fax. */
+export type Department = {
+  name: string;
+  phone: string;
+  mobile?: string;
+  fax: string;
+  emails: string[];
+};
+
+export const departments: Department[] = [
   {
     name: "Quotes & Sales",
-    phone: "+202 3850 8135",
+    phone: "+20 122 730 0010",
     mobile: "+20 122 323 5399",
     fax: "+202 3850 8135",
     emails: ["aelmohamady@actsegypt.org", "sales@actsegypt.com"],
   },
   {
     name: "General Inquiries",
-    phone: "+202 3850 8135",
-    mobile: "+20 122 730 0010",
+    phone: "+20 122 730 0010",
     fax: "+202 3850 8135",
     emails: ["aelmohamady@actsegypt.org", "info@actsegypt.com"],
   },
   {
     name: "Marketing",
-    phone: "+202 3850 8135",
-    mobile: "+20 122 730 0010",
+    phone: "+20 122 730 0010",
     fax: "+202 3850 8135",
     emails: ["marketing@actsegypt.org"],
   },

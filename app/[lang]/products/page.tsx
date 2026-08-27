@@ -257,7 +257,7 @@ export default function ProductsPage() {
       />
 
       {/* Pillars */}
-      <section id="explore-products" className="scroll-anchor py-16">
+      <section id="explore-products" className="scroll-anchor py-10 sm:py-16">
         <Container>
           <Reveal>
             <Tabs
@@ -389,7 +389,7 @@ export default function ProductsPage() {
               descriptive rather than "learn more", so both a reader and a
               crawler can tell where each one goes. */}
           <Reveal>
-            <div className="mt-12 rounded-2xl border border-gray-200 bg-gray-50/70 p-6 sm:p-8">
+            <div className="mt-7 sm:mt-12 rounded-2xl border border-gray-200 bg-gray-50/70 p-6 sm:p-8">
               <SectionHeading
                 tier="md"
                 eyebrow="Brands & series"
@@ -427,7 +427,7 @@ export default function ProductsPage() {
       </section>
 
       {/* Integrated approach */}
-      <section id="approach" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+      <section id="approach" className="scroll-anchor py-10 sm:py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
             <SectionHeading
@@ -463,7 +463,7 @@ export default function ProductsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <Container>
           <Reveal>
             <BorderBeam className="relative overflow-hidden rounded-2xl bg-navy p-8 md:p-12 shadow-xl shadow-navy/15 flex flex-col md:flex-row md:items-center justify-between gap-6">

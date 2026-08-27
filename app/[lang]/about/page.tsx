@@ -193,7 +193,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-2xl shadow-xl shadow-navy/10 border border-gray-100 grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-100 max-md:divide-y max-md:[&>*:nth-child(2n+1)]:border-l-0">
               {aboutStats.map((s) => (
                 <div key={s.label} className="p-6 text-center">
-                  <div className="text-3xl md:text-4xl font-extrabold text-navy">
+                  <div className="text-2xl xs:text-3xl md:text-4xl font-extrabold text-navy">
                     {s.raw ? (
                       s.value
                     ) : (
@@ -215,7 +215,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section id="timeline" className="scroll-anchor py-20">
+      <section id="timeline" className="scroll-anchor py-12 sm:py-20">
         <div className="max-w-3xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -225,7 +225,7 @@ export default function AboutPage() {
               lede="Founded in Sixth of October City in 2006, incorporated in 2016, and headquartered at Arkan Plaza since 2025."
             />
           </Reveal>
-          <div className="mt-14 relative">
+          <div className="mt-8 sm:mt-14 relative">
             <TimelineTrack />
             {timeline.map((t, i) => {
               const Icon = timelineIcons[i % timelineIcons.length];
@@ -268,7 +268,7 @@ export default function AboutPage() {
       </section>
 
       {/* Leadership */}
-      <section id="leadership" className="scroll-anchor py-20">
+      <section id="leadership" className="scroll-anchor py-12 sm:py-20">
         <div className="max-w-4xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -342,7 +342,7 @@ export default function AboutPage() {
       </section>
 
       {/* Goals — navy band */}
-      <section id="goals" className="scroll-anchor bg-navy text-white py-20">
+      <section id="goals" className="scroll-anchor bg-navy text-white py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -360,7 +360,7 @@ export default function AboutPage() {
               rather than a deliberate set. Two columns also matches "How We
               Operate" and "Looking Ahead" below, so the whole lower half of
               the page keeps one rhythm. */}
-          <div className="mt-14 grid gap-5 sm:grid-cols-2">
+          <div className="mt-8 sm:mt-14 grid gap-5 sm:grid-cols-2">
             {mission.map((m, i) => (
               <Reveal key={m.num} delay={i * 90}>
                 <SpotlightCard
@@ -389,7 +389,7 @@ export default function AboutPage() {
       {/* Looking ahead — the forward direction the new brand story leads with.
           Sits between the goals band and the values so the page reads
           past → ambition → operating principles. */}
-      <section id="looking-ahead" className="scroll-anchor py-20">
+      <section id="looking-ahead" className="scroll-anchor py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -399,7 +399,7 @@ export default function AboutPage() {
               lede="As Egypt's Oil & Gas, Petrochemical, and Fertilizer sectors evolve, ACTS is committed to bringing modern, technology-driven solutions into how we support our customers. Not just supplying equipment, but helping plants run smarter."
             />
           </Reveal>
-          <div className="mt-12 grid sm:grid-cols-2 gap-5">
+          <div className="mt-7 sm:mt-12 grid sm:grid-cols-2 gap-5">
             {forwardDirection.map((f, i) => {
               const Icon = forwardIcons[i] ?? Radar;
               return (
@@ -432,7 +432,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-20">
+      <section className="py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -455,7 +455,7 @@ export default function AboutPage() {
               the first three. Between `sm` and `lg` there are only two
               columns to work with, where the last card goes full width for
               the same reason. */}
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
+          <div className="mt-8 sm:mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
             {values.map((v, i) => (
               <Reveal
                 key={v.name}
@@ -483,7 +483,7 @@ export default function AboutPage() {
       </section>
 
       {/* What we specialize in */}
-      <section id="specializations" className="scroll-anchor py-20 bg-gray-50 border-y border-gray-200">
+      <section id="specializations" className="scroll-anchor py-12 sm:py-20 bg-gray-50 border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -493,7 +493,7 @@ export default function AboutPage() {
               lede="ACTS is the exclusive agent in Egypt for three Curtiss-Wright divisions: Farris Engineering, Dyna-Flo Control Valve Services, and EST. That gives customers access to an integrated portfolio spanning safety, control, and thermal management."
             />
           </Reveal>
-          <div className="mt-12 space-y-4">
+          <div className="mt-7 sm:mt-12 space-y-4">
             {specializations.map((s, i) => {
               const [brand, ...rest] = s.name.split(":");
               const spec = rest.join(":").trim();
@@ -532,7 +532,7 @@ export default function AboutPage() {
       </section>
 
       {/* How we operate */}
-      <section id="how-we-operate" className="scroll-anchor py-20">
+      <section id="how-we-operate" className="scroll-anchor py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-safe">
           <Reveal>
             <SectionHeading
@@ -543,7 +543,7 @@ export default function AboutPage() {
               lede="What working with ACTS actually looks like, from first enquiry through to delivery and beyond."
             />
           </Reveal>
-          <div className="mt-14 grid sm:grid-cols-2 gap-5">
+          <div className="mt-8 sm:mt-14 grid sm:grid-cols-2 gap-5">
             {howWeOperate.map((h, i) => {
               const Icon = h.icon;
               return (
@@ -579,7 +579,7 @@ export default function AboutPage() {
       </section>
 
       {/* Headquarters */}
-      <section id="offices" className="scroll-anchor py-20">
+      <section id="offices" className="scroll-anchor py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-safe">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -670,7 +670,7 @@ export default function AboutPage() {
           treatment. A brass ShineBorder rim on the case itself, rather than
           on the page band, keeps the shimmer on the object being lit rather
           than smeared across the whole section. */}
-      <section className="relative overflow-hidden bg-ink py-20 md:py-28">
+      <section className="relative overflow-hidden bg-ink py-12 sm:py-20 md:py-28">
         <div className="absolute inset-0" aria-hidden>
           <div
             className="absolute inset-0 blueprint"

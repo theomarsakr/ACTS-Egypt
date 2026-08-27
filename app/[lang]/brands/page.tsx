@@ -74,7 +74,7 @@ export default function BrandsPage() {
       />
 
       {/* Brand sections */}
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <Container className="space-y-10">
           {brands.map((b, i) => {
             const docs = docsBySlug.get(b.slug);
@@ -111,7 +111,7 @@ export default function BrandsPage() {
       </section>
 
       {/* Past project experience */}
-      <section id="past-experience" className="scroll-anchor py-16 bg-gray-50 border-t border-gray-200">
+      <section id="past-experience" className="scroll-anchor py-10 sm:py-16 bg-gray-50 border-t border-gray-200">
         <Container>
           <Reveal>
             <SectionHeading
@@ -141,7 +141,7 @@ export default function BrandsPage() {
       {/* Document library */}
       <section
         id="document-library"
-        className="scroll-anchor py-16 md:py-20 border-t border-gray-200"
+        className="scroll-anchor py-10 sm:py-16 md:py-20 border-t border-gray-200"
       >
         <Container>
           <Reveal>
