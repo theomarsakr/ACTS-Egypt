@@ -171,7 +171,7 @@ export default function FieldGallery({
           stagger replays when the set changes. */}
       <div
         key={filter ?? "all"}
-        className="mt-7 columns-1 sm:columns-2 lg:columns-3 gap-5 [&>*]:mb-5"
+        className="mt-7 columns-2 lg:columns-3 gap-3 sm:gap-5 [&>*]:mb-3 sm:[&>*]:mb-5"
       >
         {visible.map((a, i) => (
           <Reveal key={a.src} delay={(i % 3) * 90} className="break-inside-avoid">
@@ -189,20 +189,20 @@ export default function FieldGallery({
                 src={a.src}
                 alt={`${a.label}: ${a.sub}`}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 1024px) 50vw, 33vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-linear-to-t from-ink/85 via-ink/15 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
-              <div className="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-3">
+              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 flex items-end justify-between gap-2 sm:gap-3">
                 <div>
-                  <div className="text-[11px] font-bold text-amber uppercase tracking-[0.18em]">
+                  <div className="text-[9.5px] sm:text-[11px] font-bold text-amber uppercase tracking-[0.12em] sm:tracking-[0.18em]">
                     {a.label}
                   </div>
-                  <div className="mt-1 text-[15.5px] font-bold text-white leading-snug">
+                  <div className="mt-0.5 sm:mt-1 text-[12px] sm:text-[15.5px] font-bold text-white leading-snug">
                     {a.sub}
                   </div>
                 </div>
-                <span className="w-9 h-9 rounded-full glass-dark flex items-center justify-center text-white opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 pointer-coarse:opacity-100 pointer-coarse:translate-y-0">
+                <span className="hidden sm:flex w-9 h-9 rounded-full glass-dark items-center justify-center text-white opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 pointer-coarse:opacity-100 pointer-coarse:translate-y-0">
                   <Expand size={15} />
                 </span>
               </div>

@@ -65,6 +65,29 @@ const PINS: Pin[] = [
     .map((b) => ({ slug: b.slug, name: b.name, ...BRAND_COORDS[b.slug] })),
 ];
 
+/* Sphere radius as a fraction of the shorter canvas edge.
+ *
+ * This was `/ 2.4`, and that number never actually reached the projection.
+ * `resize()` derives `zoomRatio` from `projection.scale() / radius` so a
+ * manual pinch-zoom survives a resize — but on the FIRST call the projection
+ * is still carrying d3's default orthographic scale (249.5), so
+ * `radius * (249.5 / radius)` cancels to exactly 249.5 at every viewport. The
+ * globe was drawn at a fixed 499px diameter no matter how large its canvas
+ * was; it never responded to the viewport at all.
+ *
+ * That stayed invisible on desktop because the canvas there is the full 520px
+ * the one call site asks for (min(520, innerWidth - 40), so any viewport
+ * >=560px), and a 499px sphere sits inside 520px. Below 560px the canvas
+ * shrinks and the sphere does not: at 390px it is a 499px sphere in a 350px
+ * box, clipped on all four sides — the "globe is zoomed in on mobile" report.
+ *
+ * 0.4798 is 249.5/520 — precisely the proportion the globe has been rendering
+ * at on desktop all along — so viewports >=560px are unchanged to within a
+ * rounding error, and everything below finally scales with its canvas. Pair
+ * with `.scale(radius)` on the projection below: that is what makes the first
+ * resize() compute a zoomRatio of 1 rather than 1.71. */
+const SPHERE_RADIUS_RATIO = 0.4798;
+
 export default function RotatingEarth({
   width = 560,
   height = 560,
@@ -111,10 +134,13 @@ export default function RotatingEarth({
     // resize/orientation change, which used to only ever run once at mount.
     let containerWidth = Math.min(width, window.innerWidth - 40);
     let containerHeight = Math.min(height, containerWidth);
-    let radius = Math.min(containerWidth, containerHeight) / 2.4;
+    let radius = Math.min(containerWidth, containerHeight) * SPHERE_RADIUS_RATIO;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    const projection = geoOrthographic().clipAngle(90);
+    // `.scale(radius)` is load-bearing, not decorative: without it the first
+    // resize() reads d3's default 249.5 as if it were a user's zoom. See
+    // SPHERE_RADIUS_RATIO above.
+    const projection = geoOrthographic().clipAngle(90).scale(radius);
 
     // Sizes the canvas to the current viewport and rescales the projection,
     // preserving whatever zoom ratio the user had dialed in (a resize
@@ -123,7 +149,7 @@ export default function RotatingEarth({
       const zoomRatio = radius > 0 ? projection.scale() / radius : 1;
       containerWidth = Math.min(width, window.innerWidth - 40);
       containerHeight = Math.min(height, containerWidth);
-      radius = Math.min(containerWidth, containerHeight) / 2.4;
+      radius = Math.min(containerWidth, containerHeight) * SPHERE_RADIUS_RATIO;
       // Capped at 2x — an uncapped DPR on a 3x/4x phone would triple the
       // canvas' pixel area (and every arc/fill call in `render`) for no
       // visible gain.
