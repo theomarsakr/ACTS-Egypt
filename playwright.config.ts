@@ -7,14 +7,24 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:3000",
     trace: "retain-on-failure",
-    // NOT reducedMotion here — that used to live in this shared block, which
-    // meant every spec (including the responsive/smoothness suites this
-    // config now serves) silently measured the site with every animation
-    // turned off. Left there, a suite meant to verify motion actually works
-    // would pass against a site with the motion disabled. smoke.spec.ts opts
-    // into it explicitly via test.use() instead, since ITS reasoning for
-    // wanting the settled state (axe should sample resting contrast, not a
-    // mid-fade frame) is specific to that spec.
+    // NOT reducedMotion here. Two separate reasons, and the first one is not
+    // what an earlier version of this comment claimed:
+    //
+    // 1. It would not work anyway. This runner has no `reducedMotion` fixture
+    //    — node_modules/playwright/lib/index.js declares one per context
+    //    option and assembles them in `_combinedContextOptions`, and neither
+    //    lists it (grep: zero occurrences, same for `forcedColors`). Setting
+    //    it here, or via test.use(), type-checks and is then silently
+    //    discarded. So the old worry that leaving it here made the
+    //    responsive/smoothness suites "silently measure the site with every
+    //    animation turned off" was never true: it disabled nothing, for
+    //    anyone. Only `contextOptions: { reducedMotion }` reaches the browser,
+    //    because that object is spread verbatim into newContext().
+    //
+    // 2. It belongs to one spec regardless. smoke.spec.ts wants the settled
+    //    state so axe samples resting contrast rather than a mid-fade frame;
+    //    the suites that exist to verify motion actually runs must not have it.
+    //    It opts in locally, in the spelling that works.
   },
   projects: [
     // Desktop is the only project that also runs smoke.spec.ts — that suite

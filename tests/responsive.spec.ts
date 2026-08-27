@@ -161,6 +161,18 @@ for (const route of routes) {
 
       for (const el of document.querySelectorAll(selector)) {
         if (allowed.has(el) || el.closest(allowSelector)) continue;
+        // Skip anything inside an `inert` subtree. Both flip cards
+        // (BrandResourceCard, ProductFlipCard) render BOTH faces at all
+        // times and mark the one facing away `inert` — which removes it
+        // from the tab order AND from hit-testing, exactly like the
+        // display:none/visibility:hidden cases on the next line. Without
+        // this, the walk below measures the back face's controls, whose
+        // probes correctly land on the *front* face that is painted over
+        // them, and reports a covered control on /brands. That is the flip
+        // card working as designed, not a sizing defect: flip the card and
+        // the same button is a full 44px. The controls on the visible face
+        // are still checked, because only the away-facing one is inert.
+        if (el.closest("[inert]")) continue;
         const cs = getComputedStyle(el as HTMLElement);
         if (cs.display === "none" || cs.visibility === "hidden") continue;
         const r = el.getBoundingClientRect();
