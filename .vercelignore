@@ -1,0 +1,12 @@
+# Files that are in the repo but have no business being uploaded to Vercel.
+# Nothing here is ever *served* either way — none of it is under public/ — so
+# this is purely about keeping the upload small and the build fast.
+
+# 84 MB of superseded originals and source material. See 2026-08-14/README.md.
+2026-08-14/
+
+# Playwright artefacts and the visual-regression baselines (~80 MB of PNGs).
+/test-results/
+/playwright-report/
+/.playwright-cli/
+tests/visual.spec.ts-snapshots/
