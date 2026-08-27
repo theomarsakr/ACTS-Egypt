@@ -73,15 +73,79 @@ const securityHeaders = [
       ]),
 ];
 
+/* Long-lived caching for the static asset trees.
+ *
+ * Vercel serves everything in public/ with `max-age=0, must-revalidate` by
+ * default, which does two expensive things here:
+ *
+ *   1. Every repeat visitor re-downloads the PDFs, videos and posters.
+ *   2. It caps the *optimized* image TTL. Vercel's image cache expires at
+ *      max(minimumCacheTTL, upstream Cache-Control max-age), and every MISS or
+ *      STALE is billed as a transformation — so a short TTL re-bills the same
+ *      variant over and over. (Next's own advice: "configure headers to set
+ *      the Cache-Control header on the upstream image (e.g. /some-asset.jpg,
+ *      not /_next/image itself)".)
+ *
+ * 31 days matches `minimumCacheTTL` below. The trade is that a file replaced
+ * in place can stay cached for a month, so **change the filename when you
+ * change the picture** (or purge with `vercel cache invalidate --srcimg`).
+ * `immutable` is deliberately not set, so a hard reload still revalidates.
+ */
+const THIRTY_ONE_DAYS = 2678400;
+const staticAssetHeaders = [
+  { key: "Cache-Control", value: `public, max-age=${THIRTY_ONE_DAYS}` },
+];
+
 const nextConfig = {
-  // Image optimization
+  /* Image optimization.
+   *
+   * Sized against Vercel's Hobby allowance (5,000 transformations/month). A
+   * transformation is billed per cache MISS *and* per STALE, and the cache key
+   * is {project, source content hash, w, q, normalized Accept} — so the number
+   * of billable variants per source image is
+   *   (widths the srcset can ask for) x (allowed qualities) x (formats),
+   * re-billed every time the TTL lapses. The four settings below attack each
+   * factor in turn; `minimumCacheTTL` is by far the biggest.
+   */
   images: {
-    formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // One format, not two. AVIF is ~20% smaller than WebP but doubles the
+    // billable variants, because a WebP-only browser and an AVIF browser send
+    // different Accept headers and so key separately. WebP at the same quality
+    // is visually indistinguishable and universally supported; the bytes saved
+    // by AVIF are not worth paying twice for every image on the site.
+    formats: ['image/webp'],
+    // Trimmed from the 8-wide default. 750 and 1200 sat close enough to 828
+    // and 1080 to be redundant, and 2048 close enough to 1920; 3840 stays so
+    // 4K/DPR-2 screens still get a native-resolution hero. Fewer buckets means
+    // visitors on different viewports share cache entries instead of each
+    // minting their own.
+    deviceSizes: [640, 828, 1080, 1920, 2560, 3840],
+    // Nothing on the site renders below 56 CSS px (the lightbox filmstrip
+    // thumbs), so 16/32/48 were unreachable by the layout but still reachable
+    // by anyone hitting /_next/image by hand.
+    imageSizes: [64, 96, 128, 256, 384],
     // 90: hero photos (contact/quote) with 4:2:0 chroma subsampling band
     // visibly at the default 75 once the scrim opens up to show them.
     qualities: [75, 90],
+    // 31 days, up from the 4-hour default. At 4 hours every variant that keeps
+    // getting requested goes STALE — and is re-billed — up to six times a day;
+    // this is the single change that takes the monthly bill from "proportional
+    // to traffic x time" down to "proportional to distinct variants".
+    minimumCacheTTL: THIRTY_ONE_DAYS,
+    // /_next/image is a public endpoint: without an allowlist anyone can point
+    // it at any file under public/ — including the ~370 MB PDF library, which
+    // would burn transformations and cache writes fetching documents no page
+    // ever renders as an image. These cover every next/image src in the app
+    // and nothing else: /videos/** is the poster stills (not the clips), and
+    // /Data/*/images/** is the manufacturer photography the brand pages and
+    // the homepage gallery pull from — deliberately narrower than /Data/**,
+    // which would readmit the PDFs.
+    localPatterns: [
+      { pathname: '/images/**', search: '' },
+      { pathname: '/videos/**', search: '' },
+      { pathname: '/Data/*/images/**', search: '' },
+      { pathname: '/logo-transparent.png', search: '' },
+    ],
   },
 
   // Optimizations
@@ -97,7 +161,18 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
 
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Content-addressed by filename, never rewritten in place — see the note
+      // on staticAssetHeaders. /_next/image is not matched by any of these;
+      // its TTL comes from images.minimumCacheTTL.
+      { source: "/images/:path*", headers: staticAssetHeaders },
+      { source: "/videos/:path*", headers: staticAssetHeaders },
+      { source: "/Data/:path*", headers: staticAssetHeaders },
+      { source: "/geo/:path*", headers: staticAssetHeaders },
+      { source: "/logo-transparent.png", headers: staticAssetHeaders },
+      { source: "/apple-touch-icon.png", headers: staticAssetHeaders },
+    ];
   },
 };
 
