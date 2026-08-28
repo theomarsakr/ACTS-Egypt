@@ -14,7 +14,10 @@ interface ScrollExpandMediaProps {
    * Smaller encode served under a 767px viewport (resolution-matching, like
    * `<Image sizes>` — same content, not a feature dropped). This stage's
    * frame never exceeds 95vw, so a phone has no use for the desktop file's
-   * full pixel width.
+   * full pixel width — but it does need the phone's *device* pixels, not its
+   * CSS ones. 95vw on a 390px phone at 3x is 1110 device px wide, so the
+   * About film's mobile encode is 1134 wide, not the 756 it was sized to when
+   * the frame was a portrait crop showing a quarter of the picture.
    */
   mediaSrcMobile?: string;
   /** Describes the expanding photo/video for assistive tech; omit if purely atmospheric. */
@@ -423,16 +426,64 @@ export default function ScrollExpandMedia({
             what made this fold look accidental, with half of every word
             landing on the card and half on the street behind it. Sized like
             this the headline sits inside the frame at every width, and only
-            `--grow-*` has to carry it out to the 95vw/85vh cap below. */}
-        <div className="sticky top-0 flex h-dvh w-full flex-col items-center justify-center overflow-hidden [--grow-h:200px] [--grow-w:650px] [--slide:180vw] [--start-h:400px] [--start-w:300px] sm:[--start-w:420px] md:[--grow-h:400px] md:[--grow-w:1250px] md:[--slide:150vw] md:[--start-h:420px] md:[--start-w:560px] lg:[--start-w:640px]">
-          {/* Establishing shot — fades out entirely as the media expands.
+            `--grow-*` has to carry it out to the 95vw/85vh cap below.
+
+            Below `sm` the frame is stated in `vw` and lands on the media's
+            own shape, because the caps make a phone the one place where the
+            declared size is not what gets rendered. The About film is
+            1512x608 (2.49:1) and the card was 300x400 growing to 950x600 —
+            capped to 95vw/85vh, i.e. 370x564 on a 390px phone. `object-fit:
+            cover` into a 0.66 frame therefore showed a 26%-wide vertical
+            slice of a cinematic shot: the "everything is zoomed in" report.
+            Desktop never hit it because 560x420 -> 1368x765 is 1.79, and the
+            footage sits in that frame nearly whole.
+
+            So the phone gets the two framings desktop resolves to, at phone
+            scale: 1.34 at rest (desktop's 560x420 is 1.33) opening to 1.78
+            (desktop's 1368x765 exactly). `--grow-h` is negative for that —
+            the frame letterboxes as it widens, which is what "the whole shot"
+            means for a 2.49:1 source on a portrait screen. Stated in `vw` so
+            the ratio holds across every phone width rather than only at the
+            one the px values were picked for.
+
+            The `sm:` steps restore the previous base values verbatim except
+            for `--grow-h`, which carries the same correction up to `lg`: a
+            tablet held in portrait hits the 85vh cap the same way a phone
+            does, and 768x1024 landed on 730x820 — a 0.89 frame around a 2.49
+            film, 36% of the picture. Expressing the expanded height as 53.4vw
+            (95vw / 1.78, the width cap over desktop's own ratio) instead of a
+            fixed +200/+400px lands every width below `lg` on the same 1.78 it
+            does, and it is never taller than what it replaces, so the only
+            widths that move are the ones that were cropping. Rest states are
+            untouched — `--start-h` is unchanged, so the title still has the
+            frame it was sized against.
+
+            `lg:[--grow-h:400px]` puts the fixed value back from 1024px up.
+            Without it the `md:` value would keep applying there and a tall
+            desktop window would change: at 1920x1080 the frame is 1810x820
+            today and 53.4vw would make it 918 tall.
+
+            The one width above `lg` that still cropped was a portrait one — a
+            1024x1366 tablet opened to 973x820, a 1.19 frame — so the cap
+            comes back there under `orientation: portrait`. That cannot reach
+            a desktop, which is landscape by definition, and a rotated monitor
+            gets the same correction a tablet does. */}
+        <div className="sticky top-0 flex h-dvh w-full flex-col items-center justify-center overflow-hidden [--bg-fade:0.62] [--grow-h:-4.6vw] [--grow-w:17vw] [--slide:180vw] [--start-h:58vw] [--start-w:78vw] sm:[--bg-fade:1] sm:[--grow-h:calc(53.4vw_-_400px)] sm:[--grow-w:650px] sm:[--start-h:400px] sm:[--start-w:420px] md:[--grow-h:calc(53.4vw_-_420px)] md:[--grow-w:1250px] md:[--slide:150vw] md:[--start-h:420px] md:[--start-w:560px] lg:[--grow-h:400px] lg:[--start-w:640px] lg:[@media(orientation:portrait)]:[--grow-h:calc(53.4vw_-_420px)]">
+          {/* Establishing shot — fades out as the media expands (entirely,
+              except on a phone; see `--bg-fade` below).
               Fills the pinned stage edge to edge (`object-cover`): the photo is
               3:2 and the fold is wider, so this trims a little off the top and
               bottom rather than leaving margin beside it, and the frame reads
               as one uninterrupted photograph. */}
           <div
             className="absolute inset-0 z-0"
-            style={{ opacity: "calc(1 - var(--p, 0))" }}
+            /* `--bg-fade` is 1 at every width the shot can actually fill, so
+               it fades to nothing exactly as before. On a phone the expanded
+               frame is a 95vw letterbox rather than the whole screen, and
+               fading the room out from behind it left the film floating in
+               empty navy — so there the fade stops at 0.38 and the room stays
+               as the surface the film is playing on. */
+            style={{ opacity: "calc(1 - var(--p, 0) * var(--bg-fade, 1))" }}
             aria-hidden
           >
             <Image
@@ -444,7 +495,13 @@ export default function ScrollExpandMedia({
                  only image on this fold worth a preload link. */
               preload
               sizes="100vw"
-              className="scale-[1.04] object-cover object-center blur-[2px]"
+              /* A 3:2 photo cannot fill a 0.59 portrait screen without
+                 `cover` cropping it to a 39%-wide slice, and at a 2px blur
+                 that slice reads as a badly framed photograph rather than as
+                 the room behind the card. Below `sm` it is pushed further out
+                 of focus so it reads as depth, which is all it is doing there;
+                 `sm:` and up keep the original 2px/1.04 pair exactly. */
+              className="scale-[1.07] object-cover object-center blur-[7px] sm:scale-[1.04] sm:blur-[2px]"
             />
             {/* Dimmed and thrown very slightly out of focus, so it reads as
                 the room the postcard is sitting in rather than as a second

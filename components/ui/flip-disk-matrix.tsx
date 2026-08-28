@@ -63,15 +63,31 @@ const FLIP_MS = 600;
     `hover:duration-100` / 600ms-return pair did. */
 const POKE_MS = 100;
 const UNPOKE_MS = 600;
-/* Below this, letting the 49 columns keep shrinking to fit stops being a
-   crisp reflow and starts being illegible — at 360px each disk is ~5-6px, a
-   smear rather than a letterform. Reducing COLS would be content removal
-   (the board is genuinely 49 wide); this is the floor per disk instead, with
-   the board panning horizontally under it. Matches the 3px gap ceiling used
-   below (see MIN_GRID_WIDTH). */
-const MIN_DISK_PX = 8;
+/* The board is genuinely 49 disks wide — reducing COLS would be content
+   removal — so on a narrow screen either the disks shrink or the sign is cut
+   off. It used to be cut off: an 8px floor per disk with a fixed 3px gap puts
+   the grid at 536px, and a phone shows ~331px of it, so the reader got two
+   thirds of a word and a scrollbar-less pan gesture to discover the rest. A
+   sign that has to be dragged to be read is not a sign.
+
+   The gap is what makes fitting possible. At 8px a disk it stays 3px, exactly
+   as before; below that it scales with the disk (a fixed 3px between 5px disks
+   is over a third of the pitch, which is what actually reads as a smear — the
+   disks stop forming letterforms and become loose confetti). Holding the
+   proportion instead, the board fits 49 columns into 331px at ~4.9px a disk,
+   which on a 3x phone screen is ~15 device pixels — small, but a letter, and
+   the whole word is on screen.
+
+   MIN_DISK_PX is now only the floor below which even that stops working
+   (~320px of board), and the horizontal pan below stays as the fallback for
+   anything narrower. */
+const MIN_DISK_PX = 3.2;
+/** Gap at a full-size disk, and the ceiling for the proportional one below. */
 const GAP_PX = 3;
-const MIN_GRID_WIDTH = COLS * MIN_DISK_PX + (COLS - 1) * GAP_PX;
+/** Gap as a fraction of the disk once the disk is smaller than 8px. */
+const GAP_RATIO = GAP_PX / 8;
+const MIN_GRID_WIDTH =
+  COLS * MIN_DISK_PX + (COLS - 1) * MIN_DISK_PX * GAP_RATIO;
 
 const WORDS = ["ADVANCED", "COMPANY", "FOR", "TRADING", "SERVICES", "ACTS"];
 
@@ -253,8 +269,9 @@ export function FlipDiskMatrix({ className = "" }: { className?: string }) {
 
     let dpr = 1;
     let disk = MIN_DISK_PX;
+    let gap = MIN_DISK_PX * GAP_RATIO;
     let cssW = MIN_GRID_WIDTH;
-    let cssH = ROWS * MIN_DISK_PX + (ROWS - 1) * GAP_PX;
+    let cssH = ROWS * MIN_DISK_PX + (ROWS - 1) * gap;
     let sprites: HTMLCanvasElement[] = [];
 
     let flipUntil = 0;
@@ -296,7 +313,7 @@ export function FlipDiskMatrix({ className = "" }: { className?: string }) {
     function draw(now: number) {
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx!.clearRect(0, 0, cssW, cssH);
-      const pitch = disk + GAP_PX;
+      const pitch = disk + gap;
       let busy = now < flipUntil;
 
       for (let y = 0; y < ROWS; y++) {
@@ -360,13 +377,24 @@ export function FlipDiskMatrix({ className = "" }: { className?: string }) {
     function resize() {
       const w = board!.clientWidth;
       if (!w) return;
-      const next = Math.max(MIN_DISK_PX, (w - (COLS - 1) * GAP_PX) / COLS);
+      /* Solve `w = COLS*d + (COLS-1)*g` for the disk. Try the full 3px gap
+         first — that is the branch every width from ~530px up takes, and it
+         is the identical arithmetic this used to do. If the disk that falls
+         out is under 8px, the gap is proportional there, so solve again with
+         `g = d * GAP_RATIO` folded in. */
+      let next = (w - (COLS - 1) * GAP_PX) / COLS;
+      if (next < GAP_PX / GAP_RATIO) {
+        next = w / (COLS + (COLS - 1) * GAP_RATIO);
+      }
+      next = Math.max(MIN_DISK_PX, next);
+      const nextGap = Math.min(GAP_PX, next * GAP_RATIO);
       const nextDpr = Math.min(2, window.devicePixelRatio || 1);
       const sized = Math.abs(next - disk) > 0.25 || nextDpr !== dpr;
       disk = next;
+      gap = nextGap;
       dpr = nextDpr;
-      cssW = COLS * disk + (COLS - 1) * GAP_PX;
-      cssH = ROWS * disk + (ROWS - 1) * GAP_PX;
+      cssW = COLS * disk + (COLS - 1) * gap;
+      cssH = ROWS * disk + (ROWS - 1) * gap;
       canvas!.style.width = `${cssW}px`;
       canvas!.style.height = `${cssH}px`;
       canvas!.width = Math.round(cssW * dpr);
@@ -410,7 +438,7 @@ export function FlipDiskMatrix({ className = "" }: { className?: string }) {
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
       const r = canvas.getBoundingClientRect();
-      const pitch = disk + GAP_PX;
+      const pitch = disk + gap;
       const x = Math.floor(((e.clientX - r.left) * (cssW / r.width)) / pitch);
       const y = Math.floor(((e.clientY - r.top) * (cssH / r.height)) / pitch);
       const i =

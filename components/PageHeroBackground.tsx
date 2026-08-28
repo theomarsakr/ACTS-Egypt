@@ -31,30 +31,38 @@ export default function PageHeroBackground({
           width={1310}
           height={422}
           loading={eager ? "eager" : "lazy"}
-          /* It paints at `min(45%, 22rem)` of the content column, i.e. never
-             wider than 352px. Without this the optimizer is asked for the
-             lockup's intrinsic 1310px — rounded up to a 1920w (and 3840w at
-             2x) transformation — on every dark-hero page. */
-          sizes="(max-width: 48rem) 45vw, 352px"
-          /* `hidden lg:block` is a legibility fix, and the breakpoint is
-             measured rather than chosen. The lockup is pinned to the vertical
-             centre of the band at min(45%, 352px) of the content column, which
-             clears the copy only while there is empty gutter beside it. The
-             lede is `max-w-xl` (576px), so the lockup's leading edge —
-             W - min(0.45W, 352) for a content width W — only passes 576px once
-             the viewport is ~990px. Below that it sits ON the words, and the
-             collision is not marginal: measuring the lede's real glyph rects
-             on /industries, the lockup covers two of its lines by 236px and
-             188px at 640px, and by 177px and 129px at 768px. At 1024px the
-             overlap is exactly zero, which is where this now switches on.
+          /* It paints at `min(45%, 22rem)` of the content column from `lg`,
+             and `min(58%, 13rem)` below it — never wider than 352px, and
+             never wider than 208px on a phone. Without this the optimizer is
+             asked for the lockup's intrinsic 1310px — rounded up to a 1920w
+             (and 3840w at 2x) transformation — on every dark-hero page. Both
+             arms are stated in px rather than vw for the same reason: 58vw
+             would ask for a 593px slot at 1023px wide to paint 208px. */
+          sizes="(max-width: 63.9375rem) 208px, 352px"
+          /* Two placements, because a band centred on the copy only has a
+             free gutter beside it at desktop widths. From `lg` the lockup is
+             pinned to the vertical centre at min(45%, 352px) of the content
+             column, which is where it has always sat and is pixel-identical
+             here.
 
-             Repositioning it instead is not available: the band's height is
-             content-driven and differs per page, so there is no fixed offset
-             that clears the copy everywhere. A decorative, aria-hidden
-             watermark does not get to cost the hero's only paragraph its
-             contrast — and the real logo is in the header on every page.
-             `lg:` and up is pixel-identical to before. */
-          className="pointer-events-none select-none absolute end-gutter top-1/2 -translate-y-1/2 w-[min(45%,22rem)] opacity-20 hidden lg:block"
+             Below `lg` that same position lands ON the words. The lede is
+             `max-w-xl` (576px) and the lockup's leading edge is
+             W - min(0.45W, 352) for a content width W, so it only passes
+             576px once the viewport is ~990px; measuring the lede's real
+             glyph rects on /industries, it covered two of its lines by 236px
+             and 188px at 640px and by 177px and 129px at 768px. It was hidden
+             there, which fixed the legibility and left every phone hero with
+             no brand mark at all.
+
+             So on a phone it moves under the copy instead of beside it, at
+             58% of the column — 208px against desktop's 352px, i.e. close to
+             the same physical size, not a shrunken token — in the band's own
+             bottom lane. Both call sites reserve that lane (see PageHero and
+             the Projects closing CTA): a content-driven band cannot be
+             cleared by a fixed offset, so the offset and the padding that
+             answers it are stated together. The one thing that must not
+             happen is the mark going back over the paragraph. */
+          className="pointer-events-none select-none absolute end-gutter bottom-8 w-[min(58%,13rem)] opacity-20 lg:bottom-auto lg:top-1/2 lg:w-[min(45%,22rem)] lg:-translate-y-1/2"
         />
       </Container>
       <div className="dark-vignette" />

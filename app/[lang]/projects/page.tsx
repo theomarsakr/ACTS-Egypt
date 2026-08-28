@@ -110,8 +110,12 @@ export default function ProjectsPage() {
         lede="For nearly two decades, the preferred technical partner for Egypt's national oil companies, international EPC contractors, and major industrial manufacturers."
       />
 
-      {/* Stat bar overlapping the hero */}
-      <section className="relative z-10 -mt-14 pb-4">
+      {/* Stat bar overlapping the hero. The overlap is smaller on a phone
+          than the desktop 56px: the hero band now ends with the ACTS lockup
+          in its bottom lane, and a 56px overlap put the white card straight
+          over it. 16px still reads as the card sitting on the band, and
+          clears the mark's 32px offset by 16px. */}
+      <section className="relative z-10 -mt-4 pb-4 sm:-mt-14">
         <Container>
           <Reveal>
             {/* grid-cols-3 was the only unprefixed multi-column grid on the
@@ -302,7 +306,13 @@ export default function ProjectsPage() {
           Products and Industries CTAs. */}
       <section className="relative overflow-hidden bg-navy">
         <PageHeroBackground eager={false} />
-        <Container className="relative py-12 sm:py-20 md:py-24">
+        {/* `pb-30` up to `lg` is the lane PageHeroBackground's lockup sits in
+            below that breakpoint — the same pairing PageHero documents,
+            repeated here because this band sets its own rhythm. `lg:pb-24`
+            is the 96px `md:py-24` already resolved to from 1024px up.
+            Explicit pt/pb, not `py-*`, so the base longhand is not left to
+            utility sort order. */}
+        <Container className="relative pt-12 pb-30 sm:pt-20 md:pt-24 lg:pb-24">
           <Reveal>
             <div className="max-w-xl lg:max-w-2xl">
               <SectionHeading
