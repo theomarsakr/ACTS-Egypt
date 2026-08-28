@@ -26,14 +26,21 @@ import { useOnscreen } from "@/lib/hooks";
  * settled, so anything sticky nested inside works normally the moment the
  * tilt-in finishes.
  *
- * The bezel is a desktop object, and below `sm` it steps aside entirely —
- * frame padding, chrome bar, screen inset and the tilt all drop out (the paint
- * itself is gated in globals.css; the classes here drop the geometry). A phone
- * is already a device: drawing a second one around the content reads as a
- * screenshot embedded in the page rather than as the page. It also cost real
- * room — 8px of bezel, a 34px chrome bar and 16px of screen padding took a
- * 358px column down to 310px, and every card and every line of copy inside
- * this section paid for it. `sm:` and up is unchanged.
+ * Every dimension of the bezel is drawn to a desktop scale, and a phone needs
+ * it re-drawn rather than shrunk uniformly — or, as a first attempt had it,
+ * removed. Three things go wrong at 358px wide if the desktop values are
+ * simply carried down: an 8px bezel on a 26px radius reads chunky against a
+ * narrow panel; a 34px chrome bar of 10px lights is a title bar taller than
+ * the tiles' own padding; and 16px of screen inset on top of the bezel takes
+ * a 358px column down to 310px, which every card and every line of copy
+ * inside then pays for.
+ *
+ * So the phone gets its own proportions rather than the desktop's: a 5px bezel
+ * on an 18px radius, 8px lights in a bar half the height, and 10px of screen
+ * inset — 26px handed back to the content, and a frame that reads as a
+ * precise instrument instead of a toy. The shadow stack and the entrance tilt
+ * are re-scaled to match in globals.css: an 80-149px blur spread around a
+ * phone-width frame is a grey haze, not an edge. `sm:` and up is unchanged.
  *
  * This is also the shared ancestor for every ambient loop inside WHY ACTS —
  * the badge sheen, the status-light pulse, the border-beam arc on the anchor
@@ -73,21 +80,21 @@ export function ContainerScroll({
   return (
     <div
       ref={ref}
-      className={`device-frame relative mx-auto w-full rounded-none p-0 sm:rounded-[26px] sm:p-2 md:rounded-4xl md:p-3 ${className}`}
+      className={`device-frame relative mx-auto w-full rounded-[18px] p-[5px] sm:rounded-[26px] sm:p-2 md:rounded-4xl md:p-3 ${className}`}
     >
       {/* Specular hairline along the bezel's top edge — the detail that
           sells the frame as a physical object rather than a border. */}
       <span
-        className="pointer-events-none absolute inset-x-10 top-0 hidden h-px bg-linear-to-r from-transparent via-amber/50 to-transparent sm:block"
+        className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-amber/50 to-transparent sm:inset-x-10"
         aria-hidden
       />
 
       {/* Chrome bar — instrument-panel lights, not a browser mockup: one
           lit amber ("powered on"), two dormant. */}
-      <div className="hidden items-center gap-1.5 px-3 pt-2 pb-2.5 sm:flex md:px-4">
-        <span className="device-light device-light--live motion-ambient h-2.5 w-2.5" aria-hidden />
-        <span className="device-light h-2.5 w-2.5" aria-hidden />
-        <span className="device-light h-2.5 w-2.5" aria-hidden />
+      <div className="flex items-center gap-1 px-2 pt-1 pb-1.5 sm:gap-1.5 sm:px-3 sm:pt-2 sm:pb-2.5 md:px-4">
+        <span className="device-light device-light--live motion-ambient h-2 w-2 sm:h-2.5 sm:w-2.5" aria-hidden />
+        <span className="device-light h-2 w-2 sm:h-2.5 sm:w-2.5" aria-hidden />
+        <span className="device-light h-2 w-2 sm:h-2.5 sm:w-2.5" aria-hidden />
         {label && (
           <span className="glass-dark ms-auto truncate rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.18em] text-white/45 uppercase">
             {label}
@@ -101,7 +108,7 @@ export function ContainerScroll({
           `overflow` other than `visible` on an ancestor pins `position:
           sticky` descendants to that ancestor's box instead of the page,
           even when — like here — the ancestor never actually scrolls. */}
-      <div className="device-screen screen-canvas relative rounded-none p-0 sm:rounded-[18px] sm:p-6 md:rounded-2xl md:p-9 lg:p-11">
+      <div className="device-screen screen-canvas relative rounded-[14px] p-2.5 sm:rounded-[18px] sm:p-6 md:rounded-2xl md:p-9 lg:p-11">
         {children}
       </div>
     </div>

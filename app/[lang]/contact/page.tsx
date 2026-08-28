@@ -56,14 +56,21 @@ export default async function ContactPage({ params }: PageProps) {
     <>
       <JsonLd schema={schema} />
       {/* Page hero */}
-      {/* The photograph is the backdrop from `sm` up and a plate below it.
-          No crop of a 3:2 photograph fits a 390x460 band: at best it shows
-          72% of its width, and every attempt to widen that just trades the
-          plaza's colonnade for its paving. So on a phone it stops being a
-          backdrop. The copy takes the navy band on its own, and the picture
-          follows it as a framed plate at its exact 1264/843 — the whole shot,
-          both signs, the full run of the promenade, which is the treatment
-          the About page's headquarters photo already uses.
+      {/* The photograph is the backdrop from `sm` up and the band's opening
+          plate below it.
+
+          No crop of a 3:2 photograph fits a portrait band — at best it shows
+          72% of its width, and widening that only trades the plaza's
+          colonnade for its paving — so on a phone it stops being a backdrop
+          and becomes a plate at its exact 1264/843, the whole shot, both lit
+          signs, the full run of the promenade.
+
+          It leads the band rather than following the copy. Under the copy it
+          landed at y=389 of a 627px band on a 664px screen, which put its
+          bottom third behind the floating quick-nav: the first thing a reader
+          saw of it was a photograph cut off by a toolbar. Above the copy it
+          opens fully inside the fold, and the eyebrow -> h1 -> subtitle ->
+          lede tier below it is unchanged.
 
           `sm:` and up is untouched: same band, same crop, same scrim. */}
       <section className="relative overflow-hidden bg-navy flex items-center min-h-115 md:min-h-140">
@@ -91,7 +98,52 @@ export default async function ContactPage({ params }: PageProps) {
             it this div shrink-wraps to its content and mx-auto centres the
             copy instead of aligning it to the max-w-6xl column the rest of the
             site's page heroes use. */}
-        <Container className="relative w-full pt-20 pb-10 sm:pt-40 sm:pb-16 md:pt-56 md:pb-20">
+        {/* `pt-8` is the phone step: 80px of navy above the plate pushed the
+            h1 to the fold's edge, and the plate does not need the standoff a
+            backdrop-and-copy composition does. `sm:pt-40` is unchanged, where
+            the padding is what holds the copy off the photograph behind it. */}
+        <Container className="relative w-full pt-8 pb-10 sm:pt-40 sm:pb-16 md:pt-56 md:pb-20">
+          {/* The plate. `aspect-1264/843` is the source's own ratio, so
+              `object-cover` has nothing left to cut — the same pairing the
+              About page's headquarters photo uses. It carries the alt text the
+              backdrop cannot: as a backdrop the photograph is decoration, as a
+              plate it is content, and it is the only picture of the office on
+              a page inviting the reader to visit it.
+
+              The caption is what makes it a plate rather than a decoration:
+              a photograph of a plaza means nothing to a reader who has not
+              been to Sheikh Zayed City, and naming it turns the picture into
+              the answer to "where are you".
+
+              Same `quality={90}` and `sizes` as the layer above, deliberately:
+              that layer is `hidden` here rather than unmounted, and a hidden
+              <img> is still fetched, so matching both keeps the two srcsets
+              resolving to one URL and the browser to one request. */}
+          <Reveal>
+            <figure className="relative mb-9 aspect-1264/843 overflow-hidden rounded-2xl shadow-[0_18px_40px_-18px_rgba(0,0,0,0.85)] ring-1 ring-white/15 sm:hidden">
+              <Image
+                src={arkanPlaza}
+                alt="Arkan Plaza's lit promenade at night, ACTS' headquarters complex in Sheikh Zayed City"
+                fill
+                loading="eager"
+                fetchPriority="high"
+                quality={90}
+                sizes="100vw"
+                className="object-cover"
+              />
+              {/* Floor for the caption, and it doubles as the plate's own
+                  weight along the bottom edge so it reads as a print rather
+                  than a pasted rectangle. */}
+              <div
+                className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black/75 to-transparent"
+                aria-hidden
+              />
+              <figcaption className="absolute inset-x-3 bottom-3 flex items-center gap-2 text-[12.5px] font-semibold text-white/90">
+                <MapPin size={14} className="shrink-0 text-amber" />
+                <span className="truncate">{c.plateCaption}</span>
+              </figcaption>
+            </figure>
+          </Reveal>
           {/* Eyebrow -> title -> subtitle -> lede, on <PageHero>'s own tier.
               This hero used to run that backwards: a 36->60px amber category
               label above a 24->30px <h1>, so the page's most important line
@@ -118,29 +170,6 @@ export default async function ContactPage({ params }: PageProps) {
               </Link>
               .
             </p>
-          </Reveal>
-          {/* The plate. `aspect-1264/843` is the source's own ratio, so
-              `object-cover` has nothing left to cut — the same pairing the
-              About page's headquarters photo uses. It carries the alt text the
-              backdrop cannot: as a backdrop the photograph is decoration, as a
-              plate it is content, and it is the only picture of the office on
-              a page inviting the reader to visit it.
-
-              Same `quality={90}` and `sizes` as the layer above, deliberately:
-              that layer is `hidden` here rather than unmounted, so matching
-              both keeps the two srcsets resolving to one URL, and the browser
-              to one request. */}
-          <Reveal delay={200}>
-            <div className="relative mt-9 aspect-1264/843 overflow-hidden rounded-2xl shadow-xl shadow-black/40 ring-1 ring-white/10 sm:hidden">
-              <Image
-                src={arkanPlaza}
-                alt="Arkan Plaza's lit promenade at night, ACTS' headquarters complex in Sheikh Zayed City"
-                fill
-                quality={90}
-                sizes="100vw"
-                className="object-cover"
-              />
-            </div>
           </Reveal>
         </Container>
       </section>

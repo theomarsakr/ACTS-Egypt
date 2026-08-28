@@ -278,6 +278,10 @@ export const en = {
     heroChip: "Contact",
     heroTitle: "Get in Touch",
     heroSubtitle: "Sales, technical, and general enquiries",
+    /* Caption under the phone hero plate — names the place the photograph
+       is of, which is the whole reason a hero photograph of a plaza earns
+       its space on a contact page. */
+    plateCaption: "Arkan Plaza · Sheikh Zayed City, Giza",
     lede: "Have a technical question, need a quote, or want to discuss a project? Our team is ready to help. Looking for pricing?",
     quoteInstead: "Request a quote instead",
     office: {
@@ -326,6 +330,7 @@ export const en = {
     heroChip: "Request a quote",
     heroTitle: "Get a Quotation",
     heroSubtitle: "Priced, checked, and back with you inside a day",
+    plateCaption: "Arkan Plaza · Sheikh Zayed City, Giza",
     lede: "Complete the form below and one of our application engineers will respond with a formal quote, typically within 24 hours.",
     nextTitle: "What Happens Next?",
     nextSubtitle: "Four steps, from submission to follow-up",
