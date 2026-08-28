@@ -56,17 +56,18 @@ export default async function ContactPage({ params }: PageProps) {
     <>
       <JsonLd schema={schema} />
       {/* Page hero */}
-      {/* `min-h-90` below `sm` is the phone step, and it is the photo's
-          framing that asks for it rather than the spacing: 460px against 353px
-          of copy is 107px of height the band does not need, and on a 390px
-          screen that forces a 3:2 photograph into a 0.85 box, so `object-fit:
-          cover` shows 57% of its width — the plaza reduced to two facades.
-          Letting the band sit just off the copy's own height puts 72% of the
-          photograph back, which is the same "it is too zoomed in, it does not
-          fit" report the About hero had, from the same cause. `sm:min-h-115`
-          restores the original from 640px up. */}
-      <section className="relative overflow-hidden bg-navy flex items-center min-h-90 sm:min-h-115 md:min-h-140">
-        <div className="absolute inset-0 grain" aria-hidden>
+      {/* The photograph is the backdrop from `sm` up and a plate below it.
+          No crop of a 3:2 photograph fits a 390x460 band: at best it shows
+          72% of its width, and every attempt to widen that just trades the
+          plaza's colonnade for its paving. So on a phone it stops being a
+          backdrop. The copy takes the navy band on its own, and the picture
+          follows it as a framed plate at its exact 1264/843 — the whole shot,
+          both signs, the full run of the promenade, which is the treatment
+          the About page's headquarters photo already uses.
+
+          `sm:` and up is untouched: same band, same crop, same scrim. */}
+      <section className="relative overflow-hidden bg-navy flex items-center min-h-115 md:min-h-140">
+        <div className="absolute inset-0 grain max-sm:hidden" aria-hidden>
           <Image
             src={arkanPlaza}
             alt=""
@@ -78,6 +79,13 @@ export default async function ContactPage({ params }: PageProps) {
             className="object-cover object-[50%_42%]"
           />
           <div className="absolute inset-0 hero-scrim" />
+        </div>
+        {/* What the phone band stands on instead — the same blueprint grid
+            and vignette every other dark band on the site carries, so the
+            copy is not sitting on flat navy. */}
+        <div className="absolute inset-0 sm:hidden" aria-hidden>
+          <div className="absolute inset-0 blueprint opacity-50" />
+          <div className="dark-vignette" />
         </div>
         {/* w-full is load-bearing: the section is a flex container, so without
             it this div shrink-wraps to its content and mx-auto centres the
@@ -110,6 +118,29 @@ export default async function ContactPage({ params }: PageProps) {
               </Link>
               .
             </p>
+          </Reveal>
+          {/* The plate. `aspect-1264/843` is the source's own ratio, so
+              `object-cover` has nothing left to cut — the same pairing the
+              About page's headquarters photo uses. It carries the alt text the
+              backdrop cannot: as a backdrop the photograph is decoration, as a
+              plate it is content, and it is the only picture of the office on
+              a page inviting the reader to visit it.
+
+              Same `quality={90}` and `sizes` as the layer above, deliberately:
+              that layer is `hidden` here rather than unmounted, so matching
+              both keeps the two srcsets resolving to one URL, and the browser
+              to one request. */}
+          <Reveal delay={200}>
+            <div className="relative mt-9 aspect-1264/843 overflow-hidden rounded-2xl shadow-xl shadow-black/40 ring-1 ring-white/10 sm:hidden">
+              <Image
+                src={arkanPlaza}
+                alt="Arkan Plaza's lit promenade at night, ACTS' headquarters complex in Sheikh Zayed City"
+                fill
+                quality={90}
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
           </Reveal>
         </Container>
       </section>
