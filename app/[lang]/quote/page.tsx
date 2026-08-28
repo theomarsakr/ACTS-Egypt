@@ -64,7 +64,16 @@ export default async function QuotePage({ params, searchParams }: PageProps) {
     <>
       <JsonLd schema={schema} />
       {/* Page hero */}
-      <section className="relative overflow-hidden bg-navy flex items-center min-h-115 md:min-h-140">
+      {/* `min-h-90` below `sm` is the phone step, and it is the photo's
+          framing that asks for it rather than the spacing: 460px against 353px
+          of copy is 107px of height the band does not need, and on a 390px
+          screen that forces a 3:2 photograph into a 0.85 box, so `object-fit:
+          cover` shows 57% of its width — the plaza reduced to two facades.
+          Letting the band sit just off the copy's own height puts 72% of the
+          photograph back, which is the same "it is too zoomed in, it does not
+          fit" report the About hero had, from the same cause. `sm:min-h-115`
+          restores the original from 640px up. */}
+      <section className="relative overflow-hidden bg-navy flex items-center min-h-90 sm:min-h-115 md:min-h-140">
         <div className="absolute inset-0 grain" aria-hidden>
           <Image
             src={arkanPlaza}
