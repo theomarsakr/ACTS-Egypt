@@ -1034,28 +1034,36 @@ html.intro-pending body {
    transform resolves to the literal keyword `none` once settled — see the
    component doc comment for why that distinction is load-bearing for any
    `position: sticky` descendant. */
-.device-frame {
-  /* A brushed-metal bezel, not a flat panel: the amber wash catches the top
-     corner like light off a machined edge (the same warm-glow language as
-     the page's mesh blobs), and the inset highlight/shadow pair reads as a
-     milled lip rather than a plain border. */
-  background:
-    radial-gradient(120% 90% at 14% -6%, rgba(240, 196, 25, 0.1), transparent 55%),
-    linear-gradient(180deg, var(--color-navy-800), var(--color-navy) 45%, var(--color-ink));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
-    0 9px 20px rgba(0, 0, 0, 0.24),
-    0 37px 37px rgba(0, 0, 0, 0.2),
-    0 84px 60px rgba(0, 0, 0, 0.12),
-    0 149px 80px rgba(0, 0, 0, 0.04),
-    0 50px 110px -55px rgba(138, 106, 48, 0.4);
-  transform: perspective(1400px) rotateX(9deg) scale(0.96);
-  transform-origin: center top;
-  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.device-frame.in-view {
-  transform: none;
+/* The bezel is drawn from `sm` up only. Below it the frame keeps its box (so
+   the entrance observer and the ambient-loop ancestor stay exactly where they
+   were) and paints nothing: a phone is already a device, and a second one
+   drawn around the content reads as a screenshot pasted into the page rather
+   than as the page. ContainerScroll drops the matching padding, chrome bar and
+   screen inset at the same breakpoint. */
+@media (min-width: 40rem) {
+  .device-frame {
+    /* A brushed-metal bezel, not a flat panel: the amber wash catches the top
+       corner like light off a machined edge (the same warm-glow language as
+       the page's mesh blobs), and the inset highlight/shadow pair reads as a
+       milled lip rather than a plain border. */
+    background:
+      radial-gradient(120% 90% at 14% -6%, rgba(240, 196, 25, 0.1), transparent 55%),
+      linear-gradient(180deg, var(--color-navy-800), var(--color-navy) 45%, var(--color-ink));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+      0 9px 20px rgba(0, 0, 0, 0.24),
+      0 37px 37px rgba(0, 0, 0, 0.2),
+      0 84px 60px rgba(0, 0, 0, 0.12),
+      0 149px 80px rgba(0, 0, 0, 0.04),
+      0 50px 110px -55px rgba(138, 106, 48, 0.4);
+    transform: perspective(1400px) rotateX(9deg) scale(0.96);
+    transform-origin: center top;
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .device-frame.in-view {
+    transform: none;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .device-frame {
@@ -1106,18 +1114,26 @@ html.intro-pending body {
    dropping fidelity anywhere. */
 .device-screen {
   position: relative;
-  contain: paint;
 }
-.device-screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  border-radius: inherit;
-  box-shadow:
-    inset 0 2px 10px rgba(0, 0, 0, 0.16),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+/* Both of these belong to the bezel, so both stop at the same breakpoint.
+   `contain: paint` in particular must not survive it: with the screen's
+   padding gone on a phone, the tiles sit flush to its edges and their drop
+   shadows would be clipped off square against the gutter. */
+@media (min-width: 40rem) {
+  .device-screen {
+    contain: paint;
+  }
+  .device-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow:
+      inset 0 2px 10px rgba(0, 0, 0, 0.16),
+      inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
 }
 
 /* ---- WHY ACTS composition, at every width -------------------------------
@@ -1556,21 +1572,29 @@ html.intro-pending body {
 
 /* The lit surface inside the ContainerScroll bezel: a hairline drafting grid
    under a brass wash falling from the top edge, so the bento tiles read as
-   floating on a panel rather than sitting on flat page background. */
-.screen-canvas {
-  background-color: #f5f7fb;
-  background-image:
-    radial-gradient(
-      90% 55% at 50% -8%,
-      rgba(138, 106, 48, 0.09),
-      transparent 62%
-    ),
-    linear-gradient(rgba(10, 22, 40, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 22, 40, 0.035) 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    44px 44px,
-    44px 44px;
+   floating on a panel rather than sitting on flat page background.
+
+   Bezel-bound, so it ends where the bezel does. Below `sm` there is no panel
+   to light: the tiles sit on the section's own `.why-backdrop`, which already
+   carries the same drafting grid and brass wash at section scale, and painting
+   a second surface over it inside a frame nobody can see only flattens the
+   depth the tiles are drawn with. */
+@media (min-width: 40rem) {
+  .screen-canvas {
+    background-color: #f5f7fb;
+    background-image:
+      radial-gradient(
+        90% 55% at 50% -8%,
+        rgba(138, 106, 48, 0.09),
+        transparent 62%
+      ),
+      linear-gradient(rgba(10, 22, 40, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 22, 40, 0.035) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      44px 44px,
+      44px 44px;
+  }
 }
 
 /* Oversized bento numerals (24h / 2006) — inked with a subtle vertical fade so

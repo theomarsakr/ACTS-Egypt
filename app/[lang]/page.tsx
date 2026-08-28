@@ -648,7 +648,7 @@ export default async function Home({
                   named — "three divisions" only means something once you can
                   see which three. */}
               <Reveal className="sm:col-span-2">
-                <BorderBeam className="glow-hover relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-ink p-7 text-white md:p-9">
+                <BorderBeam className="glow-hover relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-ink p-5 text-white sm:p-7 md:p-9">
                   <div className="absolute inset-0 blueprint opacity-70" aria-hidden />
                   <MeshBlob variant="brass" className="-right-24 -bottom-32 h-80 w-80" />
                   <div className="dark-vignette" aria-hidden />
@@ -706,7 +706,7 @@ export default async function Home({
               {/* Numeral card: 24h */}
               <Parallax speed={12}>
                 <Reveal delay={80} className="h-full">
-                  <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                  <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-5 sm:p-7 md:p-8">
                     <div className="stat-numeral text-fluid-stat font-extrabold tracking-tight tabular-nums">
                       <span className="digit-rise">
                         {hm.why.fast.big.split("").map((d, i) => (
@@ -721,7 +721,7 @@ export default async function Home({
                     </div>
                     {/* Copy sits on the card's baseline so a card stretched by
                         its taller neighbour reads composed, not top-heavy. */}
-                    <div className="mt-auto pt-7">
+                    <div className="mt-auto pt-5 sm:pt-7">
                       <span className="stat-rule mb-4 block h-px bg-brand/45" aria-hidden />
                       <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.fast.title}
@@ -737,11 +737,11 @@ export default async function Home({
               {/* Icon card: engineers */}
               <Parallax speed={-10}>
                 <Reveal delay={140} className="h-full">
-                  <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                  <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-5 sm:p-7 md:p-8">
                     <div className="tile-icon">
                       <Wrench size={21} />
                     </div>
-                    <div className="mt-auto pt-7">
+                    <div className="mt-auto pt-5 sm:pt-7">
                       <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.engineers.title}
                       </h3>
@@ -756,7 +756,7 @@ export default async function Home({
               {/* Numeral card: since 2006 */}
               <Parallax speed={-12}>
                 <Reveal delay={200} className="h-full">
-                  <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                  <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-5 sm:p-7 md:p-8">
                     <div className="stat-numeral text-fluid-stat font-extrabold tracking-tight tabular-nums">
                       <span className="digit-rise">
                         {hm.why.since.big.split("").map((d, i) => (
@@ -766,7 +766,7 @@ export default async function Home({
                         ))}
                       </span>
                     </div>
-                    <div className="mt-auto pt-7">
+                    <div className="mt-auto pt-5 sm:pt-7">
                       <span className="stat-rule mb-4 block h-px bg-brand/45" aria-hidden />
                       <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.since.title}
@@ -782,11 +782,11 @@ export default async function Home({
               {/* Icon card: genuine parts */}
               <Parallax speed={10}>
                 <Reveal delay={260} className="h-full">
-                  <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-7 md:p-8">
+                  <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-5 sm:p-7 md:p-8">
                     <div className="tile-icon">
                       <ShieldCheck size={21} />
                     </div>
-                    <div className="mt-auto pt-7">
+                    <div className="mt-auto pt-5 sm:pt-7">
                       <h3 className="text-fluid-h5 font-bold text-navy">
                         {hm.why.genuine.title}
                       </h3>
@@ -800,7 +800,7 @@ export default async function Home({
 
               {/* Industries served — quick-scan chips */}
               <Reveal delay={300} className="sm:col-span-2">
-                <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-7 md:p-9">
+                <SpotlightCard className="card-premium glow-hover flex h-full flex-col p-5 sm:p-7 md:p-9">
                   <div className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-light px-3.5 py-1.5 text-[12.5px] font-bold tracking-[0.14em] text-brand-dark uppercase">
                     {hm.why.industriesTile.chip}
                   </div>
@@ -840,7 +840,7 @@ export default async function Home({
                   scrollable "screen" panel, so `lg:` alone under-sized the
                   text column at plenty of real widths. */}
               <Reveal delay={340} className="sm:col-span-2">
-                <SpotlightCard className="card-premium glow-hover @container relative h-full p-7 md:p-9">
+                <SpotlightCard className="card-premium glow-hover @container relative h-full p-5 sm:p-7 md:p-9">
                   <div className="grid gap-6 @[36rem]:grid-cols-[minmax(0,1fr)_15rem] @[36rem]:items-center @[36rem]:gap-8">
                     <div>
                       <div className="flex items-start gap-4">
