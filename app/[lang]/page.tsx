@@ -40,6 +40,7 @@ import {
   pastManufacturers,
   clients,
   industries,
+  industryHref,
   engagementHighlights,
   contact,
 } from "@/lib/data";
@@ -811,7 +812,11 @@ export default async function Home({
                     {industries.slice(0, 6).map((ind, i) => (
                       <Link
                         key={ind.slug}
-                        href={`/industries#${ind.slug}`}
+                        // Each sector's own page, not `/industries#<slug>`:
+                        // that fragment only ever resolved to the hub's
+                        // active tab panel, so five of these six chips
+                        // landed on Oil & Gas whatever their label said.
+                        href={industryHref(ind.slug)}
                         style={{ "--i": i } as React.CSSProperties}
                         className="chip-in inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-4 rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[13.5px] font-semibold text-gray-600 transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:bg-brand-light hover:text-brand"
                       >

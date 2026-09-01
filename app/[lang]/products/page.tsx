@@ -20,6 +20,7 @@ import BorderBeam from "@/components/ui/BorderBeam";
 import SpecSheet from "@/components/SpecSheet";
 import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/SectionHeading";
+import { industries, industryHref } from "@/lib/data";
 import {
   breadcrumbSchema,
   buildMetadata,
@@ -192,6 +193,10 @@ const pillars = [
   },
 ];
 
+/* The fourth pillar's title, shared by the tab panel's heading and the
+   ItemList schema so the two cannot drift. */
+const advisoryTitle = "Technical Advisory & Aftermarket Services";
+
 const advisory = {
   technical: [
     "Feasibility input on new projects and expansions",
@@ -241,7 +246,10 @@ export default function ProductsPage() {
     breadcrumbSchema([{ name: "Products & services", path: "/products" }]),
     itemListSchema(
       "Products and services ACTS supplies in Egypt",
-      pillars.map((p) => ({ name: p.title, path: `/products#${p.no}` }))
+      // No `path`: the four pillars are sections of this page, not pages of
+      // their own — the old `/products#01` … `#04` named anchors that are not
+      // in the markup.
+      [...pillars.map((p) => ({ name: p.title })), { name: advisoryTitle }]
     ),
   ];
 
@@ -344,7 +352,7 @@ export default function ProductsPage() {
                               Pillar 04
                             </>
                           }
-                          title="Technical Advisory & Aftermarket Services"
+                          title={advisoryTitle}
                           subtitle="Engineering advice, overhaul, and data-led maintenance"
                           lede="Beyond equipment supply, we support customers with engineering advice, maintenance that reduces downtime, and a move toward service driven by data rather than by the calendar."
                           ledeClassName="max-w-3xl"
@@ -420,6 +428,39 @@ export default function ProductsPage() {
                     </ul>
                   </div>
                 ))}
+              </div>
+
+              {/* Category -> industry. This page is where a generic query
+                  ("control valve supplier egypt") lands, and until the sector
+                  pages existed there was nowhere for it to send a reader who
+                  actually needed the petrochemical or power answer — the only
+                  industry links in the whole document came from the footer.
+                  Descriptive anchors, so the destination is legible to a
+                  reader and a crawler alike. */}
+              <div className="mt-7 border-t border-gray-200 pt-6">
+                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand">
+                  By industry
+                </div>
+                <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-gray-600">
+                  Each sector page sets out the process areas we work in, the
+                  engineering challenge in each, and the product line behind
+                  the answer.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {industries.map((ind) => (
+                    <Link
+                      key={ind.slug}
+                      href={industryHref(ind.slug)}
+                      className="group inline-flex items-center gap-1.5 rounded-full border border-gray-300 bg-white px-3.5 py-2 text-[13.5px] font-semibold text-navy transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
+                    >
+                      {ind.name} valves &amp; flow control
+                      <ArrowRight
+                        size={12}
+                        className="shrink-0 text-gray-400 transition-colors group-hover:text-brand"
+                      />
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </Reveal>

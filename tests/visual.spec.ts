@@ -29,6 +29,7 @@ const paths = [
   "/",
   "/about",
   "/industries",
+  "/industries/oil-gas",
   "/products",
   "/projects",
   "/contact",

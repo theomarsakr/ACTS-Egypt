@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { brands } from "@/lib/data";
+import { brands, industries, industryHref } from "@/lib/data";
 import { HUB_BRANDS, getBrandHubData } from "@/lib/brandHub";
 import { arRoutes } from "@/lib/i18n/routing";
 import { SITE_URL as siteUrl } from "@/lib/seo";
@@ -17,6 +17,10 @@ import { SITE_URL as siteUrl } from "@/lib/seo";
  */
 const BRAND_PRIORITY = 0.9;
 const PRODUCT_PRIORITY = 0.8;
+/* Level with /products and the /industries hub: a sector page is the landing
+ * page for "petrochemical valve supplier egypt" and its five siblings, which
+ * is category-level commercial intent, not a leaf. */
+const INDUSTRY_PRIORITY = 0.8;
 
 const staticRoutes: {
   path: string;
@@ -69,6 +73,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: BRAND_PRIORITY,
   }));
 
+  const industryEntries: MetadataRoute.Sitemap = industries.map((i) => ({
+    url: `${siteUrl}${industryHref(i.slug)}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: INDUSTRY_PRIORITY,
+  }));
+
   const productEntries: MetadataRoute.Sitemap = HUB_BRANDS.flatMap((slug) => {
     const hub = getBrandHubData(slug);
     return (hub?.products ?? []).map((p) => ({
@@ -94,5 +105,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  return [...staticEntries, ...brandEntries, ...productEntries, ...arabicEntries];
+  return [
+    ...staticEntries,
+    ...brandEntries,
+    ...industryEntries,
+    ...productEntries,
+    ...arabicEntries,
+  ];
 }

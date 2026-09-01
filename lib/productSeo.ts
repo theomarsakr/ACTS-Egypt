@@ -18,57 +18,80 @@
 
 import type { HubProduct } from "@/lib/brandHub";
 
-type ProductSeo = { title: string; description: string };
+type ProductSeo = {
+  title: string;
+  description: string;
+  /** Visible H1, for the products whose own name does not already say what
+   *  the thing is — see `productHeading` below for when that happens and why.
+   *  Left out entirely for the rest, which keep `<brand prefix> <name>`.
+   *
+   *  On the ten Farris pages it is deliberately identical to `title`: their
+   *  `name` is a bare series number, so the title was already carrying the
+   *  whole "Farris 2600 & 2600L Series Pressure Relief Valve" phrase and the
+   *  H1 should say the same thing rather than something narrower. Elsewhere
+   *  the two differ, because a title has room the H1 does not. */
+  heading?: string;
+};
 
 /** Keyed by `${brandSlug}:${productId}`. */
 const PRODUCT_SEO: Record<string, ProductSeo> = {
   // ── Farris Engineering ────────────────────────────────────────────────────
   "farris-engineering:series-2600": {
+    heading: "Farris 2600 & 2600L Series Pressure Relief Valve",
     title: "Farris 2600 & 2600L Series Pressure Relief Valve",
     description:
       "Farris 2600 and 2600L full-nozzle API 526 process relief valves, 15–6000 psig, 1\"x2\" to 20\"x24\". Supplied and supported in Egypt by ACTS, sole Farris agent.",
   },
   "farris-engineering:series-3800": {
+    heading: "Farris 3800 Series Pilot-Operated Relief Valve",
     title: "Farris 3800 Series Pilot-Operated Relief Valve",
     description:
       "Farris 3800 Series pilot-operated pressure relief valves for high operating-to-set ratios, to API 526. Supplied in Egypt by ACTS, sole agent for Farris Engineering.",
   },
   "farris-engineering:series-2700": {
+    heading: "Farris 2700 Series Pressure Relief Valve",
     title: "Farris 2700 Series Pressure Relief Valve",
     description:
       "Farris 2700 Series direct spring-operated process pressure relief valves, with full series-catalog data. Supplied in Egypt by ACTS, sole agent for Farris.",
   },
   "farris-engineering:series-2400": {
+    heading: "Farris 2400 Series Soft-Seat Relief Valve",
     title: "Farris 2400 Series Soft-Seat Relief Valve",
     description:
       "Farris 2400 Series direct spring-loaded soft-seat relief valve with external blowdown control, to ASME Section VIII. Supplied in Egypt by ACTS, sole Farris agent.",
   },
   "farris-engineering:series-1890": {
+    heading: "Farris 1890 Series Threaded Relief Valve",
     title: "Farris 1890 Series Threaded Relief Valve",
     description:
       "Farris 1890 Series threaded steel relief valve with a full-bore nozzle for air, steam and water service. Supplied in Egypt by ACTS, sole agent for Farris.",
   },
   "farris-engineering:series-4200": {
+    heading: "Farris 4200 Series Steam Safety Valve",
     title: "Farris 4200 Series Steam Safety Valve",
     description:
       "Farris 4200 Series flanged spring-loaded boiler safety valve with a temperature-equalizing disc. Supplied in Egypt by ACTS, sole agent for Farris Engineering.",
   },
   "farris-engineering:series-6400": {
+    heading: "Farris 6400 & 6600 Series Steam Safety Valve",
     title: "Farris 6400 & 6600 Series Steam Safety Valve",
     description:
       "Farris 6400 and 6600 Series boiler safety valves with a hardened conical disc and full nozzle. Supplied in Egypt by ACTS, sole agent for Farris Engineering.",
   },
   "farris-engineering:series-1896": {
+    heading: "Farris 1896 Series Bronze Steam Safety Valve",
     title: "Farris 1896 Series Bronze Steam Safety Valve",
     description:
       "Farris 1896 Series threaded brass and bronze steam safety valve with a full-bore nozzle. Supplied in Egypt by ACTS, sole agent for Farris Engineering.",
   },
   "farris-engineering:series-4700": {
+    heading: "Farris 4700 Series Steam Safety Valve",
     title: "Farris 4700 Series Steam Safety Valve",
     description:
       "Farris 4700 Series steam safety valve, with full technical data on request. Supplied and supported in Egypt by ACTS, sole agent for Farris Engineering.",
   },
   "farris-engineering:insure": {
+    heading: "Farris iNSURE® Relief Valve Monitoring",
     title: "Farris iNSURE® Relief Valve Monitoring System",
     description:
       "iNSURE® detects relief events in real time through valve-stem movement, streaming to an app or DCS. Available in Egypt from ACTS, sole agent for Farris Engineering.",
@@ -76,11 +99,13 @@ const PRODUCT_SEO: Record<string, ProductSeo> = {
 
   // ── Dyna-Flo ──────────────────────────────────────────────────────────────
   "dyna-flo:dyna-sliding-stem": {
+    heading: "Dyna-Flo 360 & DF2000 Sliding-Stem Control Valves",
     title: "Dyna-Flo 360 & DF2000 Sliding-Stem Control Valves",
     description:
       "Dyna-Flo 360 and DF2000 sliding-stem globe control valves throttle flow through linear plug motion. Supplied in Egypt by ACTS, sole agent for Dyna-Flo.",
   },
   "dyna-flo:dyna-rotary-ball": {
+    heading: "Dyna-Flo 570 & 590 Rotary Ball Control Valves",
     title: "Dyna-Flo 570 & 590 Rotary Ball Control Valves",
     description:
       "Dyna-Flo 570 and 590 high-capacity segmented and full-ball control valves for throttling or on/off duty. Supplied in Egypt by ACTS, sole agent for Dyna-Flo.",
@@ -91,6 +116,7 @@ const PRODUCT_SEO: Record<string, ProductSeo> = {
       "Dyna-Flo DF400 heavy-duty eccentric rotary plug control valve to ASME B16.34, with a self-aligning straight-through path. Supplied in Egypt by ACTS, sole agent.",
   },
   "dyna-flo:dyna-integral": {
+    heading: "Dyna-Flo DF100 & DF2410 Integral Valve & Actuator",
     title: "Dyna-Flo DF100 & DF2410 Integral Valve & Actuator",
     description:
       "Dyna-Flo DF100 and DF2410 compact integral valve-and-actuator units for dump-valve service. Supplied in Egypt by ACTS, sole agent for Dyna-Flo.",
@@ -158,11 +184,13 @@ const PRODUCT_SEO: Record<string, ProductSeo> = {
       "Pop-A-Plug® P2 tube plugs give a permanent, weld-free seal in high-pressure heat exchanger tubes. Supplied in Egypt by ACTS, sole agent for EST (Curtiss-Wright).",
   },
   "est:est-hydra-loc": {
+    heading: "Hydra-Loc® Heat Exchanger Tube Sleeving",
     title: "Hydra-Loc® Heat Exchanger Tube Sleeving System",
     description:
       "Hydra-Loc® hydraulically expands a sleeve to recover corroded or eroded tube ends. Supplied in Egypt by ACTS, sole agent for EST (Curtiss-Wright).",
   },
   "est:est-smart-ram": {
+    heading: "Pop-A-Plug® Smart Ram Installation System",
     title: "Pop-A-Plug® Smart Ram Installation System",
     description:
       "Smart Ram installs Pop-A-Plug® tube plugs cordlessly, with monitored and documented results. Supplied in Egypt by ACTS, sole agent for EST (Curtiss-Wright).",
@@ -183,11 +211,13 @@ const PRODUCT_SEO: Record<string, ProductSeo> = {
       "The Pop-A-Plug® removal tool pulls the plug pin and ring in a single operation. Supplied in Egypt by ACTS, sole agent for EST (Curtiss-Wright).",
   },
   "est:est-ache": {
+    heading: "Air-Cooled Heat Exchanger Plugging System",
     title: "Pop-A-Plug® Air-Cooled Exchanger Plugging System",
     description:
       "Extended-reach tooling to test and plug air-cooled (Fin-Fan®) heat exchanger tubes. Supplied in Egypt by ACTS, sole agent for EST (Curtiss-Wright).",
   },
   "est:est-condenser": {
+    heading: "Condenser Tube Plug Change-Out",
     title: "Condenser Tube Plug Change-Out — EST Curtiss-Wright",
     description:
       "Condenser plug change-out replaces failed plugs to restore vacuum and thermal efficiency. Delivered in Egypt by ACTS, sole agent for EST (Curtiss-Wright).",
@@ -282,4 +312,35 @@ export function productSeo(
 /** Product keys that have hand-tuned copy — used by the link checker. */
 export function productSeoKeys(): string[] {
   return Object.keys(PRODUCT_SEO);
+}
+
+/**
+ * The product page's visible H1 — and, because structured data must never
+ * disagree with the page it describes, the `name` on its Product node too.
+ *
+ * The H1 used to be `${brand.productHeadingPrefix} ${product.name}`, which on
+ * every Farris page produced a bare series number: "Farris 2600 & 2600L
+ * Series". That names the thing without saying what it *is*, so the page's
+ * single most important line of text was carrying the series and none of
+ * "pressure relief valve" — the words in "farris 2600 relief valve", which is
+ * how the query is actually typed once someone is not already sure of the
+ * part number. The same held for three Dyna-Flo pages whose H1 named the
+ * category but dropped the models ("Dyna-Flo Sliding-Stem Control Valves",
+ * where the page is about the 360 and DF2000), and for four EST pages whose
+ * name was internal shorthand ("Air-Cooled HX Plugging System").
+ *
+ * No heuristic does this well — `${name} ${family}` yields "Farris iNSURE®
+ * Real-Time Monitoring Valve Monitoring Device" — so the headings that needed
+ * fixing are written out in PRODUCT_SEO above, one at a time, and everything
+ * else keeps the prefix behaviour it already had. Each is composed only of
+ * words already on the page: the series, the models badge, and the family.
+ */
+export function productHeading(
+  brandSlug: string,
+  headingPrefix: string | undefined,
+  product: Pick<HubProduct, "id" | "name">
+): string {
+  const entry = PRODUCT_SEO[`${brandSlug}:${product.id}`];
+  if (entry?.heading) return entry.heading;
+  return headingPrefix ? `${headingPrefix} ${product.name}` : product.name;
 }

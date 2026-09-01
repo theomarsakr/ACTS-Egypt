@@ -4,32 +4,7 @@ import {
   ArrowRight,
   ClipboardList,
   Compass,
-  Flame,
-  FlaskConical,
-  Zap,
-  Droplets,
-  Sprout,
   Factory,
-  Drill,
-  Route,
-  Layers,
-  TestTubes,
-  TestTube,
-  Link2,
-  Gauge,
-  Wind,
-  RefreshCw,
-  Settings2,
-  Waves,
-  Network,
-  Recycle,
-  Thermometer,
-  Mountain,
-  Package,
-  Boxes,
-  Wrench,
-  ShieldCheck,
-  type LucideIcon,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import PageHero from "@/components/PageHero";
@@ -41,16 +16,21 @@ import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 import BorderBeam from "@/components/ui/BorderBeam";
 import SpecSheet from "@/components/SpecSheet";
-import IndustryProductLibrary from "@/components/industries/IndustryProductLibrary";
 import Container from "@/components/layout/Container";
+import {
+  INDUSTRY_ICON_DEFAULT,
+  SUPPORT_ICON_DEFAULT,
+  industryIcons,
+  supportIcons,
+} from "@/components/industries/icons";
 import {
   industries,
   industriesSummary,
   getBrand,
   getProductLine,
+  industryHref,
   productLineAnchorId,
 } from "@/lib/data";
-import { getIndustryLibrary } from "@/lib/industryLibrary";
 import {
   breadcrumbSchema,
   buildMetadata,
@@ -60,15 +40,15 @@ import {
 import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Valves for Oil & Gas, Petrochemical & Power in Egypt",
+  title: "Industries We Serve in Egypt — Oil & Gas, Power, Water",
   description:
-    "Engineered valves, flow control and technical support for Egypt's oil & gas, petrochemical, power generation, water treatment and fertilizer plants, from ACTS.",
+    "The six Egyptian sectors ACTS supplies valves and flow control to: oil & gas, petrochemical, power generation, water treatment, fertilizers and general industry.",
   path: "/industries",
 });
 
 /** Every product line an industry lists, as compact linked chips — used by
  *  the "At a glance" table below. A flatter, brand-unlabeled rendering than
- *  the tab detail view's grouped boxes, sized for a single table cell; both
+ *  the sector pages' grouped boxes, sized for a single table cell; both
  *  read off the same industries[].productLines, so they can't drift apart. */
 function RelatedProductChips({ industry }: { industry: (typeof industries)[number] }) {
   return (
@@ -95,130 +75,34 @@ function RelatedProductChips({ industry }: { industry: (typeof industries)[numbe
   );
 }
 
-/** One process-area deep dive: the engineering problem, how ACTS solves it,
- *  why that's the right call, and the exact product line(s) behind the
- *  claim — see ApplicationArea in lib/data.ts. Same card-premium/glow-hover/
- *  SpotlightCard idiom as the homepage's "What we do" tiles, so this reads
- *  as the same design system rather than a one-off. */
-function ApplicationCard({
-  app,
-}: {
-  app: (typeof industries)[number]["applications"][number];
-}) {
-  const Icon = applicationIcons[app.area] ?? Wrench;
-  return (
-    <SpotlightCard className="group card-premium glow-hover flex h-full flex-col p-6 md:p-7">
-      <div className="flex items-start gap-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-light text-brand transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-          <Icon size={20} />
-        </div>
-        <div className="min-w-0">
-          <h4 className="text-fluid-h5 font-bold text-navy">{app.area}</h4>
-          <p className="mt-0.5 text-[13px] text-gray-500">{app.scope}</p>
-        </div>
-      </div>
-
-      <dl className="mt-5 space-y-4">
-        <div>
-          <dt className="text-[11px] font-bold uppercase tracking-wide text-gray-500">
-            The challenge
-          </dt>
-          <dd className="mt-1 text-[14px] leading-relaxed text-gray-600">{app.challenge}</dd>
-        </div>
-        <div>
-          <dt className="text-[11px] font-bold uppercase tracking-wide text-brand">
-            Our solution
-          </dt>
-          <dd className="mt-1 text-[14px] leading-relaxed text-gray-600">{app.solution}</dd>
-        </div>
-        <div>
-          <dt className="text-[11px] font-bold uppercase tracking-wide text-gray-500">
-            Why it works
-          </dt>
-          <dd className="mt-1 text-[14px] leading-relaxed text-gray-600">{app.advantage}</dd>
-        </div>
-      </dl>
-
-      <div className="mt-5 flex flex-wrap gap-1.5 border-t border-gray-100 pt-4">
-        {app.products.map((ref) => {
-          const brand = getBrand(ref.brandSlug);
-          const line = brand ? getProductLine(ref.brandSlug, ref.lineTag) : undefined;
-          if (!brand || !line) return null;
-          return (
-            <Link
-              key={`${ref.brandSlug}-${ref.lineTag}`}
-              href={`/brands/${brand.slug}#${productLineAnchorId(line)}`}
-              title={`${brand.name}, ${line.name}: ${line.description}`}
-              className="inline-flex items-center pointer-coarse:min-h-11 pointer-coarse:px-3.5 rounded-full border border-brand/35 bg-white px-2.5 py-1 text-[12px] font-semibold text-brand-dark transition-all hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
-            >
-              {ref.lineTag}
-            </Link>
-          );
-        })}
-      </div>
-    </SpotlightCard>
-  );
-}
-
-const industryIcons: Record<string, typeof Flame> = {
-  "oil-gas": Flame,
-  petrochemical: FlaskConical,
-  "power-generation": Zap,
-  "water-treatment": Droplets,
-  fertilizers: Sprout,
-  "general-industrial": Factory,
-};
-
-/** One icon per process area (keyed by ApplicationArea["area"], unique across
- *  all 25 entries) — a real visual anchor per card instead of 25 identically
- *  shaped cards distinguished only by their headline. */
-const applicationIcons: Record<string, LucideIcon> = {
-  Upstream: Drill,
-  Midstream: Route,
-  Refining: Layers,
-  Petrochemical: FlaskConical,
-  "Olefins production": Flame,
-  "Aromatics production": TestTubes,
-  Polymers: Link2,
-  "Steam generation": Gauge,
-  "Gas turbines": Wind,
-  "Combined cycle": RefreshCw,
-  "Cooling systems": Droplets,
-  "Balance of plant": Settings2,
-  Desalination: Waves,
-  "Municipal water": Network,
-  "Industrial wastewater": Recycle,
-  "Cooling water systems": Thermometer,
-  "Ammonia synthesis": FlaskConical,
-  "Urea production": TestTube,
-  "Phosphate processing": Mountain,
-  "Blending and bagging": Package,
-  "Cement production": Boxes,
-  "Steel processing": Flame,
-  "Glass manufacturing": Thermometer,
-  "Pulp & paper": Layers,
-  Mining: Drill,
-};
-
-/** One icon per brand for the compact "how we support" tiles — reflects
- *  which manufacturer/capability, not decoration. Falls back to ShieldCheck
- *  for the handful of ACTS's-own-service bullets with no brandSlug. */
-const supportIcons: Record<string, LucideIcon> = {
-  "farris-engineering": Gauge,
-  "dyna-flo": Wrench,
-  est: Thermometer,
-};
-
-export default async function IndustriesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ sector?: string }>;
-}) {
-  const { sector } = await searchParams;
-
+/* The industries hub.
+ *
+ * This page used to be the whole industries section: six tab panels, each
+ * carrying that sector's full application chapters and its product/document
+ * library. Two things forced the split into /industries/<slug>:
+ *
+ *   1. Once <Tabs> started rendering every panel into the HTML (so a crawler
+ *      could see more than the first sector), the page weighed 1.6 MB — six
+ *      chapters and 705 PDF links in one document.
+ *   2. One <title>, one <h1> and one canonical cannot win six different
+ *      searches. "Petrochemical valve supplier egypt" and "power plant safety
+ *      valve egypt" are different buyers with different plants.
+ *
+ * So the deep material now lives on each sector's own page, and this page
+ * keeps the job it was always best at: showing all six side by side and
+ * routing you to the right one. Each tab still carries the sector's
+ * photograph, its intro, and the capability strip naming the manufacturer
+ * behind each line of support — enough to choose from — then hands off.
+ *
+ * It also no longer reads `searchParams`. Doing so made the route dynamic
+ * (rendered per request); with real sector URLs there is nothing left for
+ * `?sector=` to do, and proxy.ts 301s the old parameter form to the page it
+ * was standing in for.
+ */
+export default function IndustriesPage() {
   const schema = [
     collectionPageSchema({
-      name: "Valves for Oil & Gas, Petrochemical & Power in Egypt",
+      name: "Industries We Serve in Egypt",
       description:
         "The Egyptian industrial sectors ACTS supplies valves, flow control and technical support to.",
       path: "/industries",
@@ -226,10 +110,7 @@ export default async function IndustriesPage({
     breadcrumbSchema([{ name: "Industries", path: "/industries" }]),
     itemListSchema(
       "Industries ACTS serves in Egypt",
-      industries.map((i) => ({
-        name: i.name,
-        path: `/industries?sector=${i.slug}`,
-      }))
+      industries.map((i) => ({ name: i.name, path: industryHref(i.slug) }))
     ),
   ];
 
@@ -249,10 +130,9 @@ export default async function IndustriesPage({
         <Container>
           <Reveal>
             <Tabs
-              key={sector}
-              initialId={sector}
               items={industries.map((ind): TabItem => {
-                const Icon = industryIcons[ind.slug] ?? Factory;
+                const Icon = industryIcons[ind.slug] ?? INDUSTRY_ICON_DEFAULT;
+                const href = industryHref(ind.slug);
                 return {
                   id: ind.slug,
                   label: ind.name,
@@ -272,17 +152,17 @@ export default async function IndustriesPage({
                         />
                         <div className="lg:col-span-3 p-5 sm:p-8 lg:p-10">
                           <SectionHeading
+                            as="h3"
                             tier="md"
                             title={ind.name}
                             subtitle={ind.tagline}
                             lede={ind.intro}
                           />
 
-                          {/* Compact capability summary — the TL;DR "Key
-                              applications" spells out in full below. Icon per
-                              brand (not a repeated checkmark) and a 2-up tile
-                              grid, deliberately lighter-weight than the
-                              chapter below it. */}
+                          {/* Compact capability summary. The full chapter —
+                              process area by process area, with the product
+                              line behind each claim — lives on the sector's
+                              own page, linked below. */}
                           <div className="mt-8">
                             <h4 className="text-sm font-bold text-navy uppercase tracking-wide">
                               How we support this sector
@@ -290,14 +170,14 @@ export default async function IndustriesPage({
                             <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
                               {ind.howWeSupport.map((h, i) => {
                                 const brand = h.brandSlug ? getBrand(h.brandSlug) : undefined;
-                                const Icon = h.brandSlug
-                                  ? (supportIcons[h.brandSlug] ?? ShieldCheck)
-                                  : ShieldCheck;
+                                const SupportIcon =
+                                  (h.brandSlug ? supportIcons[h.brandSlug] : undefined) ??
+                                  SUPPORT_ICON_DEFAULT;
                                 return (
                                   <Reveal key={h.text} delay={i * 60}>
                                     <div className="flex h-full gap-3 rounded-xl border border-gray-200 bg-white p-3.5 transition-all hover:border-brand/30 hover:shadow-sm">
                                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand">
-                                        <Icon size={15} />
+                                        <SupportIcon size={15} />
                                       </div>
                                       <div className="min-w-0">
                                         <p className="text-[13.5px] leading-relaxed text-gray-600">
@@ -322,55 +202,45 @@ export default async function IndustriesPage({
                         </div>
                       </div>
 
-                      {/* Full-width, below the image/intro column rather than
-                          squeezed into its 3/5-width — a challenge/solution/
-                          advantage breakdown per process area needs the room.
-                          This is the chapter; the capability strip above and
-                          the index below deliberately read lighter than it. */}
+                      {/* Hand-off to the sector page. Descriptive anchors, not
+                          "read more": both the reader and the crawler should
+                          be able to tell from the link text which sector it
+                          opens and what is on the other side. */}
                       <div className="border-t border-gray-100 bg-gray-50/60 p-5 sm:p-8 lg:p-10">
-                        <SectionHeading
-                          as="h3"
-                          tier="md"
-                          title="Key Applications"
-                          subtitle={`Where ${ind.name} work actually happens`}
-                          lede="Process area by process area: the engineering challenge, how we solve it, why that approach is the right one, and the exact product line behind the claim."
-                        />
-                        <div className="mt-7 grid gap-4 md:grid-cols-2">
-                          {ind.applications.map((app, i) => (
-                            <Reveal key={app.area} delay={i * 80}>
-                              <ApplicationCard app={app} />
-                            </Reveal>
-                          ))}
+                        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                          <div className="min-w-0">
+                            <h4 className="text-fluid-h5 font-bold text-navy">
+                              {ind.name} in depth
+                            </h4>
+                            <p className="mt-1.5 max-w-2xl text-[14px] leading-relaxed text-gray-600">
+                              {ind.applications.length} process areas —{" "}
+                              {ind.applications.map((a) => a.area).join(", ")} —
+                              each with the engineering challenge, how we solve
+                              it, and the product line and manufacturer
+                              documentation behind it.
+                            </p>
+                          </div>
+                          <Magnetic>
+                            <Link
+                              href={href}
+                              className="group inline-flex shrink-0 items-center gap-2 rounded-lg bg-brand px-5 py-3 text-[14.5px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-dark"
+                            >
+                              {ind.name} valves &amp; flow control
+                              <ArrowRight
+                                size={15}
+                                className="transition-transform group-hover:translate-x-1 rtl:rotate-180"
+                              />
+                            </Link>
+                          </Magnetic>
                         </div>
-                      </div>
 
-                      {/* Closing recap: every line named above, but now
-                          answering what the chip grid never did — what this
-                          specific line does *in this industry*, not just
-                          that it exists. Each line is a dropdown rather than
-                          a flat datasheet row, which buys the room to put
-                          both of the things a reader wants next behind the
-                          line itself: the product, and its PDFs. Before this,
-                          the documents lived only on /brands#document-library
-                          and had to be searched for by hand. Deliberately the
-                          same light label weight as "How we support,"
-                          bookending the chapter rather than competing with
-                          it. */}
-                      <div className="border-t border-gray-100 p-5 sm:p-8 lg:p-10">
-                        <h4 className="text-sm font-bold text-navy uppercase tracking-wide">
-                          Product &amp; document library
-                        </h4>
-                        <p className="mt-1 max-w-xl text-[13px] text-gray-500">
-                          Every line named above, what it specifically does in{" "}
-                          {ind.name}, and, on any line, a link to the product
-                          and its brochures, catalogs, and manuals.
-                        </p>
-                        <div className="mt-5">
-                          <IndustryProductLibrary
-                            industrySlug={ind.slug}
-                            industryName={ind.name}
-                            entries={getIndustryLibrary(ind)}
-                          />
+                        <div className="mt-5 border-t border-gray-200 pt-5">
+                          <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-500">
+                            Product lines we supply into {ind.name}
+                          </div>
+                          <div className="mt-3">
+                            <RelatedProductChips industry={ind} />
+                          </div>
                         </div>
                       </div>
                     </SpotlightCard>
@@ -409,6 +279,22 @@ export default async function IndustriesPage({
                             label: "Related products",
                             value: <RelatedProductChips industry={industry} />,
                             wide: true,
+                          },
+                          {
+                            label: "Full sector page",
+                            value: (
+                              <Link
+                                href={industryHref(industry.slug)}
+                                className="tap-target group inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-brand transition-colors hover:text-brand-dark"
+                              >
+                                {industry.name} valves &amp; flow control in
+                                Egypt
+                                <ArrowRight
+                                  size={13}
+                                  className="transition-transform group-hover:translate-x-0.5 rtl:rotate-180"
+                                />
+                              </Link>
+                            ),
                           },
                         ]
                       : []),

@@ -12,8 +12,34 @@ import type { NextRequest } from "next/server";
 // Pages translated to Arabic so far (keep in sync with lib/i18n arRoutes).
 const AR_PAGES = new Set(["/ar", "/ar/contact", "/ar/quote"]);
 
+/* Sector slugs that used to be reachable only as `/industries?sector=<slug>`,
+ * before each got a page of its own. External links and bookmarks in that
+ * form still exist, so they are redirected rather than quietly landing on the
+ * hub — kept in sync with lib/data `industries`. */
+const INDUSTRY_SLUGS = new Set([
+  "oil-gas",
+  "petrochemical",
+  "power-generation",
+  "water-treatment",
+  "fertilizers",
+  "general-industrial",
+]);
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // /industries?sector=oil-gas -> /industries/oil-gas (301, permanent: the
+  // parameter form is not coming back).
+  if (pathname === "/industries" || pathname === "/ar/industries") {
+    const sector = request.nextUrl.searchParams.get("sector");
+    if (sector && INDUSTRY_SLUGS.has(sector)) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/industries/${sector}`;
+      url.search = "";
+      url.hash = "";
+      return NextResponse.redirect(url, 301);
+    }
+  }
 
   // Canonicalize: the English tree is served unprefixed, so /en/* redirects
   // to the clean URL.

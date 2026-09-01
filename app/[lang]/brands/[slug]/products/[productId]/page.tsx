@@ -25,7 +25,7 @@ import SectionHeading from "@/components/SectionHeading";
 import JsonLd from "@/components/JsonLd";
 import { getBrand, sectorHref } from "@/lib/data";
 import { HUB_BRANDS, getBrandHubData, type HubDoc, type HubProduct } from "@/lib/brandHub";
-import { productSeo } from "@/lib/productSeo";
+import { productHeading, productSeo } from "@/lib/productSeo";
 import {
   SITE_URL as siteUrl,
   brandEntitySchema,
@@ -86,11 +86,11 @@ export default async function ProductDetailPage({ params }: Props) {
   const seo = productSeo(slug, brand.name, p);
   const url = `${siteUrl}/brands/${slug}/products/${productId}`;
 
-  // "2600 & 2600L Series" on its own is not what anyone types; "Farris 2600"
-  // is. See `productHeadingPrefix` in lib/data for why EST opts out.
-  const heading = brand.productHeadingPrefix
-    ? `${brand.productHeadingPrefix} ${p.name}`
-    : p.name;
+  // "2600 & 2600L Series" on its own is not what anyone types; "Farris 2600
+  // relief valve" is. See `productHeading` in lib/productSeo for how each H1
+  // is resolved, and `productHeadingPrefix` in lib/data for why EST opts out
+  // of the brand prefix.
+  const heading = productHeading(slug, brand.productHeadingPrefix, p);
 
   /* Product + BreadcrumbList + WebPage.
    *
@@ -115,6 +115,16 @@ export default async function ProductDetailPage({ params }: Props) {
     image: p.images.map((img) => `${siteUrl}${img}`),
     url,
     sku: p.code,
+    /* The manufacturer designations this one page covers. A series page is
+     * genuinely the page for each of them — /series-1890 documents 1890,
+     * 1890L, 1892 and 1892L, all four of which are printed on it under
+     * "Models" — and "farris 1892" is a real query that the title alone
+     * cannot match. `alternateName` carries the same set for the plain-text
+     * lookup; neither invents a model the page does not list. */
+    ...(p.models?.length ? { model: p.models } : {}),
+    alternateName: [...new Set([p.name, p.code, ...(p.models ?? [])])].filter(
+      (n) => n !== heading
+    ),
     category: p.family,
     brand: brandEntity ?? { "@type": "Brand", name: brand.name },
     manufacturer: brandEntity ?? { "@type": "Organization", name: brand.name },

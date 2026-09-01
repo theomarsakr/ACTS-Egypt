@@ -178,6 +178,10 @@ const organizationSchema = {
     "@type": "Organization",
     "@id": `${siteUrl}/brands/${b.slug}#brand`,
     name: b.name,
+    // Same `@id` as the node each brand page emits, so the two merge rather
+    // than competing; the alternate names ride along here for the same reason
+    // they are on the brand page — see BRAND_ENTITIES in lib/seo.
+    alternateName: [...b.alt],
     url: `${siteUrl}/brands/${b.slug}`,
     parentOrganization: CURTISS_WRIGHT,
   })),

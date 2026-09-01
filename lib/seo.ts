@@ -160,20 +160,32 @@ export const CURTISS_WRIGHT = {
   url: "https://www.curtisswright.com/",
 } as const;
 
+/* `alt` carries the OTHER name each manufacturer is genuinely known by — both
+ * forms are already used in visible copy on this site (lib/data's `name` vs.
+ * the name used here), so declaring them lets one entity absorb queries typed
+ * either way instead of splitting them across two unresolved strings.
+ *
+ * It matters most for EST. "Farris" and "Dyna-Flo" are distinctive tokens that
+ * mean nothing else; "EST" is an ordinary word ("established", "Eastern
+ * Standard Time"), so it is the one brand here whose short form cannot carry a
+ * query on its own and most needs to be tied to its full name. */
 export const BRAND_ENTITIES = [
   {
     slug: "farris-engineering",
     name: "Farris Engineering",
+    alt: ["Farris"],
     url: "https://valves.curtisswright.com/en-us/Farris",
   },
   {
     slug: "dyna-flo",
     name: "Dyna-Flo",
+    alt: ["Dyna-Flo Control Valve Services"],
     url: "https://valves.curtisswright.com/en-us/Dynaflo",
   },
   {
     slug: "est",
     name: "EST Group",
+    alt: ["EST"],
     url: "https://valves.curtisswright.com/en-us/EST",
   },
 ] as const;
@@ -188,6 +200,7 @@ export function brandEntitySchema(slug: string, description?: string) {
     "@type": "Organization",
     "@id": `${SITE_URL}/brands/${slug}#brand`,
     name: entity.name,
+    alternateName: [...entity.alt],
     url: `${SITE_URL}/brands/${slug}`,
     sameAs: [entity.url],
     parentOrganization: CURTISS_WRIGHT,
@@ -219,10 +232,16 @@ export function breadcrumbSchema(crumbs: Crumb[]) {
 
 /** An ordered list of internal URLs — used for the brand index and for each
  *  brand's product catalog, so search engines see the catalog as a set rather
- *  than 45 unrelated leaf pages. */
+ *  than 45 unrelated leaf pages.
+ *
+ *  `path` is optional because not every list is a list of pages. /products
+ *  describes four capability pillars that are sections of one document, and
+ *  the schema used to give them `/products#01` … `#04` — anchors that do not
+ *  exist in the markup (the ids come from React's `useId`). A ListItem with a
+ *  name and no url is valid and true; one with a url to nowhere is neither. */
 export function itemListSchema(
   name: string,
-  items: { name: string; path: string }[]
+  items: { name: string; path?: string }[]
 ) {
   return {
     "@context": "https://schema.org",
@@ -233,7 +252,7 @@ export function itemListSchema(
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      url: `${SITE_URL}${item.path}`,
+      ...(item.path ? { url: `${SITE_URL}${item.path}` } : {}),
     })),
   };
 }

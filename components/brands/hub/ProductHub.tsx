@@ -32,11 +32,17 @@ type ProductWithDocs = HubProduct & { docs: HubDoc[] };
 
 export default function ProductHub({
   brandSlug,
+  brandLabel,
   products,
   groups,
   industries,
 }: {
   brandSlug: string;
+  /** Short manufacturer name for image ALT text — "Farris", not "Farris
+   *  Engineering". Product photography is a real entry point from Google
+   *  Images for industrial hardware, and a bare series number ("2600 & 2600L
+   *  Series") names neither the object nor who makes it. */
+  brandLabel: string;
   products: ProductWithDocs[];
   groups: HubGroup[];
   industries: string[];
@@ -125,6 +131,7 @@ export default function ProductHub({
           <ProductRow
             key={p.id}
             brandSlug={brandSlug}
+            brandLabel={brandLabel}
             product={p}
             open={openId === p.id}
             onToggle={() => setOpenId(openId === p.id ? null : p.id)}
@@ -144,6 +151,7 @@ export default function ProductHub({
 
 function ProductRow({
   brandSlug,
+  brandLabel,
   product: p,
   open,
   onToggle,
@@ -154,6 +162,7 @@ function ProductRow({
   focusNonce,
 }: {
   brandSlug: string;
+  brandLabel: string;
   product: ProductWithDocs;
   open: boolean;
   onToggle: () => void;
@@ -182,7 +191,7 @@ function ProductRow({
         <span className="relative shrink-0 w-18 h-18 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-linear-to-br from-gray-50 to-gray-100 ring-1 ring-gray-200">
           <Image
             src={p.images[0]}
-            alt={p.name}
+            alt={productAlt(brandLabel, p)}
             fill
             sizes="80px"
             className="object-contain p-1.5"
@@ -247,6 +256,7 @@ function ProductRow({
           <ProductPanel
             key={focusTab ? `focus-${focusNonce}` : "base"}
             brandSlug={brandSlug}
+            brandLabel={brandLabel}
             product={p}
             onOpenRelated={onOpenRelated}
             allProducts={allProducts}
@@ -263,6 +273,7 @@ function ProductRow({
 
 function ProductPanel({
   brandSlug,
+  brandLabel,
   product: p,
   onOpenRelated,
   allProducts,
@@ -270,6 +281,7 @@ function ProductPanel({
   initialTab = "overview",
 }: {
   brandSlug: string;
+  brandLabel: string;
   product: ProductWithDocs;
   onOpenRelated: (id: string) => void;
   allProducts: ProductWithDocs[];
@@ -303,7 +315,11 @@ function ProductPanel({
   return (
     <div className="border-t border-gray-100 p-5 sm:p-7">
       <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] gap-7">
-        <Gallery images={p.images} name={p.name} />
+        <Gallery
+          images={p.images}
+          name={p.name}
+          alt={productAlt(brandLabel, p)}
+        />
 
         <div className="min-w-0">
           <div className="flex justify-end">
@@ -392,6 +408,17 @@ function ProductPanel({
       </div>
     </div>
   );
+}
+
+/** ALT text for one product's photography: manufacturer, series, and what the
+ *  object is. Composed rather than authored per image because every part of it
+ *  is already a field on the product — nothing here describes a photo it has
+ *  not seen. */
+function productAlt(
+  brandLabel: string,
+  p: Pick<ProductWithDocs, "name" | "family">
+): string {
+  return `${brandLabel} ${p.name} ${p.family.toLowerCase()}`;
 }
 
 export function Gallery({

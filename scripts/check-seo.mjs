@@ -26,10 +26,11 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = async (...p) =>
   (await readFile(path.join(root, ...p), "utf8")).replace(/\r\n/g, "\n");
 
-const [hubSrc, seoSrc, dataSrc] = await Promise.all([
+const [hubSrc, seoSrc, dataSrc, industrySeoSrc] = await Promise.all([
   read("lib", "brandHub.ts"),
   read("lib", "productSeo.ts"),
   read("lib", "data.ts"),
+  read("lib", "industrySeo.ts"),
 ]);
 
 const SUFFIX = " | ACTS Egypt";
@@ -88,12 +89,18 @@ for (const [slug, catalog] of slugToCatalog) {
 // ── 2. Read the authored entries ────────────────────────────────────────────
 
 const entries = new Map();
+/* `heading` is optional and comes first when present — it is authored only for
+   the products whose own name does not say what the thing is (see
+   `productHeading` in lib/productSeo). It is captured so the H1 can be
+   length-and-sanity checked alongside the title. */
 for (const m of seoSrc.matchAll(
-  /^ {2}"([a-z0-9:-]+)": \{\n {4}title:\s*\n?\s*"((?:[^"\\]|\\.)*)",\n {4}description:\n\s*"((?:[^"\\]|\\.)*)",\n {2}\},$/gm
+  /^ {2}"([a-z0-9:-]+)": \{\n(?: {4}heading: "((?:[^"\\]|\\.)*)",\n)? {4}title:\s*\n?\s*"((?:[^"\\]|\\.)*)",\n {4}description:\n\s*"((?:[^"\\]|\\.)*)",\n {2}\},$/gm
 )) {
+  const unescape = (v) => v.replace(/\\"/g, '"').replace(/\\\\/g, "\\");
   entries.set(m[1], {
-    title: m[2].replace(/\\"/g, '"').replace(/\\\\/g, "\\"),
-    description: m[3].replace(/\\"/g, '"').replace(/\\\\/g, "\\"),
+    heading: m[2] ? unescape(m[2]) : undefined,
+    title: unescape(m[3]),
+    description: unescape(m[4]),
   });
 }
 
@@ -147,8 +154,15 @@ function checkPair(label, title, description) {
   else seenDescriptions.set(description, label);
 }
 
-for (const [key, { title, description }] of entries) {
+const seenHeadings = new Map();
+for (const [key, { title, heading, description }] of entries) {
   checkPair(key, title, description);
+  if (!heading) continue;
+  /* The H1 is the page's own claim about what it is. Two products sharing one
+     would mean two pages telling Google they are the same thing. */
+  const prior = seenHeadings.get(heading);
+  if (prior) errors.push(`${key} and ${prior} share an H1: "${heading}"`);
+  else seenHeadings.set(heading, key);
 }
 
 // ── 4. Brand pages carry their own SEO fields ───────────────────────────────
@@ -201,6 +215,63 @@ for (const { slug, title, description } of brandSeo) {
   checkPair(`brand "${slug}"`, title, description.replace(/\\'/g, "'"));
 }
 
+// ── 5. Sector pages carry their own SEO copy ────────────────────────────────
+
+/* Six sector pages under /industries/<slug>, one per entry in lib/data's
+   `industries`. Same failure mode as the product pages: an industry added to
+   lib/data without an entry in lib/industrySeo still renders — it just renders
+   with composed copy that will not win "petrochemical valve supplier egypt". */
+const industriesBlockSrc = dataSrc.slice(
+  dataSrc.indexOf("export const industries: Industry[] = ["),
+  dataSrc.indexOf("\nexport function getIndustry")
+);
+const industrySlugs = [
+  ...industriesBlockSrc.matchAll(/^ {4}slug: "([a-z-]+)",$/gm),
+].map((m) => m[1]);
+
+if (industrySlugs.length === 0) {
+  console.error("✗ Parsed no industries out of lib/data.ts — its shape changed.");
+  process.exit(1);
+}
+
+const industryEntries = new Map();
+for (const m of industrySeoSrc.matchAll(
+  /^ {2}"?([a-z-]+)"?: \{\n {4}title: "((?:[^"\\]|\\.)*)",\n {4}heading: "((?:[^"\\]|\\.)*)",\n {4}subtitle: "((?:[^"\\]|\\.)*)",\n {4}description:\n\s*"((?:[^"\\]|\\.)*)",\n {2}\},$/gm
+)) {
+  industryEntries.set(m[1], {
+    title: m[2],
+    heading: m[3],
+    description: m[5].replace(/\\'/g, "'"),
+  });
+}
+
+if (industryEntries.size === 0) {
+  console.error("✗ Parsed no entries out of lib/industrySeo.ts — its shape changed.");
+  process.exit(1);
+}
+
+for (const slug of industrySlugs) {
+  if (!industryEntries.has(slug)) {
+    errors.push(
+      `industry "${slug}": no entry in lib/industrySeo.ts — the page would fall back to generated copy.`
+    );
+  }
+}
+for (const slug of industryEntries.keys()) {
+  if (!industrySlugs.includes(slug)) {
+    errors.push(`industry "${slug}": entry in lib/industrySeo.ts names no industry in lib/data.ts.`);
+  }
+}
+for (const [slug, { title, heading, description }] of industryEntries) {
+  checkPair(`industry "${slug}"`, title, description);
+  // The H1 is the one line on the page that has to say both what is sold and
+  // where; a heading of just the sector name would name the topic and not the
+  // offer.
+  if (!/egypt/i.test(heading)) {
+    warnings.push(`industry "${slug}": H1 never says Egypt — "${heading}"`);
+  }
+}
+
 // ── Report ──────────────────────────────────────────────────────────────────
 
 if (warnings.length) {
@@ -216,6 +287,7 @@ if (errors.length) {
 }
 
 console.log(
-  `✓ ${entries.size} product pages and ${brandSeo.length} brand pages have unique, ` +
-    `length-checked titles and descriptions across ${brandSlugs.length} data blocks.`
+  `✓ ${entries.size} product pages, ${brandSeo.length} brand pages and ` +
+    `${industryEntries.size} sector pages have unique, length-checked titles ` +
+    `and descriptions across ${brandSlugs.length} data blocks.`
 );

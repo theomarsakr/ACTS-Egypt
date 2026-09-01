@@ -13,7 +13,8 @@
  * data structure holds. Only the link lists are derived.
  */
 
-import { brands, contact } from "@/lib/data";
+import { brands, contact, industries, industryHref } from "@/lib/data";
+import { industrySeo } from "@/lib/industrySeo";
 import { HUB_BRANDS, getBrandHubData } from "@/lib/brandHub";
 import { productSeo } from "@/lib/productSeo";
 import { SITE_URL } from "@/lib/seo";
@@ -41,6 +42,16 @@ function brandSection(slug: string): string {
   ].join("\n");
 }
 
+function industrySection(): string {
+  return industries
+    .map((i) => {
+      const seo = industrySeo(i.slug, i.name, i.intro);
+      const areas = i.applications.map((a) => a.area).join(", ");
+      return `- [${seo.heading}](${SITE_URL}${industryHref(i.slug)}): ${seo.description} Process areas: ${areas}.`;
+    })
+    .join("\n");
+}
+
 export function GET(): Response {
   const body = `# ACTS Egypt (Advanced Company for Trading Services)
 
@@ -58,6 +69,12 @@ Contact: ${contact.salesEmail} · ${contact.phone} · Arkan Plaza, Building 4, 4
 - [Products & services overview](${SITE_URL}/products): Four service pillars — valves; actuators & instrumentation; heat exchanger & pressure testing equipment; and technical advisory & aftermarket services.
 - [Industries served](${SITE_URL}/industries): Oil & Gas, Petrochemical, Power Generation, Water Treatment, Fertilizers, and General Industrial.
 - [Request a quote](${SITE_URL}/quote): Pricing for Farris, Dyna-Flo, or EST products in Egypt. Application engineers typically respond within 24 hours.
+
+## Industries
+
+Each sector has its own page: the process areas ACTS works in, the engineering challenge in each, the product line that answers it, and the manufacturer documentation behind it.
+
+${industrySection()}
 
 ## Arabic
 

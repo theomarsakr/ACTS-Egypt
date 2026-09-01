@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin, MessageCircle, Clock } from "lucide-react";
-import { brands, contact, offices, industries, officeHours } from "@/lib/data";
+import {
+  brands,
+  contact,
+  offices,
+  industries,
+  industryHref,
+  officeHours,
+} from "@/lib/data";
 import FooterQuoteForm from "@/components/FooterQuoteForm";
 import MeshBlob from "@/components/ui/MeshBlob";
 import { getDict, localeHref, type Dict, type Locale } from "@/lib/i18n";
@@ -143,10 +150,14 @@ export default function Footer({
             <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/35 mb-5 mt-8">
               {t.industries}
             </div>
-            {industries.slice(0, 4).map((ind) => (
+            {/* Each of these named a sector and then linked to /industries —
+                six different anchor texts pointing at one URL, on every page
+                of the site. They point at their own sector page now, which is
+                also the only site-wide link those pages get. */}
+            {industries.map((ind) => (
               <Link
                 key={ind.slug}
-                href="/industries"
+                href={industryHref(ind.slug)}
                 className="block text-[14.5px] text-white/70 py-1.5 pointer-coarse:py-3 hover:text-white transition-colors"
               >
                 {industryNames[ind.slug] ?? ind.name}

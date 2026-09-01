@@ -461,6 +461,7 @@ export default async function BrandPage({ params }: Props) {
               <div className="mt-9">
                 <ProductHub
                   brandSlug={brand.slug}
+                  brandLabel={brand.productHeadingPrefix ?? brand.name}
                   products={hub.products}
                   groups={hub.groups}
                   industries={brand.sectors}

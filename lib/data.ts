@@ -942,7 +942,16 @@ export const brands: Brand[] = [
     name: "EST",
     origin: "Hatfield, Pennsylvania, USA · Heat exchanger services · Sole agent in Egypt",
     category: "Heat Exchanger Repair & Pressure Testing",
-    seoTitle: "EST Curtiss-Wright Heat Exchanger Solutions in Egypt",
+    /* Leads on "EST Group", not "EST". Of the three brands this is the only
+       one whose short name is an ordinary English/Latin token — "est" is
+       "established", "Eastern Standard Time", and a French verb — so an
+       "EST Egypt" query has nothing to disambiguate against, and the title
+       was the one place on the page that never spelled out the full name
+       (the H1, the description and the schema's `about` node all already say
+       "EST Group"). "Heat Exchanger Solutions" also went out for "Heat
+       Exchanger Tube Plugging": the products under it are tube plugs, and
+       "solutions" is not a word anyone searches. */
+    seoTitle: "EST Group Heat Exchanger Tube Plugging in Egypt",
     seoHeading: "EST Group in Egypt",
     seoDescription:
       "ACTS is Egypt's sole agent for EST Group (Curtiss-Wright): Pop-A-Plug® tube plugging, Hydra-Loc® sleeving and GripTight® hydrostatic test and isolation plugs.",
@@ -1465,14 +1474,10 @@ export function groupGalleryByCategory(items: GalleryItem[]) {
 }
 
 /** Maps a `Brand["sectors"]` entry to the `Industry["slug"]` it belongs to,
- *  so sector pills (Farris's hero, brand cards) can link straight to that
- *  industry's tab on /industries instead of sitting as inert text. There is
- *  no /industries/[slug] route — every industry lives on one page behind a
- *  client-side <Tabs> switcher (components/Tabs.tsx) — so the link opens
- *  the right tab via `?sector=`, which the page reads server-side and hands
- *  to <Tabs initialId>. "Refining" has no tab of its own — it's a process
- *  stage inside Oil & Gas (see that industry's tagline) — so it resolves
- *  there too. */
+ *  so sector pills (Farris's hero, brand cards, every product page) link
+ *  straight to that sector's page instead of sitting as inert text.
+ *  "Refining" has no page of its own — it's a process stage inside Oil & Gas
+ *  (see that industry's tagline) — so it resolves there. */
 const sectorIndustrySlug: Record<string, string> = {
   "Oil & Gas": "oil-gas",
   Refining: "oil-gas",
@@ -1483,9 +1488,22 @@ const sectorIndustrySlug: Record<string, string> = {
   "General Industrial": "general-industrial",
 };
 
+/** Canonical URL for one industry's own page. */
+export function industryHref(slug: string): string {
+  return `/industries/${slug}`;
+}
+
+/* These used to resolve to `/industries?sector=<slug>#explore-industries`.
+ * That one query parameter was doing more damage than its size suggests: 255
+ * internal links across 49 pages pointed at it, every one canonicalising back
+ * to /industries — so the densest topical signal on the site ("Farris 2600 →
+ * Oil & Gas", repeated across 45 product pages) was being poured into six
+ * URLs that fold into one. Reading the parameter also made /industries a
+ * dynamic route, rendered per request rather than prerendered. Both problems
+ * go away now that each sector has a page of its own. */
 export function sectorHref(sector: string): string {
   const slug = sectorIndustrySlug[sector];
-  return slug ? `/industries?sector=${slug}#explore-industries` : "/industries";
+  return slug ? industryHref(slug) : "/industries";
 }
 
 export const pastManufacturers = [
@@ -2714,6 +2732,10 @@ export const industries: Industry[] = [
     artwork: "emblem",
   },
 ];
+
+export function getIndustry(slug: string): Industry | undefined {
+  return industries.find((i) => i.slug === slug);
+}
 
 export const industriesSummary = [
   {
